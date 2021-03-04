@@ -19,12 +19,19 @@ classdef Mesh
         % 1: Dirichlet
         % 2: Neuman
         
+       
+        dirichlet_flag;
+        neuman_flag;
+        
+        dom_parameters;
+        
+        
 
     end
     
     methods
-        function obj=Mesh(type,p,e,f,ef,f_type)
-            if nargin>0
+        function obj= Mesh(type,p,e,f,ef,f_type,dirichlet_flag,neuman_flag,varargin)
+            
                 
             obj.dom_type = type;
             
@@ -51,13 +58,79 @@ classdef Mesh
             
             obj.f_type = f_type;
             
-            
+            obj.dirichlet_flag = dirichlet_flag;
+            obj.neuman_flag = neuman_flag;
+            if nargin - 8 > 0
+                
+                obj.dom_parameters = varargin;
+            else
+                
+                obj.dom_parameters = {};
             end
+            
+            if 0
+                obj.Plot(1);
+            end
+             
+            
             
         end
         
-        function mesh_plot(obj)
-            simpplot(obj.vertices_list,obj.element_list);
+        function Plot(obj,vertex_flag)
+            
+            figure;
+            
+            p = obj.vertices_list;
+            e = obj.element_list;
+            faces_dirichlet = find(obj.f_type==1);
+            faces_neuman = find(obj.f_type==2);
+            
+            nodes_dirichlet = [obj.face_list(faces_dirichlet,1);obj.face_list(faces_dirichlet,2)];
+            nodes_dirichlet = unique(nodes_dirichlet);
+            
+            nodes_neuman = [obj.face_list(faces_neuman,1);obj.face_list(faces_neuman,2)];
+            nodes_neuman = unique(nodes_neuman);
+            
+            nvertice = length(p);
+            labs = 1:nvertice;
+            triplot(e,p(:,1),p(:,2));
+            hold on;
+            plot(p(:,1),p(:,2),'k.',...
+                p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
+                p(nodes_neuman,1),p(nodes_neuman,2),'bd');
+    
+            legend('faces','vertices','dirichlet', 'neuman');
+            
+            if nvertice < 150 && vertex_flag
+                labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
+            end
+            %simpplot(obj.vertices_list,obj.element_list);
+        end
+        
+        function mymesh = Refine(obj, marked, flag)
+            % step 1: Refine the marked elements
+            p = obj.vertices_list;
+            e = obj.element_list;
+            if strcmp(flag, 'RGB')
+                [new_p,new_e] =TrefineRGB(p,e,marked); 
+            elseif strcmp(flag, 'RG')
+                [new_p,new_e] =TrefineRG(p,e,marked);
+                
+            elseif strcmp(flag, 'R')
+                fprintf("Warning: R refinement makes hanging nodes!\n")
+                [new_p,new_e] =TrefineR(p,e,zeros(0,3),marked);
+            elseif strcmp(flag, 'NVB')
+                [new_p,new_e] =TrefineNVB(p,e,marked);
+            else
+                error('Refine flag is not correct!');
+            end
+            
+            new_e = Countclockwise(new_p,new_e); % make sure a counterclockwise ordering of the vertices
+
+            [f,ef,face_type] = LabelFaces(obj.dom_type,new_p,new_e,obj.dirichlet_flag,obj.neuman_flag,obj.dom_parameters{:});
+           
+            mymesh = Mesh(obj.dom_type,new_p,new_e,f,ef,face_type,obj.dirichlet_flag,obj.neuman_flag,obj.dom_parameters{:});
+                
         end
         
         

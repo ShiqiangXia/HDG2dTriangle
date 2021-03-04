@@ -119,6 +119,6 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
 
     [f,ef,f_type] = LabelFaces(dom_type,p,e,dirichlet_flag,neuman_flag,varargin{:});
 
-    mymesh = Mesh(dom_type,p,e,f,ef,f_type);
+    mymesh = Mesh(dom_type,p,e,f,ef,f_type,dirichlet_flag,neuman_flag,varargin{:});
     
 end

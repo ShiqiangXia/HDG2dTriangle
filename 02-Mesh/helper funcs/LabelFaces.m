@@ -31,20 +31,20 @@ function [f,ef,f_type] = LabelFaces(dom_type,p,e,...
     fd_neuman = GetDistFunctions(dom_type,neuman_flag,varargin{:});
     nodes_neuman = find(abs(fd_neuman(p))<tol );
     
-    figure;
-    nvertice = length(p);
-    labs = 1:nvertice;
-    triplot(e,p(:,1),p(:,2))
-    hold on;
-    plot(p(:,1),p(:,2),'k.',...
-        p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
-        p(nodes_neuman,1),p(nodes_neuman,2),'bd');
-    
-    legend('vertices','dirichlet', 'neuman');
-    if nvertice < 150
-        
-        labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
-    end
+%     figure;
+%     nvertice = length(p);
+%     labs = 1:nvertice;
+%     triplot(e,p(:,1),p(:,2))
+%     hold on;
+%     plot(p(:,1),p(:,2),'k.',...
+%         p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
+%         p(nodes_neuman,1),p(nodes_neuman,2),'bd');
+%     
+%     legend('faces','vertices','dirichlet', 'neuman');
+%     if nvertice < 150
+%         
+%         labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
+%     end
     
     
     % go through all faces and record the boundary.
