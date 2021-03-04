@@ -1,4 +1,4 @@
-function mymesh = RectangleDomainMesh(structured_flag,...
+function mymesh = Build2DMesh(structured_flag,dom_type,...
         x1,y1,x2,y2,h0,...
         dirichlet_flag,neuman_flag)
     
@@ -11,17 +11,22 @@ function mymesh = RectangleDomainMesh(structured_flag,...
         % unstructured mesh
         
         % step 1: Use distmesh to generatre unstructured meshes
+        if strcmp(dom_type,'Rec')
+            fd = @(p)drectangle(p,x1,x2,y1,y2);
+            bbox = [x1,y1; x2,y2];
+            pfix = [x1,y1;x2,y1;x2,y2;x1,y2];
+            [p,e] = distmesh2d(fd, @huniform,h0,bbox,pfix);
+        elseif
+            
+        else
+        end
         
-        fd = @(p)drectangle(p,x1,x2,y1,y2);
-        bbox = [x1,y1; x2,y2];
-        pfix = [x1,y1;x2,y1;x2,y2;x1,y2];
-        [p,e] = distmesh2d(fd, @huniform,h0,bbox,pfix);
         
         e = Countclockwise(p,e); % make sure a counterclockwise ordering of the vertices
         
-        [f,ef,dirichlet,neuman,BCType] = LabelFaces(p,e,x1,x2,y1,y2,dirichlet_flag,neuman_flag);
+        [f,ef,f_type] = RecLabelFaces(p,e,x1,y1,x2,y2,dirichlet_flag,neuman_flag);
         
-        mymesh = Mesh('Rec',p,e,f,ef,dirichlet,neuman,BCType);
+        mymesh = Mesh('Rec',p,e,f,ef,f_type);
         
         
     elseif structured_flag == 1

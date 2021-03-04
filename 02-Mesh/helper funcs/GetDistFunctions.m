@@ -1,43 +1,57 @@
-function fd = GetDistFunctions(dom_type,x1,y1,x2,y2,bdry_flag)
+function fd = GetDistFunctions(dom_type,bdry_flag,varargin)
     
    if strcmp(dom_type,'Rec')
        
-       walls = ["bottom","top","left","right"];    
+       walls = ["bottom","top","left","right"];
+       
+       if all(ismember(bdry_flag,walls)) ~= 1
+           error ("Boundary flags are not correct! Please check the spell.")
+           
+       end
+       
        if isempty(bdry_flag)
            fd = @(p)1;
        else
-       
-           if ismember( walls(1),bdry_flag)
+            x1=varargin{1};
+            y1=varargin{2};
+            x2=varargin{3};
+            y2=varargin{4};
+
+            if ismember( walls(1),bdry_flag)
                f1 = @(p) abs(-p(:,2)+y1);
-           else
+            else
                f1 = @(p)1;
-           end
+            end
 
-           if ismember( walls(2),bdry_flag)
+            if ismember( walls(2),bdry_flag)
                f2 = @(p) abs(p(:,2)-y2);
-           else
+            else
                f2 = @(p)1;
-           end
+            end
 
-           if ismember( walls(3),bdry_flag)
+            if ismember( walls(3),bdry_flag)
                f3 = @(p) abs(x1-p(:,1));
-           else
+            else
                f3 = @(p)1;
-           end
+            end
 
-           if ismember( walls(4),bdry_flag)
+            if ismember( walls(4),bdry_flag)
                f4 = @(p) abs(p(:,1)-x2);
-           else
+            else
                f4 = @(p)1;
-           end
+            end
 
-           fd = @(p)min(min(min(f1(p),f2(p)),f3(p)),f4(p));
-            
+            fd = @(p)min(min(min(f1(p),f2(p)),f3(p)),f4(p));
+
        end
        
    elseif strcmp(dom_type,'L')
        walls = ["bottom","left","right_low","right_high","top_low","top_high"]; 
        
+       if all(ismember(bdry_flag,walls)) ~= 1
+           error ("Boundary flags are not correct! Please check the spell.")
+           
+       end
        if isempty(bdry_flag)
            fd = @(p)1;
        else

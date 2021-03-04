@@ -1,5 +1,5 @@
-function [f,ef,f_type] = LshapeLabelFaces(p,e,...
-        dirichlet_flag,neuman_flag)
+function [f,ef,f_type] = LabelFaces(dom_type,p,e,...
+        dirichlet_flag,neuman_flag,varargin)
     
     % step 1: Label faces
     
@@ -23,19 +23,20 @@ function [f,ef,f_type] = LshapeLabelFaces(p,e,...
         
     end
     
-    fd_dirichlet = GetDistFunctions('L',0,0,2,2,dirichlet_flag);
-    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol ); % distance = 0  means on the boundary
+    fd_dirichlet = GetDistFunctions(dom_type,dirichlet_flag,varargin{:});
+    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );% distance = 0  means on the boundary
     
-    fd_neuman = GetDistFunctions('L',0,0,2,2,neuman_flag);
+    fd_neuman = GetDistFunctions(dom_type,neuman_flag,varargin{:});
     nodes_neuman = find(abs(fd_neuman(p))<tol );
     
-    figure;
+    figure
     labs = 1:length(p);
     plot(p(:,1),p(:,2),'k.',...
         p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
         p(nodes_neuman,1),p(nodes_neuman,2),'bd')
     legend('vertices','dirichlet', 'neuman')
     labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
+    
     
     % go through all faces and record the boundary.
     
@@ -68,7 +69,10 @@ function [f,ef,f_type] = LshapeLabelFaces(p,e,...
         end
         
     end
-      
+    
+    
+
+   
    
     
 end
