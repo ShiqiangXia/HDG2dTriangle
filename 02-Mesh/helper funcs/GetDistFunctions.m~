@@ -74,13 +74,13 @@ function fd = GetDistFunctions(dom_type,bdry_flag,varargin)
            end
 
            if ismember( walls(4),bdry_flag) % right_high
-               f4 = @(p) abs(p(:,1)-1) + abs(min(0,p(:,2)-1));
+               f4 = @(p) abs(p(:,1)-1);
            else
                f4 = @(p)1;
            end
            
            if ismember( walls(5),bdry_flag) % top_low
-               f5 = @(p) abs(p(:,2)-1) + abs( min(0, p(:,1)-1) );
+               f5 = @(p) abs(p(:,2)-1);
            else
                f5 = @(p)1;
            end

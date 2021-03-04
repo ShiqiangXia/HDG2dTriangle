@@ -44,7 +44,7 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
             
         else
            
-           error("Mesh of this domain type is not implemented yet!")'
+           
             
             
         end
@@ -57,13 +57,12 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
                     error("Not enought parameter to generate mesh for Rectangle domain")
                end
             
-               [p,e] = Structured2DMesh(dom_type,h0,varargin{:});
-               simpplot(p,e);
+                
+                [p,e] = Structured2D(dom_type,h0,varargin{:});
+               
+               
                
            elseif strcmp(dom_type,'L')
-               
-               [p,e] = Structured2DMesh(dom_type,h0,varargin{:});
-               simpplot(p,e);
                
            else
                error("This type of structured mesh is not implemented yet")
