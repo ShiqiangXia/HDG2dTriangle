@@ -1,6 +1,6 @@
 classdef Mesh
     properties
-        dom_type; % domain type 'square', 'Lshape'
+        dom_type; % domain type 'Rec', 'L', 'Cir', 'CirHole'
         mesh_type; % triangular or quad
         
         num_elements;
@@ -97,11 +97,22 @@ classdef Mesh
             hold on;
             plot(p(:,1),p(:,2),'k.',...
                 p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
-                p(nodes_neuman,1),p(nodes_neuman,2),'bd');
-    
-            legend('faces','vertices','dirichlet', 'neuman');
+                p(nodes_neuman,1),p(nodes_neuman,2),'bd')
             
-            if nvertice < 150 && vertex_flag
+            if isempty(nodes_dirichlet) && isempty(nodes_neuman)
+                legend('faces','vertices');
+            elseif isempty(nodes_dirichlet)
+                legend('faces','vertices', 'neuman')
+            elseif isempty(nodes_neuman)
+                legend('faces','vertices', 'dirichlet')
+            else
+                legend('faces','vertices','dirichlet', 'neuman');
+            end
+            
+    
+            %legend('faces','vertices','dirichlet', 'neuman');
+            
+            if   vertex_flag %&& nvertice < 150
                 labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
             end
             %simpplot(obj.vertices_list,obj.element_list);
@@ -111,28 +122,47 @@ classdef Mesh
             % step 1: Refine the marked elements
             p = obj.vertices_list;
             e = obj.element_list;
+            faces_dirichlet = find(obj.f_type==1);
+            faces_neuman = find(obj.f_type==2);
+            
+            diri = [obj.face_list(faces_dirichlet,1), obj.face_list(faces_dirichlet,2)];
+            neu = [obj.face_list(faces_neuman,1), obj.face_list(faces_neuman,2)];
+            
             if strcmp(flag, 'RGB')
-                [new_p,new_e] =TrefineRGB(p,e,marked); 
+                [new_p,new_e,diri,neu] =TrefineRGB(p,e,diri,neu,marked); 
             elseif strcmp(flag, 'RG')
-                [new_p,new_e] =TrefineRG(p,e,marked);
+                [new_p,new_e,diri,neu] =TrefineRG(p,e,diri,neu,marked);
                 
             elseif strcmp(flag, 'R')
                 fprintf("Warning: R refinement makes hanging nodes!\n")
-                [new_p,new_e] =TrefineR(p,e,zeros(0,3),marked);
+                [new_p,new_e,diri,neu] =TrefineR(p,e,zeros(0,3),diri,neu,marked);
+                
             elseif strcmp(flag, 'NVB')
-                [new_p,new_e] =TrefineNVB(p,e,marked);
+                [new_p,new_e,diri,neu] =TrefineNVB(p,e,diri,neu,marked);
             else
                 error('Refine flag is not correct!');
             end
             
+            dirinodes = unique(reshape(diri,[],1));
+            neunodes = unique(reshape(neu,[],1));
+            
             new_e = Countclockwise(new_p,new_e); % make sure a counterclockwise ordering of the vertices
 
-            [f,ef,face_type] = LabelFaces(obj.dom_type,new_p,new_e,obj.dirichlet_flag,obj.neuman_flag,obj.dom_parameters{:});
-           
+            [f,ef,face_type] = LabelFaces(new_e,dirinodes,neunodes);
+            if ~(strcmp(obj.dom_type,'Rec') || strcmp(obj.dom_type,'L'))
+                fprintf("Warning:\nMesh refinment on a curved domain (%s) will NOT guarantee a better resolution of the curve!\n",obj.dom_type);
+                fprintf("You many consider using Build2DMesh to generate a finer mesh to resolve the curved bounary.\n")
+            end
             mymesh = Mesh(obj.dom_type,new_p,new_e,f,ef,face_type,obj.dirichlet_flag,obj.neuman_flag,obj.dom_parameters{:});
                 
         end
         
+        function mymesh = UniformRefine(obj)
+            n = obj.num_elements;
+            marked = 1:n;
+            mymesh = obj.Refine(marked,'RGB');
+            
+        end
         
     end
     

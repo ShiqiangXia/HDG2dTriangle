@@ -8,7 +8,7 @@
 
 % Cicle mesh
 
-%mymesh = Build2DMesh(0,'Cir',0.05,[],["Circle"],0,0,1);
+%mymesh = Build2DMesh(0,'Cir',0.3,["Circle"],[],0,0,1);
 
 % Cicle with hole
 mymesh = Build2DMesh(0,'CirHole',0.2,["InnerCircle"],["OuterCircle"],0,0,1,0,0,0.5);

@@ -116,8 +116,24 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
     
     
     e = Countclockwise(p,e); % make sure a counterclockwise ordering of the vertices
+    
+    % make sure dirichlet boundary and neuman boundary are different
+    if isempty(dirichlet_flag) || isempty(neuman_flag)
+        % do nothing
+    elseif isempty(intersect(dirichlet_flag,neuman_flag))~=1
+        error("The dirichlet and neuman boudary should not intersect!")
+    end
+    
+    % find boundary nodes
+    tol = 1e-8;
+    fd_dirichlet = GetDistFunctions(dom_type,dirichlet_flag,varargin{:});
+    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );% distance = 0  means on the boundary
+    
+    fd_neuman = GetDistFunctions(dom_type,neuman_flag,varargin{:});
+    nodes_neuman = find(abs(fd_neuman(p))<tol );
+    
 
-    [f,ef,f_type] = LabelFaces(dom_type,p,e,dirichlet_flag,neuman_flag,varargin{:});
+    [f,ef,f_type] = LabelFaces(e,nodes_dirichlet,nodes_neuman);
 
     mymesh = Mesh(dom_type,p,e,f,ef,f_type,dirichlet_flag,neuman_flag,varargin{:});
     

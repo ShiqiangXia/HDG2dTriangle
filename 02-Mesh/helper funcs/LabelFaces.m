@@ -1,5 +1,5 @@
-function [f,ef,f_type] = LabelFaces(dom_type,p,e,...
-        dirichlet_flag,neuman_flag,varargin)
+function [f,ef,f_type] = LabelFaces(e,...
+        nodes_dirichlet,nodes_neuman)
     
     % step 1: Label faces
     
@@ -14,39 +14,7 @@ function [f,ef,f_type] = LabelFaces(dom_type,p,e,...
     ef = reshape(ie(1:3*ne),[],3);
     
     % step 2: Mark boundaries.
-    
-    tol = 1e-8;
-    
-    % find boundary nodes
-    if isempty(dirichlet_flag) || isempty(neuman_flag)
-        % do nothing
-    elseif isempty(intersect(dirichlet_flag,neuman_flag))~=1
-        error("The dirichlet and neuman boudary should not intersect!")
-        
-    end
-    
-    fd_dirichlet = GetDistFunctions(dom_type,dirichlet_flag,varargin{:});
-    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );% distance = 0  means on the boundary
-    
-    fd_neuman = GetDistFunctions(dom_type,neuman_flag,varargin{:});
-    nodes_neuman = find(abs(fd_neuman(p))<tol );
-    
-%     figure;
-%     nvertice = length(p);
-%     labs = 1:nvertice;
-%     triplot(e,p(:,1),p(:,2))
-%     hold on;
-%     plot(p(:,1),p(:,2),'k.',...
-%         p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
-%         p(nodes_neuman,1),p(nodes_neuman,2),'bd');
-%     
-%     legend('faces','vertices','dirichlet', 'neuman');
-%     if nvertice < 150
-%         
-%         labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
-%     end
-    
-    
+     
     % go through all faces and record the boundary.
     
     num_f = length(f);
