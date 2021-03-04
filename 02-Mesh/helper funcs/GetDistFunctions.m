@@ -96,9 +96,60 @@ function fd = GetDistFunctions(dom_type,bdry_flag,varargin)
        end
        
        
+   elseif strcmp(dom_type,'Cir')
        
+       x1=varargin{1};
+       y1=varargin{2};
+       r=varargin{3};
+       walls =["Circle"];
+       
+       if isempty(bdry_flag)
+           fd = @(p)1;
+       else
+           if ismember(walls(1),bdry_flag)
+               fd = @(p)abs(dcircle(p,x1,y1,r));
+           else
+               fd = @(p)1;
+           end
+       end
+       
+       
+   elseif strcmp(dom_type,'CirHole')
+
+        x1=varargin{1};
+        y1=varargin{2};
+        r1 =varargin{3};
+
+        x2=varargin{4};
+        y2=varargin{5};
+        r2 =varargin{6};
+
+        walls =["InnerCircle","OuterCircle"];
+        
+        if isempty(bdry_flag)
+           fd = @(p)1;
+        else
+            if ismember(walls(1),bdry_flag)
+               f1 = @(p)abs(dcircle(p,x2,y2,r2));
+            else
+               f1 = @(p)1;
+            end
            
+            if ismember(walls(2),bdry_flag)
+               f2 = @(p)abs(dcircle(p,x1,y1,r1));
+            else
+               f2 = @(p)1;
+            end
+            
+            fd = @(p) min(f1(p),f2(p));
+            
+            
+        end
        
+       
+       
+   else
+       error("Not implemented yet")
        
        
    end

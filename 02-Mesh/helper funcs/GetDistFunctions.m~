@@ -74,13 +74,13 @@ function fd = GetDistFunctions(dom_type,bdry_flag,varargin)
            end
 
            if ismember( walls(4),bdry_flag) % right_high
-               f4 = @(p) abs(p(:,1)-1);
+               f4 = @(p) abs(p(:,1)-1) + abs(min(0,p(:,2)-1));
            else
                f4 = @(p)1;
            end
            
            if ismember( walls(5),bdry_flag) % top_low
-               f5 = @(p) abs(p(:,2)-1);
+               f5 = @(p) abs(p(:,2)-1) + abs( min(0, p(:,1)-1) );
            else
                f5 = @(p)1;
            end
@@ -96,8 +96,22 @@ function fd = GetDistFunctions(dom_type,bdry_flag,varargin)
        end
        
        
+   elseif strcmp(dom_type,'Cir')
        
-           
+       x1=varargin{1};
+       y1=varargin{2};
+       r=varargin{3};
+       walls =["Circle"];
+       
+       if isempty(bdry_flag)
+           fd = @(p)1;
+       else
+           if walls(1)
+           fd = @(p)abs(dcircle(p,x1,y1,r));
+       end
+       
+       
+   else
        
        
        

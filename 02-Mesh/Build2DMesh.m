@@ -21,8 +21,8 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
         % step 1: Use distmesh to generatre unstructured meshes
         if strcmp(dom_type,'Rec')
             
-            if nargin < 4
-                error("Not enought parameter to generate mesh for Rectangle domain")
+            if nargin-5 < 4
+                error("Not enought parameter to generate a mesh for Rectangle domain")
             end
             
             x1=varargin{1};
@@ -42,9 +42,49 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
             pfix = [0,0; 2,0; 2,1; 1,1; 1,2; 0,2];
             [p,e] = distmesh2d(fd, @huniform,h0,bbox,pfix);
             
+        elseif strcmp(dom_type,'Cir')
+            
+            if nargin -5 < 3
+                error("Not enought parameter to generate a mesh for a circle")
+            end
+            
+            x1=varargin{1};
+            y1=varargin{2};
+            r =varargin{3};
+            
+            fd = @(p)dcircle(p,x1,y1,r);
+            
+            bbox = [x1-r,y1-r; x1+r,y1+r];
+            [p,e]=distmesh2d(fd,@huniform,h0,bbox,[]);
+            
+        elseif strcmp(dom_type,'CirHole')
+            
+            if nargin - 5 < 6
+                error("Not enought parameter to generate a mesh for a circle")
+            end
+            
+            x1=varargin{1};
+            y1=varargin{2};
+            r1 =varargin{3};
+            
+            x2=varargin{4};
+            y2=varargin{5};
+            r2 =varargin{6};
+            
+            if (x1+r1<=x2+r2 || y1+r1<= y2+r2)
+                error("The inner cicle should be inside the outer circle. Check papamters! ")
+            end
+            
+            fd = @(p)ddiff( dcircle(p,x1,y1,r1),dcircle(p,x2,y2,r2) );
+            
+            bbox = [x1-r1,y1-r1; x1+r1,y1+r1];
+            
+            [p,e]=distmesh2d(fd,@huniform,h0,bbox,[]);
+            
+            
         else
            
-           error("Mesh of this domain type is not implemented yet!")'
+           error("Mesh of this domain type is not implemented yet!");
             
             
         end
@@ -53,8 +93,8 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
         % structured mesh
         
            if strcmp(dom_type,'Rec')
-               if nargin < 4
-                    error("Not enought parameter to generate mesh for Rectangle domain")
+               if nargin-5 < 4
+                    error("Not enought parameter to generate a mesh for Rectangle domain")
                end
             
                [p,e] = Structured2DMesh(dom_type,h0,varargin{:});
