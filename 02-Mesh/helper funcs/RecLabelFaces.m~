@@ -18,12 +18,9 @@ function [f,ef,f_type] = RecLabelFaces(p,e,...
     tol = 1e-8;
     
     % find boundary nodes
-    if isempty(intersect(dirichlet_flag,neuman_flag))~=1
-        error("The dirichlet and neuman boudary should not intersect!")
-        
-    end
+    if uni
     fd_dirichlet = GetDistFunctions('Rec',x1,y1,x2,y2,dirichlet_flag);
-    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );% distance = 0  means on the boundary
+    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );
     
     fd_neuman = GetDistFunctions('Rec',x1,y1,x2,y2,neuman_flag);
     nodes_neuman = find(abs(fd_neuman(p))<tol );

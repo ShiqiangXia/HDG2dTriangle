@@ -1,5 +1,5 @@
-function [f,ef,f_type] = RecLabelFaces(p,e,...
-        x1,y1,x2,y2,dirichlet_flag,neuman_flag)
+function [f,ef,f_type] = LshapeLabelFaces(p,e,...
+        dirichlet_flag,neuman_flag)
     
     % step 1: Label faces
     
@@ -22,10 +22,11 @@ function [f,ef,f_type] = RecLabelFaces(p,e,...
         error("The dirichlet and neuman boudary should not intersect!")
         
     end
-    fd_dirichlet = GetDistFunctions('Rec',x1,y1,x2,y2,dirichlet_flag);
-    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );% distance = 0  means on the boundary
     
-    fd_neuman = GetDistFunctions('Rec',x1,y1,x2,y2,neuman_flag);
+    fd_dirichlet = GetDistFunctions('L',0,0,2,2,dirichlet_flag);
+    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol ); % distance = 0  means on the boundary
+    
+    fd_neuman = GetDistFunctions('L',0,0,2,2,neuman_flag);
     nodes_neuman = find(abs(fd_neuman(p))<tol );
     
     figure;
@@ -67,10 +68,7 @@ function [f,ef,f_type] = RecLabelFaces(p,e,...
         end
         
     end
-    
-    
-
-   
+      
    
     
 end

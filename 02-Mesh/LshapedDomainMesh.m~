@@ -21,7 +21,7 @@ function mymesh = LshapedDomainMesh(structured_flag,...
         
         [f,ef,f_type] = LshapeLabelFaces(p,e,dirichlet_flag,neuman_flag);
         
-        mymesh = Mesh('L',p,e,f,ef,f_type);
+        mymesh = Mesh('Rec',p,e,f,ef,f_type);
         
         
     elseif structured_flag == 1

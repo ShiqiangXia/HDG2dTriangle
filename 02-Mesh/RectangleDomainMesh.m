@@ -19,9 +19,9 @@ function mymesh = RectangleDomainMesh(structured_flag,...
         
         e = Countclockwise(p,e); % make sure a counterclockwise ordering of the vertices
         
-        [f,ef,dirichlet,neuman,BCType] = RecLabelFaces(p,e,x1,x2,y1,y2,dirichlet_flag,neuman_flag);
+        [f,ef,f_type] = RecLabelFaces(p,e,x1,y1,x2,y2,dirichlet_flag,neuman_flag);
         
-        mymesh = Mesh('Rec',p,e,f,ef,dirichlet,neuman,BCType);
+        mymesh = Mesh('Rec',p,e,f,ef,f_type);
         
         
     elseif structured_flag == 1

@@ -13,13 +13,17 @@ classdef Mesh
         
         element_faces_list; % the index of the faces of the element
         
-        BCType;
-        dirichlet_bdry % face index of dirichlet boundary
-        neuman_bdry % face index of neuman boundary
+        f_type; % Num_facesx1, record the type of each face
+        
+        % 0: interior
+        % 1: Dirichlet
+        % 2: Neuman
+        
+
     end
     
     methods
-        function obj=Mesh(type,p,e,f,ef,dirichlet,neuman,BCType)
+        function obj=Mesh(type,p,e,f,ef,f_type)
             if nargin>0
                 
             obj.dom_type = type;
@@ -45,9 +49,8 @@ classdef Mesh
             
             obj.element_faces_list = ef;
             
-            obj.BCType = BCType;
-            obj.dirichlet_bdry = dirichlet;
-            obj.neuman_bdry = neuman;
+            obj.f_type = f_type;
+            
             
             end
             
