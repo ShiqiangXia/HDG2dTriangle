@@ -109,11 +109,11 @@ classdef Mesh
                 legend('faces','vertices','dirichlet', 'neuman');
             end
             
-    
-            %legend('faces','vertices','dirichlet', 'neuman');
-            
-            if   vertex_flag %&& nvertice < 150
+            if   vertex_flag && nvertice < 150
                 labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
+            end
+            if nvertice>=150
+                cprintf('UnterminatedStrings', '%d vertices are too many to plot, so I ignored them.\n',nvertice);
             end
             %simpplot(obj.vertices_list,obj.element_list);
         end
@@ -134,7 +134,7 @@ classdef Mesh
                 [new_p,new_e,diri,neu] =TrefineRG(p,e,diri,neu,marked);
                 
             elseif strcmp(flag, 'R')
-                fprintf("Warning: R refinement makes hanging nodes!\n")
+                cprintf('*UnterminatedStrings','Warning: R refinement makes hanging nodes!\n')
                 [new_p,new_e,diri,neu] =TrefineR(p,e,zeros(0,3),diri,neu,marked);
                 
             elseif strcmp(flag, 'NVB')
@@ -150,9 +150,9 @@ classdef Mesh
 
             [f,ef,face_type] = LabelFaces(new_e,dirinodes,neunodes);
             if ~(strcmp(obj.dom_type,'Rec') || strcmp(obj.dom_type,'L'))
-                cprintf('*blue', 'Warning:\n')
-                fprintf("Mesh refinment on a curved domain (%s) will NOT guarantee a better resolution of the curve!\n",obj.dom_type);
-                fprintf("You many consider using Build2DMesh to generate a finer mesh to resolve the curved bounary.\n")
+                cprintf('*UnterminatedStrings', 'Warning:\n')
+                cprintf('UnterminatedStrings','Mesh refinment on a curved domain (%s) will NOT guarantee a better resolution of the curve!\n',obj.dom_type);
+                cprintf('UnterminatedStrings','You many consider using Build2DMesh to generate a finer mesh to resolve the curved bounaries.\n')
             end
             mymesh = Mesh(obj.dom_type,new_p,new_e,f,ef,face_type,obj.dirichlet_flag,obj.neuman_flag,obj.dom_parameters{:});
                 
