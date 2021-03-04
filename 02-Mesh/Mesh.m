@@ -150,7 +150,8 @@ classdef Mesh
 
             [f,ef,face_type] = LabelFaces(new_e,dirinodes,neunodes);
             if ~(strcmp(obj.dom_type,'Rec') || strcmp(obj.dom_type,'L'))
-                fprintf("Warning:\nMesh refinment on a curved domain (%s) will NOT guarantee a better resolution of the curve!\n",obj.dom_type);
+                cprintf('*blue', 'Warning:\n')
+                fprintf("Mesh refinment on a curved domain (%s) will NOT guarantee a better resolution of the curve!\n",obj.dom_type);
                 fprintf("You many consider using Build2DMesh to generate a finer mesh to resolve the curved bounary.\n")
             end
             mymesh = Mesh(obj.dom_type,new_p,new_e,f,ef,face_type,obj.dirichlet_flag,obj.neuman_flag,obj.dom_parameters{:});
