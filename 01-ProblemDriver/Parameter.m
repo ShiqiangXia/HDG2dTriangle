@@ -3,12 +3,18 @@ classdef Parameter
     properties
         % Problem parameters -------------------------------------------------
         pb_type
-        % 101: Poission problem
-        % 102: Lapalce Eigenvalue problem
+        % abcd:  
+        % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
+        % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
         
-        % 201: functional (u,g) with Poission problem
-        % 202: Lapalce eigenvalue as a non-linear functional
-        % 203?functional <q*n, phi>_T, where T is part of the boundary
+        
+        % 1010: Poission problem
+        % 1110: Lapalce Eigenvalue problem
+        
+        % 2011: functional (u,g) with Poission problem
+        % 2012?functional <q*n, phi>_T, where T is part of the boundary
+        % 2113: Lapalce eigenvalue as a non-linear functional
+        
         
         pb_parameters % all the necessary parameters to define the PDE,
                       % including the source_f, the boundary data 
@@ -37,11 +43,12 @@ classdef Parameter
         
         refine_flag % 0: uniform refine, 1: adaptive refine
         
-        report_flag % 1: report errory analysis if possibal
+        report_flag % 1: report errory analysis if possible
         
         visualize_flag % 1: visualize numerical solutions
         
-        extra_parameters
+        extra_parameters % such as Neig, tol, Max_iteration,.....
+        % format: input paris, e.g. 'Neig', 10, 'tol', 1e-5,.....
         
         %------------------------------------------------------------------
     end
