@@ -1,37 +1,42 @@
 function ProblemDriver(para)
     % This is the main problem driver.
-    
-    % step 1: Determine what problem we are solving.
     pb_type = num2str(para.pb_type);
+    Niter = para.Niter;
+    
+    %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
+        
+    mesh_list = zeros(Niter,1,numeric_t);
+    err_uh_list = zeros(Niter,1,numeric_t);
+    err_qh_list = zeros(Niter,1,numeric_t);
+    
+    if strcmp(pb_type(2),'1')
+        % eigenvalue problem
+        % maybe use matlab inputParser later
+        [Neig,Max_iter,Tol_eig] = MyParaParse(para.extra_parameters,...
+            'Neig','Max_iter','tol_eig');
+    %             extra_para = para.extra_parameters;
+    %             extra_para = reshape(extra_para,[],2)';
+    %             Neig = extra_para{find(strcmp(extra_para,'Neig')),2};
+        err_lamh_list = zeros(Niter,Neig,numeric_t);
+        lamh_list = zeros(Niter,Neig,numeric_t);
+    end
+    
+    [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
+    
+    
+    if para.post_process_flag == 1
+        err_uhstar_list = zeros(Niter,1,numeric_t);
+        err_qhstar_list = zeros(Niter,1,numeric_t);
+    end
+    
+    % step 2: Determine what problem we are solving.
+    
     if strcmp(pb_type(1),'1')
         
         % Solve PDE problem
-        Niter = para.Niter;
-        
-        %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
-        
-        mesh_list = zeros(Niter,1,numeric_t);
-        err_uh_list = zeros(Niter,1,numeric_t);
-        err_qh_list = zeros(Niter,1,numeric_t);
-        if para.post_process_flag == 1
-            err_uhstar_list = zeros(Niter,1,numeric_t);
-            err_qhstar_list = zeros(Niter,1,numeric_t);
-        end
-        
-        if strcmp(pb_type(2),'1')
-            % eigenvalue problem
-            % maybe use matlab inputParser later
-            [Neig,Max_iter,Tol_eig] = MyParaParse(para.extra_parameters,...
-                'Neig','Max_iter','tol_eig');
-%             extra_para = para.extra_parameters;
-%             extra_para = reshape(extra_para,[],2)';
-%             Neig = extra_para{find(strcmp(extra_para,'Neig')),2};
-            err_lam_list = zeros(Niter,Neig,numeric_t);
-        end
-        
-        [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
-        
-        %%%%%%% step 2. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    
+        %%%%%%% step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         for ii = 1:Niter
             
             % build mesh --------------------------------------------------
@@ -68,7 +73,8 @@ function ProblemDriver(para)
                 
                 [lamh,uh,qh,uhat] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
-                err_lam_list(ii) = EigenError(para,lamh);
+                lamh_list(ii) = lamh;
+                err_lamh_list(ii) = EigenError(para,lamh);
             % -------------------------------------------------------------
             else
                 error('pb type not implemented yet')
@@ -121,7 +127,7 @@ function ProblemDriver(para)
             
         end
         
-        % Step 3. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Step 4. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         if para.report_flag==1
             
             ReportProblem(para) 
@@ -138,7 +144,7 @@ function ProblemDriver(para)
             
             if strcmp(pb_type(2),'1')
                 ReportTable('dof', mesh_list,...
-                    'lamh',err_lam_list)
+                    'lamh',err_lamh_list)
             end
             
         end
@@ -146,6 +152,107 @@ function ProblemDriver(para)
     
     elseif strcmp(pb_type(1),'2')
         % Solver Functional problem
+        if strcmp(pb_type(2),'0') % source problem
+            Jh_list = zeros(Niter,1,numeric_t);
+            err_Jh_list = zeros(Niter,1,numeric_t);
+            Jh_AC_list = zeros(Niter,1,numeric_t);
+            err_Jh_AC_list = zeros(Niter,1,numeric_t);
+            ACh_list = zeros(Niter,1,numeric_t);
+            
+        elseif strcmp(pb_type(2),'1') % eigenproblem
+            err_lamh_AC_list = zeros(Niter,1,numeric_t);
+            lamh_AC_list = zeros(Niter,1,numeric_t);
+            lamh2_list = zeros(Niter,1,numeric_t);
+            ACh_list = zeros(Niter,1,numeric_t);
+        else
+            error('Wrong problem type')
+        end
+        
+        for ii = 1:Niter
+            
+            % build mesh --------------------------------------------------
+            if ii == 1
+                mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
+                    para.h0, ...
+                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters);
+            else
+                if para.refine_flag == 0 % uniform refinement
+                    %hh = para.h0*(0.5^(ii-1));
+                    %
+                    mymesh = mymesh.UniformRefine();
+                    
+                else % refine based on marked elements
+                    r_f = 'RGB'; %'R', 'RG', 'NVB'
+                    mymesh = mymesh.Refine(marked_elements, r_f);
+                end
+            end
+            % -------------------------------------------------------------
+            
+            % Solve -------------------------------------------------------
+            if strcmp(pb_type(2),'0') % source problem
+                % need to solve Primal and Adjoint two problems
+                if strcmp(pb_type(3),'1') % Poission source problem
+             
+                    [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
+                    [source_g,vD,vN]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
+                    
+                    [uh,qh,uhat] = HDG_Poission(mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    para.order, para.tau,source_f,uD,uN);
+                
+                    [vh,ph,vhat] = HDG_Poission(mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    para.order, para.tau,source_g,vD,vN);
+                    
+                else
+                    error('Wrong problem type.')
+                end
+                
+                [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),mymesh,...
+                                                      uh,qh,uhat,source_f,uD,uN,...
+                                                      vh,ph,vhat,source_g,vD,vN);
+                Jh_list(ii) = Jh;
+                Jh_AC_list(ii) = Jh_AC;
+                ACh_list(ii) = ACh;
+
+                % CalError ------------------------------------------------
+                
+                [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
+                    = Error_Functional(Jh,Jh_AC,para);
+
+            elseif strcmp(pb_type(2),'1') % eigenproblem
+                % only need to solve one eigenvlaue problem
+                if strcmp(pb_type(3),'1') % poission eigen problem
+                    
+                    [lamh,uh,qh,uhat] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+                    para.order,para.tau, Neig,Max_iter,Tol_eig);
+                    lamh_list(ii) = lamh;
+                    err_lamh_list(ii) = EigenError(para,lamh);
+                    
+                end
+                
+                [lamh2, lamh_AC,ACh,ACh_elewise_list]=EigenvalueFunctional(mymesh,uh,qh,uhat); 
+                lamh2_list(ii) = lamh2;
+                lamh_AC_list(ii) = lamh_AC;
+                ACh_list(ii) = ACh;
+                
+                [err_lamh_list(ii),err_lamh_AC_list(ii)] ...
+                    = Error_Functional(lamh2,lamh_AC,para);
+                 
+                
+            end
+            
+             % Posterior error estimate if needed--------------------------- 
+            if para.refine_flag == 1
+                [Tol_adp,Percent] = MyParaParse(para.extra_parameters,'Tol_adp','Percent');
+                marked_elements = ACh_ErrEstimate(ACh_elewise_list,Tol_adp,Percent);
+            end
+            % -------------------------------------------------------------
+                
+            
+            
+        end
+            
+        
+        
         
     else
         error('Pb type is not incorrect, please double check and see Parameter obj')
