@@ -21,9 +21,11 @@ function ProblemDriver(para)
         if strcmp(pb_type(2),'1')
             % eigenvalue problem
             % maybe use matlab inputParser later
-            extra_para = para.extra_parameters;
-            extra_para = reshape(extra_para,[],2)';
-            Neig = extra_para{find(strcmp(extra_para,'Neig')),2};
+            [Neig,Max_iter,Tol_eig] = MyParaParse(para.extra_parameters,...
+                'Neig','Max_iter','tol_eig');
+%             extra_para = para.extra_parameters;
+%             extra_para = reshape(extra_para,[],2)';
+%             Neig = extra_para{find(strcmp(extra_para,'Neig')),2};
             err_lam_list = zeros(Niter,Neig,numeric_t);
         end
         
@@ -55,9 +57,9 @@ function ProblemDriver(para)
             
             % Solve Poission source problem
             if strcmp(pb_type(3),'1') && strcmp(pb_type(2),'0')
-                
+                [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                 [uh,qh,uhat] = HDG_Poission(mymesh,GQ1DRef_pts, GQ1DRef_wts,...
-                    para.order, para.tau, para.pb_parameters);
+                    para.order, para.tau,source_f,uD,uN);
                 
             % -------------------------------------------------------------
             
@@ -65,7 +67,7 @@ function ProblemDriver(para)
             elseif  strcmp(pb_type(3),'1') && strcmp(pb_type(2),'1')
                 
                 [lamh,uh,qh,uhat] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
-                    para.order, para.tau,para.extra_parameters);
+                    para.order,para.tau, Neig,Max_iter,Tol_eig);
                 err_lam_list(ii) = EigenError(para,lamh);
             % -------------------------------------------------------------
             else
@@ -76,9 +78,10 @@ function ProblemDriver(para)
             
             
             % Posterior error estimate if needed---------------------------
-            if para.refine_flag == 1
-                marked_elements = ErrorEstimate(mymesh,uh,qh,uhat,...
-                    para);
+            if para.refine_flag == 1 && strcmp(pb_type(2),'0')
+                [Tol_adp,Percent] = MyParaParse(para.extra_parameters,'Tol_adp','Percent');
+                marked_elements = ErrorEstimate(mymesh,uh,qh,uhat,source_f,...
+                    Tol_adp,Percent);
             end
             % -------------------------------------------------------------
             
