@@ -9,6 +9,7 @@ function ProblemDriver(para)
         Niter = para.Niter;
         
         %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
+        
         mesh_list = zeros(Niter,1,numeric_t);
         err_uh_list = zeros(Niter,1,numeric_t);
         err_qh_list = zeros(Niter,1,numeric_t);
@@ -49,8 +50,7 @@ function ProblemDriver(para)
             end
             
             % -------------------------------------------------------------
-            % -------------------------------------------------------------
-            
+                       
             % Solve -------------------------------------------------------
             
             % Solve Poission source problem
@@ -60,6 +60,7 @@ function ProblemDriver(para)
                     para.order, para.tau, para.pb_parameters);
                 
             % -------------------------------------------------------------
+            
             % Solve Poission eigen problem
             elseif  strcmp(pb_type(3),'1') && strcmp(pb_type(2),'1')
                 
@@ -72,10 +73,18 @@ function ProblemDriver(para)
             end 
             
             % -------------------------------------------------------------
+            
+            
+            % Posterior error estimate if needed---------------------------
+            if para.refine_flag == 1
+                marked_elements = ErrorEstimate(mymesh,uh,qh,uhat,...
+                    para);
+            end
             % -------------------------------------------------------------
             
-            % Error -------------------------------------------------------
+            % Calculate Error ---------------------------------------------
             mesh_list(ii) = GetDof(mymesh, para.order);
+            
             err_uh_list(ii) = L2Error_scalar(mymesh,uh,...
                 GQ1DRef_pts,GQ1DRef_wts,0,...
                 para.order,para.pb_parameters);
@@ -83,7 +92,7 @@ function ProblemDriver(para)
             err_qh_list(ii) = L2Error_vector(mymesh,qh,...
                 GQ1DRef_pts,GQ1DRef_wts,0,...
                 para.order,para.pb_parameters);
-
+            % post processed error 
             if para.post_process_flag == 1
                 [uhstar,quhstar] = HDG_Local_Postprocess(mymesh,para.order,uh,qh,uhat);
 
@@ -96,12 +105,20 @@ function ProblemDriver(para)
                 para.order,para.pb_parameters);
             end
             % ------------------------------------------------------------- 
+            
+            
+            % visualization -----------------------------------------------
+            if ii == Niter && para.visualize_flag==1
+                basis_flag = 0;
+                Plot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
+            end
+            % ------------------------------------------------------------- 
             % -------------------------------------------------------------
             
-            % Vi
        
         end
         
+        % Step 3. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         if para.report_flag==1
             
             ReportProblem(para) 
@@ -122,7 +139,7 @@ function ProblemDriver(para)
             end
             
         end
-        
+        % -----------------------------------------------------------------
     
     elseif strcmp(pb_type(1),'2')
         % Solver Functional problem
