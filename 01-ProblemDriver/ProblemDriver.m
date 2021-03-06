@@ -125,7 +125,7 @@ function ProblemDriver(para)
             % visualization -----------------------------------------------
             if ii == Niter && para.visualize_flag==1
                 basis_flag = 0;
-                Plot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
+                My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             % ------------------------------------------------------------- 
             
