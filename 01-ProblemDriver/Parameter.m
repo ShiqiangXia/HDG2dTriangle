@@ -41,7 +41,7 @@ classdef Parameter
         
         Niter % how many mesh refinements
         
-        refine_flag % 0: uniform refine, 1: adaptive refine
+        refine_flag % 0: uniform refine, 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
         
         report_flag % 1: report errory analysis if possible
         
@@ -58,7 +58,7 @@ classdef Parameter
             cprintf('blue','Initiate empty Parameter object.\n')
         end
         
-        function obj = SetPb(obj,pb_type,varargin)
+        function obj=SetPb(obj,pb_type,varargin)
             obj.pb_type = pb_type;
             obj.pb_parameters = varargin;  
             cprintf('blue','Set problem parameters... done\n')

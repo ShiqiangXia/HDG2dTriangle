@@ -43,7 +43,7 @@ function ProblemDriver(para)
             if ii == 1
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                     para.h0, ...
-                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters);
+                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
             else
                 if para.refine_flag == 0 % uniform refinement
                     %hh = para.h0*(0.5^(ii-1));
@@ -51,7 +51,7 @@ function ProblemDriver(para)
                     mymesh = mymesh.UniformRefine();
                     
                 else % refine based on marked elements
-                    r_f = 'RGB'; %'R', 'RG', 'NVB'
+                    r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
                 end
             end
@@ -90,9 +90,9 @@ function ProblemDriver(para)
             
             % Posterior error estimate if needed---------------------------
             if para.refine_flag == 1 && strcmp(pb_type(2),'0')
-                [Tol_adp,Percent] = MyParaParse(para.extra_parameters,'Tol_adp','Percent');
+                [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ErrorEstimate(mymesh,uh,qh,uhat,source_f,...
-                    Tol_adp,Percent);
+                    tol_adp,percent);
             end
             % -------------------------------------------------------------
             
@@ -180,7 +180,7 @@ function ProblemDriver(para)
             if ii == 1
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                     para.h0, ...
-                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters);
+                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
             else
                 if para.refine_flag == 0 % uniform refinement
                     %hh = para.h0*(0.5^(ii-1));
@@ -188,7 +188,7 @@ function ProblemDriver(para)
                     mymesh = mymesh.UniformRefine();
                     
                 else % refine based on marked elements
-                    r_f = 'RGB'; %'R', 'RG', 'NVB'
+                    r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
                 end
             end
@@ -258,8 +258,8 @@ function ProblemDriver(para)
             
             % Posterior error estimate if needed--------------------------- 
             if para.refine_flag == 1
-                [Tol_adp,Percent] = MyParaParse(para.extra_parameters,'Tol_adp','Percent');
-                marked_elements = ACh_ErrEstimate(ACh_elewise_list,Tol_adp,Percent);
+                [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
+                marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
             end
             % -------------------------------------------------------------
                
