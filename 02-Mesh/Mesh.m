@@ -13,6 +13,8 @@ classdef Mesh
         
         element_faces_list; % the index of the faces of the element
         
+        Jacobian_list % the jacobian for mapping to the ref element 
+        
         f_type; % Num_facesx1, record the type of each face
         
         % 0: interior
@@ -39,6 +41,8 @@ classdef Mesh
             [ne,nf] = size(e);
             
             obj.num_elements = ne;
+            
+            obj.Jacobian_list = TriJacobian(p,e);
             
             if nf == 3
                 obj.mesh_type = 'Tri';
