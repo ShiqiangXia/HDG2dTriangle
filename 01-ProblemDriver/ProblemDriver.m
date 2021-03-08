@@ -67,7 +67,7 @@ function ProblemDriver(para)
                 % Solve Poission source problem
                 
                 [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
-                [uh,qh,uhat] = HDG_Poission(mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                [uh,qh,uhat] = HDG_GlobalSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_f,uD,uN);
                 
             % -------------------------------------------------------------
@@ -203,10 +203,10 @@ function ProblemDriver(para)
                     [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                     [source_g,vD,vN]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
                     
-                    [uh,qh,uhat] = HDG_Poission(mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    [uh,qh,uhat] = HDG_GlobalSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_f,uD,uN);
                 
-                    [vh,ph,vhat] = HDG_Poission(mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    [vh,ph,vhat] = HDG_GlobalSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_g,vD,vN);
                     
                 else

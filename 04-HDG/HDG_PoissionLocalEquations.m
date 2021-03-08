@@ -12,12 +12,9 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     
     %(u,div.r)
     % get the affine map and it's inverse
-    V1 = vertice_list(1,:)';
-    V2 = vertice_list(2,:)';
-    V3 = vertice_list(3,:)';
-    AffineMap = numeric_t('0.5')*[V2-V1,V3-V1];
-    Inv_AffineMap = (1.0/Jk) * [AffineMap(2,2),-AffineMap(1,2);...
-                            -AffineMap(2,1),AffineMap(1,1)];
+    
+    [~,Inv_AffineMap] = Ref_Tri_Map(Jk,vertice_list);
+    
                         
     temp1 = Jk*(Auur*Inv_AffineMap(1,1) + Auus*Inv_AffineMap(1,2));
     temp2 = Jk*(Auur*Inv_AffineMap(2,1) + Auus*Inv_AffineMap(2,2));
