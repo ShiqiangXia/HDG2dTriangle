@@ -1,16 +1,17 @@
-function [V2D] = Vandermonde2D(N, r, s)
+function [V2D] = Vandermonde2D(N, a, b)
 
-% function [V2D] = Vandermonde2D(N, r, s);
+% function [V2D] = Vandermonde2D(N, a, b);
+% (a,b) is the coordinates on the ref square
 % Purpose : Initialize the 2D Vandermonde Matrix, 
 % Size #points x #basis
-% V_{ij} = phi_(i,j)(r_t, s_t);
+% V_{ij} = phi_(i,j)(a, b);
 
 % every row : same point different polynomials
 
-V2D = zeros(length(r),(N+1)*(N+2)/2,numeric_t);
+V2D = zeros(length(a),(N+1)*(N+2)/2,numeric_t);
 
-% Transfer to (a,b) coordinates
-[a, b] = RStoAB(r, s);
+% % Transfer to (a,b) coordinates
+% [a, b] = RStoAB(r, s);
 
 % build the Vandermonde matrix
 count_basis = 1;
