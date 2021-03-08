@@ -25,7 +25,7 @@ function Fh = Project_F_to_Wh(Jk,vertice_list,...
             temp1 = V2D(:,ct);
             temp1 = reshape(temp1,[],NGQ);
             
-            Fh(ct,1) = GQ1DRef_wts'*(temp1.*f_VD.*mat_b)*GQ1DRef_wts;
+            Fh(ct,1) = Jk * GQ1DRef_wts'*(temp1.*f_VD.*mat_b)*GQ1DRef_wts;
             
             ct=ct+1;
         end

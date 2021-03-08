@@ -1,4 +1,4 @@
-function [uh,qh,uhat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
         k,tau,source_f,uD,uN)
     
     %% ----- Step 0 Set up parameters ---------------------------------------
@@ -8,8 +8,6 @@ function [uh,qh,uhat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
     
     num_elements = mymesh.num_elements;
     num_faces = mymesh.num_faces;
-    
-    
     
     %% ----- step 1 get Local Matrices on ref element ----------------------------------
     
@@ -54,14 +52,14 @@ function [uh,qh,uhat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
         % Local solver Q,U
         % M_loc^-1 * N_i
         
-        List_LocSol(:,:,1) = M_Loc\N_1;
-        List_Ns(:,:,1) = [-N_1(1:Nq,:);N_1(Nq+1:end,:)];
+        List_LocSol(:,:,element_idx,1) = M_Loc\N_1;
+        List_Ns(:,:,element_idx,1) = [-N_1(1:Nq,:);N_1(Nq+1:end,:)];
         
-        List_LocSol(:,:,2) = M_Loc\N_2;
-        List_Ns(:,:,2) = [-N_2(1:Nq,:);N_3(Nq+1:end,:)];
+        List_LocSol(:,:,element_idx,2) = M_Loc\N_2;
+        List_Ns(:,:,element_idx,2) = [-N_2(1:Nq,:);N_3(Nq+1:end,:)];
         
-        List_LocSol(:,:,3) = M_Loc\N_3;
-        List_Ns(:,:,3) = [-N_3(1:Nq,:);N_3(Nq+1:end,:)];
+        List_LocSol(:,:,element_idx,3) = M_Loc\N_3;
+        List_Ns(:,:,element_idx,3) = [-N_3(1:Nq,:);N_3(Nq+1:end,:)];
         
         % Compute the projection of source_f
         Proj_f = zeros(Nq+Nu,1,numeric_t);
@@ -77,10 +75,94 @@ function [uh,qh,uhat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
     end
     
     %% ----- step 3 Assemble Global Matrix and right hand side --------
-   
+    
+    % Preparation
+    Global_M = numeric_t(sparse(Nuhat*num_faces,Nuhat*num_faces));
+    Global_b = numeric_t(sparse(Nuhat*num_faces,1));
+    Id_mtrix = eye(Nuhat,Nuhat, numeric_t);
+    for element_idx = 1: num_elements
+        ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
+        for ii = 1:length(ele_face_idx_list)
+            face_id = ele_face_idx_list(ii);
+            
+            start_id=(face_id-1)*Nuhat+1;
+            end_id = face_id*Nuhat;
+            
+            Bd_Int_mat = List_Ns(:,:,ii)';
+            
+            bdry_flag = mymesh.f_type(face_id);
+            if bdry_flag == 0 % interior face
+                
+                % put matrix block at the right position
+                %<qh*n+tau*uh,mu>
+                for jj = 1:length(ele_face_idx_list)
+                    temp_id = ele_face_idx_list(jj);
+                    temp_start = (temp_id-1)*Nuhat+1;
+                    temp_end = temp_id*Nuhat;
+                    
+                    Global_M(start_id:end_id,temp_start:temp_end) =...
+                       Bd_Int_mat * List_LocSol(:,:,element_idx,jj) ;
+                end
+                
+                Global_b(start_id:end_id,1) = -Bd_Int_mat*List_LocSol_f(:,element_idx);
+                
+                % -<tau uhat,mu>
+                Global_M(start_id:end_id,start_id:end_id) = ...
+                    Global_M(start_id:end_id,start_id:end_id) - tau*Id_mtrix;
+                     
+            elseif bdry_flag == 1 % dirichlet boundary 
+                % dirichlet boundary face 
+                % just simply enforce boundary conditions
+                
+                Global_M(start_id:end_id,start_id:end_id)= Id_mtrix;
+                % NEED TO DEFINE
+                Global_b(start_id:end_id,1) = ProjectToMh(uD);
+                
+            elseif bdry_flag == 2 % neuman boundary
+                % Will implement later
+                error(' Boundary type not implemented yet.')
+            else 
+                error('Wrong boundary type.')
+            end
+            
+        end
+    end
     
     %% ------ Step 4: Solve the Global Equals ------------------------
     
+    uh_hat = Global_M\Global_b;
     
     %% ------ Step 5: Recover Local Solutions --------------------------
+    
+    %%% Local solvers
+    %  ( qh )  =   Q*uhat + Qw*f
+    %  ( uh )  =   U*uhat + Uw*f
+    %
+    % List_LocSol --> (Q,U)
+    % List_LocSol_f-->(Qw*f,Uw*f)
+    %%%%
+    
+    Result_matrix = zeros(Nq+Nu,num_elements, numeric_t);
+    
+    for ele_idx = 1:num_elements
+        element_faces_list = mymesh.element_faces_list(ele_idx,:);
+        % go through each face to do (Q,U)'*uhat
+        for ll = 1:length(element_faces_list)
+            face_idx = element_faces_list(ll);
+            temp_uhat = uh_hat ((face_idx-1)*Nuhat+1:face_idx*Nuhat);
+            
+            Result_matrix(:,ele_idx) = Result_matrix(:,ele_idx)...
+                + List_LocSol(:,:,ele_idx,ll)*temp_uhat;
+            
+        end
+        % add (Qwf,Uwf)'
+        Result_matrix(:,ele_idx) = Result_matrix(:,ele_idx)...
+            +List_LocSol_f(:,ele_idx);
+    end
+    
+    qh = Result_matrix(1:Nq,:);
+    uh = Result_matrix(Nq+1:end,:);
+    
+    
+    
 end
