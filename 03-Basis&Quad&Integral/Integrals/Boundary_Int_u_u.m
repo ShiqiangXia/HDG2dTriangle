@@ -1,7 +1,7 @@
 function Auu3 = Boundary_Int_u_u(k,GQ1DRef_pts,GQ1DRef_wts)
     
     Nu = (k+2)*(k+1)/2;
-    Nuhat = (k+1);
+    
     NGQ = length(GQ1DRef_pts);
     
     Auu3 = zeros(Nu,Nu,3,numeric_t);
