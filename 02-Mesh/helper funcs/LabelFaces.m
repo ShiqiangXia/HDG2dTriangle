@@ -6,12 +6,14 @@ function [f,ef,f_type] = LabelFaces(e,...
     ne = size(e,1);
     % Get all edges
     enumerate = [1,2,2,3,3,1];
-    faces = reshape(e(:,enumerate),[],2); % total 3*ne faces
+    faces = reshape(e(:,enumerate)',2,[]); % total 3*ne faces
+    faces = faces';
 
     [f,~,ie] = unique(sort(faces,2),'rows'); % remove repeated faces
 
     % ie is the index of new labeled faces
-    ef = reshape(ie(1:3*ne),[],3);
+    ef = reshape(ie(1:3*ne),3,[]);
+    ef=ef';
     
     % step 2: Mark boundaries.
      
