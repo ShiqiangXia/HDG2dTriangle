@@ -13,20 +13,20 @@ function rlt = Project_F_to_Face(Jk,vertice_list,i,...
         r_list = GQ1DRef_pts;
         s_list = -1*ones(NGQ,1,numeric_t);
         [x_list,y_list] = RStoXY(r_list,s_list,Jk,vertice_list);
-        f_VD = f(x_list,y_list);
+        f_VD = f([x_list,y_list]);
         
      elseif i == 2
      % edge 2:  r=[-1,1], s= -r
         r_list = GQ1DRef_pts;
         s_list = -r_list;
         [x_list,y_list] = RStoXY(r_list,s_list,Jk,vertice_list);
-        f_VD = f(x_list,y_list);
+        f_VD = f([x_list,y_list]);
      elseif i == 3
      % edge 3:  r=-1, s= [-1,1]  
         r_list = -1*ones(NGQ,1,numeric_t);
         s_list = GQ1DRef_pts;
         [x_list,y_list] = RStoXY(r_list,s_list,Jk,vertice_list);
-        f_VD = f(x_list,y_list);
+        f_VD = f([x_list,y_list]);
      else 
          error('Wrong face index');
      end

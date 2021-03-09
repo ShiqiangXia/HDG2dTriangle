@@ -13,10 +13,10 @@ function Fh = Project_F_to_Wh(Jk,vertice_list,...
     
     V2D = Vandermonde2D(k,a_list,b_list);
     
-    [r_list,s_list] = ABtoRS(a_list,a_list);
+    [r_list,s_list] = ABtoRS(a_list,b_list);
     [x_list,y_list] = RStoXY(r_list,s_list,Jk,vertice_list);
     
-    f_VD = source_f(x_list,y_list);
+    f_VD = source_f([x_list,y_list]);
     f_VD = reshape(f_VD,[],NGQ);
     
     ct = 1;

@@ -14,8 +14,9 @@ function para = SetParameters()
     uexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
     qexact = @(p)[-pi*cos(pi*p(:,1)).*sin(pi*p(:,2)),-pi*sin(pi*p(:,1)).*cos(pi*p(:,2))];
 
-    source_f = @(p)2*pi^2*sin(pi*p(:,1)).*(sin(pi*p(:,2)));
-    uD = @(p) 0*p(:,1);
+    %source_f = @(p)2*pi^2*sin(pi*p(:,1)).*(sin(pi*p(:,2)));
+    source_f = @(p) 0*p(:,1);
+    uD = @(p) 0*p(:,1)+5;
     uN = @(p) 0*p(:,1);
 
     vexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
@@ -33,9 +34,9 @@ function para = SetParameters()
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 0;
+    structure_flag = 1;
     dom_type = 'Rec';
-    h0 = 0.2;
+    h0 = 2;
     dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
     %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
@@ -44,12 +45,13 @@ function para = SetParameters()
     % 'Cir': ["Circle"]
     % 'CirHole': ["InnerCircle","OuterCircle"]
 
-    x1 = 0;
-    y1 = 0;
+    x1 = -1;
+    y1 = -1;
     x2 = 1;
     y2 = 1;
+    tri_dir = 0;
 
-    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2);
+    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
 
     %% numerical method parameters---------------------------------------------
 

@@ -37,8 +37,10 @@ function ProblemDriver(para)
     
     
         %%%%%%% step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        cprintf('blue','--------------------------------\n')
+        cprintf('blue','Starting solving PDE problem\n')
         for ii = 1:Niter
-            
+            cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
             if ii == 1
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...

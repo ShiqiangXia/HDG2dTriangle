@@ -80,7 +80,7 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
         
         % Local solver Qw * f , Uw * f
         % M_loc^-1 * Proj_f
-        List_LocSol_f(:,element_idx) = M_loc\Proj_f;
+        List_LocSol_f(:,element_idx) = M_Loc\Proj_f;
 
     end
     

@@ -32,4 +32,6 @@ function [e_list,n1,n2,n3] = GetTriFaceInfo(vertice_list)
     n3 = - Rot_mat*(V1-V3);
     n3 = n3/VectorNorm(n3);
     
+    
+    
 end

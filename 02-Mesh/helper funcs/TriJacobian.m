@@ -1,5 +1,5 @@
 function J_list = TriJacobian(p,e)
-    ne = length(e);
+    ne = size(e,1);
     J_list  = zeros(ne,1,numeric_t);
     
     for ii = 1:ne

@@ -41,7 +41,7 @@ function Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     [a2,b2] = RStoAB(r2,s2);
     
     V2D2 = Vandermonde2D(k,a2,b2);
-    
+    %scale_factor = numeric_t('sqrt(2)');
     ct = 1;
     for ii = 0:k
         for jj = 0:k-ii
@@ -51,6 +51,7 @@ function Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
                 Buuhat3(ct,nn,2) = GQ1DRef_wts'*(temp1.*temp2);
                 
             end
+            ct = ct+1;
             
         end
     end
@@ -75,6 +76,7 @@ function Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
                 Buuhat3(ct,nn,3) = GQ1DRef_wts'*(temp1.*temp2);
                 
             end
+            ct = ct+1;
         end
     end
     
