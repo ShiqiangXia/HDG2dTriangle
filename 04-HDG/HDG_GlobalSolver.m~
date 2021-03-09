@@ -130,8 +130,7 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
                 
                 Global_M(start_id:end_id,start_id:end_id)= Id_mtrix;
                 % NEED TO DEFINE
-                Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,ii,...
-                    k,uD,GQ1DRef_pts,GQ1DRef_wts);
+                Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,ii,GQ1DRef_pts,GQ1DRef_wts);
                 
             elseif bdry_flag == 2 % neuman boundary
                 % Will implement later

@@ -22,9 +22,9 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     Muq = [temp1,temp2];
     
     % <tau u, w>
-    [e1,e2,e3,n1,n2,n3] = GetTriFaceInfo(V1,V2,V3);
+    [e_list,n1,n2,n3] = GetTriFaceInfo(vertice_list);
     
-    Muu = 0.5*tau*(e1*Auu3(:,:,1)+e2*Auu3(:,:,2)+e3*Auu3(:,:,3));
+    Muu = 0.5*tau*(e_list(1)*Auu3(:,:,1)+e_list(2)*Auu3(:,:,2)+e_list(3)*Auu3(:,:,3));
     
     M_Loc = [Mqq, -Muq'; Muq,Muu ];
     
