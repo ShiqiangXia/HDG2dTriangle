@@ -151,8 +151,8 @@ classdef Mesh
             neunodes = unique(reshape(neu,[],1));
             
             new_e = Countclockwise(new_p,new_e); % make sure a counterclockwise ordering of the vertices
-
-            [f,ef,face_type] = LabelFaces(new_e,dirinodes,neunodes);
+            bdry_edges = boundedges(new_p,new_e);
+            [f,ef,face_type] = LabelFaces(new_e,dirinodes,neunodes,bdry_edges);
             if ~(strcmp(obj.dom_type,'Rec') || strcmp(obj.dom_type,'L'))
                 cprintf('*UnterminatedStrings', 'Warning:\n')
                 cprintf('UnterminatedStrings','Mesh refinment on a curved domain (%s) will NOT guarantee a better resolution of the curve!\n',obj.dom_type);

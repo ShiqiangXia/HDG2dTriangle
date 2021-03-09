@@ -23,31 +23,29 @@ function [f,ef,f_type] = LabelFaces(e,...
     num_f = length(f);
     f_type = zeros(num_f,1);
     
-    %INTERIOR = 0;
+    INTERIOR = 0;
     DIRI = 1;
     NEU = 2;
     
     for ii = 1:num_bd_f
         
         % the index of two vertices of one edge
-        temp_f = bdry_faces(ii,:);
+        v1 = f(ii,1);
+        v2 = f(ii,2);
         
+        dirichlet_flag  = sum(ismember([v1 v2],nodes_dirichlet));
+        neuman_flag  = sum(ismember([v1 v2],nodes_neuman));
         
-        dirichlet_flag  = sum(ismember(temp_f,nodes_dirichlet));
-        neuman_flag  = sum(ismember(temp_f,nodes_neuman));
-        
-        if dirichlet_flag == 2 % this face is on dirichlet the boundary
+        if dirichlet_flag == 2 % this face is on the boundary
             
-            % find face index
+            f_type(ii) = DIRI;
             
-            f_idx = find(ismember(f,temp_f,'rows'));
-            f_type(f_idx) = DIRI;
+        elseif neuman_flag == 2
             
-        elseif neuman_flag == 2 % this face is on neuman the boundary
+            f_type(ii) = NEU;
             
-            f_idx = find(ismember(f,temp_f,'rows'));
-            f_type(f_idx) = NEU;
-            
+        else
+            f_type(ii) = INTERIOR;
         end
         
     end

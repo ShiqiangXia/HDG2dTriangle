@@ -126,14 +126,22 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
     
     % find boundary nodes
     tol = 1e-8;
-    fd_dirichlet = GetDistFunctions(dom_type,dirichlet_flag,varargin{:});
-    nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );% distance = 0  means on the boundary
+    if ~isempty(dirichlet_flag)
+        fd_dirichlet = GetDistFunctions(dom_type,dirichlet_flag,varargin{:});
+        nodes_dirichlet = find(abs(fd_dirichlet(p))<tol );% distance = 0  means on the boundary
+    else
+        nodes_dirichlet=[];
+    end
     
-    fd_neuman = GetDistFunctions(dom_type,neuman_flag,varargin{:});
-    nodes_neuman = find(abs(fd_neuman(p))<tol );
+    if ~isempty(neuman_flag)
+        fd_neuman = GetDistFunctions(dom_type,neuman_flag,varargin{:});
+        nodes_neuman = find(abs(fd_neuman(p))<tol );
+    else
+        nodes_neuman = [];
+    end
     
-
-    [f,ef,f_type] = LabelFaces(e,nodes_dirichlet,nodes_neuman);
+    bdry_edges = boundedges(p,e);
+    [f,ef,f_type] = LabelFaces(e,nodes_dirichlet,nodes_neuman,bdry_edges);
 
     mymesh = Mesh(dom_type,p,e,f,ef,f_type,dirichlet_flag,neuman_flag,varargin{:});
     

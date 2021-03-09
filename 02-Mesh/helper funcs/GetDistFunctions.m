@@ -4,6 +4,7 @@ function fd = GetDistFunctions(dom_type,bdry_flag,varargin)
        
        walls = ["bottom","top","left","right"];
        
+       
        if all(ismember(bdry_flag,walls)) ~= 1
            error ("Boundary flags are not correct! Please check the spell.")
            

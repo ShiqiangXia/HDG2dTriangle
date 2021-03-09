@@ -37,6 +37,7 @@ classdef Parameter
         post_process_flag
         
         % experiment parameters--------------------------------------------
+        precision
         GQ_deg % Gauss Quadrature 
         
         Niter % how many mesh refinements
@@ -81,7 +82,8 @@ classdef Parameter
             cprintf('blue','Set numerical methods parameters... done\n')
         end
         
-        function obj = SetExp(obj, GQ_deg, Niter, refine_flag, report_flag,visualize_flag, varargin)
+        function obj = SetExp(obj,precision, GQ_deg, Niter, refine_flag, report_flag,visualize_flag, varargin)
+            obj.precision = precision;
             obj.GQ_deg =GQ_deg;
             obj.Niter = Niter;
             obj.refine_flag = refine_flag;
