@@ -49,9 +49,13 @@ function ProblemDriver(para)
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
             else
                 if para.refine_flag == 0 % uniform refinement
-                    %hh = para.h0*(0.5^(ii-1));
+                    hh = para.h0*(0.5^(ii-1));
                     %
-                    mymesh = mymesh.UniformRefine();
+                    mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
+                        hh, ...
+                        para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
+                
+                    %mymesh = mymesh.UniformRefine();
                     
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'

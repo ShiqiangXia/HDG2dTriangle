@@ -11,22 +11,23 @@ function para = SetParameters()
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
 
-    uexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
-
-    qexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
-    qexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
-
-    source_f = @(p)2*pi^2*sin(pi*p(:,1)).*(sin(pi*p(:,2)));
-    uD = @(p) 0*p(:,1);
-    uN = @(p) 0*p(:,1);
-    
-    
-%     uexact = @(p) 0*p(:,1)+5;
-%     qexact_1 = @(p) 0*p(:,1);
-%     qexact_2 = @(p) 0*p(:,1);
-%     source_f = @(p) 0*p(:,1);
-%     uD = @(p) 0*p(:,1)+5;
+%     uexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
+% 
+%     qexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
+%     qexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
+% 
+%     source_f = @(p)2 * pi^2 * ( sin(pi*p(:,1)).* sin(pi*p(:,2)) );
+%     uD = uexact;
+%     %uD = @(p) 0*p(:,1);
 %     uN = @(p) 0*p(:,1);
+%     
+    
+    uexact = @(p) p(:,2);
+    qexact_2 = @(p) 0*(p(:,2))-1;
+    qexact_1 = @(p) 0*p(:,2);
+    source_f = @(p) -0*(p(:,2));
+    uD = @(p) p(:,2);
+    uN = @(p) 0*p(:,2);
 
     vexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
     pexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
@@ -46,7 +47,7 @@ function para = SetParameters()
 
     structure_flag = 1;
     dom_type = 'Rec';
-    h0 = 0.5;
+    h0 = 1;
     dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
     %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
@@ -74,7 +75,7 @@ function para = SetParameters()
     %% experiment parameters --------------------------------------------------
     precision = 'double';
     GQ_deg = 10;
-    Niter = 1;
+    Niter = 3;
     refine_flag = 0; % 0: uniform refine, 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     err_cal_flag = 1; % 1: calculate L2 error of uh,qh
     report_flag = 1; 
