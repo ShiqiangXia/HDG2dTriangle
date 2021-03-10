@@ -135,15 +135,12 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
                 if face_id == 5
                     fprintf('test');
                 end
-                if face_mar_flag_temp(face_id) == 0
-                    face_mar_flag_temp(face_id) = 1;
-                    Jk = mymesh.Jacobian_list(element_idx);
-
-                    Global_M(start_id:end_id,start_id:end_id)= Id_mtrix*edge_len_list(ii)*0.5;
-                    % NEED TO DEFINE
-                    Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,ii,edge_len_list(ii),...
-                        k,uD,GQ1DRef_pts,GQ1DRef_wts);
-                end
+                Jk = mymesh.Jacobian_list(element_idx);
+                
+                Global_M(start_id:end_id,start_id:end_id)= Id_mtrix*edge_len_list(ii)*0.5;
+                % NEED TO DEFINE
+                Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,ii,edge_len_list(ii),...
+                    k,uD,GQ1DRef_pts,GQ1DRef_wts);
                 
             elseif bdry_flag == 2 % neuman boundary
                 % Will implement later

@@ -47,7 +47,7 @@ function para = SetParameters()
 
     structure_flag = 1;
     dom_type = 'Rec';
-    h0 = 1;
+    h0 = 0.5;
     dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
     %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
