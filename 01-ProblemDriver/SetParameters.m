@@ -75,7 +75,7 @@ function para = SetParameters()
     %% experiment parameters --------------------------------------------------
     precision = 'double';
     GQ_deg = 10;
-    Niter = 3;
+    Niter = 1;
     refine_flag = 0; % 0: uniform refine, 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     err_cal_flag = 1; % 1: calculate L2 error of uh,qh
     report_flag = 1; 
