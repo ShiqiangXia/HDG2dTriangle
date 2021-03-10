@@ -4,27 +4,28 @@ function ProblemDriver(para)
     Niter = para.Niter;
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
-        
-    mesh_list = zeros(Niter,1,numeric_t);
-    err_uh_list = zeros(Niter,1,numeric_t);
-    err_qh_list = zeros(Niter,1,numeric_t);
+    err_cal_flag = para.err_cal_flag;
+    if err_cal_flag == 1
+        mesh_list = zeros(Niter,1,numeric_t);
+        err_uh_list = zeros(Niter,1,numeric_t);
+        err_qh_list = zeros(Niter,1,numeric_t);
+    end
     
     if strcmp(pb_type(2),'1')
         % eigenvalue problem
         % maybe use matlab inputParser later
         [Neig,Max_iter,Tol_eig] = MyParaParse(para.extra_parameters,...
             'Neig','Max_iter','tol_eig');
-    %             extra_para = para.extra_parameters;
-    %             extra_para = reshape(extra_para,[],2)';
-    %             Neig = extra_para{find(strcmp(extra_para,'Neig')),2};
-        err_lamh_list = zeros(Niter,Neig,numeric_t);
         lamh_list = zeros(Niter,Neig,numeric_t);
+        
+        err_lamh_list = zeros(Niter,Neig,numeric_t);
+        
     end
     
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     
     
-    if para.post_process_flag == 1
+    if para.post_process_flag == 1 && err_cal_flag == 1
         err_uhstar_list = zeros(Niter,1,numeric_t);
         err_qhstar_list = zeros(Niter,1,numeric_t);
     end
@@ -58,7 +59,7 @@ function ProblemDriver(para)
                 end
             end
             
-            mesh_list(ii) = GetDof(mymesh, para.order);
+            
             
             % -------------------------------------------------------------
                        
@@ -77,11 +78,19 @@ function ProblemDriver(para)
             
             elseif  strcmp(pb_type(3),'1') && strcmp(pb_type(2),'1')
                 % Solve Poission eigen problem
-                
-                [lamh,uh,qh,uhat] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+                [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
                 lamh_list(ii) = lamh;
+                
+                
                 err_lamh_list(ii) = EigenError(para,lamh);
+          
+                if err_cal_flag
+                    [tag_eig] = MyParaParse(para.pb_parameters,'tag_eig');
+                    uh = uh_Neig(:,:,:,tag_eig);
+                    qh = qh_Neig(:,:,:,tag_eig);
+                    uhat = uhat_Neig(:,:,:,tag_eig);
+                end
             % -------------------------------------------------------------
             else
                 error('pb type not implemented yet')
@@ -99,27 +108,36 @@ function ProblemDriver(para)
             % -------------------------------------------------------------
             
             % Calculate Error ---------------------------------------------
-            [uexact,qexact]=MyParaParse(para.pb_parameters,'uexact','qexact');
             
-            err_uh_list(ii) = L2Error_scalar(mymesh,uh,...
-                GQ1DRef_pts,GQ1DRef_wts,0,...
-                para.order,uexact);
+            
+            if err_cal_flag
+                
+                mesh_list(ii) = GetDof(mymesh, para.order);
+                
+                [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
+            
+                [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
+                    GQ1DRef_pts,GQ1DRef_wts,0,...
+                    para.order,uexact);
 
-            err_qh_list(ii) = L2Error_vector(mymesh,qh,...
-                GQ1DRef_pts,GQ1DRef_wts,0,...
-                para.order,qexact);
+                [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
+                    GQ1DRef_pts,GQ1DRef_wts,0,...
+                    para.order,qexact_1,qexact_2);
+            end
             
             % post processed error 
             if para.post_process_flag == 1
                 [uhstar,quhstar] = HDG_Local_Postprocess(mymesh,para.order,uh,qh,uhat);
+                
+                if err_cal_flag == 1
+                    err_uhstar_list(ii) = L2Error_scalar(mymesh,uhstar,...
+                        GQ1DRef_pts,GQ1DRef_wts,1,...
+                    para.order,para.pb_parameters);
 
-                err_uhstar_list(ii) = L2Error_scalar(mymesh,uhstar,...
-                    GQ1DRef_pts,GQ1DRef_wts,1,...
-                para.order,para.pb_parameters);
-
-                err_qhstar_list(ii)= L2Error_vector(mymesh,quhstar,...
-                   GQ1DRef_pts,GQ1DRef_wts,1,...
-                para.order,para.pb_parameters);
+                    err_qhstar_list(ii)= L2Error_vector(mymesh,quhstar,...
+                       GQ1DRef_pts,GQ1DRef_wts,1,...
+                    para.order,para.pb_parameters);
+                end
             end
             % ------------------------------------------------------------- 
             
@@ -135,24 +153,28 @@ function ProblemDriver(para)
         end
         
         % Step 4. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        if para.report_flag==1
+        if para.report_flag==1 
             
             ReportProblem(para) 
-            
-            ReportTable('dof', mesh_list,...
-                'err_uh',err_uh_list,...
-                'err_qh',err_qh_list)
-            
-            if para.post_process_flag == 1
-                ReportTable('dof', mesh_list,...
-                    'err_uhstar',err_uhstar_list,...
-                    'err_qhstar',err_qhstar_list)
-            end
             
             if strcmp(pb_type(2),'1')
                 ReportTable('dof', mesh_list,...
                     'lamh',err_lamh_list)
             end
+            
+            if  err_cal_flag == 1
+                ReportTable('dof', mesh_list,...
+                    'err_uh',err_uh_list,...
+                    'err_qh',err_qh_list)
+
+                if para.post_process_flag == 1
+                    ReportTable('dof', mesh_list,...
+                        'err_uhstar',err_uhstar_list,...
+                        'err_qhstar',err_qhstar_list)
+                end
+            end
+            
+            
             
         end
         % -----------------------------------------------------------------
@@ -195,7 +217,7 @@ function ProblemDriver(para)
                 end
             end
             % -------------------------------------------------------------
-            mesh_list(ii) = GetDof(mymesh, para.order);
+            
             
             % Solve -------------------------------------------------------
             if strcmp(pb_type(2),'0') % source problem
@@ -217,43 +239,57 @@ function ProblemDriver(para)
                 
                 [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),mymesh,...
                                                       uh,qh,uhat,source_f,uD,uN,...
-                                                      vh,ph,vhat,source_g,vD,vN);
+                                                      vh,ph,vhat,source_g,vD,vN,...
+                                                      GQ1DRef_pts,GQ1DRef_wts,para.order);
                 Jh_list(ii) = Jh;
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
 
                 % CalError ------------------------------------------------
-                [uexact,qexact]=MyParaParse(para.pb_parameters,'uexact','qexact');
-            
-                err_uh_list(ii) = L2Error_scalar(mymesh,uh,...
-                    GQ1DRef_pts,GQ1DRef_wts,0,...
-                    para.order,uexact);
-
-                err_qh_list(ii) = L2Error_vector(mymesh,qh,...
-                    GQ1DRef_pts,GQ1DRef_wts,0,...
-                    para.order,qexact);
                 
-                [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
-                    = Error_Functional(Jh,Jh_AC,para);
+                
+                if err_cal_flag==1
+                    mesh_list(ii) = GetDof(mymesh, para.order);
+                    
+                    [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
+
+                    [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
+                        GQ1DRef_pts,GQ1DRef_wts,0,...
+                        para.order,uexact);
+
+                    [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
+                        GQ1DRef_pts,GQ1DRef_wts,0,...
+                        para.order,qexact_1,qexact_2);
+
+                    [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
+                        = Error_Functional(Jh,Jh_AC,para);
+                end
 
             elseif strcmp(pb_type(2),'1') % eigenproblem
                 % only need to solve one eigenvlaue problem
                 if strcmp(pb_type(3),'1') % poission eigen problem
                     
-                    [lamh,uh,qh,uhat] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+                    [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
                     lamh_list(ii) = lamh;
                     err_lamh_list(ii) = EigenError(para,lamh);
                     
                 end
                 
-                [lamh2, lamh_AC,ACh,ACh_elewise_list]=EigenvalueFunctional(mymesh,uh,qh,uhat); 
+                [lamh2,lamh_AC,ACh,ACh_elewise_list]=...
+                    EigenvalueFunctional(mymesh,...
+                    uh_Neig,qh_Neig,uhat_Neig,...
+                    GQ1DRef_pts,GQ1DRef_wts,para.order); 
+                
                 lamh2_list(ii) = lamh2;
                 lamh_AC_list(ii) = lamh_AC;
                 ACh_list(ii) = ACh;
                 
-                [err_lamh_list(ii),err_lamh_AC_list(ii)] ...
-                    = Error_Functional(lamh2,lamh_AC,para);
+                if err_cal_flag == 1
+                    
+                    [err_lamh_list(ii),err_lamh_AC_list(ii)] ...
+                        = Error_Functional(lamh2,lamh_AC,para);
+                end
                  
                 
             end
@@ -268,21 +304,26 @@ function ProblemDriver(para)
         end
         
         % Report reulsts---------------------------------------------------
-        if para.report_flag==1
+        if para.report_flag==1 
             
             ReportProblem(para) 
             
             if strcmp(pb_type(2),'0')
-                ReportTable('dof', mesh_list,...
-                    'err_uh',err_uh_list,...
-                    'err_qh',err_qh_list)
-            
+                
                 ReportTable('dof', mesh_list,...
                     'err_Jh',err_Jh_list,...
                     'ACh',ACh_list,...
                     'err_Jh_AC',err_Jh_AC_list)
                 
+                if err_cal_flag==1
+                    ReportTable('dof', mesh_list,...
+                        'err_uh',err_uh_list,...
+                        'err_qh',err_qh_list)
+                end
+           
+                
             elseif strcmp(pb_type(2),'1')
+                
                 ReportTable('dof', mesh_list,...
                     'err_lamh',err_lamh_list,...
                     'ACh',ACh_list,...
