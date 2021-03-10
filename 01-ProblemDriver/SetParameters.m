@@ -36,7 +36,7 @@ function para = SetParameters()
 
     structure_flag = 1;
     dom_type = 'Rec';
-    h0 = 2;
+    h0 = 1;
     dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
     %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
@@ -55,7 +55,7 @@ function para = SetParameters()
 
     %% numerical method parameters---------------------------------------------
 
-    order = 1;
+    order = 0;
     tau = numeric_t('1.0');
     post_process_flag = 0;
 

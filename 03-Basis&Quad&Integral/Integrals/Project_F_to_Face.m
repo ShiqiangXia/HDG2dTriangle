@@ -1,12 +1,10 @@
-function rlt = Project_F_to_Face(Jk,vertice_list,i,...
+function rlt = Project_F_to_Face(Jk,vertice_list,i,edg_len,...
                     k,f,GQ1DRef_pts,GQ1DRef_wts)
                 
      % project function f to the i-th face of the element defined by vertice_list
      rlt = zeros(k+1,1,numeric_t);
      NGQ = length(GQ1DRef_pts);
      V1D = Vandermonde1D(k,GQ1DRef_pts);% legendre polynomail at GQ points
-     [e_list,~] = GetTriFaceInfo(vertice_list);
-     edg_len = e_list(i);
      
      if i == 1
      % edge 1:  r=[-1,1], s= -1

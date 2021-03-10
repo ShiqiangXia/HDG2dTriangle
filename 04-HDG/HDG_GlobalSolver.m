@@ -92,6 +92,9 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
     Id_mtrix = eye(Nuhat,Nuhat, numeric_t);
     for element_idx = 1: num_elements
         ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
+        temp_element = mymesh.element_list(element_idx,:);
+        vertice_list = mymesh.vertices_list(temp_element(:),:);
+        [edge_len_list,~] = GetTriFaceInfo(vertice_list);
         for ii = 1:length(ele_face_idx_list)
             face_id = ele_face_idx_list(ii);
             
@@ -118,19 +121,17 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
                 
                 % -<tau uhat,mu>
                 Global_M(start_id:end_id,start_id:end_id) = ...
-                    Global_M(start_id:end_id,start_id:end_id) - tau*Id_mtrix;
+                    Global_M(start_id:end_id,start_id:end_id) - tau*Id_mtrix*edge_len_list(ii)*0.5;
                      
             elseif bdry_flag == 1 % dirichlet boundary 
                 % dirichlet boundary face 
                 % just simply enforce boundary conditions
-                temp_element = mymesh.element_list(element_idx,:);
-        
-                vertice_list = mymesh.vertices_list(temp_element(:),:);
+                
                 Jk = mymesh.Jacobian_list(element_idx);
                 
-                Global_M(start_id:end_id,start_id:end_id)= Id_mtrix;
+                Global_M(start_id:end_id,start_id:end_id)= Id_mtrix*edge_len_list(ii)*0.5;
                 % NEED TO DEFINE
-                Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,ii,...
+                Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,ii,edge_len_list(ii),...
                     k,uD,GQ1DRef_pts,GQ1DRef_wts);
                 
             elseif bdry_flag == 2 % neuman boundary
