@@ -16,7 +16,7 @@ function para = SetParameters()
 
     %source_f = @(p)2*pi^2*sin(pi*p(:,1)).*(sin(pi*p(:,2)));
     source_f = @(p) 0*p(:,1);
-    uD = @(p) 0*p(:,1)+5;
+    uD = @(p) 0*p(:,1)+5*p(:,1);
     uN = @(p) 0*p(:,1);
 
     vexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
