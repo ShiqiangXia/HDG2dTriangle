@@ -12,7 +12,7 @@ function [Pr,Ps] = Grad_Basis_u_ref(a,b,i,j)
     Pb = numeric_t('sqrt(2.0)')*g1.*g3.*(1-b).^i ...
         + numeric_t('sqrt(2.0)')*g1.*g2.*(-i*(1-b).^(i-1));
 
-    Pr = 2.0/(1-b)*Pa;
-    Ps = (a+1)/(1-b) * Pa+Pb;
+    Pr = (2.0./(1-b)).*Pa;
+    Ps = ((a+1)./(1-b)).*Pa+Pb;
    
 end

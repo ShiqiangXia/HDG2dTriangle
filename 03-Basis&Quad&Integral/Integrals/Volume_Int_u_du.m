@@ -30,7 +30,6 @@ function [Auur,Auus] = Volume_Int_u_du(k,GQ1DRef_pts,GQ1DRef_wts)
             temp1 = V2D(:,ct);
             temp1 = reshape(temp1,[],NGQ);
             sk = 1;
-            
             for mm = 0:k
                 for nn = 0:k-mm
                     

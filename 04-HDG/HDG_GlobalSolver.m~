@@ -119,7 +119,7 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
                        Bd_Int_mat * List_LocSol(:,:,element_idx,jj) ;
                 end
                 
-                Global_b(start_id:end_id,1) =Global_b(start_id:end_id,1)-Bd_Int_mat*List_LocSol_f(:,element_idx);
+                Global_b(start_id:end_id,1) = -Bd_Int_mat*List_LocSol_f(:,element_idx);
                 
                 % -<tau uhat,mu>
                 Global_M(start_id:end_id,start_id:end_id) = ...

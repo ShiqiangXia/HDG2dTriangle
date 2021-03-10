@@ -16,8 +16,8 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     [~,Inv_AffineMap] = Ref_Tri_Map(Jk,vertice_list);
     
                         
-    temp1 = Jk*(Auur*Inv_AffineMap(1,1) + Auus*Inv_AffineMap(1,2));
-    temp2 = Jk*(Auur*Inv_AffineMap(2,1) + Auus*Inv_AffineMap(2,2));
+    temp1 = Jk*(Auur*Inv_AffineMap(1,1) + Auus*Inv_AffineMap(2,1));
+    temp2 = Jk*(Auur*Inv_AffineMap(1,2) + Auus*Inv_AffineMap(2,2));
     
     Muq = [temp1,temp2];
     
