@@ -1,4 +1,4 @@
-function para = SetParameters(order,h0,Niter)
+function para = SetParameters(order)
     
 
 
@@ -45,10 +45,10 @@ function para = SetParameters(order,h0,Niter)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 0;
-    dom_type = 'CirHole'; %'Rec';
-    %h0 = 0.5;
-    dirichlet_flag = ["InnerCircle","OuterCircle"];%["bottom","top","left","right"];
+    structure_flag = 1;
+    dom_type = 'Rec';
+    h0 = 0.5;
+    dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
     %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
     % 'Rec': ["bottom","top","left","right"]
@@ -56,22 +56,13 @@ function para = SetParameters(order,h0,Niter)
     % 'Cir': ["Circle"]
     % 'CirHole': ["InnerCircle","OuterCircle"]
 
-%     x1 = 0;
-%     y1 = 0;
-%     x2 = 1;
-%     y2 = 1;
-%     tri_dir = 0;
-
     x1 = 0;
     y1 = 0;
-    r1 = 1;
-    x2=0.2;
-    y2=0.2;
-    r2=0.5;
-    
+    x2 = 1;
+    y2 = 1;
+    tri_dir = 0;
 
-    %para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
-    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,r1,x2,y2,r2);
+    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
 
     %% numerical method parameters---------------------------------------------
 
@@ -84,11 +75,8 @@ function para = SetParameters(order,h0,Niter)
     %% experiment parameters --------------------------------------------------
     precision = 'double';
     GQ_deg = 10;
-    %Niter = 3;
-    refine_flag = -1; 
-    % 0: uniform refine,
-    % -1: build new mesh based on h
-    % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
+    Niter = 3;
+    refine_flag = 0; % 0: uniform refine, 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     err_cal_flag = 1; % 1: calculate L2 error of uh,qh
     report_flag = 1; 
     visualize_flag = 0;

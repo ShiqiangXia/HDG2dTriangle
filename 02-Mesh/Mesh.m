@@ -86,6 +86,8 @@ classdef Mesh
         
         function Plot(obj,vertex_flag)
             
+            bcol=[.8,.9,1];
+            
             figure;
             
             p = obj.vertices_list;
@@ -101,25 +103,29 @@ classdef Mesh
             
             nvertice = length(p);
             labs = 1:nvertice;
-            triplot(e,p(:,1),p(:,2));
+            trimesh(e,p(:,1),p(:,2),0*p(:,1),'facecolor',bcol,'edgecolor','k');
             hold on;
             plot(p(:,1),p(:,2),'k.',...
                 p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
                 p(nodes_neuman,1),p(nodes_neuman,2),'bd')
             
             if isempty(nodes_dirichlet) && isempty(nodes_neuman)
-                legend('faces','vertices');
+                legend('element','vertices');
             elseif isempty(nodes_dirichlet)
-                legend('faces','vertices', 'neuman')
+                legend('element','vertices', 'neuman')
             elseif isempty(nodes_neuman)
-                legend('faces','vertices', 'dirichlet')
+                legend('element','vertices', 'dirichlet')
             else
-                legend('faces','vertices','dirichlet', 'neuman');
+                legend('element','vertices','dirichlet', 'neuman');
             end
+           
             
             if   vertex_flag && nvertice < 150
                 labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
             end
+            view(2)
+            axis equal
+            ax=axis;axis(ax*1.001);
             if nvertice>=150
                 cprintf('UnterminatedStrings', '%d vertices are too many to plot, so I ignored them.\n',nvertice);
             end

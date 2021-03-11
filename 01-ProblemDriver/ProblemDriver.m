@@ -49,13 +49,16 @@ function ProblemDriver(para)
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
             else
                 if para.refine_flag == 0 % uniform refinement
+                   
+                    mymesh = mymesh.UniformRefine();
+                    
+                elseif para.refine_flag == -1 % build a new mesh with h
+                    
                     hh = para.h0*(0.5^(ii-1));
-                    %
+                    
                     mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                         hh, ...
                         para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
-                
-                    %mymesh = mymesh.UniformRefine();
                     
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
@@ -147,6 +150,9 @@ function ProblemDriver(para)
             
             
             % visualization -----------------------------------------------
+            if ii == Niter
+                mymesh.Plot(1);
+            end
             if ii == Niter && para.visualize_flag==1
                 basis_flag = 0;
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
@@ -162,19 +168,23 @@ function ProblemDriver(para)
             ReportProblem(para) 
             
             if strcmp(pb_type(2),'1')
-                ReportTable('dof', mesh_list,...
+                ReportTable('DOF', mesh_list,...
                     'lamh',err_lamh_list)
             end
             
             if  err_cal_flag == 1
-                ReportTable('dof', mesh_list,...
-                    'err_uh',err_uh_list,...
-                    'err_qh',err_qh_list)
+                order_uh = GetOrder(mesh_list,err_uh_list);
+                order_qh = GetOrder(mesh_list,err_qh_list);
+                ReportTable('DOF', mesh_list,...
+                    'err_uh',err_uh_list,'order', order_uh,...
+                    'err_qh',err_qh_list,'order',order_qh)
 
                 if para.post_process_flag == 1
-                    ReportTable('dof', mesh_list,...
-                        'err_uhstar',err_uhstar_list,...
-                        'err_qhstar',err_qhstar_list)
+                    order_uhstar = GetOrder(mesh_list,err_uhstar_list);
+                    order_qhstar = GetOrder(mesh_list,err_qhstar_list);
+                    ReportTable('DOF', mesh_list,...
+                        'err_uhstar',err_uhstar_list,'order',order_uhstar,...
+                        'err_qhstar',err_qhstar_list,'order',order_qhstar )
                 end
             end
             
