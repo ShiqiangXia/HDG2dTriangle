@@ -15,6 +15,8 @@ classdef Mesh
         
         Jacobian_list % the jacobian for mapping to the ref element 
         
+        uhat_dir_list
+        
         f_type; % Num_facesx1, record the type of each face
         
         % 0: interior
@@ -43,6 +45,8 @@ classdef Mesh
             obj.num_elements = ne;
             
             obj.Jacobian_list = TriJacobian(p,e);
+            
+            obj.uhat_dir_list = GetUhatOritation(e);
             
             if nf == 3
                 obj.mesh_type = 'Tri';

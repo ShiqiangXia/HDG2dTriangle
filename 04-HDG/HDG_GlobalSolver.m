@@ -52,11 +52,13 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
         vertice_list = mymesh.vertices_list(temp_element(:),:);
         Jk = mymesh.Jacobian_list(element_idx);
         
+        uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
+        
         % Local equation matrices
         if strcmp(pb,'1')
             [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
                                     Jk,vertice_list,tau,...
-                                       Aqq,Auur,Auus,Auu3,Buuhat3);
+                                       Aqq,Auur,Auus,Auu3,Buuhat3,uhat_dir_list);
         end
         
         % Local solver Q,U
@@ -92,10 +94,15 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
     Id_mtrix = eye(Nuhat,Nuhat, numeric_t);
     
     face_mar_flag_temp = zeros(num_faces,1);
+    
     for element_idx = 1: num_elements
+        
         ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
         temp_element = mymesh.element_list(element_idx,:);
         vertice_list = mymesh.vertices_list(temp_element(:),:);
+        
+        uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
+        
         [edge_len_list,~] = GetTriFaceInfo(vertice_list);
         for ii = 1:length(ele_face_idx_list)
             face_id = ele_face_idx_list(ii);
@@ -141,7 +148,8 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
 
                     Global_M(start_id:end_id,start_id:end_id)= Id_mtrix*edge_len_list(ii)*0.5;
                     % NEED TO DEFINE
-                    Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,ii,edge_len_list(ii),...
+                    Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,...
+                        ii,uhat_dir_list(1,ii),edge_len_list(ii),...
                         k,uD,GQ1DRef_pts,GQ1DRef_wts);
                 end
                 

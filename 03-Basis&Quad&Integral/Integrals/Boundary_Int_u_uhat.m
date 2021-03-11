@@ -8,7 +8,7 @@ function Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     
     V1D = Vandermonde1D(k,GQ1DRef_pts);% legendre polynomail at GQ points
     
-    % edge 1:  r=[-1,1], s= -1
+    % edge 1:  r=[-1,1], s= -1 , V1---> V2
     
     r1 = GQ1DRef_pts;
     s1 = -1*ones(NGQ,1,numeric_t);
@@ -34,10 +34,11 @@ function Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     
     
     
-    % edge 2:  r=[-1,1], s= -r
+    % edge 2:  r=-s, s=[-1,1]  V2--->V3
     
-    r2 = GQ1DRef_pts;
-    s2 = -r2;
+    s2 = GQ1DRef_pts;
+    r2 = -s2;
+    
     [a2,b2] = RStoAB(r2,s2);
     
     V2D2 = Vandermonde2D(k,a2,b2);
@@ -56,10 +57,10 @@ function Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
         end
     end
     
-    % edge 3:  r=-1, s= [-1,1]
+    % edge 3:  r=-1, s= [1,-1]  V3--->V1
     
     r3 = -1*ones(NGQ,1,numeric_t);
-    s3 = GQ1DRef_pts;
+    s3 = - GQ1DRef_pts;
     
     
     [a3,b3] = RStoAB(r3,s3);
