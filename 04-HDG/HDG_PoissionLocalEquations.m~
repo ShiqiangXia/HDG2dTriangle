@@ -8,7 +8,7 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     [~,Nuhat,~] = size(Buuhat3);
     
     dir_vec = GetDirVec(Nuhat); % correct the uhat oritation 
-    dir_vec = dir_vec';
+    dir
     
     %---------------------------------------------------------------------
     % M_loc

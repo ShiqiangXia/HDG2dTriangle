@@ -36,12 +36,11 @@ function rlt = Project_F_to_Face(Jk,vertice_list,i,uhat_dir,edg_len,...
          rlt(jj,1) = 0.5*edg_len*GQ1DRef_wts'*(f_VD.*V1D(:,jj));
      end
      
-     if dir == 0
+     if uhat_dir == 0
          
-         Vmat = Vandermonde1D(k,-1);
-         Vmat = Vmat';
+         dir_vec = GetDirVec(k+1);
          
-         rlt = rlt.*Vmat;
+         rlt = rlt.*dir_vec;
 
      end
                

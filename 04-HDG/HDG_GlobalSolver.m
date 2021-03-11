@@ -93,7 +93,7 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
     Global_b = numeric_t(sparse(Nuhat*num_faces,1));
     Id_mtrix = eye(Nuhat,Nuhat, numeric_t);
     
-    face_mar_flag_temp = zeros(num_faces,1);
+    %face_mar_flag_temp = zeros(num_faces,1);
     
     for element_idx = 1: num_elements
         
@@ -111,8 +111,8 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
             end_id = face_id*Nuhat;
          
             bdry_flag = mymesh.f_type(face_id);
-            cprintf('red','testing... set bdry_flag\n ');
-            bdry_flag = 1; % just for test purpose.
+            
+            %bdry_flag = 1; % just for test purpose.
             
             if bdry_flag == 0 % interior face
                 
@@ -139,19 +139,19 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
             elseif bdry_flag == 1 % dirichlet boundary 
                 % dirichlet boundary face 
                 % just simply enforce boundary conditions
-                if face_id == 5
-                    fprintf('test');
-                end
-                if face_mar_flag_temp(face_id) == 0
-                    face_mar_flag_temp(face_id) = 1;
-                    Jk = mymesh.Jacobian_list(element_idx);
+%                 if face_id == 5
+%                     fprintf('test');
+%                 end
+                %if face_mar_flag_temp(face_id) == 0
+                %face_mar_flag_temp(face_id) = 1;
+                Jk = mymesh.Jacobian_list(element_idx);
 
-                    Global_M(start_id:end_id,start_id:end_id)= Id_mtrix*edge_len_list(ii)*0.5;
-                    % NEED TO DEFINE
-                    Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,...
-                        ii,uhat_dir_list(1,ii),edge_len_list(ii),...
-                        k,uD,GQ1DRef_pts,GQ1DRef_wts);
-                end
+                Global_M(start_id:end_id,start_id:end_id)= Id_mtrix*edge_len_list(ii)*0.5;
+                % NEED TO DEFINE
+                Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,...
+                    ii,uhat_dir_list(1,ii),edge_len_list(ii),...
+                    k,uD,GQ1DRef_pts,GQ1DRef_wts);
+                %end
                 
             elseif bdry_flag == 2 % neuman boundary
                 % Will implement later
