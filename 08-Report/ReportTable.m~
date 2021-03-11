@@ -1,7 +1,0 @@
-function ReportTable(varargin)
-    
-    for ii = 2:2:nargin
-        fprintf('%6.2e',varargin{ii})
-    end
-    fprintf('\n')
-end

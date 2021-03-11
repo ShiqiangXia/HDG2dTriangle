@@ -9,8 +9,7 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     
     dir_vec = GetDirVec(Nuhat); % correct the uhat oritation 
     dir_vec = dir_vec';
-    % uh_hat has to have a unqiue oritation, we use the oritentiaon:
-    % small_verice_idx ---> large_vertice_idx
+    % uh_hat has to have a unqiue oritation, we use the oritentiaon: low_veri
     % the local matrix Buuhat3 = <uhat,u> is using the counterclock wise
     % orientation. it's not unique in two triangles, so we need to fix it. 
     % the difference is legendre_i(-x) = (-1)^i*legendre_i(x)
