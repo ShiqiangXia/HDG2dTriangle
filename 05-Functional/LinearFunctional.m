@@ -58,6 +58,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              
              uh_coeff = uh(:,element_idx);
              vh_coeff = vh(:,element_idx);
+             
              qh_coeff = qh(:,element_idx);
              ph_coeff = ph(:,element_idx);
              
@@ -85,8 +86,6 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              f_VD = source_f([x_list,y_list]);
              vh_pts = V2D * (vh_coeff); % uh on Gauss points
              vh_pts = reshape(vh_pts,[],NGQ);
-             
-             
              
                 %(f,vh)
             
