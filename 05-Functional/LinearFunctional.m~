@@ -1,6 +1,6 @@
 function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,mymesh,...
-        uh,qh,uhat,source_f,...
-        vh,ph,vhat,source_g,...
+        uh,qh,uhat,source_f,uD,uN,...
+        vh,ph,vhat,source_g,vD,vN,...
         GQ1DRef_pts,GQ1DRef_wts,k,tau,post_flag)
     % compute the linear functiona and adjoint correction terms
     
@@ -16,11 +16,14 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
     Nuhat = k+1;
     NGQ = length(GQ1DRef_pts);
     
-    num_elements = mymesh.num_elements; 
+    num_elements = mymesh.num_elements;
+    num_faces = mymesh.num_faces; 
     
     Id_mtrix = eye(Nuhat,Nuhat, numeric_t);
     
-    Jh = 0.0;
+    Jh = 0;
+    ACh_elewise_list = zeros(num_elements,1,numeric_t);
+    
     
     % Get Gauss Quadpoints on the square
     [a_list,b_list,Jacobian_rs_to_ab]= GetRefQuadPt(GQ1DRef_pts);
@@ -173,16 +176,10 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              
          end
          
-         ACh_elewise_list = ACh1_elewise_list +  ACh2_elewise_list...
-                            + ACh3_elewise_list + ACh4_elewise_list;
+         
          
      end
 
     else
     end
-    
-    
-    ACh = sum(ACh_elewise_list);
-    Jh_AC = Jh + ACh;
-    
 end

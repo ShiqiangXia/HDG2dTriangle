@@ -6,7 +6,7 @@ function para = SetParameters(order,h0,Niter)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 1010;
+    pb_type = 2011;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)

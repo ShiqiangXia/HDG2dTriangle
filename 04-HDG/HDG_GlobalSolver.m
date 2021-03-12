@@ -56,23 +56,24 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
         
         % Local equation matrices
         if strcmp(pb,'1')
-            [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
+            [Ns,M_Loc] = HDG_PoissionLocalEquations(...
                                     Jk,vertice_list,tau,...
                                        Aqq,Auur,Auus,Auu3,Buuhat3,uhat_dir_list);
         end
         
         % Local solver Q,U
         % M_loc^-1 * N_i
+        for jj = 1:3
+            List_LocSol(:,:,element_idx,jj) = M_Loc\Ns(:,:,jj);
+            List_Ns(:,:,element_idx,jj) = [-Ns(1:Nq,:,jj);Ns(Nq+1:end,:,jj)];
+        end
         
-        List_LocSol(:,:,element_idx,1) = M_Loc\N_1;
-        List_Ns(:,:,element_idx,1) = [-N_1(1:Nq,:);N_1(Nq+1:end,:)];
-        
-        List_LocSol(:,:,element_idx,2) = M_Loc\N_2;
-        List_Ns(:,:,element_idx,2) = [-N_2(1:Nq,:);N_2(Nq+1:end,:)];
-        
-        List_LocSol(:,:,element_idx,3) = M_Loc\N_3;
-        List_Ns(:,:,element_idx,3) = [-N_3(1:Nq,:);N_3(Nq+1:end,:)];
-        
+%         List_LocSol(:,:,element_idx,2) = M_Loc\N_2;
+%         List_Ns(:,:,element_idx,2) = [-N_2(1:Nq,:);N_2(Nq+1:end,:)];
+%         
+%         List_LocSol(:,:,element_idx,3) = M_Loc\N_3;
+%         List_Ns(:,:,element_idx,3) = [-N_3(1:Nq,:);N_3(Nq+1:end,:)];
+%         
         % Compute the projection of source_f
         Proj_f = zeros(Nq+Nu,1,numeric_t);
         

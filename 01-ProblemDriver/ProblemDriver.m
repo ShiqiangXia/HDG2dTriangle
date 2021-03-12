@@ -212,8 +212,11 @@ function ProblemDriver(para)
             error('Wrong problem type')
         end
         
+        cprintf('blue','--------------------------------\n')
+        cprintf('blue','Starting solving functional problem\n')
+        
         for ii = 1:Niter
-            
+            cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
             if ii == 1
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
@@ -221,9 +224,17 @@ function ProblemDriver(para)
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
             else
                 if para.refine_flag == 0 % uniform refinement
-                    %hh = para.h0*(0.5^(ii-1));
-                    %
+                    
                     mymesh = mymesh.UniformRefine();
+                    
+                elseif para.refine_flag == -1 % build a new mesh with h
+                    
+                    hh = para.h0*(0.5^(ii-1));
+                    
+                    mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
+                        hh, ...
+                        para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
+                    
                     
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
@@ -251,10 +262,10 @@ function ProblemDriver(para)
                     error('Wrong problem type.')
                 end
                 
-                [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),mymesh,...
-                                                      uh,qh,uhat,source_f,uD,uN,...
-                                                      vh,ph,vhat,source_g,vD,vN,...
-                                                      GQ1DRef_pts,GQ1DRef_wts,para.order);
+                [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),pb_type(3),mymesh,...
+                                                      uh,qh,uhat,source_f,...
+                                                      vh,ph,vhat,source_g,...
+                                                      GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
                 Jh_list(ii) = Jh;
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;

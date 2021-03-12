@@ -1,11 +1,12 @@
-function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
+function [Ns,M_Loc] = HDG_PoissionLocalEquations(...
         Jk,vertice_list,tau,Aqq,Auur,Auus,Auu3,Buuhat3,uhat_dir_list)
     
     % Jk is the jacobian of the element
     % vertice_list [x1,y1;x2,y2;x3,y3]--?counterclockwise as the element vertice index
     % HDG tau
     
-    [~,Nuhat,~] = size(Buuhat3);
+    [Nu,Nuhat,~] = size(Buuhat3);
+    [Nq,~] = size(Aqq);
     
     dir_vec = GetDirVec(Nuhat); % correct the uhat oritation 
     dir_vec = dir_vec';
@@ -42,6 +43,8 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     % N_1,N_2,N_3
     %scale_factor = numeric_t('sqrt(2)'); 
     
+    
+    
     N_1=0.5*e_list(1)* [-n1(1)*Buuhat3(:,:,1);...
         -n1(2)*Buuhat3(:,:,1);...
         tau*Buuhat3(:,:,1)];
@@ -68,5 +71,10 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
         N_3 = N_3.*dir_vec;
     end
     
+    
+    Ns = zeros(Nq+Nu,Nuhat,3,numeric_t);
+    Ns(:,:,1) = N_1;
+    Ns(:,:,2) = N_2;
+    Ns(:,:,3) = N_3;
     
 end

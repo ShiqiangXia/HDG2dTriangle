@@ -5,11 +5,13 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     % vertice_list [x1,y1;x2,y2;x3,y3]--?counterclockwise as the element vertice index
     % HDG tau
     
-    [~,Nuhat,~] = size(Buuhat3);
+    [Nu,Nuhat,~] = size(Buuhat3);
+    [Nq,~] = size(Aqq);
     
     dir_vec = GetDirVec(Nuhat); % correct the uhat oritation 
     dir_vec = dir_vec';
-    % uh_hat has to have a unqiue oritation, we use the oritentiaon: low_veri
+    % uh_hat has to have a unqiue oritation, we use the oritentiaon:
+    % small_verice_idx ---> large_vertice_idx
     % the local matrix Buuhat3 = <uhat,u> is using the counterclock wise
     % orientation. it's not unique in two triangles, so we need to fix it. 
     % the difference is legendre_i(-x) = (-1)^i*legendre_i(x)
@@ -40,6 +42,8 @@ function [N_1,N_2,N_3,M_Loc] = HDG_PoissionLocalEquations(...
     %---------------------------------------------------------------------
     % N_1,N_2,N_3
     %scale_factor = numeric_t('sqrt(2)'); 
+    
+    
     
     N_1=0.5*e_list(1)* [-n1(1)*Buuhat3(:,:,1);...
         -n1(2)*Buuhat3(:,:,1);...
