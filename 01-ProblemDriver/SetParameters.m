@@ -46,32 +46,40 @@ function para = SetParameters(order,h0,Niter)
     %% domain and mesh parameters----------------------------------------------
 
     structure_flag = 0;
-    dom_type = 'CirHole'; %'Rec';
     %h0 = 0.5;
-    dirichlet_flag = ["InnerCircle","OuterCircle"];%["bottom","top","left","right"];
+    
+    dom_type = 'Rec';
+    dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
+    x1 = 0;
+    y1 = 0;
+    x2 = 1;
+    y2 = 1;
+    tri_dir = 0;
+    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
+    
+
+%      
+%     dom_type = 'CirHole'; 
+%     dirichlet_flag = ["InnerCircle","OuterCircle"];
+%     neuman_flag = [];
+%     x1 = 0;
+%     y1 = 0;
+%     r1 = 1;
+%     x2=0.2;
+%     y2=0.2;
+%     r2=0.5;
+%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,r1,x2,y2,r2);
+%     
+    
     %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
     % 'Rec': ["bottom","top","left","right"]
     % 'L': ["bottom","left","right_low","right_high","top_low","top_high"]
     % 'Cir': ["Circle"]
     % 'CirHole': ["InnerCircle","OuterCircle"]
 
-%     x1 = 0;
-%     y1 = 0;
-%     x2 = 1;
-%     y2 = 1;
-%     tri_dir = 0;
 
-    x1 = 0;
-    y1 = 0;
-    r1 = 1;
-    x2=0.2;
-    y2=0.2;
-    r2=0.5;
     
-
-    %para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
-    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,r1,x2,y2,r2);
 
     %% numerical method parameters---------------------------------------------
 
