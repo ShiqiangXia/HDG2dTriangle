@@ -64,7 +64,7 @@ function ReportProblem(para)
     fprintf('order k = %d\n', para.order);
     fprintf('Refinement: %s\n',ref);
     
-    fprintf('------------------------------\n')
+    
         
     
     

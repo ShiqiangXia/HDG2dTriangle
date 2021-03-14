@@ -287,7 +287,7 @@ function ProblemDriver(para)
                         para.order,qexact_1,qexact_2);
 
                     [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
-                        = Error_Functional(Jh,Jh_AC,para);
+                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,0);
                 end
 
             elseif strcmp(pb_type(2),'1') % eigenproblem
@@ -312,8 +312,8 @@ function ProblemDriver(para)
                 
                 if err_cal_flag == 1
                     
-                    [err_lamh_list(ii),err_lamh_AC_list(ii)] ...
-                        = Error_Functional(lamh2,lamh_AC,para);
+                    [err_lamh_list(ii),err_lamh_AC_list(ii),~] ...
+                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,lamh2,lamh_AC,1);
                 end
                  
                 
@@ -334,16 +334,19 @@ function ProblemDriver(para)
             ReportProblem(para) 
             
             if strcmp(pb_type(2),'0')
-                
-                ReportTable('dof', mesh_list,...
-                    'err_Jh',err_Jh_list,...
+                order_Jh = GetOrder(mesh_list,err_Jh_list);
+                order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
+                ReportTable('DOF', mesh_list,...
+                    'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,...
-                    'err_Jh_AC',err_Jh_AC_list)
+                    'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
                 
                 if err_cal_flag==1
-                    ReportTable('dof', mesh_list,...
-                        'err_uh',err_uh_list,...
-                        'err_qh',err_qh_list)
+                    order_uh = GetOrder(mesh_list,err_uh_list);
+                    order_qh = GetOrder(mesh_list,err_qh_list);
+                    ReportTable('DOF', mesh_list,...
+                        'err_uh',err_uh_list,'order', order_uh,...
+                        'err_qh',err_qh_list,'order',order_qh)
                 end
            
                 

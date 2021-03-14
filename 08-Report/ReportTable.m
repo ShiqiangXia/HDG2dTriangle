@@ -1,4 +1,5 @@
 function ReportTable(varargin)
+    fprintf('------------------------------\n')
     N = size(varargin{2});
     for ii = 1:2:nargin
         fprintf('%-10s  ',varargin{ii});
