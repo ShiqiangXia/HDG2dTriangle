@@ -51,7 +51,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              %   preparation ----------------------------------------------
              temp_element = mymesh.element_list(element_idx,:);
              vertice_list = mymesh.vertices_list(temp_element(:),:);
-             ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
+             element_faces_list  = mymesh.element_faces_list(element_idx,:);
              Jk = mymesh.Jacobian_list(element_idx);
              uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
              [edge_len_list,~] = GetTriFaceInfo(vertice_list);
@@ -72,6 +72,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              [x_list,y_list] = RStoXY(r_list,s_list,Jk,vertice_list);
              
              g_VD = source_g([x_list,y_list]);
+             g_VD = reshape(g_VD,[],NGQ);
              
              uh_pts = V2D * (uh_coeff); % uh on Gauss points
              uh_pts = reshape(uh_pts,[],NGQ);
@@ -84,6 +85,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              ACh1 = 0.0;
              
              f_VD = source_f([x_list,y_list]);
+             f_VD = reshape(f_VD,[],NGQ);
              vh_pts = V2D * (vh_coeff); % uh on Gauss points
              vh_pts = reshape(vh_pts,[],NGQ);
              
@@ -102,13 +104,13 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
                 % + <tau*(uh_hat),vh>
                 
              temp_uhat_vh = 0.0 ;
-             for ii = 1:length(ele_face_idx_list)
+             for ii = 1:length(element_faces_list)
                  face_idx = element_faces_list(ii);
                  temp_uhat = uhat((face_idx-1)*Nuhat+1:face_idx*Nuhat);
                  
                  Bwuhat = Ns(Nq+1:end,:,ii)  ;
                  temp_1= (vh_coeff)' * Bwuhat * temp_uhat;
-                 ACh1 = ACh1 + temp;
+                 ACh1 = ACh1 + temp_1;
                  
                  temp_uhat_vh  = temp_uhat_vh + temp_1;
              end
@@ -124,7 +126,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              ACh2 = ACh2 + ph_coeff' * Mrq * qh_coeff;
              ACh2 = ACh2 + ph_coeff' * Mru * uh_coeff;
              
-             for ii = 1:length(ele_face_idx_list)
+             for ii = 1:length(element_faces_list)
                  face_idx = element_faces_list(ii);
                  temp_uhat = uhat((face_idx-1)*Nuhat+1:face_idx*Nuhat);
                  Bruhat = -Ns(1:Nq,:,ii)  ;
@@ -138,7 +140,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              
              ACh3 = 0.0;
              temp_uhuhat_vhat = 0.0;
-             for ii = 1:length(ele_face_idx_list)
+             for ii = 1:length(element_faces_list)
                  face_idx = element_faces_list(ii);
                  
                  temp_vhat = vhat((face_idx-1)*Nuhat+1:face_idx*Nuhat);
