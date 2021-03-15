@@ -5,7 +5,8 @@ function PlotElementWiseValue(mymesh,estimator,title_text)
     figure;
     myfigure = trisurf(e,p(:,1),p(:,2),0*p(:,1));
     temp = abs(estimator);
-    max_err = max(temp);
+    %temp = estimator;
+    %max_err = max(temp);
     
     color_list = temp;%/max_err;
     

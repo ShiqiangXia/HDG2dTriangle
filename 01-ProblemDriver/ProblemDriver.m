@@ -272,9 +272,7 @@ function ProblemDriver(para)
                 Jh_list(ii) = Jh;
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
-                % Plot estimator
-                title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+                
 
                 % CalError ------------------------------------------------
                 
@@ -292,7 +290,7 @@ function ProblemDriver(para)
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,qexact_1,qexact_2);
                     
-                    PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
+                    %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
                     [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,0);
@@ -301,7 +299,7 @@ function ProblemDriver(para)
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,vexact);
-                    PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
+                    %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
                     
                 end
 
@@ -338,6 +336,11 @@ function ProblemDriver(para)
             if para.refine_flag == 1
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
+                %marked_elements = ACh_ErrEstimate(err_uh_elewise,tol_adp,percent);
+                
+                % Plot estimator
+                title_text = append('ACh element-wise, mesh: ',num2str(ii));
+                %PlotElementWiseValue(mymesh,err_uh_elewise,title_text);
                 
             end
             % -------------------------------------------------------------

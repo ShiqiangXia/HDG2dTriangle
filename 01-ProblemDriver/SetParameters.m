@@ -73,7 +73,7 @@ function para = SetParameters(order,h0,Niter)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 0;
+    structure_flag = 1;
     %h0 = 0.5;
     
     dom_type = 'Rec';
@@ -83,7 +83,7 @@ function para = SetParameters(order,h0,Niter)
     y1 = 0;
     x2 = 1;
     y2 = 1;
-    tri_dir = 1;
+    tri_dir = 0;
     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
     
 
