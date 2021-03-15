@@ -340,7 +340,7 @@ function ProblemDriver(para)
                 
                 % Plot estimator
                 title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                %PlotElementWiseValue(mymesh,err_uh_elewise,title_text);
+                PlotElementWiseValue(mymesh,marked_elements,title_text);
                 
             end
             % -------------------------------------------------------------
@@ -368,7 +368,7 @@ function ProblemDriver(para)
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
-                    'ACh',ACh_list,...
+                    'ACh',ACh_list,'|err/ach|', abs(err_Jh_list./ACh_list),...
                     'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
                 
                 figure;

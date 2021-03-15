@@ -1,10 +1,10 @@
-function PlotElementWiseValue(mymesh,values_ele,title_text)
+function PlotElementWiseValue(mymesh,valu,title_text)
     
     p = mymesh.vertices_list;
     e = mymesh.element_list;
     figure;
     myfigure = trisurf(e,p(:,1),p(:,2),0*p(:,1));
-    temp = abs(values_ele);
+    temp = abs(estimator);
     %temp = estimator;
     %max_err = max(temp);
     

@@ -48,20 +48,29 @@ function para = SetParameters(order,h0,Niter)
     
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
-%     vexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
-%     pexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
-%     pexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
-% 
-%     source_g = @(p)2*pi^2*sin(pi*p(:,1)).*(sin(pi*p(:,2)));
-%     vD = @(p) 0*p(:,1);
-%     vN = @(p) 0*p(:,1);
-    
-    vexact = @(p) (p(:,1)-p(:,1).^2).*(p(:,2)-p(:,2).^2) ;
-    pexact_2 = @(p) (1-2*p(:,1)).*(p(:,2)-p(:,2).^2);
-    pexact_1 = @(p) (p(:,1)-p(:,1).^2).*(1- 2*p(:,2));
-    source_g = @(p) 2*(p(:,1) + p(:,2) - p(:,1).^2 - p(:,2).^2);
+    mypi = 2*pi;
+    vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+    pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+    pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+
+    source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
     vD = @(p) 0*p(:,1);
     vN = @(p) 0*p(:,1);
+    
+%     vexact = @(p) (p(:,1)-p(:,1).^2).*(p(:,2)-p(:,2).^2) ;
+%     pexact_2 = @(p) (1-2*p(:,1)).*(p(:,2)-p(:,2).^2);
+%     pexact_1 = @(p) (p(:,1)-p(:,1).^2).*(1- 2*p(:,2));
+%     source_g = @(p) 2*(p(:,1) + p(:,2) - p(:,1).^2 - p(:,2).^2);
+%     vD = @(p) 0*p(:,1);
+%     vN = @(p) 0*p(:,1);
+% 
+%     vexact = @(p)0*p(:,1);
+%     pexact_1 = @(p)0*p(:,1);
+%     pexact_2 = @(p)0*p(:,1);
+% 
+%     source_g = @(p)exp(p(:,1)+p(:,2));
+%     vD = @(p) 0*p(:,1);
+%     vN = @(p) 0*p(:,1);
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -134,7 +143,7 @@ function para = SetParameters(order,h0,Niter)
     tol_eig = 1e-8;
 
     tol_adp = 1e-6;
-    percent = 0.5;
+    percent = 0.3;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
