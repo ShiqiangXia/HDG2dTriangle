@@ -12,12 +12,12 @@ function para = SetParameters(order,h0,Niter)
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-    uexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2))+7;
-    qexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
-    qexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
-    source_f = @(p)2 * pi^2 * ( sin(pi*p(:,1)).* sin(pi*p(:,2)) );
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
+%     uexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2))+7;
+%     qexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
+%     qexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
+%     source_f = @(p)2 * pi^2 * ( sin(pi*p(:,1)).* sin(pi*p(:,2)) );
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %     uexact = @(p) p(:,2).^3;
@@ -30,21 +30,21 @@ function para = SetParameters(order,h0,Niter)
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-%     theta = @(p) atan(p(:,2)./p(:,1));
-%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-%     
-%     uexact = @(p) radi(p).^(2/3) .* (sin(2/3 *theta(p)));
-%     
-%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     
-%     source_f =  @(p) 0*p(:,1);
-%     
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
-%     
+    theta = @(p) atan(p(:,2)./p(:,1));
+    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+    
+    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+    
+    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    
+    source_f =  @(p) 0*p(:,1);
+    
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
+    
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
     vexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));

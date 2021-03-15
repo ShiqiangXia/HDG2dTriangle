@@ -6,18 +6,18 @@ function para = SetParameters(order,h0,Niter)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 2011;
+    pb_type = 1011;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-    uexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
-    qexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
-    qexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
-    source_f = @(p)2 * pi^2 * ( sin(pi*p(:,1)).* sin(pi*p(:,2)) );
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
+%     uexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2))+7;
+%     qexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
+%     qexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
+%     source_f = @(p)2 * pi^2 * ( sin(pi*p(:,1)).* sin(pi*p(:,2)) );
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %     uexact = @(p) p(:,2).^3;
@@ -32,13 +32,19 @@ function para = SetParameters(order,h0,Niter)
     
     theta = @(p) atan(p(:,2)./p(:,1));
     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-    uexact = @(p) radi(p).^{2/3} .* (sin(2/3 *theta(p)));
-    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p))) - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))))
-    qexact_2 = @(p)
+    
+    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+    
+    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    
     source_f =  @(p) 0*p(:,1);
+    
     uD = uexact;
     uN = @(p) 0*p(:,1);
-%     
+    
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
     vexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
@@ -106,7 +112,7 @@ function para = SetParameters(order,h0,Niter)
     precision = 'double';
     GQ_deg = 10;
     %Niter = 3;
-    refine_flag = 1; 
+    refine_flag = 0; 
     % 0: uniform refine,
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'

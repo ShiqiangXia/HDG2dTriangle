@@ -123,9 +123,10 @@ function ProblemDriver(para)
                 
                 [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
             
-                [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
+                [err_uh_list(ii),err_uh_elewise] = L2Error_scalar(mymesh,uh,...
                     GQ1DRef_pts,GQ1DRef_wts,0,...
                     para.order,uexact);
+                PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
                 [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
                     GQ1DRef_pts,GQ1DRef_wts,0,...
@@ -269,6 +270,9 @@ function ProblemDriver(para)
                 Jh_list(ii) = Jh;
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
+                % Plot estimator
+                title_text = append('ACh element-wise, mesh: ',num2str(ii));
+                PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
 
                 % CalError ------------------------------------------------
                 
@@ -323,9 +327,6 @@ function ProblemDriver(para)
             if para.refine_flag == 1
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
-                % Plot estimator
-                title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                PlotEstimator(mymesh,ACh_elewise_list,title_text);
                 
             end
             % -------------------------------------------------------------

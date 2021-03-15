@@ -1,4 +1,4 @@
-function PlotEstimator(mymesh,estimator,title_text)
+function PlotElementWiseValue(mymesh,estimator,title_text)
     
     p = mymesh.vertices_list;
     e = mymesh.element_list;
