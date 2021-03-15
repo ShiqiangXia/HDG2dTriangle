@@ -323,8 +323,23 @@ function ProblemDriver(para)
             if para.refine_flag == 1
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
+                % Plot estimator
+                title_text = append('ACh element-wise, mesh: ',num2str(ii));
+                PlotEstimator(mymesh,ACh_elewise_list,title_text);
+                
             end
             % -------------------------------------------------------------
+            
+            % visualization -----------------------------------------------
+            if ii == Niter
+                mymesh.Plot(1);
+            end
+            if ii == Niter && para.visualize_flag==1
+                basis_flag = 0;
+                My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
+            end
+            % ------------------------------------------------------------- 
+            
                
         end
         
@@ -340,6 +355,14 @@ function ProblemDriver(para)
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,...
                     'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
+                
+                figure;
+                plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
+                    0.5*log10(mesh_list),log10(err_Jh_AC_list),'--kx',...
+                    0.5*log10(mesh_list),log10(abs(ACh_list)),'--rs');
+                legend('Err-Jh','Err-Jh-AC','ACh')
+                title('Log plot of errors and estimator');
+                
                 
                 if err_cal_flag==1
                     order_uh = GetOrder(mesh_list,err_uh_list);

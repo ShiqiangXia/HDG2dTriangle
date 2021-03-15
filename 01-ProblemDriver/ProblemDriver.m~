@@ -216,7 +216,7 @@ function ProblemDriver(para)
         cprintf('blue','Starting solving functional problem\n')
         
         for ii = 1:Niter
-            
+            cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
             if ii == 1
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
@@ -262,10 +262,10 @@ function ProblemDriver(para)
                     error('Wrong problem type.')
                 end
                 
-                [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),mymesh,...
-                                                      uh,qh,uhat,source_f,uD,uN,...
-                                                      vh,ph,vhat,source_g,vD,vN,...
-                                                      GQ1DRef_pts,GQ1DRef_wts,para.order);
+                [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),pb_type(3),mymesh,...
+                                                      uh,qh,uhat,source_f,...
+                                                      vh,ph,vhat,source_g,...
+                                                      GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
                 Jh_list(ii) = Jh;
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
@@ -287,7 +287,7 @@ function ProblemDriver(para)
                         para.order,qexact_1,qexact_2);
 
                     [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
-                        = Error_Functional(Jh,Jh_AC,para);
+                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,0);
                 end
 
             elseif strcmp(pb_type(2),'1') % eigenproblem
@@ -312,8 +312,8 @@ function ProblemDriver(para)
                 
                 if err_cal_flag == 1
                     
-                    [err_lamh_list(ii),err_lamh_AC_list(ii)] ...
-                        = Error_Functional(lamh2,lamh_AC,para);
+                    [err_lamh_list(ii),err_lamh_AC_list(ii),~] ...
+                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,lamh2,lamh_AC,1);
                 end
                  
                 
@@ -323,8 +323,21 @@ function ProblemDriver(para)
             if para.refine_flag == 1
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
+                title_text = append('ACh element-wise, mesh: ',num2str(ii));
+                PlotEstimator(mymesh,ACh_elewise_list,title_text);
             end
             % -------------------------------------------------------------
+            
+            % visualization -----------------------------------------------
+            if ii == Niter
+                mymesh.Plot(1);
+            end
+            if ii == Niter && para.visualize_flag==1
+                basis_flag = 0;
+                My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
+            end
+            % ------------------------------------------------------------- 
+            
                
         end
         
@@ -334,16 +347,27 @@ function ProblemDriver(para)
             ReportProblem(para) 
             
             if strcmp(pb_type(2),'0')
-                
-                ReportTable('dof', mesh_list,...
-                    'err_Jh',err_Jh_list,...
+                order_Jh = GetOrder(mesh_list,err_Jh_list);
+                order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
+                ReportTable('DOF', mesh_list,...
+                    'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,...
-                    'err_Jh_AC',err_Jh_AC_list)
+                    'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
+                
+                figure;
+                plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
+                    0.5*log10(mesh_list),log10(err_Jh_AC_list),'--kx',...
+                    0.5*log10(mesh_list),log10(abs(ACh_list)),'--rs');
+                legend('Err-Jh','Err-Jh-AC','ACh')
+                title('Log plot of errors and e')
+                
                 
                 if err_cal_flag==1
-                    ReportTable('dof', mesh_list,...
-                        'err_uh',err_uh_list,...
-                        'err_qh',err_qh_list)
+                    order_uh = GetOrder(mesh_list,err_uh_list);
+                    order_qh = GetOrder(mesh_list,err_qh_list);
+                    ReportTable('DOF', mesh_list,...
+                        'err_uh',err_uh_list,'order', order_uh,...
+                        'err_qh',err_qh_list,'order',order_qh)
                 end
            
                 
