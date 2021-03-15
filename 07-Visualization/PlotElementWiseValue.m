@@ -7,7 +7,7 @@ function PlotElementWiseValue(mymesh,estimator,title_text)
     temp = abs(estimator);
     max_err = max(temp);
     
-    color_list = temp/max_err;
+    color_list = temp;%/max_err;
     
     set(gca,'CLim',[min(color_list), max(color_list)]);
     

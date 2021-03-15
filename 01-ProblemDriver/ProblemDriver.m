@@ -126,6 +126,7 @@ function ProblemDriver(para)
                 [err_uh_list(ii),err_uh_elewise] = L2Error_scalar(mymesh,uh,...
                     GQ1DRef_pts,GQ1DRef_wts,0,...
                     para.order,uexact);
+                
                 PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
                 [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
@@ -203,6 +204,7 @@ function ProblemDriver(para)
             Jh_AC_list = zeros(Niter,1,numeric_t);
             err_Jh_AC_list = zeros(Niter,1,numeric_t);
             ACh_list = zeros(Niter,1,numeric_t);
+            err_vh_list = zeros(Niter,1,numeric_t);
             
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,1,numeric_t);
@@ -282,16 +284,25 @@ function ProblemDriver(para)
                     
                     [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
 
-                    [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
+                    [err_uh_list(ii),err_uh_elewise] = L2Error_scalar(mymesh,uh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,uexact);
 
                     [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,qexact_1,qexact_2);
+                    
+                    PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
                     [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,0);
+                    
+                    [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
+                    [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
+                        GQ1DRef_pts,GQ1DRef_wts,0,...
+                        para.order,vexact);
+                    PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
+                    
                 end
 
             elseif strcmp(pb_type(2),'1') % eigenproblem
@@ -368,9 +379,11 @@ function ProblemDriver(para)
                 if err_cal_flag==1
                     order_uh = GetOrder(mesh_list,err_uh_list);
                     order_qh = GetOrder(mesh_list,err_qh_list);
+                    order_vh = GetOrder(mesh_list,err_vh_list);
                     ReportTable('DOF', mesh_list,...
                         'err_uh',err_uh_list,'order', order_uh,...
-                        'err_qh',err_qh_list,'order',order_qh)
+                        'err_qh',err_qh_list,'order',order_qh,...
+                        'err_vh',err_vh_list,'order', order_vh)
                 end
            
                 

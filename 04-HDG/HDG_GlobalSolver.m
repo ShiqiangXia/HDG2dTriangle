@@ -105,7 +105,7 @@ function [uh,qh,uh_hat] = HDG_GlobalSolver(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,..
         [edge_len_list,~] = GetTriFaceInfo(vertice_list);
         for ii = 1:length(ele_face_idx_list)
             face_id = ele_face_idx_list(ii);
-            
+          
             start_id=(face_id-1)*Nuhat+1;
             end_id = face_id*Nuhat;
          
