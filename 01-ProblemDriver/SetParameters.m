@@ -12,7 +12,7 @@ function para = SetParameters(order,h0,Niter)
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-%     mypi = 2*pi;
+%     mypi = pi;
 %     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
 %     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
 %     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
@@ -48,7 +48,7 @@ function para = SetParameters(order,h0,Niter)
     
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
-    mypi = 2*pi;
+    mypi = pi;
     vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
     pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
     pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));

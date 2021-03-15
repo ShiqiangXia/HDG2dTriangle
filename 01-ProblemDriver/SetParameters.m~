@@ -12,13 +12,13 @@ function para = SetParameters(order,h0,Niter)
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-%     mypi = 2*pi;
-%     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-%     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
+    mypi = pi;
+    uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+    source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 %     uexact = @(p) p(:,2).^3;
@@ -31,37 +31,46 @@ function para = SetParameters(order,h0,Niter)
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-    
-    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-    
-    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    
-    source_f =  @(p) 0*p(:,1);
-    
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
+%     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+%     
+%     uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+%     
+%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     
+%     source_f =  @(p) 0*p(:,1);
+%     
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
     
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
-%     vexact = @(p)sin(pi*p(:,1)).*sin(pi*p(:,2));
-%     pexact_1 = @(p)-pi*cos(pi*p(:,1)).*sin(pi*p(:,2));
-%     pexact_2 = @(p)-pi*sin(pi*p(:,1)).*cos(pi*p(:,2));
-% 
-%     source_g = @(p)2*pi^2*sin(pi*p(:,1)).*(sin(pi*p(:,2)));
+    mypi = pi;
+    vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+    pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+    pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+
+    source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
+    vD = @(p) 0*p(:,1);
+    vN = @(p) 0*p(:,1);
+    
+%     vexact = @(p) (p(:,1)-p(:,1).^2).*(p(:,2)-p(:,2).^2) ;
+%     pexact_2 = @(p) (1-2*p(:,1)).*(p(:,2)-p(:,2).^2);
+%     pexact_1 = @(p) (p(:,1)-p(:,1).^2).*(1- 2*p(:,2));
+%     source_g = @(p) 2*(p(:,1) + p(:,2) - p(:,1).^2 - p(:,2).^2);
 %     vD = @(p) 0*p(:,1);
 %     vN = @(p) 0*p(:,1);
-    
-    vexact = @(p) (p(:,1)-p(:,1).^2) ;
-    pexact_2 = @(p) -p(:,1)/2;
-    pexact_1 = @(p) -p(:,2)/2;
-    source_g = @(p) 0*(p(:,1)) + 1;
-    vD = vexact;
-    vN = @(p) 0*p(:,1);
+% 
+%     vexact = @(p)0*p(:,1);
+%     pexact_1 = @(p)0*p(:,1);
+%     pexact_2 = @(p)0*p(:,1);
+% 
+%     source_g = @(p)exp(p(:,1)+p(:,2));
+%     vD = @(p) 0*p(:,1);
+%     vN = @(p) 0*p(:,1);
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -83,7 +92,7 @@ function para = SetParameters(order,h0,Niter)
     y1 = 0;
     x2 = 1;
     y2 = 1;
-    tri_dir = 1;
+    tri_dir = 0;
     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
     
 

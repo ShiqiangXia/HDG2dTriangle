@@ -242,6 +242,7 @@ function ProblemDriver(para)
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
+                    mymesh.Plot(1);
                 end
             end
             % -------------------------------------------------------------
@@ -272,6 +273,8 @@ function ProblemDriver(para)
                 Jh_list(ii) = Jh;
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
+                
+                %PlotElementWiseValue(mymesh,ACh_elewise_list,'ACh_elewise_list');
                 
 
                 % CalError ------------------------------------------------
@@ -333,14 +336,14 @@ function ProblemDriver(para)
             end
             
             % Posterior error estimate if needed--------------------------- 
-            if para.refine_flag == 1
+            if para.refine_flag > 0
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
                 %marked_elements = ACh_ErrEstimate(err_uh_elewise,tol_adp,percent);
                 
                 % Plot estimator
                 title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                PlotElementWiseValue(mymesh,marked_elements,title_text);
+                %PlotElementWiseValue(mymesh,marked_elements,title_text);
                 
             end
             % -------------------------------------------------------------

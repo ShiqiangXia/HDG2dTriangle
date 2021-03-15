@@ -184,7 +184,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
     
     
     ACh = sum(ACh_elewise_list);
-    Jh_AC = Jh + ACh;
+    Jh_AC = Jh + ACh*(1/sqrt(2));
     %Jh_AC = Jh - ACh;
     
 end
