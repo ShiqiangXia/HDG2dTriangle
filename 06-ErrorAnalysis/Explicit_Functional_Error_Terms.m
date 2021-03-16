@@ -3,8 +3,11 @@ function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
     
     if strcmp(func_type,'1')
         Nu = (k+1)*(k+2)/2;
+        Nuhat  = k+1;
         NGQ = length(GQ1DRef_pts);
         num_elements = mymesh.num_elements;
+        dir_vec = GetDirVec(Nuhat); % correct the uhat oritation 
+        dir_vec = dir_vec';
         % Get Gauss Quadpoints on the square
         [a_list,b_list,Jacobian_rs_to_ab]= GetRefQuadPt(GQ1DRef_pts);
         % Map Gauss Quadpoints to the reference triangle
@@ -26,7 +29,9 @@ function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
             Err2_elewise_list = zeros(num_elements,1,numeric_t);
             Err3_elewise_list = zeros(num_elements,1,numeric_t);
             Err3_elewise_list = zeros(num_elements,1,numeric_t);
+            
             for element_idx = 1: num_elements
+                
                 temp_element = mymesh.element_list(element_idx,:);
                 vertice_list = mymesh.vertices_list(temp_element(:),:);
                 Jk = mymesh.Jacobian_list(element_idx);
@@ -95,6 +100,25 @@ function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
                 Jk*GQ1DRef_wts'*(temp_formula_2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
             
             % err_3 <qhat*n - q*n, vh-vhat> + < uh- uhat, phat*n-p*n>
+            ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
+            uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
+            [e_list,n1,n2,n3] = GetTriFaceInfo(vertice_list);
+            
+            for ii = 1:length(ele_face_idx_list)
+                face_id = ele_face_idx_list(ii);
+                start_id=(face_id-1)*Nuhat+1;
+                end_id = face_id*Nuhat;
+                
+                uhat_coeff = uhat(start_id:end_id);
+                vhat_coeff = vhat(start_id:end_id);
+                
+                
+                
+            end
+            
+            
+            
+            
             end
             
             
