@@ -242,6 +242,7 @@ function ProblemDriver(para)
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
+                    mymesh.Plot(1);
                 end
             end
             % -------------------------------------------------------------
@@ -272,9 +273,9 @@ function ProblemDriver(para)
                 Jh_list(ii) = Jh;
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
-                % Plot estimator
-                title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+                
+                %PlotElementWiseValue(mymesh,ACh_elewise_list,'ACh_elewise_list');
+                
 
                 % CalError ------------------------------------------------
                 
@@ -292,16 +293,18 @@ function ProblemDriver(para)
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,qexact_1,qexact_2);
                     
-                    PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
+                    %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
                     [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,0);
+                    
+                    [err_term1_list(ii),err_term2_list(),err_term3_list]
                     
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,vexact);
-                    PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
+                    %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
                     
                 end
 
@@ -335,9 +338,14 @@ function ProblemDriver(para)
             end
             
             % Posterior error estimate if needed--------------------------- 
-            if para.refine_flag == 1
+            if para.refine_flag > 0
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
+                %marked_elements = ACh_ErrEstimate(err_uh_elewise,tol_adp,percent);
+                
+                % Plot estimator
+                title_text = append('ACh element-wise, mesh: ',num2str(ii));
+                %PlotElementWiseValue(mymesh,marked_elements,title_text);
                 
             end
             % -------------------------------------------------------------
@@ -365,7 +373,7 @@ function ProblemDriver(para)
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
-                    'ACh',ACh_list,...
+                    'ACh',ACh_list,'|err/ach|', abs(err_Jh_list./ACh_list),...
                     'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
                 
                 figure;
@@ -379,11 +387,11 @@ function ProblemDriver(para)
                 if err_cal_flag==1
                     order_uh = GetOrder(mesh_list,err_uh_list);
                     order_qh = GetOrder(mesh_list,err_qh_list);
-                    order_vh = GetOrder(mesh_list,err_vh_list)
+                    order_vh = GetOrder(mesh_list,err_vh_list);
                     ReportTable('DOF', mesh_list,...
                         'err_uh',err_uh_list,'order', order_uh,...
                         'err_qh',err_qh_list,'order',order_qh,...
-                        )
+                        'err_vh',err_vh_list,'order', order_vh)
                 end
            
                 

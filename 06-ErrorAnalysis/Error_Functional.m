@@ -1,6 +1,6 @@
 function [err_Jh,err_Jh_AC]= Error_Functional(func_type,para,...
                                     mymesh,GQ1DRef_pts,GQ1DRef_wts,...
-                                    Jh,Jh_AC,err_terms_flag)
+                                    Jh,Jh_AC)
     
     if strcmp(func_type,'1')  % J(u) = (u,g)
         % need uexact, and source_g
@@ -38,22 +38,7 @@ function [err_Jh,err_Jh_AC]= Error_Functional(func_type,para,...
          
          err_Jh = abs(J_exact - Jh);
          err_Jh_AC = abs(J_exact - Jh_AC);
-        
-        if err_terms_flag == 1
-            % part 2: compute error terms based on formula
-            
-            % need qexact, pexact
-            [qexact_1,qexact_2,pexact_1,pexact_2]= MyParaParse(para,...
-                'qexact_1','qexact_2','pexact_1','pexact_2');
-            
-            % compute the error terms over all elements
-            
-            % err_1 (q-qh,p-ph)
-            % err_2 (q-qh,ph+grad(vh)) + (qh+grad(uh),p-ph)
-            % err_3 <qhat*n - q*n, vh-vhat> + < uh- uhat, phat*n-p*n>
-
-        end
-        
+              
         
     else
         error ('This type of error has not been implemented yet.')

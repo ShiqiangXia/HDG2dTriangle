@@ -1,5 +1,5 @@
 function [Pr,Ps] = Grad_Basis_u_ref(a,b,i,j)
-    % partial derivative of the basis_u
+    % partial derivative of the basis_u w.r.t r and s
 
     h1 = GradJacobiP(a,0,0,i); 
     h2 = JacobiP(b,2*i+1,0,j);
