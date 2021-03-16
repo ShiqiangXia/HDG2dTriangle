@@ -1,4 +1,5 @@
-function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
+function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_list]...
+        = Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
         mymesh,uh,qh,uhat,vh,ph,vhat,GQ1DRef_pts,GQ1DRef_wts,k,tau,post_flag)
     
     if strcmp(func_type,'1')
@@ -7,7 +8,6 @@ function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
         NGQ = length(GQ1DRef_pts);
         num_elements = mymesh.num_elements;
         dir_vec = GetDirVec(Nuhat); % correct the uhat oritation 
-        dir_vec = dir_vec';
         % Get Gauss Quadpoints on the square
         [a_list,b_list,Jacobian_rs_to_ab]= GetRefQuadPt(GQ1DRef_pts);
         % Map Gauss Quadpoints to the reference triangle
@@ -27,7 +27,6 @@ function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
             % compute the error terms over all elements
             Err1_elewise_list = zeros(num_elements,1,numeric_t);
             Err2_elewise_list = zeros(num_elements,1,numeric_t);
-            Err3_elewise_list = zeros(num_elements,1,numeric_t);
             Err3_elewise_list = zeros(num_elements,1,numeric_t);
             
             for element_idx = 1: num_elements
@@ -67,7 +66,7 @@ function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
                 ph_pts2 = V2D * (ph_coeff_2);ph_pts2 = reshape(ph_pts2,[],NGQ);
          
             
-            % err_1 (q-qh,p-ph)
+                % err_1 (q-qh,p-ph)
                 temp_formula_1 = ((q1_VD-qh_pts1).*(p1_VD-ph_pts1) ...
                                 +  (q2_VD-qh_pts2).*(p2_VD-ph_pts2) );
                             
@@ -75,53 +74,95 @@ function Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
                     Jk*GQ1DRef_wts'*(temp_formula_1.*Jacobian_rs_to_ab )*GQ1DRef_wts;
             
             
-            %d/dx = d/dr * dr/dx + d/ds * ds/dx
-            grad_vh_1 = V2Dr * vh_coeff * Inv_AffineMap(1,1)...
-                        + V2Ds * vh_coeff * Inv_AffineMap(2,1); grad_vh_1 = reshape(grad_vh_1,[],NGQ);
-            
-            grad_vh_2 = V2Dr * vh_coeff * Inv_AffineMap(1,2)...
-                        + V2Ds * vh_coeff * Inv_AffineMap(2,2); grad_vh_2 = reshape(grad_vh_2,[],NGQ);
-            
-            grad_uh_1 = V2Dr * uh_coeff * Inv_AffineMap(1,1)...
-                        + V2Ds * uh_coeff * Inv_AffineMap(2,1); grad_uh_1 = reshape(grad_uh_1,[],NGQ);
-            
-            grad_uh_2 = V2Dr * uh_coeff * Inv_AffineMap(1,2)...
-                        + V2Ds * uh_coeff * Inv_AffineMap(2,2); grad_uh_2 = reshape(grad_uh_2,[],NGQ);
-            
-            % err_2 (q-qh,ph+grad(vh)) + (qh+grad(uh),p-ph)
-            
-            temp_formula_2 = ...
-                 (q1_VD-qh_pts1).*(ph_pts1 +grad_vh_1)...
-                + (q2_VD-qh_pts2).*(ph_pts2 +grad_vh_2)...
-                + (qh_pts1 + grad_uh_1).*(p1_VD-ph_pts1)...
-                + (qh_pts2 + grad_uh_2).*(p2_VD-ph_pts2);
-            
-            Err2_elewise_list(element_idx,1) = ...
-                Jk*GQ1DRef_wts'*(temp_formula_2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
-            
-            % err_3 <qhat*n - q*n, vh-vhat> + < uh- uhat, phat*n-p*n>
-            ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
-            uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
-            [e_list,n1,n2,n3] = GetTriFaceInfo(vertice_list);
-            
-            for ii = 1:length(ele_face_idx_list)
-                face_id = ele_face_idx_list(ii);
-                start_id=(face_id-1)*Nuhat+1;
-                end_id = face_id*Nuhat;
+                %d/dx = d/dr * dr/dx + d/ds * ds/dx
+                grad_vh_1 = V2Dr * vh_coeff * Inv_AffineMap(1,1)...
+                            + V2Ds * vh_coeff * Inv_AffineMap(2,1); grad_vh_1 = reshape(grad_vh_1,[],NGQ);
+
+                grad_vh_2 = V2Dr * vh_coeff * Inv_AffineMap(1,2)...
+                            + V2Ds * vh_coeff * Inv_AffineMap(2,2); grad_vh_2 = reshape(grad_vh_2,[],NGQ);
+
+                grad_uh_1 = V2Dr * uh_coeff * Inv_AffineMap(1,1)...
+                            + V2Ds * uh_coeff * Inv_AffineMap(2,1); grad_uh_1 = reshape(grad_uh_1,[],NGQ);
+
+                grad_uh_2 = V2Dr * uh_coeff * Inv_AffineMap(1,2)...
+                            + V2Ds * uh_coeff * Inv_AffineMap(2,2); grad_uh_2 = reshape(grad_uh_2,[],NGQ);
+
+                % err_2 (q-qh,ph+grad(vh)) + (qh+grad(uh),p-ph)
+
+                temp_formula_2 = ...
+                     (q1_VD-qh_pts1).*(ph_pts1 +grad_vh_1)...
+                    + (q2_VD-qh_pts2).*(ph_pts2 +grad_vh_2)...
+                    + (qh_pts1 + grad_uh_1).*(p1_VD-ph_pts1)...
+                    + (qh_pts2 + grad_uh_2).*(p2_VD-ph_pts2);
+
+                Err2_elewise_list(element_idx,1) = ...
+                    Jk*GQ1DRef_wts'*(temp_formula_2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+
+                % err_3 <qhat*n - q*n, vh-vhat> + < uh- uhat, phat*n-p*n>
+                ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
+                uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
+                [e_list,n1,n2,n3] = GetTriFaceInfo(vertice_list);
+                normal_vector = [n1,n2,n3];
                 
-                uhat_coeff = uhat(start_id:end_id);
-                vhat_coeff = vhat(start_id:end_id);
-                
-                
-                
+                % go through all faces
+                for ii = 1:length(ele_face_idx_list)
+                    face_id = ele_face_idx_list(ii);
+                    start_id=(face_id-1)*Nuhat+1;
+                    end_id = face_id*Nuhat;
+
+                    uhat_coeff = uhat(start_id:end_id);
+                    vhat_coeff = vhat(start_id:end_id);
+
+                    uhat_face_pts = V1D * uhat_coeff;
+                    vhat_face_pts = V1D * vhat_coeff;
+                    if uhat_dir_list(1,ii) == 0
+                        uhat_face_pts = uhat_face_pts.*dir_vec;
+                        vhat_face_pts = vhat_face_pts.*dir_vec;
+                    end
+
+                    [face_x_list,face_y_list] = GetFaceQaudPts(ii, GQ1DRef_pts,Jk,vertice_list);
+
+                    q_face_pts1 = qexact_1([face_x_list,face_y_list]);
+                    q_face_pts2 = qexact_2([face_x_list,face_y_list]);
+                    p_face_pts1 = pexact_1([face_x_list,face_y_list]);
+                    p_face_pts2 = pexact_2([face_x_list,face_y_list]);
+
+                    [face_r_list,face_s_list] = GetRefFaceQuadPts(ii,GQ1DRef_pts);
+                    [face_a_list,face_b_list] = RStoAB(face_r_list,face_s_list);
+
+                    if post_flag == 0
+                        V2D_face = Vandermonde2D(k,face_a_list,face_b_list);
+                    elseif post_flag == 1
+                        error('Post-processed has not implemented yet');
+                    end
+
+                    qh_face_pts1 = V2D_face * qh_coeff_1;
+                    qh_face_pts2 = V2D_face * qh_coeff_2; 
+                    uh_face_pts  = V2D_face * uh_coeff  ;
+
+                    ph_face_pts1 = V2D_face * ph_coeff_1;
+                    ph_face_pts2 = V2D_face * ph_coeff_2;
+                    vh_face_pts  = V2D_face * vh_coeff  ;
+
+                    qh_q_n = (qh_face_pts1 - q_face_pts1)*normal_vector(1,ii)...
+                            +(qh_face_pts2 - q_face_pts2)*normal_vector(2,ii);
+                    uh_uhat = uh_face_pts - uhat_face_pts;
+
+                    ph_p_n = (ph_face_pts1 - p_face_pts1)*normal_vector(1,ii)...
+                            +(ph_face_pts2 - p_face_pts2)*normal_vector(2,ii);
+                    vh_vhat = vh_face_pts - vhat_face_pts;
+
+                    temp_formula_3 = ...
+                         (qh_q_n + tau*(uh_uhat)).*(vh_vhat)+...
+                         (ph_p_n + tau*(vh_vhat)).*(uh_uhat);
+
+                    Err3_elewise_list(element_idx,1) =  Err3_elewise_list(element_idx,1)+...
+                        0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula_3);
+
+                end
             end
             
-            
-            
-            
-            end
-            
-            
+            Err_elewise_list = Err1_elewise_list + Err2_elewise_list + Err3_elewise_list;
             
         end
     else
