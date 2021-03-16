@@ -155,7 +155,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
                  temp_3 = temp_vhat' *  Bmu_q * qh_coeff; % <qh*n, vh_hat>
                  temp_5 = temp_vhat' * Bmu_u * uh_coeff; % <tau*(uh), vh_hat>
                  temp_4 = temp_vhat' * Bmu_uhat * temp_uhat; % <tau*(uh_hat), vh_hat>
-                 % <qh*n + tau*(uh-uhat), vh_hat>
+                 
                  ACh3 = ACh3 + temp_3 + temp_5 - temp_4;
                  
                  temp_uhuhat_vhat = temp_uhuhat_vhat +temp_5 - temp_4;
@@ -229,14 +229,16 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
                      Bmu_q = (-Ns(1:Nq,:,ii))';
                      Bmu_u = Ns(Nq+1:end,:,ii)';
 
-                     Bmu_uhat = tau*Id_mtrix * edge_len_list(ii)*0.5;
+                     Bmu_uhat = tau * Id_mtrix * edge_len_list(ii)*0.5;
 
                      temp_3 = temp_vhat' *  Bmu_q * qh_coeff; % <qh*n, vh_hat>
                      temp_5 = temp_vhat' * Bmu_u * uh_coeff; % <tau*(uh), vh_hat>
                      temp_4 = temp_vhat' * Bmu_uhat * temp_uhat; % <tau*(uh_hat), vh_hat>
-                     
-                     % <qh*n + tau*(uh-uhat), vh_hat>  
-                     Jh = Jh + temp_3 + (temp_5 - temp_4);
+
+                     ACh3 = ACh3 + temp_3 + temp_5 - temp_4;
+
+                     temp_uhuhat_vhat = temp_uhuhat_vhat +temp_5 - temp_4;
+
                  end
                  
                
@@ -250,7 +252,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
     
     
     ACh = sum(ACh_elewise_list);
-    Jh_AC = Jh + ACh;
+    Jh_AC = Jh + ACh*(1/sqrt(2));
     %Jh_AC = Jh - ACh;
     
 end

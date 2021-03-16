@@ -251,7 +251,7 @@ function ProblemDriver(para)
             % Solve -------------------------------------------------------
             if strcmp(pb_type(2),'0') % source problem
                 % need to solve Primal and Adjoint two problems
-                if strcmp(pb_type(3),'1') % Poission source problem
+                if strcmp(pb_type(3),'1') % Solve Poission source problem
              
                     [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                     [source_g,vD,vN]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
@@ -278,8 +278,7 @@ function ProblemDriver(para)
                 
 
                 % CalError ------------------------------------------------
-                
-                
+                       
                 if err_cal_flag==1
                     mesh_list(ii) = GetDof(mymesh, para.order);
                     
@@ -298,7 +297,7 @@ function ProblemDriver(para)
                     [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC);
                     
-                    [err_term1_list(ii),err_term2_list(ii),err_term3_list(ii)] ...
+                    [err_terms_sum,err_term1,err_term2,err_term3] ...
                         = Explicit_Functional_Error_Terms(pb_type(4),pb_type(3),para.pb_parameters,...
                         mymesh,...
                         uh,qh,uhat,...
@@ -315,7 +314,7 @@ function ProblemDriver(para)
 
             elseif strcmp(pb_type(2),'1') % eigenproblem
                 % only need to solve one eigenvlaue problem
-                if strcmp(pb_type(3),'1') % poission eigen problem
+                if strcmp(pb_type(3),'1') %  solve poission eigen problem
                     
                     [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
