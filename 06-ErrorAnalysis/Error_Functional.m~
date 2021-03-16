@@ -42,56 +42,63 @@ function [err_Jh,err_Jh_AC]= Error_Functional(func_type,para,...
          err_Jh_AC = abs(J_exact - Jh_AC);
               
     elseif strcmp(func_type,'2')  % J(u) = <-gradu * n,vD> = <q*n, vD>
-        
         [qexact_1,qexact_2,vD]=MyParaParse(para,'qexact_1','qexact_2','vD');
         
         % go through all the faces, 
         % if it's a boundary face , do the integral
         
+        num_faces = mymesh.num_faces;
         J_exact = 0.0;
         
         for element_idx = 1: num_elements
             ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
-            
             for ii = 1:length(ele_face_idx_list)
                 face_id = ele_face_idx_list(ii);
-                
                 bdry_flag = mymesh.f_type(face_id);
                 if bdry_flag == 0
                     temp_element = mymesh.element_list(element_idx,:);
-                    V1 = mymesh.vertices_list(temp_element(ii),:);
+                    V1 = mymesh.vertices_list(ii,:);
                     if(ii==3)
                         V2_id = 1;
                     else
                         V2_id = ii+1;
                     end
-                    V2 = mymesh.vertices_list(temp_element(V2_id),:);
-                    
-                    GQ_face_pts = 0.5*(V2-V1)*GQ1DRef_pts + 0.5*(V2+V1);
-                    
-                    q_face_pts1 = qexact_1(GQ_face_pts);
-                    q_face_pts2 = qexact_2(GQ_face_pts);
-
-                    vD_face_pts = vD(GQ_face_pts);
-
-                    % normal verctor n?
-                    Rot_mat = [0,-1;1,0]; % counterclock wise rotate 90 degree
-                    normal_vec = - Rot_mat*(V2'-V1');
-                    normal_vec = normal_vec/VectorNorm(normal_vec);
-
-                    temp_formula = (q_face_pts1 * normal_vec(1)...
-                        + q_face_pts2 * normal_vec(2)).*vD_face_pts;
-                    
-                    face_length = VectorNorm(V1'-V2');
-                    
-                    J_exact = J_exact  + 0.5 * face_length * GQ1DRef_wts' .* temp_formula;
-                 end
+                    V1 = mymesh.vertices_list(ii,:);
+                end
                 
             end
-            
+            temp_element = mymesh.element_list(element_idx,:);
+            vertice_list = mymesh.vertices_list(temp_element(:),:);
+            Jk = mymesh.Jacobian_list(element_idx);
         end
         
- 
+        for face_id = 1: num_faces
+            bdry_flag = mymesh.f_type(face_id);
+            if bdry_flag == 0
+                face_vertices_id = mymesh.face_list(face_id,:);
+                V1 = mymesh.vertices_list(face_vertices_id(1,1),:); 
+                V2 = mymesh.vertices_list(face_vertices_id(1,2),:); 
+                
+                GQ_face_pts = 0.5*(V2-V1)*GQ1DRef_pts + 0.5*(V2+V1);
+                q_face_pts1 = qexact_1(GQ_face_pts);
+                q_face_pts2 = qexact_2(GQ_face_pts);
+                
+                vD_face_pts = vD(GQ_face_pts);
+                
+                % normal verctor n?
+                
+                temp_formula = (q_face_pts1*n(1) + q_face_pts2*n(2)).*vD_face_pts;
+                face_length = VectorNorm(V1,V2);
+                J_exact = J_exact  + 0.5 * face_length * GQ1DRef_wts' .* temp_formula;
+                
+            end
+        end
+        
+        
+        
+        
+        
+        
     else
         error ('This type of error has not been implemented yet.')
     end

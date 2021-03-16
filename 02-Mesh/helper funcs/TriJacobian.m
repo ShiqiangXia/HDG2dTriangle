@@ -8,6 +8,6 @@ function J_list = TriJacobian(p,e)
         V3 = p(e(ii,3),:)';
         
         m = numeric_t('0.5')*[V2-V1,V3-V1];
-        J_list(ii) = det(m);
+        J_list(ii,1) = det(m);
     end
 end
