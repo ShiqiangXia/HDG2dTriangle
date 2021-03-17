@@ -126,7 +126,7 @@ classdef Mesh
             view(2)
             axis equal
             ax=axis;axis(ax*1.001);
-            if nvertice>=150
+            if vertex_flag && nvertice>=150
                 cprintf('UnterminatedStrings', '%d vertices are too many to plot, so I ignored them.\n',nvertice);
             end
             %simpplot(obj.vertices_list,obj.element_list);

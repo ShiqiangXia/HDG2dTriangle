@@ -1,4 +1,4 @@
-function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,mymesh,...
+function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional(func_type,pde_ype,mymesh,...
         uh,qh,uhat,source_f,...
         vh,ph,vhat,source_g,...
         GQ1DRef_pts,GQ1DRef_wts,k,tau,post_flag)
@@ -21,6 +21,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
     Id_mtrix = eye(Nuhat,Nuhat, numeric_t);
     
     Jh = 0.0;
+    Jh_list = zeros(num_elements,1,numeric_t);
     
     % Get Gauss Quadpoints on the square
     [a_list,b_list,Jacobian_rs_to_ab]= GetRefQuadPt(GQ1DRef_pts);
@@ -77,7 +78,9 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              uh_pts = V2D * (uh_coeff); % uh on Gauss points
              uh_pts = reshape(uh_pts,[],NGQ);
              
-             Jh = Jh + Jk*GQ1DRef_wts'*(g_VD.*uh_pts.*Jacobian_rs_to_ab)*GQ1DRef_wts;
+             Jh_list(element_idx,1) = Jk*GQ1DRef_wts'*(g_VD.*uh_pts.*Jacobian_rs_to_ab)*GQ1DRef_wts;
+             
+             Jh = Jh + Jh_list(element_idx,1);
              
              % adjoint correction terms ----------------------------------------------
             
@@ -174,8 +177,16 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
              
          end
          
-         ACh_elewise_list = ACh1_elewise_list +  ACh2_elewise_list...
-                            + ACh3_elewise_list + ACh4_elewise_list;
+         % sum(AChi_elewise_list) i= 1,2,3 should be 0
+         % our goal is to use ACh4_elewise_list as an local error estimator
+         % ACh1 and ACh2 are locally zero (since the HDG equations), but
+         % not ACh3. So if we add AC3 in ACh_elewise_list, it destroy the
+         % local error patterns.
+           
+%          ACh_elewise_list = ACh1_elewise_list +  ACh2_elewise_list...
+%                             + ACh3_elewise_list + ACh4_elewise_list;
+
+            ACh_elewise_list = ACh4_elewise_list;
          
      end
 
@@ -248,9 +259,14 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(func_type,pde_ype,my
         
     end
     
+%     PlotElementWiseValue(mymesh,ACh1_elewise_list,'ACh1-elewise-list');
+%     PlotElementWiseValue(mymesh,ACh2_elewise_list,'ACh2-elewise-list');
+%     PlotElementWiseValue(mymesh,ACh3_elewise_list,'ACh3-elewise-list');
+%     PlotElementWiseValue(mymesh,ACh4_elewise_list,'ACh4-elewise-list');
+%     
     
     ACh = sum(ACh_elewise_list);
-    Jh_AC = Jh + ACh;
+    Jh_AC = Jh - ACh;
     %Jh_AC = Jh - ACh;
     
 end

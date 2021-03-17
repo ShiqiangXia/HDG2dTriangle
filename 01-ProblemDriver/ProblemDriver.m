@@ -244,7 +244,8 @@ function ProblemDriver(para)
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
-                    mymesh.Plot(1);
+                    mymesh.Plot(0);
+                    
                 end
             end
             % -------------------------------------------------------------
@@ -268,7 +269,7 @@ function ProblemDriver(para)
                     error('Wrong problem type.')
                 end
                 
-                [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),pb_type(3),mymesh,...
+                [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_elewise_list] = LinearFunctional(pb_type(4),pb_type(3),mymesh,...
                                                       uh,qh,uhat,source_f,...
                                                       vh,ph,vhat,source_g,...
                                                       GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
@@ -276,7 +277,7 @@ function ProblemDriver(para)
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
                 
-                %PlotElementWiseValue(mymesh,ACh_elewise_list,'ACh_elewise_list');
+                %PlotElementWiseValue(mymesh,ACh_elewise_list,'ACh-elewise-list');
                 
 
                 % CalError ------------------------------------------------
@@ -286,7 +287,7 @@ function ProblemDriver(para)
                     
                     [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
 
-                    [err_uh_list(ii),err_uh_elewise] = L2Error_scalar(mymesh,uh,...
+                    [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,uexact);
 
@@ -296,8 +297,8 @@ function ProblemDriver(para)
                     
                     %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
-                    [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
-                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC);
+                    [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
+                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
                     
                     [err_terms_sum,err_term1,err_term2,err_term3] ...
                         = Explicit_Functional_Error_Terms(pb_type(4),pb_type(3),para.pb_parameters,...
@@ -306,6 +307,15 @@ function ProblemDriver(para)
                         vh,ph,vhat,...
                         GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,0);
                     
+                    if ii == Niter
+                        PlotElementWiseValue(mymesh,err_Jh_elewise,'(u-uh,g) element-wise');
+                        PlotElementWiseValue(mymesh,err_terms_sum,'Error Eh element-wise');
+                    end
+                    
+%                     PlotElementWiseValue(mymesh,err_term1,'err-terms1');
+%                     PlotElementWiseValue(mymesh,err_term2,'err-terms2');
+%                     PlotElementWiseValue(mymesh,err_term3,'err-terms3');
+%                     
                     err_terms_sum_list(ii) = sum(err_terms_sum);
                     
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
@@ -352,8 +362,10 @@ function ProblemDriver(para)
                 %marked_elements = ACh_ErrEstimate(err_uh_elewise,tol_adp,percent);
                 
                 % Plot estimator
-                title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                %PlotElementWiseValue(mymesh,marked_elements,title_text);
+                if ii == Niter
+                    title_text = append('ACh element-wise, mesh: ',num2str(ii));
+                    PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+                end
                 
             end
             % -------------------------------------------------------------

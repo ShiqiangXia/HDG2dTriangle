@@ -130,9 +130,9 @@ function para = SetParameters(order,h0,Niter)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 200;
+    GQ_deg = 20;
     %Niter = 3;
-    refine_flag = 0; 
+    refine_flag = 1; 
     % 0: uniform refine,
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
@@ -145,7 +145,7 @@ function para = SetParameters(order,h0,Niter)
     tol_eig = 1e-8;
 
     tol_adp = 1e-6;
-    percent = 0.3;
+    percent = 0.5;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...

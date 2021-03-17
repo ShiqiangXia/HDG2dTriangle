@@ -38,16 +38,17 @@ function [coordinates,newElements,varargout] ...
 % 
 %    S. Funken, A. Schmidt  20-08-18
 
-persistent nG
+%persistent nG
 nE = size(elements,1);
 markedElements = varargin{end};
 %*** Obtain geometric information on edges
 [edge2nodes,element2edges,~,boundary2edges{1:nargin-3}] ...
     = provideGeometricData(elements,zeros(0,4),varargin{1:end-1});
 %*** Count number of green sibling elements;
-if isempty(nG)
-    nG = 0;
-end
+% if isempty(nG)
+%     nG = 0;
+% end
+nG = 0;
 nR = nE-nG;
 %*** Mark edges for refinement
 edge2newNode = zeros(1,size(edge2nodes,1));

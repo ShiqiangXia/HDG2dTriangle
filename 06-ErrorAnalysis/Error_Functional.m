@@ -1,8 +1,9 @@
-function [err_Jh,err_Jh_AC]= Error_Functional(func_type,para,...
+function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
                                     mymesh,GQ1DRef_pts,GQ1DRef_wts,...
-                                    Jh,Jh_AC)
+                                    Jh,Jh_AC,Jh_elewise_list)
     NGQ = length(GQ1DRef_pts);
     num_elements = mymesh.num_elements;
+    err_Jh_elewise = zeros(num_elements,1,numeric_t);
     
     if strcmp(func_type,'1')  % J(u) = (u,g)
         % need uexact, and source_g
@@ -31,9 +32,10 @@ function [err_Jh,err_Jh_AC]= Error_Functional(func_type,para,...
             
             uexact_pts = uexact([x_list,y_list]);
             uexact_pts = reshape(uexact_pts,[],NGQ);
-            
-            J_exact = J_exact +...
-                Jk*GQ1DRef_wts'*(g_VD.*uexact_pts.*Jacobian_rs_to_ab)*GQ1DRef_wts;  
+            temp_int = Jk*GQ1DRef_wts'*(g_VD.*uexact_pts.*Jacobian_rs_to_ab)*GQ1DRef_wts;
+            err_Jh_elewise(element_idx,1) = temp_int - Jh_elewise_list(element_idx,1);
+            J_exact = J_exact + temp_int;
+                  
             
         end
          % part 1: compute error J(u) - J(uh) and J(u) - Jh_AC 
