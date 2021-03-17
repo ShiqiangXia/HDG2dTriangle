@@ -20,33 +20,33 @@ function para = SetParameters(order,h0,Niter)
 %     uD = uexact;
 %     uN = @(p) 0*p(:,1);
 %     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    x = @(p) p(:,1);
-    y = @(p) p(:,2);
-    nn = 5;
-    uexact = @(p) x(p).^nn + y(p).^nn;
-    qexact_2 = @(p) -nn*y(p).^(nn-1);
-    qexact_1 = @(p) -nn*x(p).^(nn-1);
-    source_f = @(p) -nn*(nn-1)*(x(p).^(nn-2)+y(p).^(nn-2));
-    uD = @(p) x(p).^nn +  y(p).^nn;
-    uN = @(p) 0*p(:,2);
+%     x = @(p) p(:,1);
+%     y = @(p) p(:,2);
+%     nn = 5;
+%     uexact = @(p) x(p).^nn + y(p).^nn;
+%     qexact_2 = @(p) -nn*y(p).^(nn-1);
+%     qexact_1 = @(p) -nn*x(p).^(nn-1);
+%     source_f = @(p) -nn*(nn-1)*(x(p).^(nn-2)+y(p).^(nn-2));
+%     uD = @(p) x(p).^nn +  y(p).^nn;
+%     uN = @(p) 0*p(:,2);
 
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-%     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-%     
-%     uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-%     
-%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     
-%     source_f =  @(p) 0*p(:,1);
-%     
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
+    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+    
+    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+    
+    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    
+    source_f =  @(p) 0*p(:,1);
+    
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
     
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
@@ -130,7 +130,7 @@ function para = SetParameters(order,h0,Niter)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 10;
+    GQ_deg = 200;
     %Niter = 3;
     refine_flag = 0; 
     % 0: uniform refine,
