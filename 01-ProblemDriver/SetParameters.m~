@@ -24,10 +24,10 @@ function para = SetParameters(order,h0,Niter)
     y = @(p) p(:,2);
     nn = 5;
     uexact = @(p) x(p).^nn + y(p).^nn;
-    qexact_2 = @(p) -nn*y(p).^(nn-1);
+    qexact_2 = @(p) -nn*y(p);
     qexact_1 = @(p) -nn*x(p).^(nn-1);
-    source_f = @(p) -nn*(nn-1)*(x(p).^(nn-2)+y(p).^(nn-2));
-    uD = @(p) x(p).^nn +  y(p).^nn;
+    source_f = @(p) -nn*(nn-1)*(x(p).^(nn-2));
+    uD = @(p) x(p).^nn;
     uN = @(p) 0*p(:,2);
 
     

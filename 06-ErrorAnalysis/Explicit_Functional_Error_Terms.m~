@@ -15,8 +15,8 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
         
         if strcmp(pde_ype,'1') % Poission
             % need qexact, pexact
-            [uexact,qexact_1,qexact_2,pexact_1,pexact_2]= MyParaParse(para,...
-                'uexact','qexact_1','qexact_2','pexact_1','pexact_2');
+            [qexact_1,qexact_2,pexact_1,pexact_2]= MyParaParse(para,...
+                'qexact_1','qexact_2','pexact_1','pexact_2');
             if post_flag == 0
                 V2D = Vandermonde2D(k,a_list,b_list);
                 [V2Dr,V2Ds] = GradVandermonde2D(k,a_list,b_list);
@@ -28,7 +28,6 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
             Err1_elewise_list = zeros(num_elements,1,numeric_t);
             Err2_elewise_list = zeros(num_elements,1,numeric_t);
             Err3_elewise_list = zeros(num_elements,1,numeric_t);
-            extra_term = zeros(num_elements,1,numeric_t);
             
             for element_idx = 1: num_elements
                 
@@ -129,9 +128,6 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
                     q_face_pts2 = qexact_2([face_x_list,face_y_list]);
                     p_face_pts1 = pexact_1([face_x_list,face_y_list]);
                     p_face_pts2 = pexact_2([face_x_list,face_y_list]);
-                    
-                    %%% temp code
-                    u_face_pts = uexact([face_x_list,face_y_list]);
 
                     [face_r_list,face_s_list] = GetRefFaceQuadPts(ii,GQ1DRef_pts);
                     [face_a_list,face_b_list] = RStoAB(face_r_list,face_s_list);
@@ -164,19 +160,11 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
 
                     Err3_elewise_list(element_idx,1) =  Err3_elewise_list(element_idx,1)+...
                         0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula_3);
-                    
-                    %%%% temp code
-                    
-                    temp_f_4 = (u_face_pts - uhat_face_pts).*...
-                        (p_face_pts1*normal_vector(1,ii)+p_face_pts2*normal_vector(2,ii));
-                    
-                    extra_term(element_idx,1) =extra_term(element_idx,1)+ 0.5*e_list(ii)*GQ1DRef_wts'*(temp_f_4);
-                    
 
                 end
             end
             
-            Err_elewise_list = Err1_elewise_list + Err2_elewise_list + Err3_elewise_list + extra_term;
+            Err_elewise_list = Err1_elewise_list + Err2_elewise_list + Err3_elewise_list;
             
         end
     else

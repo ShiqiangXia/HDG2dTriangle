@@ -206,6 +206,8 @@ function ProblemDriver(para)
             ACh_list = zeros(Niter,1,numeric_t);
             err_vh_list = zeros(Niter,1,numeric_t);
             
+            err_terms_sum_list = zeros(Niter,1,numeric_t);
+            
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,1,numeric_t);
             lamh_AC_list = zeros(Niter,1,numeric_t);
@@ -304,6 +306,8 @@ function ProblemDriver(para)
                         vh,ph,vhat,...
                         GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,0);
                     
+                    err_terms_sum_list(ii) = sum(err_terms_sum);
+                    
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
@@ -378,7 +382,8 @@ function ProblemDriver(para)
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,'|err/ach|', abs(err_Jh_list./ACh_list),...
-                    'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
+                    'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC,...
+                    'err_terms_sum',err_terms_sum_list);
                 
                 figure;
                 plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
