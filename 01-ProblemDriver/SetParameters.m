@@ -130,7 +130,7 @@ function para = SetParameters(order,h0,Niter)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 200;
+    GQ_deg = 20;
     %Niter = 3;
     refine_flag = 1; 
     % 0: uniform refine,

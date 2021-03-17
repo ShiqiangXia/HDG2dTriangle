@@ -39,7 +39,7 @@ function ProblemDriver(para)
     
         %%%%%%% step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         cprintf('blue','--------------------------------\n')
-        cprintf('blue','Starting solving PDE problem\n')
+        cprintf('blue','Start solving PDE problem\n')
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
@@ -218,7 +218,7 @@ function ProblemDriver(para)
         end
         
         cprintf('blue','--------------------------------\n')
-        cprintf('blue','Starting solving functional problem\n')
+        cprintf('blue','Start solving functional problem\n')
         
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
