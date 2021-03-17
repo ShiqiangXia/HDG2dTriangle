@@ -307,10 +307,6 @@ function ProblemDriver(para)
                         vh,ph,vhat,...
                         GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,0);
                     
-                    if ii == Niter
-                        PlotElementWiseValue(mymesh,err_Jh_elewise,'(u-uh,g) element-wise');
-                        PlotElementWiseValue(mymesh,err_terms_sum,'Error Eh element-wise');
-                    end
                     
 %                     PlotElementWiseValue(mymesh,err_term1,'err-terms1');
 %                     PlotElementWiseValue(mymesh,err_term2,'err-terms2');
@@ -359,12 +355,13 @@ function ProblemDriver(para)
             if para.refine_flag > 0
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
-                %marked_elements = ACh_ErrEstimate(err_uh_elewise,tol_adp,percent);
+                %marked_elements = ACh_ErrEstimate(err_Jh_elewise,tol_adp,percent);
                 
                 % Plot estimator
                 if ii == Niter
                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                    PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+                    PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,...
+                        err_Jh_elewise,'(u-uh,g) element-wise',err_terms_sum,'Error Eh element-wise');
                 end
                 
             end
