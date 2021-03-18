@@ -1,5 +1,6 @@
-function para = SetParameters(order,h0,Niter)
+function para = SetParameters(varargin)
     
+    [order,h0,Niter,refine_flag] = MyParaParse(varargin,'order','h0','Niter','refine_flag');
 
 
     % define parameters
@@ -84,7 +85,7 @@ function para = SetParameters(order,h0,Niter)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 1;
+    structure_flag = 0;
     %h0 = 0.5;
     
     dom_type = 'Rec';
@@ -132,7 +133,7 @@ function para = SetParameters(order,h0,Niter)
     precision = 'double';
     GQ_deg = 20;  % need more quads for corner singularity case
     %Niter = 3;
-    refine_flag = 1; 
+    %refine_flag = 1; 
     % 0: uniform refine,
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'

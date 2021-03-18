@@ -207,6 +207,9 @@ function ProblemDriver(para)
             err_vh_list = zeros(Niter,1,numeric_t);
             
             err_terms_sum_list = zeros(Niter,1,numeric_t);
+            err_terms_1_list = zeros(Niter,1,numeric_t);
+            err_terms_2_list = zeros(Niter,1,numeric_t);
+            err_terms_3_list = zeros(Niter,1,numeric_t);
             
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,1,numeric_t);
@@ -313,6 +316,9 @@ function ProblemDriver(para)
 %                     PlotElementWiseValue(mymesh,err_term3,'err-terms3');
 %                     
                     err_terms_sum_list(ii) = sum(err_terms_sum);
+                    err_terms_1_list(ii) =  sum(err_term1);
+                    err_terms_2_list(ii) =  sum(err_term2);
+                    err_terms_3_list(ii) =  sum(err_term3);
                     
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
@@ -392,8 +398,25 @@ function ProblemDriver(para)
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,'|err/ach|', abs(err_Jh_list./ACh_list),...
                     'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC,...
-                    'err_terms_sum',err_terms_sum_list);
+                    'err_sum',err_terms_sum_list);
                 
+                %----------------------------------------------------------
+                % error terms 
+                order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
+                order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
+                order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
+                order_err_term_3 = GetOrder(mesh_list,err_terms_3_list);
+                fprintf('\n');
+                fprintf('err_1 = (q-qh,p-ph)\n');
+                fprintf('err_2 = (q-qh,ph+grad_vh) + (qh+grad_uh,p-ph)\n');
+                fprintf('err_3 = <(qhat-q)*n,vh-vhat> + <uh-uhat,(phat-p)*n>\n');
+                ReportTable('DOF', mesh_list,...
+                    'err_sum',err_terms_sum_list,'order',order_err_terms_sum,...
+                    'err_1',err_terms_1_list,'order',order_err_term_1, ...
+                    'err_2',err_terms_2_list,'order',order_err_term_2,...
+                    'err_3',err_terms_3_list,'order',order_err_term_3);
+                
+                %----------------------------------------------------------
                 figure;
                 plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
                     0.5*log10(mesh_list),log10(err_Jh_AC_list),'--kx',...

@@ -39,7 +39,7 @@ function ProblemDriver(para)
     
         %%%%%%% step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         cprintf('blue','--------------------------------\n')
-        cprintf('blue','Starting solving PDE problem\n')
+        cprintf('blue','Start solving PDE problem\n')
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
@@ -206,6 +206,11 @@ function ProblemDriver(para)
             ACh_list = zeros(Niter,1,numeric_t);
             err_vh_list = zeros(Niter,1,numeric_t);
             
+            err_terms_sum_list = zeros(Niter,1,numeric_t);
+            err_terms_1_list = zeros(Niter,1,numeric_t);
+            err_terms_2_list = zeros(Niter,1,numeric_t);
+            err_terms_3_list = zeros(Niter,1,numeric_t);
+            
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,1,numeric_t);
             lamh_AC_list = zeros(Niter,1,numeric_t);
@@ -216,7 +221,7 @@ function ProblemDriver(para)
         end
         
         cprintf('blue','--------------------------------\n')
-        cprintf('blue','Starting solving functional problem\n')
+        cprintf('blue','Start solving functional problem\n')
         
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
@@ -242,7 +247,8 @@ function ProblemDriver(para)
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
-                    mymesh.Plot(1);
+                    mymesh.Plot(0);
+                    
                 end
             end
             % -------------------------------------------------------------
@@ -266,7 +272,7 @@ function ProblemDriver(para)
                     error('Wrong problem type.')
                 end
                 
-                [Jh,Jh_AC,ACh,ACh_elewise_list] = LinearFunctional(pb_type(4),pb_type(3),mymesh,...
+                [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_elewise_list] = LinearFunctional(pb_type(4),pb_type(3),mymesh,...
                                                       uh,qh,uhat,source_f,...
                                                       vh,ph,vhat,source_g,...
                                                       GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
@@ -274,18 +280,17 @@ function ProblemDriver(para)
                 Jh_AC_list(ii) = Jh_AC;
                 ACh_list(ii) = ACh;
                 
-                %PlotElementWiseValue(mymesh,ACh_elewise_list,'ACh_elewise_list');
+                %PlotElementWiseValue(mymesh,ACh_elewise_list,'ACh-elewise-list');
                 
 
                 % CalError ------------------------------------------------
-                
-                
+                       
                 if err_cal_flag==1
                     mesh_list(ii) = GetDof(mymesh, para.order);
                     
                     [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
 
-                    [err_uh_list(ii),err_uh_elewise] = L2Error_scalar(mymesh,uh,...
+                    [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
                         para.order,uexact);
 
@@ -295,8 +300,8 @@ function ProblemDriver(para)
                     
                     %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
-                    [err_Jh_list(ii),err_Jh_AC_list(ii)] ...
-                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC);
+                    [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
+                        = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
                     
                     [err_terms_sum,err_term1,err_term2,err_term3] ...
                         = Explicit_Functional_Error_Terms(pb_type(4),pb_type(3),para.pb_parameters,...
@@ -304,6 +309,16 @@ function ProblemDriver(para)
                         uh,qh,uhat,...
                         vh,ph,vhat,...
                         GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,0);
+                    
+                    
+%                     PlotElementWiseValue(mymesh,err_term1,'err-terms1');
+%                     PlotElementWiseValue(mymesh,err_term2,'err-terms2');
+%                     PlotElementWiseValue(mymesh,err_term3,'err-terms3');
+%                     
+                    err_terms_sum_list(ii) = sum(err_terms_sum);
+                    err_terms_1_list(ii) =  sum(err_term1);
+                    err_terms_2_list(ii) =  sum(err_term2);
+                    err_terms_3_list(ii) =  sum(err_term3);
                     
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
@@ -315,7 +330,7 @@ function ProblemDriver(para)
 
             elseif strcmp(pb_type(2),'1') % eigenproblem
                 % only need to solve one eigenvlaue problem
-                if strcmp(pb_type(3),'1') % poission eigen problem
+                if strcmp(pb_type(3),'1') %  solve poission eigen problem
                     
                     [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
@@ -346,11 +361,14 @@ function ProblemDriver(para)
             if para.refine_flag > 0
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
-                %marked_elements = ACh_ErrEstimate(err_uh_elewise,tol_adp,percent);
+                %marked_elements = ACh_ErrEstimate(err_Jh_elewise,tol_adp,percent);
                 
                 % Plot estimator
-                title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                %PlotElementWiseValue(mymesh,marked_elements,title_text);
+                if ii == Niter
+                    title_text = append('ACh element-wise, mesh: ',num2str(ii));
+                    PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,...
+                        err_Jh_elewise,'(u-uh,g) element-wise',err_terms_sum,'Error Eh element-wise');
+                end
                 
             end
             % -------------------------------------------------------------
@@ -379,8 +397,26 @@ function ProblemDriver(para)
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,'|err/ach|', abs(err_Jh_list./ACh_list),...
-                    'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
+                    'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC,...
+                    'err_');
                 
+                %----------------------------------------------------------
+                % error terms 
+                order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
+                order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
+                order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
+                order_err_term_3 = GetOrder(mesh_list,err_terms_3_list);
+                fprintf('\n');
+                fprintf('err_1 = (q-qh,p-ph)\n');
+                fprintf('err_2 = (q-qh,ph+grad_vh) + (qh+grad_uh,p-ph)\n');
+                fprintf('err_3 = <(qhat-q)*n,vh-vhat> + <uh-uhat,(phat-p)*n>\n');
+                ReportTable('DOF', mesh_list,...
+                    'err_sum',err_terms_sum_list,'order',order_err_terms_sum,...
+                    'err_1',err_terms_1_list,'order',order_err_term_1, ...
+                    'err_2',err_terms_2_list,'order',order_err_term_2,...
+                    'err_3',err_terms_3_list,'order',order_err_term_3);
+                
+                %----------------------------------------------------------
                 figure;
                 plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
                     0.5*log10(mesh_list),log10(err_Jh_AC_list),'--kx',...

@@ -266,7 +266,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional(func_type,pd
 %     
     
     ACh = sum(ACh_elewise_list);
-    Jh_AC = Jh - ACh;
+    Jh_AC = Jh + ACh;
     %Jh_AC = Jh - ACh;
     
 end
