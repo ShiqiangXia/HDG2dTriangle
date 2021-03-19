@@ -1,4 +1,4 @@
-function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_list]...
+function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_list, Err4_elewise_list,Err5_elewise_list,extra_term]...
         = Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
         mymesh,uh,qh,uhat,vh,ph,vhat,GQ1DRef_pts,GQ1DRef_wts,k,tau,post_flag)
     
@@ -28,6 +28,8 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
             Err1_elewise_list = zeros(num_elements,1,numeric_t);
             Err2_elewise_list = zeros(num_elements,1,numeric_t);
             Err3_elewise_list = zeros(num_elements,1,numeric_t);
+            Err4_elewise_list = zeros(num_elements,1,numeric_t);
+            Err5_elewise_list = zeros(num_elements,1,numeric_t);
             extra_term = zeros(num_elements,1,numeric_t);
             
             for element_idx = 1: num_elements
@@ -92,12 +94,16 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
 
                 temp_formula_2 = ...
                      (q1_VD - qh_pts1).*(ph_pts1 + grad_vh_1)...
-                    + (q2_VD - qh_pts2).*(ph_pts2 + grad_vh_2)...
-                    + (qh_pts1 + grad_uh_1).*(p1_VD-ph_pts1)...
-                    + (qh_pts2 + grad_uh_2).*(p2_VD-ph_pts2);
+                    + (q2_VD - qh_pts2).*(ph_pts2 + grad_vh_2);
+                    
+                temp_formula_22=...
+                     (qh_pts1 + grad_uh_1).*(p1_VD-ph_pts1)...
+                    +(qh_pts2 + grad_uh_2).*(p2_VD-ph_pts2);
 
                 Err2_elewise_list(element_idx,1) = ...
                     Jk*GQ1DRef_wts'*(temp_formula_2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                Err3_elewise_list(element_idx,1) = ...
+                    Jk*GQ1DRef_wts'*(temp_formula_22.*Jacobian_rs_to_ab )*GQ1DRef_wts;
 
                 % err_3 <qhat*n - q*n, vh-vhat> + < uh- uhat, phat*n-p*n>
                 ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
@@ -159,11 +165,15 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
                     vh_vhat = vh_face_pts - vhat_face_pts;
 
                     temp_formula_3 = ...
-                         (qh_q_n + tau*(uh_uhat)).*(vh_vhat)+...
-                         (ph_p_n + tau*(vh_vhat)).*(uh_uhat);
+                         (qh_q_n + tau*(uh_uhat)).*(vh_vhat);
+                         
+                    
+                    temp_formula_33 = (ph_p_n + tau*(vh_vhat)).*(uh_uhat);
 
-                    Err3_elewise_list(element_idx,1) =  Err3_elewise_list(element_idx,1)+...
+                    Err4_elewise_list(element_idx,1) =  Err4_elewise_list(element_idx,1)+...
                         0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula_3);
+                    Err5_elewise_list(element_idx,1) =  Err5_elewise_list(element_idx,1)+...
+                        0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula_33);
                     
                     %%%% temp code
                     
@@ -176,7 +186,7 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list, Err3_elewise_l
                 end
             end
             
-            Err_elewise_list = Err1_elewise_list + Err2_elewise_list + Err3_elewise_list + extra_term;
+            Err_elewise_list = Err1_elewise_list + Err2_elewise_list +Err3_elewise_list + Err4_elewise_list+Err5_elewise_list + extra_term;
             
         end
     else

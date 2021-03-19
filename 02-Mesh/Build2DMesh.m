@@ -117,6 +117,8 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
     
     e = Countclockwise(p,e); % make sure a counterclockwise ordering of the vertices
     
+    e = LongestEdgeFirst(p,e); % make sure the longest edge is the first element (this is used for mesh refinement to keep the shape-regularity)
+    
     % make sure dirichlet boundary and neuman boundary are different
     if isempty(dirichlet_flag) || isempty(neuman_flag)
         % do nothing

@@ -85,7 +85,7 @@ function para = SetParameters(varargin)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 0;
+    structure_flag = 1;
     %h0 = 0.5;
     
     dom_type = 'Rec';
@@ -131,7 +131,7 @@ function para = SetParameters(varargin)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 20;  % need more quads for corner singularity case
+    GQ_deg = 30;  % need more quads for corner singularity case
     %Niter = 3;
     %refine_flag = 1; 
     % 0: uniform refine,

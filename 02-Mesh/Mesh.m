@@ -161,6 +161,9 @@ classdef Mesh
             neunodes = unique(reshape(neu,[],1));
             
             new_e = Countclockwise(new_p,new_e); % make sure a counterclockwise ordering of the vertices
+            new_e = LongestEdgeFirst(new_p,new_e);% make sure the longest edge is the first element 
+            % (this is used for mesh refinement to keep the shape-regularity)
+            
             bdry_edges = boundedges(new_p,new_e);
             [f,ef,face_type] = LabelFaces(new_e,dirinodes,neunodes,bdry_edges);
             if ~(strcmp(obj.dom_type,'Rec') || strcmp(obj.dom_type,'L'))

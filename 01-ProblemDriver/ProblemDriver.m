@@ -210,6 +210,9 @@ function ProblemDriver(para)
             err_terms_1_list = zeros(Niter,1,numeric_t);
             err_terms_2_list = zeros(Niter,1,numeric_t);
             err_terms_3_list = zeros(Niter,1,numeric_t);
+            err_terms_4_list = zeros(Niter,1,numeric_t);
+            err_terms_5_list = zeros(Niter,1,numeric_t);
+            err_terms_extra_list = zeros(Niter,1,numeric_t);
             
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,1,numeric_t);
@@ -223,6 +226,7 @@ function ProblemDriver(para)
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving functional problem\n')
         
+        
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
@@ -230,6 +234,9 @@ function ProblemDriver(para)
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                     para.h0, ...
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
+                mymesh.Plot(0);
+                
+                M(ii) = getframe(gcf);
             else
                 if para.refine_flag == 0 % uniform refinement
                     
@@ -248,6 +255,8 @@ function ProblemDriver(para)
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
                     mymesh.Plot(0);
+                    
+                    M(ii) = getframe(gcf);
                     
                 end
             end
@@ -303,7 +312,7 @@ function ProblemDriver(para)
                     [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
                     
-                    [err_terms_sum,err_term1,err_term2,err_term3] ...
+                    [err_terms_sum,err_term1,err_term2,err_term3,err_term4,err_term5,err_term_extra] ...
                         = Explicit_Functional_Error_Terms(pb_type(4),pb_type(3),para.pb_parameters,...
                         mymesh,...
                         uh,qh,uhat,...
@@ -319,6 +328,9 @@ function ProblemDriver(para)
                     err_terms_1_list(ii) =  sum(err_term1);
                     err_terms_2_list(ii) =  sum(err_term2);
                     err_terms_3_list(ii) =  sum(err_term3);
+                    err_terms_4_list(ii) =  sum(err_term4);
+                    err_terms_5_list(ii) =  sum(err_term5);
+                    err_terms_extra_list(ii) =  sum(err_term_extra);
                     
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
@@ -374,9 +386,11 @@ function ProblemDriver(para)
             % -------------------------------------------------------------
             
             % visualization -----------------------------------------------
-            if ii == Niter
-                mymesh.Plot(1);
-            end
+%             if ii == Niter
+%                 mymesh.Plot(1);
+%             end
+
+            
             if ii == Niter && para.visualize_flag==1
                 basis_flag = 0;
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
@@ -386,7 +400,10 @@ function ProblemDriver(para)
                
         end
         
+        implay(M,2)
+        
         % Report reulsts---------------------------------------------------
+        
         if para.report_flag==1 
             
             ReportProblem(para) 
@@ -406,15 +423,39 @@ function ProblemDriver(para)
                 order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
                 order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
                 order_err_term_3 = GetOrder(mesh_list,err_terms_3_list);
+                order_err_term_4 = GetOrder(mesh_list,err_terms_4_list);
+                order_err_term_5 = GetOrder(mesh_list,err_terms_5_list);
+                order_err_term_extra = GetOrder(mesh_list,err_terms_extra_list);
+                
                 fprintf('\n');
                 fprintf('err_1 = (q-qh,p-ph)\n');
-                fprintf('err_2 = (q-qh,ph+grad_vh) + (qh+grad_uh,p-ph)\n');
-                fprintf('err_3 = <(qhat-q)*n,vh-vhat> + <uh-uhat,(phat-p)*n>\n');
+                fprintf('err_2 = (q-qh,ph+grad_vh) \n');
+                fprintf('err_3 = (qh+grad_uh,p-ph)\n')
+                fprintf('err_4 = <(qhat-q)*n,vh-vhat> \n');
+                fprintf('err_5 =  <uh-uhat,(phat-p)*n>\n');
+                fprintf('err_extra =  <u-uhat,p*n>\n');
+                
                 ReportTable('DOF', mesh_list,...
                     'err_sum',err_terms_sum_list,'order',order_err_terms_sum,...
                     'err_1',err_terms_1_list,'order',order_err_term_1, ...
                     'err_2',err_terms_2_list,'order',order_err_term_2,...
                     'err_3',err_terms_3_list,'order',order_err_term_3);
+                 ReportTable('DOF', mesh_list,...
+                    'err_4',err_terms_4_list,'order',order_err_term_4,...
+                    'err_5',err_terms_5_list,'order',order_err_term_5,...
+                    'err_extra',err_terms_extra_list,'order',order_err_term_extra);
+                
+                
+                order_2_and_4 = GetOrder(mesh_list,err_terms_2_list+err_terms_4_list);
+                order_3_and_5_extra = GetOrder(mesh_list,err_terms_3_list+err_terms_5_list+err_terms_extra_list);
+                ReportTable('DOF', mesh_list,...
+                    'err_2+err_4',err_terms_2_list+err_terms_4_list,'order',order_2_and_4,...
+                    'err_3+err_5+err_extra',err_terms_3_list+err_terms_5_list+err_terms_extra_list,'order',order_3_and_5_extra)
+                
+                
+                ReportTable('(err_2+err_4)/ACh', (err_terms_2_list+err_terms_4_list)./ACh_list,...
+                    '(err_3+err_5+err_extra)/ACh',(err_terms_3_list+err_terms_5_list+err_terms_extra_list)./ACh_list);
+                   
                 
                 %----------------------------------------------------------
                 figure;
