@@ -1,13 +1,13 @@
 function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_list, Err4_elewise_list,Err5_elewise_list,extra_term]...
         = Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
         mymesh,uh,qh,uhat,vh,ph,vhat,GQ1DRef_pts,GQ1DRef_wts,k,tau,post_flag)
-    
+    Nu = (k+1)*(k+2)/2;
+    Nuhat  = k+1;
+    NGQ = length(GQ1DRef_pts);
+    num_elements = mymesh.num_elements;
+    dir_vec = GetDirVec(Nuhat); % correct the uhat oritation
     if strcmp(func_type,'1')
-        Nu = (k+1)*(k+2)/2;
-        Nuhat  = k+1;
-        NGQ = length(GQ1DRef_pts);
-        num_elements = mymesh.num_elements;
-        dir_vec = GetDirVec(Nuhat); % correct the uhat oritation 
+         
         % Get Gauss Quadpoints on the square
         [a_list,b_list,Jacobian_rs_to_ab]= GetRefQuadPt(GQ1DRef_pts);
         % Map Gauss Quadpoints to the reference triangle
@@ -189,7 +189,17 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_li
             Err_elewise_list = Err1_elewise_list + Err2_elewise_list +Err3_elewise_list + Err4_elewise_list+Err5_elewise_list + extra_term;
             
         end
+    elseif strcmp(func_type,'2')
+        Err1_elewise_list = zeros(num_elements,1,numeric_t);
+        Err2_elewise_list = zeros(num_elements,1,numeric_t);
+        Err3_elewise_list = zeros(num_elements,1,numeric_t);
+        Err4_elewise_list = zeros(num_elements,1,numeric_t);
+        Err5_elewise_list = zeros(num_elements,1,numeric_t);
+        extra_term = zeros(num_elements,1,numeric_t);
+
+        Err_elewise_list = Err1_elewise_list + Err2_elewise_list +Err3_elewise_list + Err4_elewise_list+Err5_elewise_list + extra_term;
     else
+
         error ('This type of error terms calculation has not been implemented yet.')
     end
     

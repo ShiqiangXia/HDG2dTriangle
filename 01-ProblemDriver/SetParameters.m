@@ -7,19 +7,19 @@ function para = SetParameters(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 2011;
+    pb_type = 2012;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-%     mypi = 2*pi;
-%     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-%     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
+    mypi = 2*pi;
+    uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+    source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
 %     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     x = @(p) p(:,1);
 %     y = @(p) p(:,2);
@@ -34,20 +34,20 @@ function para = SetParameters(varargin)
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-    
-    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-    
-    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    
-    source_f =  @(p) 0*p(:,1);
-    
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
+%     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+%     
+%     uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+%     
+%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     
+%     source_f =  @(p) 0*p(:,1);
+%     
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
     
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
@@ -85,7 +85,7 @@ function para = SetParameters(varargin)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 1;
+    structure_flag = 0;
     %h0 = 0.5;
     
     dom_type = 'Rec';
@@ -131,7 +131,7 @@ function para = SetParameters(varargin)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 30;  % need more quads for corner singularity case
+    GQ_deg = 20;  % need more quads for corner singularity case
     %Niter = 3;
     %refine_flag = 1; 
     % 0: uniform refine,

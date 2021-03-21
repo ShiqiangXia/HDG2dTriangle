@@ -30,7 +30,7 @@ function ReportProblem(para)
         func = '';
     elseif strcmp(pb_type(4),'1')
         func = 'J(u) = (g,u)';
-    elseif strcmp(pb_type(4),'1')
+    elseif strcmp(pb_type(4),'2')
         func = 'J(u) = <q*n,phi>';
     elseif strcmp(pb_type(4),'3')
         func = 'J(u) = eigenvalue(u)';

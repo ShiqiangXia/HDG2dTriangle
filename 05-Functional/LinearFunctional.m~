@@ -251,10 +251,10 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional(func_type,pd
                  end
 
             end
-            ACh_elewise_list = zeros(num_elements,1,numeric_t);
-            
         end
-
+        
+        
+        
     end
     
 %     PlotElementWiseValue(mymesh,ACh1_elewise_list,'ACh1-elewise-list');

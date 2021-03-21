@@ -40,8 +40,7 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
         end
          % part 1: compute error J(u) - J(uh) and J(u) - Jh_AC 
          
-         err_Jh = abs(J_exact - Jh);
-         err_Jh_AC = abs(J_exact - Jh_AC);
+         
               
     elseif strcmp(func_type,'2')  % J(u) = <-gradu * n,vD> = <q*n, vD>
         
@@ -59,7 +58,7 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
                 face_id = ele_face_idx_list(ii);
                 
                 bdry_flag = mymesh.f_type(face_id);
-                if bdry_flag == 0
+                if bdry_flag == 1
                     temp_element = mymesh.element_list(element_idx,:);
                     V1 = mymesh.vertices_list(temp_element(ii),:);
                     if(ii==3)
@@ -69,7 +68,7 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
                     end
                     V2 = mymesh.vertices_list(temp_element(V2_id),:);
                     
-                    GQ_face_pts = 0.5*(V2-V1)*GQ1DRef_pts + 0.5*(V2+V1);
+                    GQ_face_pts = 0.5*(V2-V1).*GQ1DRef_pts + 0.5*(V2+V1);
                     
                     q_face_pts1 = qexact_1(GQ_face_pts);
                     q_face_pts2 = qexact_2(GQ_face_pts);
@@ -86,7 +85,7 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
                     
                     face_length = VectorNorm(V1'-V2');
                     
-                    J_exact = J_exact  + 0.5 * face_length * GQ1DRef_wts' .* temp_formula;
+                    J_exact = J_exact  + 0.5 * face_length * GQ1DRef_wts' * temp_formula;
                  end
                 
             end
@@ -98,8 +97,8 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
         error ('This type of error has not been implemented yet.')
     end
    
+    err_Jh = abs(J_exact - Jh);
+    err_Jh_AC = abs(J_exact - Jh_AC);
     
-    
-    
-    
+
 end

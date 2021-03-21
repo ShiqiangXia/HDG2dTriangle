@@ -234,13 +234,12 @@ function ProblemDriver(para)
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                     para.h0, ...
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
-                mymesh.Plot(0);
                 
-                M(ii) = getframe(gcf);
             else
                 if para.refine_flag == 0 % uniform refinement
                     
                     mymesh = mymesh.UniformRefine();
+                 
                     
                 elseif para.refine_flag == -1 % build a new mesh with h
                     
@@ -249,17 +248,20 @@ function ProblemDriver(para)
                     mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                         hh, ...
                         para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
-                    
+                  
                     
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
-                    mymesh.Plot(0);
                     
-                    M(ii) = getframe(gcf);
+                    
+                   
                     
                 end
             end
+            mymesh.Plot(0);
+                
+            M(ii) = getframe(gcf);
             % -------------------------------------------------------------
             
             
