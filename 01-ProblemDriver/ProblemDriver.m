@@ -313,26 +313,28 @@ function ProblemDriver(para)
 
                     [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
+                    if strcmp(pb_type(4),'1')
+                        [err_terms_sum,err_term1,err_term2,err_term3,err_term4,err_term5,err_term_extra] ...
+                            = Explicit_Functional_Error_Terms(pb_type(4),pb_type(3),para.pb_parameters,...
+                            mymesh,...
+                            uh,qh,uhat,...
+                            vh,ph,vhat,...
+                            GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,0);
+
+
+    %                     PlotElementWiseValue(mymesh,err_term1,'err-terms1');
+    %                     PlotElementWiseValue(mymesh,err_term2,'err-terms2');
+    %                     PlotElementWiseValue(mymesh,err_term3,'err-terms3');
+    %                     
+                        err_terms_sum_list(ii) = sum(err_terms_sum);
+                        err_terms_1_list(ii) =  sum(err_term1);
+                        err_terms_2_list(ii) =  sum(err_term2);
+                        err_terms_3_list(ii) =  sum(err_term3);
+                        err_terms_4_list(ii) =  sum(err_term4);
+                        err_terms_5_list(ii) =  sum(err_term5);
+                        err_terms_extra_list(ii) =  sum(err_term_extra);
                     
-                    [err_terms_sum,err_term1,err_term2,err_term3,err_term4,err_term5,err_term_extra] ...
-                        = Explicit_Functional_Error_Terms(pb_type(4),pb_type(3),para.pb_parameters,...
-                        mymesh,...
-                        uh,qh,uhat,...
-                        vh,ph,vhat,...
-                        GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,0);
-                    
-                    
-%                     PlotElementWiseValue(mymesh,err_term1,'err-terms1');
-%                     PlotElementWiseValue(mymesh,err_term2,'err-terms2');
-%                     PlotElementWiseValue(mymesh,err_term3,'err-terms3');
-%                     
-                    err_terms_sum_list(ii) = sum(err_terms_sum);
-                    err_terms_1_list(ii) =  sum(err_term1);
-                    err_terms_2_list(ii) =  sum(err_term2);
-                    err_terms_3_list(ii) =  sum(err_term3);
-                    err_terms_4_list(ii) =  sum(err_term4);
-                    err_terms_5_list(ii) =  sum(err_term5);
-                    err_terms_extra_list(ii) =  sum(err_term_extra);
+                    end
                     
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
@@ -378,10 +380,11 @@ function ProblemDriver(para)
                 %marked_elements = ACh_ErrEstimate(err_Jh_elewise,tol_adp,percent);
                 
                 % Plot estimator
-                if ii == Niter
+                if ii <= Niter
                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                    PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,...
-                        err_Jh_elewise,'(u-uh,g) element-wise',err_terms_sum,'Error Eh element-wise');
+%                     PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,...
+%                         err_Jh_elewise,'(u-uh,g) element-wise',err_terms_sum,'Error Eh element-wise');
+                    %PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
                 end
                 
             end
@@ -421,44 +424,45 @@ function ProblemDriver(para)
                 
                 %----------------------------------------------------------
                 % error terms 
-                order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
-                order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
-                order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
-                order_err_term_3 = GetOrder(mesh_list,err_terms_3_list);
-                order_err_term_4 = GetOrder(mesh_list,err_terms_4_list);
-                order_err_term_5 = GetOrder(mesh_list,err_terms_5_list);
-                order_err_term_extra = GetOrder(mesh_list,err_terms_extra_list);
-                
-                fprintf('\n');
-                fprintf('err_1 = (q-qh,p-ph)\n');
-                fprintf('err_2 = (q-qh,ph+grad_vh) \n');
-                fprintf('err_3 = (qh+grad_uh,p-ph)\n')
-                fprintf('err_4 = <(qhat-q)*n,vh-vhat> \n');
-                fprintf('err_5 =  <uh-uhat,(phat-p)*n>\n');
-                fprintf('err_extra =  <u-uhat,p*n>\n');
-                
-                ReportTable('DOF', mesh_list,...
-                    'err_sum',err_terms_sum_list,'order',order_err_terms_sum,...
-                    'err_1',err_terms_1_list,'order',order_err_term_1, ...
-                    'err_2',err_terms_2_list,'order',order_err_term_2,...
-                    'err_3',err_terms_3_list,'order',order_err_term_3);
-                 ReportTable('DOF', mesh_list,...
-                    'err_4',err_terms_4_list,'order',order_err_term_4,...
-                    'err_5',err_terms_5_list,'order',order_err_term_5,...
-                    'err_extra',err_terms_extra_list,'order',order_err_term_extra);
-                
-                
-                order_2_and_4 = GetOrder(mesh_list,err_terms_2_list+err_terms_4_list);
-                order_3_and_5_extra = GetOrder(mesh_list,err_terms_3_list+err_terms_5_list+err_terms_extra_list);
-                ReportTable('DOF', mesh_list,...
-                    'err_2+err_4',err_terms_2_list+err_terms_4_list,'order',order_2_and_4,...
-                    'err_3+err_5+err_extra',err_terms_3_list+err_terms_5_list+err_terms_extra_list,'order',order_3_and_5_extra)
-                
-                
-                ReportTable('(err_2+err_4)/ACh', (err_terms_2_list+err_terms_4_list)./ACh_list,...
-                    '(err_3+err_5+err_extra)/ACh',(err_terms_3_list+err_terms_5_list+err_terms_extra_list)./ACh_list);
-                   
-                
+                if strcmp(pb_type(4),'1')
+                    order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
+                    order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
+                    order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
+                    order_err_term_3 = GetOrder(mesh_list,err_terms_3_list);
+                    order_err_term_4 = GetOrder(mesh_list,err_terms_4_list);
+                    order_err_term_5 = GetOrder(mesh_list,err_terms_5_list);
+                    order_err_term_extra = GetOrder(mesh_list,err_terms_extra_list);
+
+                    fprintf('\n');
+                    fprintf('err_1 = (q-qh,p-ph)\n');
+                    fprintf('err_2 = (q-qh,ph+grad_vh) \n');
+                    fprintf('err_3 = (qh+grad_uh,p-ph)\n')
+                    fprintf('err_4 = <(qhat-q)*n,vh-vhat> \n');
+                    fprintf('err_5 =  <uh-uhat,(phat-p)*n>\n');
+                    fprintf('err_extra =  <u-uhat,p*n>\n');
+
+                    ReportTable('DOF', mesh_list,...
+                        'err_sum',err_terms_sum_list,'order',order_err_terms_sum,...
+                        'err_1',err_terms_1_list,'order',order_err_term_1, ...
+                        'err_2',err_terms_2_list,'order',order_err_term_2,...
+                        'err_3',err_terms_3_list,'order',order_err_term_3);
+                     ReportTable('DOF', mesh_list,...
+                        'err_4',err_terms_4_list,'order',order_err_term_4,...
+                        'err_5',err_terms_5_list,'order',order_err_term_5,...
+                        'err_extra',err_terms_extra_list,'order',order_err_term_extra);
+
+
+                    order_2_and_4 = GetOrder(mesh_list,err_terms_2_list+err_terms_4_list);
+                    order_3_and_5_extra = GetOrder(mesh_list,err_terms_3_list+err_terms_5_list+err_terms_extra_list);
+                    ReportTable('DOF', mesh_list,...
+                        'err_2+err_4',err_terms_2_list+err_terms_4_list,'order',order_2_and_4,...
+                        'err_3+err_5+err_extra',err_terms_3_list+err_terms_5_list+err_terms_extra_list,'order',order_3_and_5_extra)
+
+
+                    ReportTable('(err_2+err_4)/ACh', (err_terms_2_list+err_terms_4_list)./ACh_list,...
+                        '(err_3+err_5+err_extra)/ACh',(err_terms_3_list+err_terms_5_list+err_terms_extra_list)./ACh_list);
+
+                end 
                 %----------------------------------------------------------
                 figure;
                 plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
