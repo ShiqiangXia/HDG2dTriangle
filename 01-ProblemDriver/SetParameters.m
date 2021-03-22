@@ -13,13 +13,13 @@ function para = SetParameters(varargin)
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-%     mypi = pi;
-%     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-%     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
+    mypi = pi;
+    uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+    source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
 %     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     x = @(p) p(:,1);
 %     y = @(p) p(:,2);
@@ -34,21 +34,21 @@ function para = SetParameters(varargin)
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-    
-    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-    
-    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    
-    source_f =  @(p) 0*p(:,1);
-    
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
-    
+%     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+%     
+%     uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+%     
+%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     
+%     source_f =  @(p) 0*p(:,1);
+%     
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
+%     
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
 %     mypi = pi;
@@ -59,8 +59,11 @@ function para = SetParameters(varargin)
 %     source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
 %     vD = @(p) 0*p(:,1);
 %     vN = @(p) 0*p(:,1);
-    condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=0.3).*(p(:,1)<=0.8);
-    vexact = @(p) condition_func(p).*( (p(:,1)-0.3).*(p(:,1)-0.8)+1);
+
+    aa = 0.2;
+    bb = 0.8;
+    condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=aa).*(p(:,1)<=bb);
+    vexact = @(p) condition_func(p).*( (p(:,1)-aa).*(p(:,1)-bb)+1);
     pexact_1 = @(p)0*p(:,1);
     pexact_2 = @(p)0*p(:,1);
 
