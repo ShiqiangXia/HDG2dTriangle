@@ -1,7 +1,7 @@
 function [qh,uh] = HDG_RecoverLovalVariable(mymesh,...
         k,uh_hat,List_LocSol,List_LocSol_f)
     
-    %% ------ Step 5: Recover Local Solutions --------------------------
+    %% ------  Recover Local Solutions --------------------------
     Nu = (k+1)*(k+2)/2;
     Nq = 2*Nu;
     Nuhat = k+1;

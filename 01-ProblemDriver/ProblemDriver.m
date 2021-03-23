@@ -73,26 +73,27 @@ function ProblemDriver(para)
             % Solve -------------------------------------------------------
             
             
-            if strcmp(pb_type(3),'1') && strcmp(pb_type(2),'0')
-                % Solve Poission source problem
+            if strcmp(pb_type(2),'0')
+                % Solve source problem
                 
                 [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
-                [uh,qh,uhat] = HDG_GlobalSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                [uh,qh,uhat] = HDG_SourcePbSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_f,uD,uN);
                 
             % -------------------------------------------------------------
             
             
-            elseif  strcmp(pb_type(3),'1') && strcmp(pb_type(2),'1')
-                % Solve Poission eigen problem
-                [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+            elseif strcmp(pb_type(2),'1')
+                % Solve eigen problem
+                [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_EigPbSolver(pb_type(3),mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
                 lamh_list(ii) = lamh;
                 
                 
                 err_lamh_list(ii) = EigenError(para,lamh);
           
-                if err_cal_flag
+                if err_cal_flag 
+                    % which eigenfunction we want to compute error for. 
                     [tag_eig] = MyParaParse(para.pb_parameters,'tag_eig');
                     uh = uh_Neig(:,:,:,tag_eig);
                     qh = qh_Neig(:,:,:,tag_eig);
@@ -273,10 +274,10 @@ function ProblemDriver(para)
                     [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                     [source_g,vD,vN]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
                     
-                    [uh,qh,uhat] = HDG_GlobalSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    [uh,qh,uhat] = HDG_SourcePbSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_f,uD,uN);
                 
-                    [vh,ph,vhat] = HDG_GlobalSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    [vh,ph,vhat] = HDG_SourcePbSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_g,vD,vN);
                     
                 else
@@ -348,7 +349,7 @@ function ProblemDriver(para)
                 % only need to solve one eigenvlaue problem
                 if strcmp(pb_type(3),'1') %  solve poission eigen problem
                     
-                    [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_PoissionEig(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+                    [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_EigPbSolver(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
                     lamh_list(ii) = lamh;
                     err_lamh_list(ii) = EigenError(para,lamh);
