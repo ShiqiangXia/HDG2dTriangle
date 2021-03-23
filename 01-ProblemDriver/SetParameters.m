@@ -7,7 +7,7 @@ function para = SetParameters(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 2012;
+    pb_type = 1010;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
@@ -49,28 +49,29 @@ function para = SetParameters(varargin)
 %     uD = uexact;
 %     uN = @(p) 0*p(:,1);
 %     
-    
+%     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
-%     mypi = pi;
-%     vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-% 
-%     source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
-%     vD = @(p) 0*p(:,1);
-%     vN = @(p) 0*p(:,1);
+    mypi = pi;
+    vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+    pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+    pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
 
-    aa = 0.2;
-    bb = 0.8;
-    condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=aa).*(p(:,1)<=bb);
-    vexact = @(p) condition_func(p).*( (p(:,1)-aa).*(p(:,1)-bb)+1);
-    pexact_1 = @(p)0*p(:,1);
-    pexact_2 = @(p)0*p(:,1);
-
-    source_g = @(p)0*p(:,1);
-    vD = vexact;
+    source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
+    vD = @(p) 0*p(:,1);
     vN = @(p) 0*p(:,1);
-    
+
+    %%%%%%%%%% v is discontinuous on the boundary %%%%%%%%%%%%%%%%%%%%%%
+%     aa = 0.2;
+%     bb = 0.8;
+%     condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=aa).*(p(:,1)<=bb);
+%     vexact = @(p) condition_func(p).*( (p(:,1)-aa).*(p(:,1)-bb)+1);
+%     pexact_1 = @(p)0*p(:,1);
+%     pexact_2 = @(p)0*p(:,1);
+% 
+%     source_g = @(p)0*p(:,1);
+%     vD = vexact;
+%     vN = @(p) 0*p(:,1);
+%     
 %     vexact = @(p) (p(:,1)-p(:,1).^2).*(p(:,2)-p(:,2).^2) ;
 %     pexact_2 = @(p) (1-2*p(:,1)).*(p(:,2)-p(:,2).^2);
 %     pexact_1 = @(p) (p(:,1)-p(:,1).^2).*(1- 2*p(:,2));
