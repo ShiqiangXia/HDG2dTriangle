@@ -3,21 +3,24 @@ function [qh_Neig,uh_Neig] = HDG_Eig_RecoverLovalVariable(mymesh,...
     
     Nu = (k+1)*(k+2)/2;
     Nq = 2*Nu;
+    Nuhat = k+1;
     num_elements = mymesh.num_elements;
     
     Result_matrix = zeros(Nq+Nu,num_elements, Neig,numeric_t);
     
-    List_Uw = List_LocSol_f(Nq+1:end,:,:);
     List_Qw = List_LocSol_f(1:Nq,:,:);
+    List_Uw = List_LocSol_f(Nq+1:end,:,:);
     
-    List_U = List_LocSol(Nq+1:end,:,:,:);
     List_Q = List_LocSol(1:Nq,:,:,:);
+    List_U = List_LocSol(Nq+1:end,:,:,:);
+    
 
     
     for ii=1:Neig
         
         lam = lam_list(ii,1);
         uh_hat = uhat_Neig(:,ii);
+        
         for ele_idx = 1:num_elements
             element_faces_list = mymesh.element_faces_list(ele_idx,:);
             

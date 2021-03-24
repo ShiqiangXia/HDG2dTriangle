@@ -67,7 +67,7 @@ function [List_LocSol, List_LocSol_f, List_Ns]...
         % Local solver Qw * f , Uw * f
         % M_loc^-1 * Proj_f
         
-        List_LocSol_f(:,element_idx) = M_Loc\temp_mat;
+        List_LocSol_f(:,:,element_idx) = Jk*(M_Loc\temp_mat);
 
     end
     

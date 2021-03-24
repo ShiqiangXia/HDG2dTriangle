@@ -7,7 +7,7 @@ function para = SetParameters(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 1010;
+    pb_type = 1110;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Eig-3, Non-0)
@@ -156,7 +156,7 @@ function para = SetParameters(varargin)
 
     Neig = 5;
     Max_iter = 100;
-    tol_eig = 1e-8;
+    tol_eig = 1e-10;
 
     tol_adp = 1e-6;
     percent = 0.5;

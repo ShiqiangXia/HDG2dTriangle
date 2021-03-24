@@ -87,7 +87,7 @@ function ProblemDriver(para)
                 % Solve eigen problem
                 [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_EigPbSolver(pb_type(3),mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
-                lamh_list(ii) = lamh;
+                lamh_list(ii,:) = lamh';
                 
                 
                 err_lamh_list(ii) = EigenError(para,lamh);

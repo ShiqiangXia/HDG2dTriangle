@@ -42,7 +42,7 @@ function [lamh,uhat_Neig] = HDG_Eig_SolveEigenSystem(mymesh,k,...
           end
           
         if(max_iter_flag==1)
-            fprintf("%d th eigenvalue, Reached the max iteration: %d\n",ii, max_iter)
+            fprintf("%d th eigenvalue, Reached the max iteration: %d\n",ii, Max_iter)
         end
 
         lamh(ii,1) =lam;
