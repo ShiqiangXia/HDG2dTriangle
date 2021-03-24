@@ -150,7 +150,7 @@ function para = SetParameters(varargin)
     % 0: uniform refine,
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
-    err_cal_flag = 1; % 1: calculate L2 error of uh,qh
+    err_cal_flag = 0; % 1: calculate L2 error of uh,qh
     report_flag = 1; 
     visualize_flag = 0;
 

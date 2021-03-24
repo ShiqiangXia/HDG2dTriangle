@@ -5,8 +5,9 @@ function ProblemDriver(para)
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
     err_cal_flag = para.err_cal_flag;
+    mesh_list = zeros(Niter,1,numeric_t);
     if err_cal_flag == 1
-        mesh_list = zeros(Niter,1,numeric_t);
+        
         err_uh_list = zeros(Niter,1,numeric_t);
         err_qh_list = zeros(Niter,1,numeric_t);
     end
@@ -87,10 +88,10 @@ function ProblemDriver(para)
                 % Solve eigen problem
                 [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_EigPbSolver(pb_type(3),mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
-                lamh_list(ii,:) = lamh';
+                lamh_list(ii,:) = lamh;
                 
                 
-                err_lamh_list(ii) = EigenError(para,lamh);
+                err_lamh_list(ii,:) = EigenError(pb_type(3),lamh,para.dom_type,para.geo_parameters);
           
                 if err_cal_flag 
                     % which eigenfunction we want to compute error for. 
@@ -117,10 +118,10 @@ function ProblemDriver(para)
             
             % Calculate Error ---------------------------------------------
             
+            mesh_list(ii) = GetDof(mymesh, para.order);
             
             if err_cal_flag
                 
-                mesh_list(ii) = GetDof(mymesh, para.order);
                 
                 [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
             
@@ -171,8 +172,10 @@ function ProblemDriver(para)
             ReportProblem(para) 
             
             if strcmp(pb_type(2),'1')
+                tag_text = 'eig_';
+                temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
                 ReportTable('DOF', mesh_list,...
-                    'lamh',err_lamh_list)
+                    temp_eig{:})
             end
             
             if  err_cal_flag == 1

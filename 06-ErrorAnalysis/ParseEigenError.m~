@@ -1,0 +1,13 @@
+function eig_err=ParseEigenError(mesh_list,err_lamh_list,tag_text)
+    [Niter,Neig] = size(err_lamh_list);
+    
+    eig_err = cells(1,4*Neig);
+    text_order = 'order';
+    for ii = 1:Neig
+        temp_tag = append(tag_text,num2str(ii));
+        temp_eig_err = err_lamh_list(:,ii);
+        temp_order = GetOrder(mesh_list,temp_eig_err);
+        cells(1,i)
+    end
+    
+end
