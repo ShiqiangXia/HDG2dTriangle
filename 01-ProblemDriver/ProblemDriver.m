@@ -259,10 +259,10 @@ function ProblemDriver(para)
  
                 end
             end
-            if para.visualize_flag==1
+            %if para.visualize_flag==1
                 mymesh.Plot(0); 
                 M(ii) = getframe(gcf);
-            end
+            %end
             mesh_list(ii) = GetDof(mymesh, para.order);
             % -------------------------------------------------------------
             
@@ -510,6 +510,13 @@ function ProblemDriver(para)
                 fprintf('ration =  err_lambdah/ACh\n');
                 ReportTable('dof', mesh_list,...
                     temp_eig{:})
+                
+                figure;
+                plot(0.5*log10(mesh_list),log10(err_lamh2_list(:,tag_eig)),'--bo',...
+                    0.5*log10(mesh_list),log10(err_lamh_AC_list(:,tag_eig)),'--kx',...
+                    0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
+                legend('Err-lamh','Err-lamh-AC','ACh')
+                title('Log plot of errors and estimator');
                 
                 
                 

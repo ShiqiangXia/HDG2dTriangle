@@ -103,23 +103,23 @@ function para = SetParameters(varargin)
     structure_flag = 1;
     %h0 = 0.5;
     
-    dom_type = 'Rec';
-    dirichlet_flag = ["bottom","top","left","right"];
-    neuman_flag = [];
-    x1 = 0;
-    y1 = 0;
-    x2 = 1;
-    y2 = 1;
-    tri_dir = 0;
-    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
-    
-
-%     dom_type = 'L';
-%     dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
+%     dom_type = 'Rec';
+%     dirichlet_flag = ["bottom","top","left","right"];
 %     neuman_flag = [];
+%     x1 = 0;
+%     y1 = 0;
+%     x2 = 1;
+%     y2 = 1;
 %     tri_dir = 0;
-%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
+%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
 %     
+
+    dom_type = 'L';
+    dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
+    neuman_flag = [];
+    tri_dir = 0;
+    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
+    
     
     
 
