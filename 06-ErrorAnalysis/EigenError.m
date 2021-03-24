@@ -2,7 +2,7 @@ function rlt = EigenError(pde_type,lamh,dom_type,geo_para)
     % step 1 get exact eigenvalues
     % step 2 compute error
     
-    Neig = size(lamh,1);
+    Neig = size(lamh,2);
     rlt = zeros(1,Neig,numeric_t);
     if strcmp(pde_type,'1')
         % poisson problem
@@ -27,9 +27,18 @@ function rlt = EigenError(pde_type,lamh,dom_type,geo_para)
             % the first 885573 eigenvalues are corrrect!
             
             
-            rlt(1,:) = abs(lam_exact(1:Neig) - lamh' );
+            rlt(1,:) = abs(lam_exact(1:Neig) - lamh );
             
         elseif strcmp(dom_type,'L')
+            
+            if (Neig>3)
+                Neig = 3;
+                frpintf("L-shaped domain only implements the first 3 eigenvalues")
+            end
+            
+            lam_exact = numeric_t('[9.6397238440219, 15.19725192576365 ,2*pi^2]');
+            
+            rlt(1,:) = abs(lam_exact(1:Neig) - lamh' );
             
         else
             error('Domain type %s has not been implemented yet',dom_type);

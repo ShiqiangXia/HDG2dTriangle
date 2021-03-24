@@ -6,7 +6,7 @@ function [lamh,uhat_Neig] = HDG_Eig_SolveEigenSystem(mymesh,k,...
       Nuhat = k+1;
       num_faces = mymesh.num_faces;
       
-      lamh = zeros(Neig,1,numeric_t);
+      lamh = zeros(1,Neig,numeric_t);
       uhat_Neig = zeros(num_faces*Nuhat,Neig,numeric_t);
       
       lam = 0;
@@ -45,7 +45,7 @@ function [lamh,uhat_Neig] = HDG_Eig_SolveEigenSystem(mymesh,k,...
             fprintf("%d th eigenvalue, Reached the max iteration: %d\n",ii, Max_iter)
         end
 
-        lamh(ii,1) =lam;
+        lamh(1,ii) =lam;
         uhat_Neig(:,ii) = eta;
         
       end

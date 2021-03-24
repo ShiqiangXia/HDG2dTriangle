@@ -18,7 +18,7 @@ function [qh_Neig,uh_Neig] = HDG_Eig_RecoverLovalVariable(mymesh,...
     
     for ii=1:Neig
         
-        lam = lam_list(ii,1);
+        lam = lam_list(1,ii);
         uh_hat = uhat_Neig(:,ii);
         
         for ele_idx = 1:num_elements

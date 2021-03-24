@@ -66,7 +66,9 @@ function ProblemDriver(para)
                     mymesh = mymesh.Refine(marked_elements, r_f);
                 end
             end
-
+            
+            
+            
             % -------------------------------------------------------------
                        
             % Solve -------------------------------------------------------
@@ -152,7 +154,7 @@ function ProblemDriver(para)
             
             
             % visualization -----------------------------------------------
-            if ii == Niter && para.visualize_flag==1
+            if ii == Niter
                 mymesh.Plot(1);
             end
             if ii == Niter && para.visualize_flag==1
@@ -256,14 +258,14 @@ function ProblemDriver(para)
                 else % refine based on marked elements
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
- 
+                    
+                    
+                   
+                    
                 end
             end
-            if para.visualize_flag==1
-                mymesh.Plot(0); 
-                M(ii) = getframe(gcf);
-            end
-            mesh_list(ii) = GetDof(mymesh, para.order);
+            mymesh.Plot(0); 
+            M(ii) = getframe(gcf);
             % -------------------------------------------------------------
             
             
@@ -296,10 +298,11 @@ function ProblemDriver(para)
                 %PlotElementWiseValue(mymesh,ACh_elewise_list,'ACh-elewise-list');
                 
 
-                % Cal funciton Error ------------------------------------------------
-                 
+                % CalError ------------------------------------------------
+                       
                 if err_cal_flag==1
-
+                    mesh_list(ii) = GetDof(mymesh, para.order);
+                    
                     [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
 
                     [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
@@ -394,17 +397,21 @@ function ProblemDriver(para)
             % -------------------------------------------------------------
             
             % visualization -----------------------------------------------
+%             if ii == Niter
+%                 mymesh.Plot(1);
+%             end
+
+            
             if ii == Niter && para.visualize_flag==1
                 basis_flag = 0;
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             % ------------------------------------------------------------- 
-   
+            
+               
         end
         
-        if para.visualize_flag==1
-            implay(M,2)
-        end
+        implay(M,2)
         
         % Report reulsts---------------------------------------------------
         
@@ -484,36 +491,14 @@ function ProblemDriver(para)
                 
             elseif strcmp(pb_type(2),'1')
                 
-                tag_text = 'eh_HDG_';
+                tag_text = 'eig_HDG_';
                 temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
                 
                 ReportTable('dof', mesh_list,...
                     temp_eig{:})
                 
-                tag_text = 'eh_func_';
-                temp_eig=ParseEigenError(mesh_list,err_lamh2_list,tag_text);
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                tag_text = 'ACh_eig_';
-                temp_eig=ParseEigenError(mesh_list,ACh_list,tag_text);
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                tag_text = 'eh_ac_';
-                temp_eig=ParseEigenError(mesh_list,err_lamh_AC_list,tag_text);
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                tag_text = 'ratio_';
-                temp_eig=ParseEigenError(mesh_list,err_lamh2_list./ACh_list,tag_text,0);
-                fprintf('ration =  err_lambdah/ACh\n');
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                
-                
-                
+                tag_text = 'eig_func_';
+                temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
                 
                 
                 
