@@ -378,8 +378,9 @@ function ProblemDriver(para)
             
             % Posterior error estimate if needed--------------------------- 
             if para.refine_flag > 0
+                mark_flag = 1; % 1: bulk marking strategy Dorfler , 0: max marking strategy
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
-                marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent);
+                marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent,mark_flag);
                 %marked_elements = ACh_ErrEstimate(err_Jh_elewise,tol_adp,percent);
                 
                 % Plot estimator

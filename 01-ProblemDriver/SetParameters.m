@@ -170,7 +170,7 @@ function para = SetParameters(varargin)
     tol_eig = 1e-10;
 
     tol_adp = 1e-6;
-    percent = 0.5;
+    percent = 0.3;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
