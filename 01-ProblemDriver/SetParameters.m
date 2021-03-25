@@ -7,19 +7,19 @@ function para = SetParameters(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 2110;
+    pb_type = 2011;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-    mypi = pi;
-    uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-    qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-    qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-    source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
+%     mypi = pi;
+%     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+%     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+%     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+%     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
 %     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     x = @(p) p(:,1);
 %     y = @(p) p(:,2);
@@ -34,22 +34,22 @@ function para = SetParameters(varargin)
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-%     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-%     
-%     uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-%     
-%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     
-%     source_f =  @(p) 0*p(:,1);
-%     
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
-%     
-%     
+    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+    
+    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+    
+    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    
+    source_f =  @(p) 0*p(:,1);
+    
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
+    
+    
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
     mypi = pi;
     vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
@@ -103,23 +103,23 @@ function para = SetParameters(varargin)
     structure_flag = 1;
     %h0 = 0.5;
     
-%     dom_type = 'Rec';
-%     dirichlet_flag = ["bottom","top","left","right"];
-%     neuman_flag = [];
-%     x1 = 0;
-%     y1 = 0;
-%     x2 = 1;
-%     y2 = 1;
-%     tri_dir = 0;
-%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
-%     
-
-    dom_type = 'L';
-    dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
+    dom_type = 'Rec';
+    dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
-    tri_dir = 1;
-    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
+    x1 = 0;
+    y1 = 0;
+    x2 = 1;
+    y2 = 1;
+    tri_dir = 0;
+    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
     
+
+%     dom_type = 'L';
+%     dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
+%     neuman_flag = [];
+%     tri_dir = 1;
+%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
+%     
     
     
 
@@ -161,7 +161,9 @@ function para = SetParameters(varargin)
     % 0: uniform refine,
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
-    err_cal_flag = 0; % 1: calculate L2 error of uh,qh
+    
+    err_cal_flag = 1; % 1: calculate L2 error of uh,qh
+    
     report_flag = 1; 
     visualize_flag = 0;
 
@@ -170,7 +172,7 @@ function para = SetParameters(varargin)
     tol_eig = 1e-10;
 
     tol_adp = 1e-6;
-    percent = 0.3;
+    percent = 0.5;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
