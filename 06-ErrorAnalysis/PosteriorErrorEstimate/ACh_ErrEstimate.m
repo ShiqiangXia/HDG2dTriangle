@@ -15,12 +15,13 @@ function marked = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent, mark_flag)
         part_sum = 0;
         
         for jj = 1:nn
-            part_sum = part_sum + s(jj);
+            
             if part_sum < criterion
                 marked(i(jj)) = 1;
             else
                 break;
             end
+            part_sum = part_sum + s(jj);
         end
         marked = logical(marked);
     else
