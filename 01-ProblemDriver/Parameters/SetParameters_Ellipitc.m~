@@ -1,7 +1,6 @@
-function para = SetParameters(varargin)
+function para = SetParameters_Ellipitc(varargin)
     
     [order,h0,Niter,refine_flag] = MyParaParse(varargin,'order','h0','Niter','refine_flag');
-
 
     % define parameters
     para = Parameter();
