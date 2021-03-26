@@ -1,16 +1,13 @@
 function [wh,uh,ph,hat_var] = HDG_SourcePbSolver_Maxwell(pb,mymesh,GQ1DRef_pts,GQ1DRef_wts,...
-        k,tau_t,tau_n,source_j_1,source_j_2,uhat_t_D,mu,epsilon,omg)
+        k,tau_t,tau_n,source_j_1,source_j_2,uxn_D,mu,epsilon,omg)
     
-    % this source problem solver works for any source problem with dirichlet boundary
+    % this source problem solver works for any maxwell source problem with
+    % boundary u x n = uxn_D
     % namely solve:
-    % sum <qh*n+tau(uh-uhat),mu>_pK = 0
+    % 
     %
     % Neuman boundary is not implemented yet. 
-    %
-    % for different type of PDE,the difference is to call different local solver 
-    % matrices in Step 1. 
-    % the rest assmeble global matrix, solve and recover part is the same!
-    
+   
     %% ---- step 1: Get local equations
     
     [List_LocSol, List_LocSol_f, List_Ns]...
@@ -23,7 +20,7 @@ function [wh,uh,ph,hat_var] = HDG_SourcePbSolver_Maxwell(pb,mymesh,GQ1DRef_pts,G
         k,tau_t,tau_n,epsilon, List_LocSol,List_Ns);
     
     [Global_b]= HDG_AssembleGlobalEquation_RHS_Maxwell(mymesh,GQ1DRef_pts,GQ1DRef_wts,...
-        k,uhat_t_D, List_LocSol_f,List_Ns);
+        k,uxn_D, List_LocSol_f,List_Ns);
     
     
     %% ---- Step 3: Solve the linear system
