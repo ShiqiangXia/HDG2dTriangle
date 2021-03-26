@@ -1,5 +1,6 @@
 function Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     
+    % Notice that here uhat has the same orientation as the triangle(counterclock wise)
     Nuhat = (k+1);
     Nu = (k+2)*(k+1)/2;
     NGQ = length(GQ1DRef_pts);
