@@ -1,6 +1,5 @@
-function [List_LocSol, List_LocSol_f, List_Ns]...
-        =HDG_Eig_GetLocalEquations(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
-        k,tau)
+function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Elliptic(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+        k,tau,source_f)
     %% ----- Step 0 Set up parameters ---------------------------------------
     
     Nu = (k+1)*(k+2)/2;
@@ -23,21 +22,18 @@ function [List_LocSol, List_LocSol_f, List_Ns]...
     
     %%% Local equation
     %
-    %          qh                         0
-    %  M_loc* (  ) = Sum: N_i * uhat_Fi +(  ) uh
-    %          uh                         Id
+    %          qh
+    %  M_loc* (  ) = Sum: N_i * uhat_Fi +Proj_f
+    %          uh
     % >>
-    %  (qh = (Q   * uhat   + (Qw  *  uh
+    %  (qh = (Q   * uhat   + (Qw
     %   uh)   U)              Uw)
     %  
     %%%%
-    List_LocSol_f = zeros(Nq+Nu,Nu,num_elements,numeric_t); % Local solver Qw,Uw  <----f
+    List_LocSol_f = zeros(Nq+Nu,num_elements,numeric_t); % Local solver Qw,Uw  <----f
     List_LocSol = zeros(Nq+Nu,Nuhat,num_elements,3,numeric_t); % Local solver Q, U <----uhat
     List_Ns = zeros(Nq+Nu,Nuhat,num_elements,3,numeric_t); % helper for Global Eqs
     % go through all the elements to build local solver matrices
-    temp_mat1 = zeros(Nq,Nu,numeric_t);
-    temp_mat2 = eye(Nu,Nu,numeric_t);
-    temp_mat = [temp_mat1;temp_mat2];
     
     for element_idx = 1: num_elements
         
@@ -63,11 +59,17 @@ function [List_LocSol, List_LocSol_f, List_Ns]...
             % [<qh*n,mu>, <tau*uh, mu>]
             List_Ns(:,:,element_idx,jj) = [-Ns(1:Nq,:,jj);Ns(Nq+1:end,:,jj)];
         end
-    
+            
+        % Compute the projection of source_f
+        Proj_f = zeros(Nq+Nu,1,numeric_t);
+        
+        Proj_f(Nq+1:end) = Project_F_to_Wh(Jk,vertice_list,...
+            source_f,k,...
+            GQ1DRef_pts,GQ1DRef_wts);
+        
         % Local solver Qw * f , Uw * f
         % M_loc^-1 * Proj_f
-        
-        List_LocSol_f(:,:,element_idx) = Jk*(M_Loc\temp_mat);
+        List_LocSol_f(:,element_idx) = M_Loc\Proj_f;
 
     end
     

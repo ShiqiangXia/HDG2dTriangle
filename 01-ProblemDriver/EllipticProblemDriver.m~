@@ -1,13 +1,15 @@
-function ProblemDriver(para)
-    % This is the main problem driver.
+function EllipticProblemDriver(para)
+    % This is the main problem driver for elliptic equations.
+    % three unknows: qh, uh, uhat
+    
     pb_type = num2str(para.pb_type);
     Niter = para.Niter;
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
     err_cal_flag = para.err_cal_flag;
     mesh_list = zeros(Niter,1,numeric_t);
+    
     if err_cal_flag == 1
-        
         err_uh_list = zeros(Niter,1,numeric_t);
         err_qh_list = zeros(Niter,1,numeric_t);
     end
@@ -36,8 +38,7 @@ function ProblemDriver(para)
     if strcmp(pb_type(1),'1')
         
         % Solve PDE problem
-    
-    
+
         %%%%%%% step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving PDE problem\n')
@@ -76,19 +77,17 @@ function ProblemDriver(para)
                 % Solve source problem
                 
                 [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
-                [uh,qh,uhat] = HDG_SourcePbSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_f,uD,uN);
                 
             % -------------------------------------------------------------
-            
-            
+
             elseif strcmp(pb_type(2),'1')
                 % Solve eigen problem
                 [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_EigPbSolver(pb_type(3),mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
                 lamh_list(ii,:) = lamh;
-                
-                
+
                 err_lamh_list(ii,:) = EigenError(pb_type(3),lamh,para.dom_type,para.geo_parameters);
           
                 if err_cal_flag 
@@ -114,12 +113,11 @@ function ProblemDriver(para)
             end
             % -------------------------------------------------------------
             
-            % Calculate Error ---------------------------------------------
+            % Calculate function Error ---------------------------------------------
             
             mesh_list(ii) = GetDof(mymesh, para.order);
             
             if err_cal_flag
-                
                 
                 [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
             
@@ -275,10 +273,10 @@ function ProblemDriver(para)
                     [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                     [source_g,vD,vN]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
                     
-                    [uh,qh,uhat] = HDG_SourcePbSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_f,uD,uN);
                 
-                    [vh,ph,vhat] = HDG_SourcePbSolver(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                    [vh,ph,vhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                     para.order, para.tau,source_g,vD,vN);
                     
                 else

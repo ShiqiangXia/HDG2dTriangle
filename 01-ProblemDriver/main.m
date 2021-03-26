@@ -7,5 +7,5 @@ function main(varargin)
     global class_t;
     class_t=para.precision;
     
-    ProblemDriver(para);
+    EllipticProblemDriver(para);
 end
