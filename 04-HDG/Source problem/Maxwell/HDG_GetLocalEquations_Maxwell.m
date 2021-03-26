@@ -1,5 +1,5 @@
 function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
-        k,tau_t,tau_n,source_j_1,source_j_2)
+        k,tau_t,tau_n,source_j_1,source_j_2,mu,epsilon,omg)
     %% ----- Step 0 Set up parameters ---------------------------------------
     
     Nw = (k+1)*(k+2)/2;
@@ -19,7 +19,7 @@ function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb,
     
     if strcmp(pb,'5')
         % ?time-harmonic Maxwells? equations in
-        [Auu,Auur,Auus,Auu3,Buuhat3] = HDG_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts);
+        [Aww,Awwr,Awws,Aww3,Bwuhat3] = HDG_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts);
     else
         error('HDG method for problem type %s has not implemented yet ', pb);
     end
@@ -58,8 +58,8 @@ function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb,
         % Local equation matrices
         if strcmp(pb,'5')
             [Ns,M_Loc] = HDG_MaxwellLocalEquations(...  % ^^^^^^^^^^^^^
-                                    Jk,vertice_list,tau,...
-                                       Auu,Auur,Auus,Auu3,Buuhat3,uhat_dir_list);
+                                    Jk,vertice_list,tau_t,tau_n,mu,epsilon,omg,...
+                                       Aww,Awwr,Awws,Aww3,Bwuhat3,uhat_dir_list);
         end
         
         % Local solver Q,U
@@ -76,15 +76,18 @@ function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb,
         end
             
         % Compute the projection of source_f
-        Proj_f = zeros(Nq+Nu,1,numeric_t);
+        Proj_j = zeros(N_local,1,numeric_t);
         
-        Proj_f(Nq+1:end) = Project_F_to_Wh(Jk,vertice_list,...
-            source_f,k,...
+        Proj_j(Nw+1:Nw+Nw) = Project_F_to_Wh(Jk,vertice_list,...
+            source_j_1,k,...
+            GQ1DRef_pts,GQ1DRef_wts);
+        Proj_j(Nw+Nw+1:Nw+Nu) = Project_F_to_Wh(Jk,vertice_list,...
+            source_j_2,k,...
             GQ1DRef_pts,GQ1DRef_wts);
         
         % Local solver Qw * f , Uw * f
         % M_loc^-1 * Proj_f
-        List_LocSol_f(:,element_idx) = M_Loc\Proj_f;
+        List_LocSol_f(:,element_idx) = M_Loc\Proj_j;
 
     end
     
