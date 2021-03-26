@@ -109,8 +109,13 @@ function [Ns,M_Loc] = HDG_MaxwellLocalEquations(...
         
         Z_pphat = tau_n*epsilon*Bwuhat3(:,:,tt);
         if phat_dir_list(1,tt) == 0  % reverse uhat direction
+            Z_wuhat_t = Z_wuhat_t.*dir_vec;
+            Z_uuhat_t = Z_uuhat_t.*dir_vec;
             Z_uphat = Z_uphat.*dir_vec;
             Z_pphat = Z_pphat.*dir_vec;
+            
+            Z_wuhat_t = - Z_wuhat_t; % delta_Th
+            Z_uuhat_t = - Z_uuhat_t;
         end
         zero_mat2 = zeros(Nface,Nface,numeric_t);
         
