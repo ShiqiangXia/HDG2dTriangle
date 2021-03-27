@@ -50,11 +50,9 @@ function [Global_M]= HDG_AssembleGlobalEquation_LHS_Maxwell(mymesh,...
                 end
 
                 
-                if uhat_dir_list(1,ii) == 0
-                    temp_Id_mat = blkdiag(-tau_t*Id_mtrix,tau_n*epsilon*Id_mtrix);
-                else
-                    temp_Id_mat = blkdiag(tau_t*Id_mtrix,tau_n*epsilon*Id_mtrix);
-                end
+                
+                temp_Id_mat = blkdiag(tau_t*Id_mtrix,tau_n*epsilon*Id_mtrix);
+                
                 
                 Global_M(start_id:end_id,start_id:end_id) = ...
                     Global_M(start_id:end_id,start_id:end_id) - temp_Id_mat*edge_len_list(ii)*0.5;

@@ -21,7 +21,8 @@ function [Global_b]= HDG_AssembleGlobalEquation_RHS_Maxwell(mymesh,GQ1DRef_pts,G
         
         uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
         
-        [edge_len_list,~] = GetTriFaceInfo(vertice_list);
+        [edge_len_list,n1,n2,n3] = GetTriFaceInfo(vertice_list);
+        
         for ii = 1:length(ele_face_idx_list)
             face_id = ele_face_idx_list(ii);
           
@@ -34,7 +35,7 @@ function [Global_b]= HDG_AssembleGlobalEquation_RHS_Maxwell(mymesh,GQ1DRef_pts,G
                 
                 Bd_Int_mat = List_Ns(:,:,element_idx,ii)';
   
-                Global_b(start_id:end_id,1) =Global_b(start_id:end_id,1)-Bd_Int_mat*List_LocSol_f(:,element_idx);
+                Global_b(start_id:end_id,1) =Global_b(start_id:end_id,1)- Bd_Int_mat*List_LocSol_f(:,element_idx);
                 
                 
                      
@@ -46,9 +47,19 @@ function [Global_b]= HDG_AssembleGlobalEquation_RHS_Maxwell(mymesh,GQ1DRef_pts,G
                 
                 % set uhat_t = uhat_t_D on border 
                 %     phat = 0
+                if ii ==1
+                    norm_vec = n1;
+                elseif ii == 2
+                    norm_vec = n2;
+                else
+                    norm_vec = n3;
+                end
+                
+                func_g = @(p)uhat_t_D(p,norm_vec);
+                
                 Global_b(start_id:start_id+Nuhat_t-1,1) = Project_F_to_Face(Jk,vertice_list,...
                     ii,uhat_dir_list(1,ii),edge_len_list(ii),...
-                    k,uhat_t_D,GQ1DRef_pts,GQ1DRef_wts);
+                    k,func_g,GQ1DRef_pts,GQ1DRef_wts);
                 
                 
             elseif bdry_flag == 2 % neuman boundary

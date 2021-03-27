@@ -18,7 +18,7 @@ function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb,
     %% ----- step 1 get Local Matrices on ref element ----------------------------------
     
     if strcmp(pb,'5')
-        % ?time-harmonic Maxwells? equations in
+        % time-harmonic Maxwells equations in
         [Aww,Awwr,Awws,Aww3,Bwuhat3] = HDG_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts);
     else
         error('HDG method for problem type %s has not implemented yet ', pb);
@@ -81,6 +81,7 @@ function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb,
         Proj_j(Nw+1:Nw+Nw) = Project_F_to_Wh(Jk,vertice_list,...
             source_j_1,k,...
             GQ1DRef_pts,GQ1DRef_wts);
+        
         Proj_j(Nw+Nw+1:Nw+Nu) = Project_F_to_Wh(Jk,vertice_list,...
             source_j_2,k,...
             GQ1DRef_pts,GQ1DRef_wts);

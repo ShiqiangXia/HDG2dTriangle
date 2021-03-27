@@ -12,26 +12,49 @@ function para = SetParameters_Maxwell(varargin)
     % c: PDE type (Poission-1,Maxwell-5), D:functional type (Vol-1, Bdry-2, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
+%     mu = 1;
+%     epsilon = 1;
+%     omg = 1;
+%     
+%     x = @(p) p(:,1);
+%     y = @(p) p(:,2);
+%     
+%     uexact_1 = @(p) sin(omg*y(p));
+%     uexact_2 = @(p) sin(omg*x(p));
+%     
+%     wexact = @(p) omg*( cos(omg*x(p)) - cos(omg*y(p)) );
+%     
+%     pexact = @(p) 0*p(:,1);
+%     
+%     source_j_1 = @(p) 0*p(:,1);
+%     source_j_2 = @(p) 0*p(:,1);
+%    
+%     uxn_D = @(p,n) sin(omg*y(p))*n(2) -  sin(omg*x(p))*n(1);
+    
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     mu = 1;
     epsilon = 1;
-    omg = numeric_t('pi');
+    omg = 1;
+    mypi = numeric_t('pi');
     
     x = @(p) p(:,1);
     y = @(p) p(:,2);
     
-    uexact_1 = @(p) sin(omg*y(p));
-    uexact_2 = @(p) sin(omg*x(p));
+    uexact_1 = @(p) (0*y(p));
+    uexact_2 = @(p) (0*x(p));
     
-    wexact = @(p) omg*( cos(omg*x(p)) - cos(omg*y(p)) );
+    wexact = @(p) 0*p(:,1);
     
-    pexact = @(p) 0*p(:,1);
+    pexact = @(p) sin(mypi*x(p)).*sin(mypi*y(p));
     
-    source_j_1 = @(p) 0*p(:,1);
-    source_j_2 = @(p) 0*p(:,1);
+    source_j_1 = @(p) mypi*cos(mypi*x(p)).*sin(mypi*y(p));
+    source_j_2 = @(p) mypi*sin(mypi*x(p)).*cos(mypi*y(p));
    
-    uxn_D = @(p) 0*p(:,1);
+    uxn_D = @(p,n) uexact_1(p)*n(2) -  uexact_2(p)*n(1);
     
    
+    
+    
     
     
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

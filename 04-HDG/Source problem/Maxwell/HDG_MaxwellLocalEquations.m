@@ -28,7 +28,15 @@ function [Ns,M_Loc] = HDG_MaxwellLocalEquations(...
     % (w_j,w_i)
     Mww = Jk*mu*Aww;
     
-    %(u_j,curl x w_i)
+    %(u_i,curl x w_j)
+    % = (d(w_j)/dy, -d(w_j)/dx) * (u_i1, u_i2)
+    % here vector u_i = (basis_i,0) and (0,basis_i) and w_j = basis_j
+    % we get:
+    % d(basis_j)/dy * basis_i
+    % -d(basis_j)/dx * basis_i
+    
+    % notice that Awwr = basis_i * d(basis_j)/dr
+
     % get the affine map and it's inverse
     
     [~,Inv_AffineMap] = Ref_Tri_Map(Jk,vertice_list);
@@ -67,10 +75,11 @@ function [Ns,M_Loc] = HDG_MaxwellLocalEquations(...
         + e_list(2)*Aww3(:,:,2)*n2(1)*n2(1)...
         + e_list(3)*Aww3(:,:,3)*n3(1)*n3(1));
     
-    Muu = [Mu1u1,Mu1u2;Mu2u1,Mu2u2] + epsilon * omg^2 * Jk* blkdiag(Aww,Aww);
+    Muu = [Mu1u1,Mu1u2;Mu2u1,Mu2u2] - epsilon * omg^2 * Jk* blkdiag(Aww,Aww);
     
     temp_3 = epsilon*Jk*(Awwr*r_x + Awws*s_x);
     temp_4 = epsilon*Jk*(Awwr*r_y + Awws*s_y);
+    
     Mpu = [temp_3,temp_4];
     
     Mpp = tau_n*epsilon*0.5*(...
@@ -108,15 +117,18 @@ function [Ns,M_Loc] = HDG_MaxwellLocalEquations(...
         Z_uphat = -epsilon*[Bwuhat3(:,:,tt)*n_vec(1);Bwuhat3(:,:,tt)*n_vec(2)];
         
         Z_pphat = tau_n*epsilon*Bwuhat3(:,:,tt);
+        
         if phat_dir_list(1,tt) == 0  % reverse uhat direction
+            % make sure all the hat variable use the same face orientation
             Z_wuhat_t = Z_wuhat_t.*dir_vec;
             Z_uuhat_t = Z_uuhat_t.*dir_vec;
             Z_uphat = Z_uphat.*dir_vec;
             Z_pphat = Z_pphat.*dir_vec;
             
-            Z_wuhat_t = - Z_wuhat_t; % delta_Th
+            Z_wuhat_t = - Z_wuhat_t; % time * delta_Th
             Z_uuhat_t = - Z_uuhat_t;
         end
+        
         zero_mat2 = zeros(Nw,Nface,numeric_t);
         
         N = [Z_wuhat_t,  zero_mat2;...
