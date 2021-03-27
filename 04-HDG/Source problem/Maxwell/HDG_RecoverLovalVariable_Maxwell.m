@@ -41,7 +41,7 @@ function [wh,uh,ph] = HDG_RecoverLovalVariable_Maxwell(mymesh,...
     
     wh = Result_matrix(1:Nw,:);
     uh = Result_matrix(Nw+1:Nw+Nu,:);
-    ph =  Result_matrix(Nw+Nu:end,:);
+    ph =  Result_matrix(Nw+Nu+1:end,:);
     
     
 end

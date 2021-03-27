@@ -19,13 +19,13 @@ function ReportProblem(para)
     
     if strcmp(pb_type(3),'1')
         if strcmp(pb_type(2),'0')
-            pb_eq = '-Laplace u = f\nu = uD on bounary';
+            pb_eq = 'Eq: -Laplace u = f\n   u = uD on bounary\n';
         elseif strcmp(pb_type(2),'1')
-            pb_eq = '-Laplace u = lam * u\nu = 0 on bounary';
+            pb_eq = 'Eq: -Laplace u = lam * u\n   u = 0 on bounary\n';
         end
     elseif strcmp(pb_type(3),'5')
         if strcmp(pb_type(2),'0')
-            pb_eq = 'mu*w - curl(u)=0\ncurl(w)- eps*omg^2*u + eps*grad(p) = j\ndiv(eps*u)=0\nu x n = g on boundary';
+            pb_eq = 'Eq: mu*w - curl(u)=0\n   curl(w)- eps*omg^2*u + eps*grad(p) = j\n   div(eps*u)=0\n   u x n = g on boundary\n';
         end
     else  
     end
@@ -59,7 +59,7 @@ function ReportProblem(para)
     fprintf('---------- Report ------------\n')
     
     fprintf("%s %s\n",pb1,pb2 );
-    fprintf("Eq: %s\n",pb_eq);
+    fprintf(pb_eq);
     if ~strcmp(pb_type(4),'0')
         fprintf("Functional: %s\n",func);
     end

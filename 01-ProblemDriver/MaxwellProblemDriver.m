@@ -67,7 +67,7 @@ function MaxwellProblemDriver(para)
              if strcmp(pb_type(2),'0')
                  % Solve source problem
                  [source_j_1,source_j_2,uxn_D,mu,epsilon,omg]...
-                     =MyParaParse(para.pb_parameters,'source_j_1','source_j_1',...
+                     =MyParaParse(para.pb_parameters,'source_j_1','source_j_2',...
                      'uxn_D','mu','epsilon','omg');
                  
                  [wh,uh,ph,hat_var] ...
@@ -108,27 +108,29 @@ function MaxwellProblemDriver(para)
                 mymesh.Plot(1);
             end
             
-            % Step 4. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            if para.report_flag==1
-                ReportProblem(para)
-                
-                if  err_cal_flag == 1
-                    order_wh = GetOrder(mesh_list,err_wh_list);
-                    order_uh = GetOrder(mesh_list,err_uh_list);
-                    order_ph = GetOrder(mesh_list,err_ph_list);
-                    ReportTable('DOF', mesh_list,...
-                        'err_wh',err_wh_list,'order', order_wh,...
-                        'err_uh',err_uh_list,'order',order_uh,...
-                        'err_ph',err_ph_list,'order', order_ph);
+        end
+            
+        % Step 4. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        if para.report_flag==1
+            ReportProblem(para)
 
-                end
-                
+            if  err_cal_flag == 1
+                order_wh = GetOrder(mesh_list,err_wh_list);
+                order_uh = GetOrder(mesh_list,err_uh_list);
+                order_ph = GetOrder(mesh_list,err_ph_list);
+                ReportTable('DOF', mesh_list,...
+                    'err_wh',err_wh_list,'order', order_wh,...
+                    'err_uh',err_uh_list,'order',order_uh,...
+                    'err_ph',err_ph_list,'order', order_ph);
+
             end
+
+        end
               
             
              
             
-        end
+        
 
      else
          error('Pb type is not incorrect, please double check and see Parameter obj')
