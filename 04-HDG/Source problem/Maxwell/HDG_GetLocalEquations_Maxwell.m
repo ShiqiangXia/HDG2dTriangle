@@ -54,12 +54,13 @@ function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb,
         Jk = mymesh.Jacobian_list(element_idx);
         
         uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
+        face_type = mymesh.f_type(mymesh.element_faces_list(element_idx,:));
         
         % Local equation matrices
         if strcmp(pb,'5')
             [Ns,M_Loc] = HDG_MaxwellLocalEquations(...  % ^^^^^^^^^^^^^
                                     Jk,vertice_list,tau_t,tau_n,mu,epsilon,omg,...
-                                       Aww,Awwr,Awws,Aww3,Bwuhat3,uhat_dir_list);
+                                       Aww,Awwr,Awws,Aww3,Bwuhat3,uhat_dir_list,face_type);
         end
         
         % Local solver Q,U

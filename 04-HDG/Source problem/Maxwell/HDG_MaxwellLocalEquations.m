@@ -1,6 +1,6 @@
 function [Ns,M_Loc] = HDG_MaxwellLocalEquations(...
         Jk,vertice_list,tau_t,tau_n,mu,epsilon,omg...
-        ,Aww,Awwr,Awws,Aww3,Bwuhat3,phat_dir_list)
+        ,Aww,Awwr,Awws,Aww3,Bwuhat3,phat_dir_list,face_type)
     
     % Jk is the jacobian of the element
     % vertice_list [x1,y1;x2,y2;x3,y3]--?counterclockwise as the element vertice index
@@ -125,8 +125,11 @@ function [Ns,M_Loc] = HDG_MaxwellLocalEquations(...
             Z_uphat = Z_uphat.*dir_vec;
             Z_pphat = Z_pphat.*dir_vec;
             
-            Z_wuhat_t = - Z_wuhat_t; % time * delta_Th
-            Z_uuhat_t = - Z_uuhat_t;
+            if face_type(tt) == 0 % interior face
+                Z_wuhat_t = - Z_wuhat_t; % time * delta_Th
+                Z_uuhat_t = - Z_uuhat_t;
+            end
+            
         end
         
         zero_mat2 = zeros(Nw,Nface,numeric_t);

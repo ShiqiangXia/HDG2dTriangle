@@ -61,6 +61,11 @@ function [Global_b]= HDG_AssembleGlobalEquation_RHS_Maxwell(mymesh,GQ1DRef_pts,G
                     ii,uhat_dir_list(1,ii),edge_len_list(ii),...
                     k,func_g,GQ1DRef_pts,GQ1DRef_wts);
                 
+%                 pexact = @(p) 0*p(:,1)+1;
+%                 Global_b(start_id+Nuhat_t:end_id,1) = Project_F_to_Face(Jk,vertice_list,...
+%                     ii,uhat_dir_list(1,ii),edge_len_list(ii),...
+%                     k,pexact,GQ1DRef_pts,GQ1DRef_wts);
+%                 
                 
             elseif bdry_flag == 2 % neuman boundary
                 % Will implement later

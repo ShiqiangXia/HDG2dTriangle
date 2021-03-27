@@ -32,27 +32,6 @@ function para = SetParameters_Maxwell(varargin)
 %     uxn_D = @(p,n) sin(omg*y(p))*n(2) -  sin(omg*x(p))*n(1);
     
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     mu = 1;
-%     epsilon = 1;
-%     omg = 1;
-%     mypi = numeric_t('pi');
-%     
-%     x = @(p) p(:,1);
-%     y = @(p) p(:,2);
-%     
-%     uexact_1 = @(p) (0*y(p));
-%     uexact_2 = @(p) (0*x(p));
-%     
-%     wexact = @(p) 0*p(:,1);
-%     
-%     pexact = @(p) 0*p(:,1)+1;
-%     source_j_1 = @(p) 0*p(:,1);
-%     source_j_2 = @(p) 0*p(:,1);
-%    
-%     uxn_D = @(p,n) uexact_1(p)*n(2) -  uexact_2(p)*n(1);
-%     
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     mu = 1;
     epsilon = 1;
     omg = 1;
@@ -61,18 +40,21 @@ function para = SetParameters_Maxwell(varargin)
     x = @(p) p(:,1);
     y = @(p) p(:,2);
     
-    uexact_1 = @(p) (0*y(p)+1);
-    uexact_2 = @(p) (0*x(p)+1);
+    uexact_1 = @(p) (0*y(p));
+    uexact_2 = @(p) (0*x(p));
     
     wexact = @(p) 0*p(:,1);
     
-    pexact = @(p) 0*p(:,1);
-    
-    source_j_1 = @(p) 0*p(:,1)-1;
-    source_j_2 = @(p) 0*p(:,1)-1;
+%     pexact = @(p) sin(mypi*x(p)).*sin(mypi*y(p));
+%   
+%     source_j_1 = @(p) mypi*cos(mypi*x(p)).*sin(mypi*y(p));
+%     source_j_2 = @(p) mypi*sin(mypi*x(p)).*cos(mypi*y(p));
+
+    pexact = @(p) p(:,1);
+    source_j_1 = @(p) 0*p(:,1)+1;
+    source_j_2 = @(p) 0*p(:,1);
    
     uxn_D = @(p,n) uexact_1(p)*n(2) -  uexact_2(p)*n(1);
-    
     
    
     
