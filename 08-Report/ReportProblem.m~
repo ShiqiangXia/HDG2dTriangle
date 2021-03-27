@@ -19,13 +19,13 @@ function ReportProblem(para)
     
     if strcmp(pb_type(3),'1')
         if strcmp(pb_type(2),'0')
-            pb_eq = '-Laplace u = f\nu = uD on bounary';
+            pb_eq = '-Laplace u = f\nu = uD on bounary\n';
         elseif strcmp(pb_type(2),'1')
-            pb_eq = '-Laplace u = lam * u\nu = 0 on bounary';
+            pb_eq = '-Laplace u = lam * u';
         end
     elseif strcmp(pb_type(3),'5')
         if strcmp(pb_type(2),'0')
-            pb_eq = 'mu*w - curl(u)=0\ncurl(w)- eps*omg^2*u + eps*grad(p) = j\ndiv(eps*u)=0\nu x n = g on boundary';
+            pb_eq = 'mu*w - curl(u)=0\ncurl(w)- eps*omg^2*u + eps*grad(p) = j\ndiv(eps*u)=0\nu x n = g on boundary\n';
         end
     else  
     end

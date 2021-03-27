@@ -26,7 +26,11 @@ function MaxwellProblemDriver(para)
     
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     
- 
+     if para.post_process_flag == 1 && err_cal_flag == 1
+        err_whstar_list = zeros(Niter,1,numeric_t);
+        err_uhstar_list = zeros(Niter,1,numeric_t);
+        err_phstar_list = zeros(Niter,1,numeric_t);
+     end
      
      %% step 2: Determine what problem we are solving.
      
@@ -66,7 +70,7 @@ function MaxwellProblemDriver(para)
              % Solve -------------------------------------------------------
              if strcmp(pb_type(2),'0')
                  % Solve source problem
-                 [source_j_1,source_j_2,uxn_D,mu,epsilon,omg]...
+                 [source_j_1,source_j_1,uxn_D,mu,epsilon,omg]...
                      =MyParaParse(para.pb_parameters,'source_j_1','source_j_1',...
                      'uxn_D','mu','epsilon','omg');
                  
@@ -97,34 +101,7 @@ function MaxwellProblemDriver(para)
                     GQ1DRef_pts,GQ1DRef_wts,0,...
                     para.order,uexact_1,uexact_2);
                 
-                [err_ph_list(ii),~] = L2Error_scalar(mymesh,ph,...
-                    GQ1DRef_pts,GQ1DRef_wts,0,...
-                    para.order,pexact);
-                
             end
-            
-            % visualization -----------------------------------------------
-            if ii == Niter 
-                mymesh.Plot(1);
-            end
-            
-            % Step 4. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            if para.report_flag==1
-                ReportProblem(para)
-                
-                if  err_cal_flag == 1
-                    order_wh = GetOrder(mesh_list,err_wh_list);
-                    order_uh = GetOrder(mesh_list,err_uh_list);
-                    order_ph = GetOrder(mesh_list,err_ph_list);
-                    ReportTable('DOF', mesh_list,...
-                        'err_wh',err_wh_list,'order', order_wh,...
-                        'err_uh',err_uh_list,'order',order_uh,...
-                        'err_ph',err_ph_list,'order', order_ph);
-
-                end
-                
-            end
-              
             
              
             

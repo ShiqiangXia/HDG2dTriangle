@@ -1,6 +1,6 @@
 function EllipticProblemDriver(para)
     % This is the main problem driver for elliptic equations.
-    % three unknows: qh, uh, uhat
+    % three unknowns: qh, uh, uhat
     
     pb_type = num2str(para.pb_type);
     Niter = para.Niter;
