@@ -110,7 +110,8 @@ function [Ns,M_Loc] = HDG_MaxwellLocalEquations(...
             n_vec = n3;
         end
         
-        Z_wuhat_t = Bwuhat3(:,:,tt);
+        %-<uhat_t x n, r>
+        Z_wuhat_t = - Bwuhat3(:,:,tt);
         
         Z_uuhat_t = tau_t*[Bwuhat3(:,:,tt)*n_vec(2);-Bwuhat3(:,:,tt)*n_vec(1)];
         

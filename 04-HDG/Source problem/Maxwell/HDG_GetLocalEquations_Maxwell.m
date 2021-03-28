@@ -74,6 +74,9 @@ function [List_LocSol, List_LocSol_f, List_Ns]=HDG_GetLocalEquations_Maxwell(pb,
             List_Ns(Nw+1:Nw+Nu,Nuhat_t+1:end,element_idx,jj)...
                 = -1.0 * List_Ns(Nw+1:Nw+Nu,Nuhat_t+1:end,element_idx,jj);
             
+            List_Ns(1:Nw,1:Nuhat_t,element_idx,jj) ...
+                = -1.0 * List_Ns(1:Nw,1:Nuhat_t,element_idx,jj);
+            
         end
             
         % Compute the projection of source_f
