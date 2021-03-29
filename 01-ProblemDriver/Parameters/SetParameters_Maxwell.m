@@ -12,9 +12,11 @@ function para = SetParameters_Maxwell(varargin)
     % c: PDE type (Poission-1,Maxwell-5), D:functional type (Vol-1, Bdry-2, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-    mu = 1;
-    epsilon = 1;
-    omg = 1;
+    mu = 2;
+    epsilon = 0.5;
+    omg = 4;
+    
+    % 1/mu - epsilon = 0 so that j = 0
     
     x = @(p) p(:,1);
     y = @(p) p(:,2);
@@ -22,9 +24,11 @@ function para = SetParameters_Maxwell(varargin)
     uexact_1 = @(p) sin(omg*y(p));
     uexact_2 = @(p) sin(omg*x(p));
     
-    wexact = @(p) omg*( cos(omg*x(p)) - cos(omg*y(p)) );
+    wexact = @(p) (omg/mu)*( cos(omg*x(p)) - cos(omg*y(p)) );
     
     pexact = @(p) 0*p(:,1);
+    
+    
     
     source_j_1 = @(p) 0*p(:,1);
     source_j_2 = @(p) 0*p(:,1);
@@ -110,7 +114,7 @@ function para = SetParameters_Maxwell(varargin)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 1;
+    structure_flag = 0;
     
     dom_type = 'Rec';
     dirichlet_flag = ["bottom","top","left","right"];

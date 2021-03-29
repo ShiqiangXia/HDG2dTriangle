@@ -76,6 +76,8 @@ function MaxwellProblemDriver(para)
                         source_j_1,source_j_2,uxn_D,mu,epsilon,omg);
              elseif strcmp(pb_type(2),'1')
                  % Solve eigen problem
+                 
+                 
              else
                 error('pb type not implemented yet')
              end

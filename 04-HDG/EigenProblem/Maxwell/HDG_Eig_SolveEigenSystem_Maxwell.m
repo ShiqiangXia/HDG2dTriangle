@@ -1,17 +1,17 @@
-function [lamh,uhat_Neig] = HDG_Eig_SolveEigenSystem(mymesh,k,...
+function [lamh,hat_var_Neig] = HDG_Eig_SolveEigenSystem_Maxwell(mymesh,k,...
           Global_A,List_Ns,List_LocSol_f,List_LocSol,...
           Neig,Max_iter,Tol_eig)
       
       
-      Nuhat = k+1;
+      Nhat = 2*(k+1);
       num_faces = mymesh.num_faces;
       
       lamh = zeros(1,Neig,numeric_t);
-      uhat_Neig = zeros(num_faces*Nuhat,Neig,numeric_t);
+      hat_var_Neig = zeros(num_faces*Nhat,Neig,numeric_t);
       
       lam = 0;
       
-      [M0,~] = HDG_Eig_AssembleMlambda(lam,mymesh,k,List_Ns,List_LocSol,List_LocSol_f); 
+      [M0,~] = HDG_Eig_AssembleMlambda_Maxwell(lam,mymesh,k,List_Ns,List_LocSol,List_LocSol_f); 
       
       [V0,D0] = eigs(Global_A,M0,Neig ,'sm');
       
@@ -22,7 +22,7 @@ function [lamh,uhat_Neig] = HDG_Eig_SolveEigenSystem(mymesh,k,...
           
           for jj = 1:Max_iter
             
-            [Mlam,Nlam] = HDG_Eig_AssembleMlambda(lam0,mymesh,k,List_Ns,List_LocSol, List_LocSol_f); 
+            [Mlam,Nlam] = HDG_Eig_AssembleMlambda_Maxwell(lam0,mymesh,k,List_Ns,List_LocSol, List_LocSol_f); 
 
             eta_hat = (Global_A-lam0*Mlam)\(Nlam*eta0);
 
@@ -46,7 +46,7 @@ function [lamh,uhat_Neig] = HDG_Eig_SolveEigenSystem(mymesh,k,...
         end
 
         lamh(1,ii) =lam;
-        uhat_Neig(:,ii) = eta;
+        hat_var_Neig(:,ii) = eta;
         
       end
       
