@@ -250,7 +250,7 @@ function MaxwellProblemDriver(para)
                 % Plot estimator
                 if ii <= Niter
                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                    PlotElementWiseValue(mymesh,abs(ACh_elewise_list),title_text);
+                    %PlotElementWiseValue(mymesh,abs(ACh_elewise_list),title_text);
                 end
                 
             end
