@@ -36,10 +36,17 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
             [p,e] = distmesh2d(fd, @huniform,h0,bbox,pfix);
             
         elseif strcmp(dom_type,'L')
-            
-            fd = @(p)ddiff(drectangle(p,0,2,0,2),drectangle(p,1,2,1,2));
-            bbox = [0,0; 2,2];
-            pfix = [0,0; 2,0; 2,1; 1,1; 1,2; 0,2];
+            x1 = 0; y1 = 0; 
+            x2 = 2; y2 = 2; 
+            ex1= 1; ey1 = 1; 
+            ex2= 2; ey2 = 2;
+%             x1 = -0.5; y1 = -0.5; 
+%             x2 = 0.5;  y2 = 0.5; 
+%             ex1 =0;    ey1 = 0; 
+%             ex2 = 0.5; ey2 = 0.5; 
+            fd = @(p)ddiff(drectangle(p,x1,x2,y1,y2),drectangle(p,ex1,ex2,ey1,ey2));
+            bbox = [x1,y1; x2,y2];
+            pfix = [x1,y1; x2,y1; x2,ey1; ex1,ey1; ex1,y2; x1,y2];
             [p,e] = distmesh2d(fd, @huniform,h0,bbox,pfix);
             
         elseif strcmp(dom_type,'Cir')
@@ -144,6 +151,10 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
     
     bdry_edges = boundedges(p,e);
     [f,ef,f_type] = LabelFaces(e,nodes_dirichlet,nodes_neuman,bdry_edges);
+    
+%     nodes_neuman = [];
+%     nodes_dirichlet = unique(reshape(bdry_edges,[],1));
+%     [f,ef,f_type] = LabelFaces(e,nodes_dirichlet,nodes_neuman,bdry_edges);
 
     mymesh = Mesh(dom_type,p,e,f,ef,f_type,dirichlet_flag,neuman_flag,varargin{:});
     
