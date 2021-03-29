@@ -204,6 +204,7 @@ function MaxwellProblemDriver(para)
             end
             
             mesh_list(ii) = GetDof(mymesh, para.order);
+            mymesh.Plot(0);
             
             % Solve -------------------------------------------------------
             if strcmp(pb_type(2),'0') % source problem
@@ -225,7 +226,7 @@ function MaxwellProblemDriver(para)
                 [lamh2,lamh_AC,ACh,ACh_Neig_elewise_list]=...
                 EigenvalueFunctional_Maxwell(pb_type(3),mymesh,Neig,...
                 wh_Neig,uh_Neig,hat_var_Neig,...
-                GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,mu,epsilon,omg ); 
+                GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,para.tau,mu,epsilon,omg ); 
 
                 lamh2_list(ii,:) = lamh2;
                 lamh_AC_list(ii,:) = lamh_AC;
@@ -249,46 +250,48 @@ function MaxwellProblemDriver(para)
                 % Plot estimator
                 if ii <= Niter
                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                    PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+                    %PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
                 end
                 
             end
             
-            if para.report_flag==1
-                if strcmp(pb_type(2),'1')
-                    
-                    tag_text = 'eh_HDG_';
-                    temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
-
-                    ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-
-                    tag_text = 'eh_func_';
-                    temp_eig=ParseEigenError(mesh_list,err_lamh2_list,tag_text);
-                    ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-
-                    tag_text = 'ACh_eig_';
-                    temp_eig=ParseEigenError(mesh_list,ACh_list,tag_text);
-                    ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-
-                    tag_text = 'eh_ac_';
-                    temp_eig=ParseEigenError(mesh_list,err_lamh_AC_list,tag_text);
-                    ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-
-                    tag_text = 'ratio_';
-                    temp_eig=ParseEigenError(mesh_list,err_lamh2_list./ACh_list,tag_text,0);
-                    fprintf('ration =  err_lambdah/ACh\n');
-                    ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                end
-                
-            end
             
         end
+        
+        if para.report_flag==1
+            if strcmp(pb_type(2),'1')
+
+                tag_text = 'eh_HDG_';
+                temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
+
+                ReportTable('dof', mesh_list,...
+                temp_eig{:})
+
+                tag_text = 'eh_func_';
+                temp_eig=ParseEigenError(mesh_list,err_lamh2_list,tag_text);
+                ReportTable('dof', mesh_list,...
+                temp_eig{:})
+
+                tag_text = 'ACh_eig_';
+                temp_eig=ParseEigenError(mesh_list,ACh_list,tag_text);
+                ReportTable('dof', mesh_list,...
+                temp_eig{:})
+
+                tag_text = 'eh_ac_';
+                temp_eig=ParseEigenError(mesh_list,err_lamh_AC_list,tag_text);
+                ReportTable('dof', mesh_list,...
+                temp_eig{:})
+
+                tag_text = 'ratio_';
+                temp_eig=ParseEigenError(mesh_list,err_lamh2_list./ACh_list,tag_text,0);
+                fprintf('ration =  err_lambdah/ACh\n');
+                ReportTable('dof', mesh_list,...
+                temp_eig{:})
+
+            end
+
+        end
+            
               
             
              

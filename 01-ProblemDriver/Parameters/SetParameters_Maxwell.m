@@ -6,7 +6,7 @@ function para = SetParameters_Maxwell(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 1150;
+    pb_type = 2150;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1,Maxwell-5), D:functional type (Vol-1, Bdry-2, Non-0)
@@ -105,12 +105,12 @@ function para = SetParameters_Maxwell(varargin)
     
     
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+    tag_eig = 1;
 
     para = para.SetPb(pb_type,...
         'wexact',wexact,'uexact_1',uexact_1,'uexact_2',uexact_2,'pexact',pexact,...
         'source_j_1',source_j_1,'source_j_2',source_j_2, 'uxn_D',uxn_D,...
-        'mu',mu,'epsilon',epsilon,'omg',omg);
+        'mu',mu,'epsilon',epsilon,'omg',omg,'tag_eig',tag_eig);
 
     %% domain and mesh parameters----------------------------------------------
 
