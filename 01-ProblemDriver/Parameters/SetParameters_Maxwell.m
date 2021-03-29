@@ -130,7 +130,7 @@ function para = SetParameters_Maxwell(varargin)
     dom_type = 'L';
     dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
     neuman_flag = [];
-    tri_dir = 1;
+    tri_dir = 0;
     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
     
     

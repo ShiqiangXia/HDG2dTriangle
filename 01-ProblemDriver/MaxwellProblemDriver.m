@@ -250,7 +250,7 @@ function MaxwellProblemDriver(para)
                 % Plot estimator
                 if ii <= Niter
                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
-                    %PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+                    PlotElementWiseValue(mymesh,abs(ACh_elewise_list),title_text);
                 end
                 
             end
@@ -286,7 +286,15 @@ function MaxwellProblemDriver(para)
                 temp_eig=ParseEigenError(mesh_list,err_lamh2_list./ACh_list,tag_text,0);
                 fprintf('ration =  err_lambdah/ACh\n');
                 ReportTable('dof', mesh_list,...
-                temp_eig{:})
+                temp_eig{:});
+            
+                figure;
+                plot(0.5*log10(mesh_list),log10(err_lamh2_list(:,tag_eig)),'--bo',...
+                    0.5*log10(mesh_list),log10(err_lamh_AC_list(:,tag_eig)),'--kx',...
+                    0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
+                legend('Err-lamh','Err-lamh-AC','ACh')
+                title('Log plot of errors and estimator for the 1st eigenvalue');
+            
 
             end
 
