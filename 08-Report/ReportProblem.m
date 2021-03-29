@@ -25,7 +25,9 @@ function ReportProblem(para)
         end
     elseif strcmp(pb_type(3),'5')
         if strcmp(pb_type(2),'0')
-            pb_eq = 'Eq: mu*w - curl(u)=0\n   curl(w)- eps*omg^2*u + eps*grad(p) = j\n   div(eps*u)=0\n   u x n = g on boundary\n';
+            pb_eq = 'Eq: mu*w - curl(u)=0\n    curl(w)- eps*omg^2*u + eps*grad(p) = j\n    div(eps*u)=0\n    u x n = g on boundary\n    p = 0 on boundary\n';
+        elseif strcmp(pb_type(2),'1')
+            pb_eq = 'Eq: mu*w - curl(u)=0\n    curl(w)- eps*omg^2*u + eps*grad(p) = j\n    div(eps*u)=0\n    u x n = g on boundary\n    p = 0 on boundary\n';
         end
     else  
     end

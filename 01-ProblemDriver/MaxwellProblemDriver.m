@@ -76,8 +76,27 @@ function MaxwellProblemDriver(para)
                         source_j_1,source_j_2,uxn_D,mu,epsilon,omg);
              elseif strcmp(pb_type(2),'1')
                  % Solve eigen problem
+                 [mu,epsilon,omg]...
+                     =MyParaParse(para.pb_parameters,'mu','epsilon','omg');
                  
-                 
+                 [lamh,wh_Neig,uh_Neig,ph_Neig,hat_var_Neig]...
+                    = HDG_EigPbSolver_Maxwell(pb_type(3),mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+                    para.order,para.tau,para.tau,mu,epsilon,omg,...
+                    Neig,Max_iter,Tol_eig);
+                
+                lamh_list(ii,:) = lamh;
+                
+                err_lamh_list(ii,:) = EigenError(pb_type(3),lamh,para.dom_type,para.geo_parameters);
+                
+                if err_cal_flag 
+                    % which eigenfunction we want to compute error for. 
+                    [tag_eig] = MyParaParse(para.pb_parameters,'tag_eig');
+                    wh = wh_Neig(:,:,:,tag_eig);
+                    uh = uh_Neig(:,:,:,tag_eig);
+                    ph = ph_Neig(:,:,:,tag_eig);
+                    hat_var = hat_var_Neig(:,:,:,tag_eig);
+                end
+                
              else
                 error('pb type not implemented yet')
              end
@@ -115,6 +134,14 @@ function MaxwellProblemDriver(para)
         % Step 4. Report reulsts%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         if para.report_flag==1
             ReportProblem(para)
+            
+            if strcmp(pb_type(2),'1')
+                tag_text = 'eig_';
+                temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
+                ReportTable('DOF', mesh_list,...
+                    temp_eig{:})
+            end
+            
 
             if  err_cal_flag == 1
                 order_wh = GetOrder(mesh_list,err_wh_list);

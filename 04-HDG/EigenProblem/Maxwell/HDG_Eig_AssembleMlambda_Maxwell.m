@@ -30,8 +30,8 @@ function [M0,N0] = HDG_Eig_AssembleMlambda_Maxwell...
         for ii = 1:length(ele_face_idx_list)
             face_id = ele_face_idx_list(ii);
           
-            start_id=(face_id-1)*Nuhat+1;
-            end_id = face_id*Nuhat;
+            start_id=(face_id-1)*N_global+1;
+            end_id = face_id*N_global;
          
             bdry_flag = mymesh.f_type(face_id);
             
@@ -42,8 +42,8 @@ function [M0,N0] = HDG_Eig_AssembleMlambda_Maxwell...
                 
                 for jj = 1:length(ele_face_idx_list)
                     temp_id = ele_face_idx_list(jj);
-                    temp_start = (temp_id-1)*Nuhat+1;
-                    temp_end = temp_id*Nuhat;
+                    temp_start = (temp_id-1)*N_global+1;
+                    temp_end = temp_id*N_global;
                     
                     Loc_U = List_U(:,:,element_idx,jj);
                     

@@ -44,13 +44,7 @@ function rlt = EigenError(pde_type,lamh,dom_type,geo_para)
             error('Domain type %s has not been implemented yet',dom_type);
             
         end
-    elseif strcmp(pde_type,'5')
-        % maxwell problem
-        if strcmp(dom_type,'Rec')
-            l = [1,1,2,4,4,5,5,8,9,9];
-            lam_exact = l*numeric_t('pi^2');
-            rlt(1,:) = abs(lam_exact(1:Neig) - lamh );
-        end
+    elseif
     else
         error('PDE type %s has not been implemented yet',pde_type );
     end

@@ -6,15 +6,15 @@ function para = SetParameters_Maxwell(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 1050;
+    pb_type = 1150;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1,Maxwell-5), D:functional type (Vol-1, Bdry-2, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-    mu = 2;
-    epsilon = 0.5;
-    omg = 4;
+    mu = 1;
+    epsilon = 1;
+    omg = 0;
     
     % 1/mu - epsilon = 0 so that j = 0
     
@@ -176,7 +176,7 @@ function para = SetParameters_Maxwell(varargin)
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     
-    err_cal_flag = 1; % 1: calculate L2 error of uh,qh
+    err_cal_flag = 0; % 1: calculate L2 error of uh,qh
     
     report_flag = 1; 
     visualize_flag = 0;
