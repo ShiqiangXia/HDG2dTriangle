@@ -6,7 +6,7 @@ function para = SetParameters_Ellipitc(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 2111;
+    pb_type = 2110;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
@@ -80,6 +80,7 @@ function para = SetParameters_Ellipitc(varargin)
     
     %h0 = 0.5;
     
+    %%%%% Rectangular %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     dom_type = 'Rec';
 %     dirichlet_flag = ["bottom","top","left","right"];
 %     neuman_flag = [];
@@ -90,7 +91,7 @@ function para = SetParameters_Ellipitc(varargin)
 %     tri_dir = 0;
 %     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
 %     
-
+    %%%%% L-shape %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     dom_type = 'L';
     dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
     neuman_flag = [];

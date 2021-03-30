@@ -290,9 +290,8 @@ function MaxwellProblemDriver(para)
             
                 figure;
                 plot(0.5*log10(mesh_list),log10(err_lamh2_list(:,tag_eig)),'--bo',...
-                    0.5*log10(mesh_list),log10(err_lamh_AC_list(:,tag_eig)),'--kx',...
                     0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
-                legend('Err-lamh','Err-lamh-AC','ACh')
+                legend('Err-lamh','ACh')
                 title('Log plot of errors and estimator for the 1st eigenvalue');
             
 

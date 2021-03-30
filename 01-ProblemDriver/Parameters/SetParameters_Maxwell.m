@@ -105,7 +105,7 @@ function para = SetParameters_Maxwell(varargin)
     
     
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    tag_eig = 1;
+    tag_eig = 3;
 
     para = para.SetPb(pb_type,...
         'wexact',wexact,'uexact_1',uexact_1,'uexact_2',uexact_2,'pexact',pexact,...
@@ -114,7 +114,7 @@ function para = SetParameters_Maxwell(varargin)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 1;
+    structure_flag = 0;
     
 %     dom_type = 'Rec';
 %     dirichlet_flag = ["bottom","top","left","right"];
@@ -186,7 +186,7 @@ function para = SetParameters_Maxwell(varargin)
     tol_eig = 1e-10;
 
     tol_adp = 1e-6;
-    percent = 0.5;
+    percent = 0.7;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
