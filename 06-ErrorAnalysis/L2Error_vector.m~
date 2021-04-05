@@ -22,7 +22,7 @@ function [err,err_list] = L2Error_vector(mymesh,qh,...
                 err_list = sqrt((err_list1.^2+err_list2.^2));
             elseif post_flag == 1
             else
-                error('Error calculation for this type of post-processing has not implemented. ')
+                e
             end
             
             
