@@ -134,14 +134,14 @@ function EllipticProblemDriver(para)
             
             % post processed error 
             if para.post_process_flag == 1
-                [uhstar,quhstar] = HDG_Local_Postprocess(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
+                [uhstar,qhstar] = HDG_Local_Postprocess(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
                 
                 if err_cal_flag == 1
                     err_uhstar_list(ii) = L2Error_scalar(mymesh,uhstar,...
                         GQ1DRef_pts,GQ1DRef_wts,1,...
                     para.order,para.pb_parameters);
 
-                    err_qhstar_list(ii)= L2Error_vector(mymesh,quhstar,...
+                    err_qhstar_list(ii)= L2Error_vector(mymesh,qhstar,...
                        GQ1DRef_pts,GQ1DRef_wts,1,...
                     para.order,para.pb_parameters);
                 end
