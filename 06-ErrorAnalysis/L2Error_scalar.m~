@@ -16,11 +16,11 @@ function [err,err_list] = L2Error_scalar(mymesh,uh,...
             if post_flag == 0
                 V2D = Vandermonde2D(k,a_list,b_list);  % scalar Pk
             elseif post_flag == 1
-                V2D = Vandermonde2D(k+1,a_list,b_list);  % scalar P_{k+1}
+                V2D = Vandermonde2D(k+1,a_list,b_list);  % scalar P_{k+}
             elseif post_flag == 3
-                [V2D,~] = RTVandermonde2D(k,a_list,b_list); % 1st comp. of RT_k
+                [V2D,~] = RTVandermonde2D(k,a_list,b_list);
             elseif post_flag == 4
-                [~,V2D] = RTVandermonde2D(k,a_list,b_list);% 2nd comp. of RT_k
+                [~,V2D] = RTVandermonde2D(k,a_list,b_list);
             else
                 error('Wrong post-flag')
             end

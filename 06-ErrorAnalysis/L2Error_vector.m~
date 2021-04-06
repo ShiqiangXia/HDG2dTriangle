@@ -23,30 +23,22 @@ function [err,err_list] = L2Error_vector(mymesh,qh,...
                     GQ1DRef_pts,GQ1DRef_wts,post_flag,...
                     order,qexact_2) ;
 
-                
+                err = sqrt((err1^2+err2^2));
+                err_list = sqrt((err_list1.^2+err_list2.^2));
             elseif post_flag == 1
                 % for this case. qh is in the Raviart-Thomas space Pk_vec + x*Pk_homo
-                % unlike the previous case, this time qh_1 and qh_2 depends
-                % on all the coefficents of qh and to evalue qh at
-                % quadrature points correctly, we need to use the
-                % Raviart-Thomas vandermonde matrix. This is achieved by
-                % different calling L2Error_scalar with different post_flag
-                
+                % we will just calculate the L2 error.
                 [err1,err_list1] = L2Error_scalar(mymesh,qh,...
-                    GQ1DRef_pts,GQ1DRef_wts,post_flag+2,...
+                    GQ1DRef_pts,GQ1DRef_wts,3,...
                     order,qexact_1) ;
-                
-                [err2,err_list2] = L2Error_scalar(mymesh,qh,...
-                    GQ1DRef_pts,GQ1DRef_wts,post_flag+3,...
+                [err2,err_list2] = L2Error_scalar(mymesh,qh_2,...
+                    GQ1DRef_pts,GQ1DRef_wts,post_flag,...
                     order,qexact_2) ;
                 
                 
             else
                 error('Error calculation for this type of post-processing has not implemented. ')
             end
-            
-            err = sqrt((err1^2+err2^2));
-            err_list = sqrt((err_list1.^2+err_list2.^2));
             
             
 end
