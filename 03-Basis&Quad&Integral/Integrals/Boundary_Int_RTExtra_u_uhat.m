@@ -20,20 +20,15 @@ function RTuuhat3 = Boundary_Int_RTExtra_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     
     [V2D1_1,V2D1_2] = RTExtraVandermonde2D(k,a1,b1);
     
-    ct = 1;
-    for ii = 0:k
-        for jj = 0:k-ii
-            
-            tempRT1 = V2D1_1(:,ct);
-            tempRT2 = V2D1_2(:,ct);
-            for nn = 1:k+1
-                temp2 = V1D(:,nn);
-                RTuuhat3(ct,nn,1,1) = GQ1DRef_wts'*(tempRT1.*temp2);
-                RTuuhat3(ct,nn,1,2) = GQ1DRef_wts'*(tempRT2.*temp2);
-                
-            end
-            
-            ct = ct+1;
+    
+    for ct = 1:k+1
+        tempRT1 = V2D1_1(:,ct);
+        tempRT2 = V2D1_2(:,ct);
+        for nn = 1:k+1
+            temp2 = V1D(:,nn);
+            RTuuhat3(ct,nn,1,1) = GQ1DRef_wts'*(tempRT1.*temp2);
+            RTuuhat3(ct,nn,1,2) = GQ1DRef_wts'*(tempRT2.*temp2);
+
         end
     end
     
@@ -49,20 +44,18 @@ function RTuuhat3 = Boundary_Int_RTExtra_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     [V2D2_1,V2D2_2] = Vandermonde2D(k,a2,b2);
     
     %scale_factor = numeric_t('sqrt(2)');
-    ct = 1;
-    for ii = 0:k
-        for jj = 0:k-ii
-            tempRT1 = V2D2_1(:,ct);
-            tempRT2 = V2D2_2(:,ct);
-            for nn = 1:k+1
-                temp2 = V1D(:,nn);
-                RTuuhat3(ct,nn,2,1) = GQ1DRef_wts'*(tempRT1.*temp2);
-                RTuuhat3(ct,nn,2,2) = GQ1DRef_wts'*(tempRT2.*temp2);
-                
-            end
-            ct = ct+1;
-            
+   
+    for ct = 1:k+1
+        
+        tempRT1 = V2D2_1(:,ct);
+        tempRT2 = V2D2_2(:,ct);
+        for nn = 1:k+1
+            temp2 = V1D(:,nn);
+            RTuuhat3(ct,nn,2,1) = GQ1DRef_wts'*(tempRT1.*temp2);
+            RTuuhat3(ct,nn,2,2) = GQ1DRef_wts'*(tempRT2.*temp2);
+
         end
+       
     end
     
     % edge 3:  r=-1, s= [1,-1]  V3--->V1
@@ -75,20 +68,18 @@ function RTuuhat3 = Boundary_Int_RTExtra_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     
     [V2D3_1,V2D3_2] = RTExtraVandermonde2D(k,a3,b3);
     
-    ct = 1;
-    for ii = 0:k
-        for jj = 0:k-ii
+  
+    for ct = 1:k+1
+        
+        tempRT1 = V2D3_1(:,ct);
+        tempRT2 = V2D3_2(:,ct);
+        for nn = 1:k+1
+            temp2 = V1D(:,nn);
+            RTuuhat3(ct,nn,3,1) = GQ1DRef_wts'*(tempRT1.*temp2);
+            RTuuhat3(ct,nn,3,2) = GQ1DRef_wts'*(tempRT2.*temp2);
 
-            tempRT1 = V2D3_1(:,ct);
-            tempRT2 = V2D3_2(:,ct);
-            for nn = 1:k+1
-                temp2 = V1D(:,nn);
-                RTuuhat3(ct,nn,3,1) = GQ1DRef_wts'*(tempRT1.*temp2);
-                RTuuhat3(ct,nn,3,2) = GQ1DRef_wts'*(tempRT2.*temp2);
-                
-            end
-            ct = ct+1;
         end
+      
     end
     
     
