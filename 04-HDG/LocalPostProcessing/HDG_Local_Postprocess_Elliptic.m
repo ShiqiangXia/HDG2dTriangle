@@ -7,6 +7,9 @@ function HDG_Local_Postprocess_Elliptic(mymesh,k,uh,qh,uhat,tau,GQ1DRef_pts,GQ1D
     
     [A_qtau,Buuhat3,RTuuhat3] = RT_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts);
     
+    [Aurur,Aurus,Ausus] = Volume_Int_du_du(k+1,GQ1DRef_pts,GQ1DRef_wts);
+    [Auur,Auus] = Volume_Int_u_du(k+1,GQ1DRef_pts,GQ1DRef_wts);
+    
     
     qstar = zeros(Nqstar,num_elements,numeric_t);
     ustar = zeros(Nustar, num_elements, numeric_t);
@@ -26,14 +29,14 @@ function HDG_Local_Postprocess_Elliptic(mymesh,k,uh,qh,uhat,tau,GQ1DRef_pts,GQ1D
         uh_coef = uh(:,element_idx);
         qh_coef = qh(:,element_idx);
         
-        RT_mat = RT_Assemble(k,Jk,vertice_list, A_qtau,Buuhat3,RTuuhat3);
+        RT_mat = PostFlux_Assemble(k,Jk,vertice_list, A_qtau,Buuhat3,RTuuhat3);
         
-        RT_RHS = RT_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3,uh_coef,qh_coef,uhat,element_faces_list,tau);
+        RT_RHS = PostFlux_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3,uh_coef,qh_coef,uhat,element_faces_list,tau);
         
         qstar(:,element_idx) = RT_mat\RT_RHS;
         
-        W_mat = ;
-        W_RHS = ;
+        W_mat = PostScalar_Assemble(k,Jk,vertice_list,Aurur,Aurus,Ausus);
+        W_RHS = PostScalar_GetRHS(k,Jk,vertice_list,Auur,Auus,qh_coef,uh_coef);
         
         ustar(:,element_idx) = W_mat\W_RHS;
         

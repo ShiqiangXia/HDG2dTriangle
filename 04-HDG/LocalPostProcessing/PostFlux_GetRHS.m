@@ -1,4 +1,4 @@
-function RT_RHS = RT_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3,uh,qh,uhat,element_faces_list,tau)
+function RT_RHS = PostFlux_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3,uh,qh,uhat,element_faces_list,tau)
     
     dimRT = (k+3)*(k+1);
     Nk_1 = (k*(k+1))/2;
@@ -40,10 +40,12 @@ function RT_RHS = RT_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3,uh,qh
         Bmu_u = 0.5*e_list(ii)*tau*Buuhat3(:,:,1);
         Bmu_u = Bmu_u';
         if uhat_dir_list(1,ii) == 0
-            
+            Bmu_uhat = 0.5*e_list(ii)*Id_mtrix.*dir_vec;
+        else
+            Bmu_uhat = 0.5*e_list(ii)*Id_mtrix;
         end
         
-        RT_RHS(start_id:end_id) = Bmu_q*qh + Bmu_u * uh - tau*Id_mtrix*temp_uhat ; 
+        RT_RHS(start_id:end_id) = Bmu_q*qh + Bmu_u * uh - tau*Bmu_uhat*temp_uhat ; 
         
         
     end
