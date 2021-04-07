@@ -450,11 +450,14 @@ function EllipticProblemDriver(para)
             if strcmp(pb_type(2),'0')
                 order_Jh = GetOrder(mesh_list,err_Jh_list);
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
+                
+                err_Jh_AC_Dh = err_Jh_AC_list -est_terms_sum_list;
+                order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,'|err/ach|', abs(err_Jh_list./ACh_list),...
                     'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC,...
-                    'err_sum',err_terms_sum_list);
+                    'err_Jh_AC_Dh',err_Jh_AC_Dh,'order',order_Jh_AC_Dh );
                 
                 %----------------------------------------------------------
                 % error terms 
@@ -529,10 +532,11 @@ function EllipticProblemDriver(para)
                 end 
                 %----------------------------------------------------------
                 figure;
-                plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
-                    0.5*log10(mesh_list),log10(err_Jh_AC_list),'--kx',...
-                    0.5*log10(mesh_list),log10(abs(ACh_list)),'--rs');
-                legend('Err-Jh','Err-Jh-AC','ACh')
+                plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+                    0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--kx',...
+                    0.5*log10(mesh_list),log10(abs(abs(ACh_list))),'--rs',...
+                    0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--g+');
+                legend('Err-Jh','Err-Jh-AC','ACh','Err-Jh-AC-Dh')
                 title('Log plot of errors and estimator');
                 
                 

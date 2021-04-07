@@ -450,11 +450,14 @@ function EllipticProblemDriver(para)
             if strcmp(pb_type(2),'0')
                 order_Jh = GetOrder(mesh_list,err_Jh_list);
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
+                
+                err_Jh_AC_Dh = err_Jh_AC_list -est_terms_sum_list;
+                order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,'|err/ach|', abs(err_Jh_list./ACh_list),...
                     'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC,...
-                    'err_sum',err_terms_sum_list);
+                    'err_Jh_AC_Dh',err_Jh_AC_Dh,'order',order_Jh_AC_Dh );
                 
                 %----------------------------------------------------------
                 % error terms 
@@ -504,13 +507,35 @@ function EllipticProblemDriver(para)
                     order_est_term_4 = GetOrder(mesh_list,est_terms_4_list);
                     order_est_term_5 = GetOrder(mesh_list,est_terms_5_list);
                     
+                    fprintf('\n');
+                    fprintf('est_1 = (qh*-qh,ph*-ph)\n');
+                    fprintf('est_2 = (qh*-qh,ph+grad_vh) \n');
+                    fprintf('est_3 = (qh+grad_uh,ph*-ph)\n')
+                    fprintf('est_4 = (f-Proj_f, vh* - vh) \n');
+                    fprintf('est_5 =  (uh*-uh, g - Proj_g)\n');
+                    
+                    ReportTable('DOF', mesh_list,...
+                        'est_sum',est_terms_sum_list,'order',order_est_terms_sum,...
+                        'est_1',est_terms_1_list,'order',order_est_term_1, ...
+                        'est_2',est_terms_2_list,'order',order_est_term_2,...
+                        'est_3',est_terms_3_list,'order',order_est_term_3);
+                     ReportTable('DOF', mesh_list,...
+                        'est_4',est_terms_4_list,'order',order_est_term_4,...
+                        'est_5',est_terms_5_list,'order',order_est_term_5);
+                    
+                     fprintf('\n');
+                    
+                    
+                    
+                    
 
                 end 
                 %----------------------------------------------------------
                 figure;
-                plot(0.5*log10(mesh_list),log10(err_Jh_list),'--bo',...
-                    0.5*log10(mesh_list),log10(err_Jh_AC_list),'--kx',...
-                    0.5*log10(mesh_list),log10(abs(ACh_list)),'--rs');
+                plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+                    0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--kx',...
+                    0.5*log10(mesh_list),log10(abs(abs(ACh_list))),'--rs',...
+                    0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--');
                 legend('Err-Jh','Err-Jh-AC','ACh')
                 title('Log plot of errors and estimator');
                 
