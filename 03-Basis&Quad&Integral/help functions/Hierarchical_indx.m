@@ -12,6 +12,7 @@ function r_ind = Hierarchical_indx(k)
     
     ct = 1;
     sk=1;
+    
     for ii = 0:k
         for jj = 0:k-ii
             if(ii+jj<k)

@@ -41,7 +41,7 @@ function RTuuhat3 = Boundary_Int_RTExtra_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts)
     
     [a2,b2] = RStoAB(r2,s2);
     
-    [V2D2_1,V2D2_2] = Vandermonde2D(k,a2,b2);
+    [V2D2_1,V2D2_2] = RTExtraVandermonde2D(k,a2,b2);
     
     %scale_factor = numeric_t('sqrt(2)');
    

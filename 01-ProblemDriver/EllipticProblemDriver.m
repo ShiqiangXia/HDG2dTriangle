@@ -125,7 +125,7 @@ function EllipticProblemDriver(para)
                     GQ1DRef_pts,GQ1DRef_wts,0,...
                     para.order,uexact);
                 
-                PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
+                %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
 
                 [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
                     GQ1DRef_pts,GQ1DRef_wts,0,...
@@ -134,16 +134,16 @@ function EllipticProblemDriver(para)
             
             % post processed error 
             if para.post_process_flag == 1
-                [uhstar,qhstar] = HDG_Local_Postprocess(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
+                [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
                 
                 if err_cal_flag == 1
                     err_uhstar_list(ii) = L2Error_scalar(mymesh,uhstar,...
                         GQ1DRef_pts,GQ1DRef_wts,1,...
-                    para.order,para.pb_parameters);
+                    para.order,uexact);
 
                     err_qhstar_list(ii)= L2Error_vector(mymesh,qhstar,...
                        GQ1DRef_pts,GQ1DRef_wts,1,...
-                    para.order,para.pb_parameters);
+                    para.order,qexact_1,qexact_2);
                 end
             end
             % ------------------------------------------------------------- 

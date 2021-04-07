@@ -4,6 +4,7 @@ function RT_RHS = PostFlux_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3
     Nk_1 = (k*(k+1))/2;
     Nk = (k+1)*(k+2)/2;
     Nmu = k+1;
+    Nuhat = k+1;
     
     dir_vec = GetDirVec(Nmu); % correct the uhat oritation 
     dir_vec = dir_vec';
@@ -33,12 +34,13 @@ function RT_RHS = PostFlux_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3
             norm_vec = n3;
         end
         
-        Bmu_q = 0.5*e_list(ii)* [norm_vec(1)*Buuhat3(:,:,1);...
-                norm_vec(2)*Buuhat3(:,:,1)];
+        Bmu_q = 0.5*e_list(ii)* [norm_vec(1)*Buuhat3(:,:,ii);...
+                norm_vec(2)*Buuhat3(:,:,ii)];
         Bmu_q = Bmu_q';
     
-        Bmu_u = 0.5*e_list(ii)*tau*Buuhat3(:,:,1);
+        Bmu_u = 0.5*e_list(ii)*tau*Buuhat3(:,:,ii);
         Bmu_u = Bmu_u';
+        
         if uhat_dir_list(1,ii) == 0
             Bmu_uhat = 0.5*e_list(ii)*Id_mtrix.*dir_vec;
         else

@@ -16,8 +16,9 @@ function W_RHS = PostScalar_GetRHS(k,Jk,vertice_list,Auur,Auus,qh,uh)
     Buru = Buur';
     Busu = Buus';
     
-    W_RHS = Jk* (Buru*r_x+Busu*s_x) * qh(1:Nk)...
-            + Jk * (Buru*r_y+Busu*s_y) * qh(Nk+1:end);
+    W_RHS = Jk* (Buru*r_x+Busu*s_x) * (-qh(1:Nk))...
+            + Jk * (Buru*r_y+Busu*s_y) * (-qh(Nk+1:end));
+        
         
     W_RHS(1,1)=  uh(1)*Jk; 
     

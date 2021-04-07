@@ -6,7 +6,7 @@ function para = SetParameters_Ellipitc(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 2110;
+    pb_type = 1010;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
@@ -37,11 +37,20 @@ function para = SetParameters_Ellipitc(varargin)
 %     uD = uexact;
 %     uN = @(p) 0*p(:,1);
     
+    %%%%%%%%%%%% Polynomial solution u %%%%%%%%%%%%%%%%%%%%
+%     uexact = @(p) p(:,1)+p(:,2);
+%     
+%     qexact_1 = @(p) 0*p(:,1) - 1;
+%     qexact_2 = @(p) 0*p(:,2) - 1;
+%     source_f = @(p) 0*p(:,1);
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
+%     
+
+
+
+    %--------------------------------------------------
     
-
-
-
-
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
     mypi = pi;
     vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
@@ -81,24 +90,24 @@ function para = SetParameters_Ellipitc(varargin)
     %h0 = 0.5;
     
     %%%%% Rectangular %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     dom_type = 'Rec';
-%     dirichlet_flag = ["bottom","top","left","right"];
-%     neuman_flag = [];
-%     x1 = 0;
-%     y1 = 0;
-%     x2 = 1;
-%     y2 = 1;
-%     tri_dir = 0;
-%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
-%     
-    %%%%% L-shape %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    dom_type = 'L';
-    dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
+    dom_type = 'Rec';
+    dirichlet_flag = ["bottom","top","left","right"];
     neuman_flag = [];
-    tri_dir = 1;
-    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
+    x1 = 0;
+    y1 = 0;
+    x2 = 1;
+    y2 = 1;
+    tri_dir = 0;
+    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
     
-    
+    %%%%% L-shape %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     dom_type = 'L';
+%     dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
+%     neuman_flag = [];
+%     tri_dir = 1;
+%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
+%     
+%     
     
 
 %      
@@ -127,7 +136,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     %order = 1;
     tau = numeric_t('1.0');
-    post_process_flag = 0;
+    post_process_flag = 1;
 
     para = para.SetNM(order,tau,post_process_flag);
 
@@ -141,7 +150,7 @@ function para = SetParameters_Ellipitc(varargin)
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     
-    err_cal_flag = 0; % 1: calculate L2 error of uh,qh
+    err_cal_flag = 1; % 1: calculate L2 error of uh,qh
     
     report_flag = 1; 
     visualize_flag = 0;
