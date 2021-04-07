@@ -6,7 +6,7 @@ function para = SetParameters_Ellipitc(varargin)
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 1010;
+    pb_type = 2011;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
@@ -85,7 +85,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     %% domain and mesh parameters----------------------------------------------
 
-    structure_flag = 1;
+    structure_flag = 0;
     
     %h0 = 0.5;
     
