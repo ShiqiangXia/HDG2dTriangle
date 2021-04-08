@@ -389,6 +389,14 @@ function EllipticProblemDriver(para)
                     [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
                     [vhstar,phstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,vh,ph,vhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
                     
+                    err_uhstar_list(ii) = L2Error_scalar(mymesh,uhstar,...
+                        GQ1DRef_pts,GQ1DRef_wts,1,...
+                    para.order,uexact);
+
+                    err_qhstar_list(ii)= L2Error_vector(mymesh,qhstar,...
+                       GQ1DRef_pts,GQ1DRef_wts,1,...
+                    para.order,qexact_1,qexact_2);
+                
                     [est_terms_sum,est_term1,est_term2,est_term3,est_term4,est_term5] ...
                             = Functional_Eh_Estimate_Terms(pb_type(4),pb_type(3),mymesh,...
                             uhstar,qhstar,source_f,...
@@ -413,8 +421,11 @@ function EllipticProblemDriver(para)
             % Posterior error estimate if needed--------------------------- 
             if para.refine_flag > 0
                 mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
+                
+                estimator_functinal = ACh_elewise_list +est_terms_sum ;
+                
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
-                marked_elements = ACh_ErrEstimate(ACh_elewise_list,tol_adp,percent,mark_flag);
+                marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
                 %marked_elements = ACh_ErrEstimate(err_Jh_elewise,tol_adp,percent);
                 
                 % Plot estimator
@@ -422,7 +433,7 @@ function EllipticProblemDriver(para)
                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
 %                     PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,...
 %                         err_Jh_elewise,'(u-uh,g) element-wise',err_terms_sum,'Error Eh element-wise');
-                    %PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+                    %PlotElementWiseValue(mymesh,estimator_functinal,title_text);
                 end
                 
             end
@@ -451,7 +462,7 @@ function EllipticProblemDriver(para)
                 order_Jh = GetOrder(mesh_list,err_Jh_list);
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 
-                err_Jh_AC_Dh = err_Jh_AC_list -est_terms_sum_list;
+                err_Jh_AC_Dh = err_Jh_AC_list - est_terms_sum_list;
                 order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
@@ -535,8 +546,8 @@ function EllipticProblemDriver(para)
                 plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                     0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--kx',...
                     0.5*log10(mesh_list),log10(abs(abs(ACh_list))),'--rs',...
-                    0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--');
-                legend('Err-Jh','Err-Jh-AC','ACh')
+                    0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--g+');
+                legend('Err-Jh','Err-Jh-AC','ACh','Err-Jh-AC-Dh')
                 title('Log plot of errors and estimator');
                 
                 
@@ -548,6 +559,14 @@ function EllipticProblemDriver(para)
                         'err_uh',err_uh_list,'order', order_uh,...
                         'err_qh',err_qh_list,'order',order_qh,...
                         'err_vh',err_vh_list,'order', order_vh)
+                    
+                    if para.post_process_flag == 1
+                        order_uhstar = GetOrder(mesh_list,err_uhstar_list);
+                        order_qhstar = GetOrder(mesh_list,err_qhstar_list);
+                        ReportTable('DOF', mesh_list,...
+                            'err_uhstar',err_uhstar_list,'order',order_uhstar,...
+                            'err_qhstar',err_qhstar_list,'order',order_qhstar )
+                    end
                 end
            
                 

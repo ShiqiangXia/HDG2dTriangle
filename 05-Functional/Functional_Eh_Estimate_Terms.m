@@ -149,7 +149,7 @@ function [Est_elewise_list,Est1_elewise_list,...
                 
                 source_f_pts = source_f([x_list,y_list]); source_f_pts = reshape(source_f_pts,[],NGQ);
                 
-                temp_formula_4 = (source_f_pts - L2proj_f_pts).*(uhstar_pts - uh_pts );
+                temp_formula_4 = (source_f_pts - L2proj_f_pts).*(vhstar_pts - vh_pts );
                 
                 Est4_elewise_list(element_idx,1) = ...
                     Jk*GQ1DRef_wts'*(temp_formula_4.*Jacobian_rs_to_ab )*GQ1DRef_wts;
@@ -161,7 +161,7 @@ function [Est_elewise_list,Est1_elewise_list,...
                 L2proj_g_pts = V2D*L2proj_g_coeff;  L2proj_g_pts = reshape(L2proj_g_pts,[],NGQ);
                 source_g_pts = source_g([x_list,y_list]); source_g_pts = reshape(source_g_pts,[],NGQ);
                 
-                temp_formula_5 = (source_g_pts - L2proj_g_pts).*(vhstar_pts - vh_pts);
+                temp_formula_5 = (source_g_pts - L2proj_g_pts).*(uhstar_pts - uh_pts);
                 
                 Est5_elewise_list(element_idx,1) = ...
                     Jk*GQ1DRef_wts'*(temp_formula_5.*Jacobian_rs_to_ab )*GQ1DRef_wts;
