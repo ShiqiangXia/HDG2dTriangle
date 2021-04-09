@@ -1,5 +1,9 @@
 function [V2D_1,V2D_2] = RTExtraVandermonde2D(N, a, b)
 
+    % I found that my RT space is not chosen correct, 
+    % we need to use (r,s)P_{i,N-i}(r,s) as basis, 
+    % therefore the RT local matrix need to be modified (qh*, tau) 
+    % is nonzero for the homogenous part
 dimRT_extra = N+1;
 
 V2D_1 = zeros(length(a),dimRT_extra,numeric_t);
