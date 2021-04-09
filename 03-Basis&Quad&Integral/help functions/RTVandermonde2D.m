@@ -32,10 +32,12 @@ end
 V2D_1(:,1:dimPk) = V2D;
 V2D_2(:,dimPk+1:2*dimPk) = V2D;
 
-for i = 0:N
-    V2D_1(:,2*dimPk+1+i) = Basis_u_ref(a,b,i+1,N-i);
-    V2D_2(:,2*dimPk+1+i) = Basis_u_ref(a,b,i,N+1-i);
-end
+
+[extra_1,extra_2] = RTExtraVandermonde2D(N, a, b);
+
+V2D_1(:,2*dimPk+1:end) = extra_1;
+V2D_2(:,2*dimPk+1:end) = extra_2;
+
 
 
 

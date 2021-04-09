@@ -19,7 +19,7 @@ function para = SetParameters_Ellipitc(varargin)
 %     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
 %     uD = uexact;
 %     uN = @(p) 0*p(:,1);
-%     
+    
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
@@ -142,7 +142,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 20;  % need more quads for corner singularity case
+    GQ_deg = 200;  % need more quads for corner singularity case
     
     %Niter = 3;
     %refine_flag = 1; 

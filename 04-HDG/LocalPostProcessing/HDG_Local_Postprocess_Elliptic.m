@@ -29,10 +29,15 @@ function [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,k,uh,qh,uhat,ta
         uh_coef = uh(:,element_idx);
         qh_coef = qh(:,element_idx);
         
+        
         RT_mat = PostFlux_Assemble(k,Jk,vertice_list, A_qtau,Buuhat3,RTuuhat3);
         
+%         if element_idx==1 || element_idx==2 
+%             fprintf('Rcond: %f, ii = %d\n',rcond(RT_mat),element_idx)
+%         end
+
         RT_RHS = PostFlux_GetRHS(k,Jk,vertice_list,uhat_dir_list,A_qtau,Buuhat3,uh_coef,qh_coef,uhat,element_faces_list,tau);
-        
+       
         qhstar(:,element_idx) = RT_mat\RT_RHS;
         
         W_mat = PostScalar_Assemble(Jk,vertice_list,Aurur,Aurus,Ausus);

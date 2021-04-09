@@ -422,7 +422,7 @@ function EllipticProblemDriver(para)
             if para.refine_flag > 0
                 mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
                 
-                estimator_functinal = ACh_elewise_list +est_terms_sum ;
+                estimator_functinal = ACh_elewise_list +err_terms_sum ;
                 
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
@@ -433,7 +433,7 @@ function EllipticProblemDriver(para)
                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
 %                     PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,...
 %                         err_Jh_elewise,'(u-uh,g) element-wise',err_terms_sum,'Error Eh element-wise');
-                    %PlotElementWiseValue(mymesh,estimator_functinal,title_text);
+                    %PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,est_terms_sum,'Dh',err_terms_sum,'Error Eh element-wise');
                 end
                 
             end
