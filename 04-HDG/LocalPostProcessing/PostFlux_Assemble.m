@@ -1,4 +1,4 @@
-function RT_mat = PostFlux_Assemble(k,Jk,vertice_list, A_qtau,Buuhat3,RTuuhat3)
+function RT_mat = PostFlux_Assemble(k,Jk,vertice_list, A_qtau,RTuu,Buuhat3,RTuuhat3)
     % assemble the post-processing matrix for each element
     %dimRT = (k+3)(k+1) 
     %      = 2*(k*(k+1)/2) + 3*(k+1)     test: P_{k-1} +sum P_{k}(F)
@@ -12,8 +12,11 @@ function RT_mat = PostFlux_Assemble(k,Jk,vertice_list, A_qtau,Buuhat3,RTuuhat3)
     
     RT_mat = zeros(dimRT,dimRT,numeric_t);
     % (qh*,tau)_K = Jk (qh*,tau)_{K_ref}
-    RT_mat(1:Nk_1,1:Nk) = Jk*A_qtau;
+    RT_mat(1:Nk_1,1:Nk)             = Jk*A_qtau;
     RT_mat(Nk_1+1:2*Nk_1,Nk+1:2*Nk) = Jk*A_qtau;
+    
+    RT_mat(1:Nk_1,2*Nk+1:end)           = Jk*(RTuu(:,:,1))';
+    RT_mat(Nk_1+1:2*Nk_1, 2*Nk+1:end)   = Jk*(RTuu(:,:,2))';
     
     %<qh*n,mu>_F = 0.5*|F| <qh*n,mu>_[-1,1]
     

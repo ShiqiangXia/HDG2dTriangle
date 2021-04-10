@@ -142,7 +142,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 200;  % need more quads for corner singularity case
+    GQ_deg = 30;  % need more quads for corner singularity case
     
     %Niter = 3;
     %refine_flag = 1; 

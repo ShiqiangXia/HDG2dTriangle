@@ -5,7 +5,7 @@ function [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,k,uh,qh,uhat,ta
     Nustar = (k+2)*(k+3)/2; % P_{k+1}
     
     
-    [A_qtau,Buuhat3,RTuuhat3] = RT_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts);
+    [A_qtau,RTuu,Buuhat3,RTuuhat3] = RT_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts);
     
     [Aurur,Aurus,Ausus] = Volume_Int_du_du(k+1,GQ1DRef_pts,GQ1DRef_wts);
     [Auur,Auus] = Volume_Int_u_du(k+1,GQ1DRef_pts,GQ1DRef_wts);
@@ -30,7 +30,7 @@ function [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,k,uh,qh,uhat,ta
         qh_coef = qh(:,element_idx);
         
         
-        RT_mat = PostFlux_Assemble(k,Jk,vertice_list, A_qtau,Buuhat3,RTuuhat3);
+        RT_mat = PostFlux_Assemble(k,Jk,vertice_list, A_qtau,RTuu,Buuhat3,RTuuhat3);
         
 %         if element_idx==1 || element_idx==2 
 %             fprintf('Rcond: %f, ii = %d\n',rcond(RT_mat),element_idx)

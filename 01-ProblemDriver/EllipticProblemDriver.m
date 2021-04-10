@@ -422,7 +422,7 @@ function EllipticProblemDriver(para)
             if para.refine_flag > 0
                 mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
                 
-                estimator_functinal = ACh_elewise_list +err_terms_sum ;
+                estimator_functinal = est_terms_sum ;%ACh_elewise_list+%+err_terms_sum ;
                 
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);

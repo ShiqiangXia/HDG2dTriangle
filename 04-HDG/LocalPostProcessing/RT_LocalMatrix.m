@@ -1,4 +1,4 @@
-function [A_qtau,Buuhat3,RTuuhat3] = RT_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts)
+function [A_qtau,RTuu,Buuhat3,RTuuhat3] = RT_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts)
     
     % get the local matrix needed for the Raviart-Thomas space RT_k
     % A_qtau = (tau,q), where tau in P_{k-1}, q in RT_k
@@ -13,13 +13,18 @@ function [A_qtau,Buuhat3,RTuuhat3] = RT_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts)
 
     temp_mat = eye(Nk,Nk,numeric_t);
     
-    % (RT_basis, basis_of_p_{k-1})
+    % (basis_P_k, basis_p_{k-1})
     A_qtau = temp_mat(r_ind,:);
-   
+    
+    %RTuu = k+1 * ((k+1)*k/2) * 2
+    % RTuu(:,:,1) = (r*P_{i,k-i}, basis_p_{k-1})
+    %RTuu(:,:,2) =  (s*P_{i,k-i}, basis_p_{k-1})
+    RTuu = Volume_Int_RTextrau_u(k,GQ1DRef_pts,GQ1DRef_wts);
     
     % <RT_basis, mu>
     
     Buuhat3 = Boundary_Int_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts);
+    
     
     RTuuhat3 = Boundary_Int_RTExtra_u_uhat(k,GQ1DRef_pts,GQ1DRef_wts);
     
