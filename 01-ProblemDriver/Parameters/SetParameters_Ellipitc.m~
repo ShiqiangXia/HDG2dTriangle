@@ -12,30 +12,30 @@ function para = SetParameters_Ellipitc(varargin)
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-%     mypi = pi;
-%     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-%     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
+    mypi = pi;
+    uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+    qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+    source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-    
-    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-    
-    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    
-    source_f =  @(p) 0*p(:,1);
-    
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
+%     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+%     
+%     uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+%     
+%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+%     
+%     source_f =  @(p) 0*p(:,1);
+%     
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
     
     %%%%%%%%%%%% Polynomial solution u %%%%%%%%%%%%%%%%%%%%
 %     uexact = @(p) p(:,1)+p(:,2);
@@ -52,7 +52,7 @@ function para = SetParameters_Ellipitc(varargin)
     %--------------------------------------------------
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
-%     mypi = pi;
+%     mypi = 2*pi;
 %     vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
 %     pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
 %     pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
@@ -62,12 +62,12 @@ function para = SetParameters_Ellipitc(varargin)
 %     vN = @(p) 0*p(:,1);
     
     %%%%%%%%%%% constant g = 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+    mypi = 2*pi;
     vexact = @(p)0*p(:,1);
     pexact_1 = @(p)0*p(:,1);
     pexact_2 = @(p)0*p(:,1);
 
-    source_g = @(p)0*p(:,1)+1; %p(:,1).^2+p(:,2).^2;
+    source_g = @(p)p(:,1)+1;
     
     vD = @(p) 0*p(:,1);
     vN = @(p) 0*p(:,1);
@@ -182,7 +182,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     tol_adp = 1e-6;
     
-    percent = 0.5;
+    percent = 0.7;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
