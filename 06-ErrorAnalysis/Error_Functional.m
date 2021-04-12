@@ -100,7 +100,7 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
     %J_exact = 4/(pi^2);  % = int(sin(pi x)sin(pi y) * 1)
     %J_exact = 4*(-4+pi^2)/(pi^4); % = int(sin(pi x)sin(pi y) * (x^2+y^2))
     
-    J_exact = 9/80 * (1+2*2^(1/3)); % = int (u_corner_singular * 1 )
+    %J_exact = 9/80 * (1+2*2^(1/3)); % = int (u_corner_singular * 1 )
     
     %J_exact = 3.173414780441447 ; % = int (u_corner_singular * 2*pi^2*sin(pi x)*sin(pi y) )
     %J_exact = 0.3088474886380344;  % = int (u_corner_singular * (x^2+y^2) )

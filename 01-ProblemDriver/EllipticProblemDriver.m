@@ -422,7 +422,7 @@ function EllipticProblemDriver(para)
             if para.refine_flag > 0
                 mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
                 
-                estimator_functinal = ACh_elewise_list+est_terms_sum ;%+%+err_terms_sum ;
+                estimator_functinal = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
                 
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
@@ -434,9 +434,14 @@ function EllipticProblemDriver(para)
 %                     PlotElementWiseValue(mymesh,ACh_elewise_list,title_text,...
 %                         est_terms_sum,'Dh',err_terms_sum,'Error Eh element-wise');
 %                     
-                    title_text = append('ACh+Dh, mesh: ',num2str(ii));
-                    %PlotElementWiseValue(mymesh,estimator_functinal,title_text);
-                    
+%                     title_text = append('ACh, mesh: ',num2str(ii));
+%                     PlotElementWiseValue(mymesh,ACh_elewise_list,title_text);
+%                     title_text = append('Dh, mesh: ',num2str(ii));
+%                     PlotElementWiseValue(mymesh,est_terms_sum,title_text);
+%                     
+%                      title_text = append('ACh+Dh, mesh: ',num2str(ii));
+%                     PlotElementWiseValue(mymesh,ACh_elewise_list+est_terms_sum,title_text);
+%                     
                 end
                 
                 
@@ -470,18 +475,19 @@ function EllipticProblemDriver(para)
                 
                 order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
                 
+                estimate_err_Jh = ACh_list+est_terms_sum_list;
                 
+                ReportTable('DOF', mesh_list,...
+                'err_Jh',err_Jh_list,'order',order_Jh, ...
+                'ACh+Dh',estimate_err_Jh,'|est/err|', abs(estimate_err_Jh./err_Jh_list),...
+                'err_Jh_AC_Dh',err_Jh_AC_Dh,'order',order_Jh_AC_Dh );
+
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,'ACh/err', ACh_list./err_Jh_list,...
-                    'Dh',est_terms_sum_list,'Dh/err',est_terms_sum_list./err_Jh_list,...
-                    'err_Jh_Ac',err_Jh_AC_list,'order',order_Jh_AC);
+                    'Dh',est_terms_sum_list,'Dh/err',est_terms_sum_list./err_Jh_list);
                 
-                estimate_err_Jh = ACh_list+est_terms_sum_list;
-                    ReportTable('DOF', mesh_list,...
-                    'err_Jh',err_Jh_list,'order',order_Jh, ...
-                    'ACh+Dh',estimate_err_Jh,'|est/err|', abs(estimate_err_Jh./err_Jh_list),...
-                    'err_Jh_AC_Dh',err_Jh_AC_Dh,'order',order_Jh_AC_Dh );
+                
                     
                 
                 %----------------------------------------------------------
@@ -571,12 +577,23 @@ function EllipticProblemDriver(para)
 %                     0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--g+');
 %                 legend('Err-Jh','Err-Jh-AC','ACh','Err-Jh-AC-Dh')
 %                 title('Log plot of errors and estimator');
+                plot_type_flag =1;
                 
-                plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                    0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
-                    0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--g+');
-                legend('Err-Jh','ACh+Dh','Err-Jh-AC-Dh')
-                title('Log plot of errors and estimator');
+                if plot_type_flag==1
+                    plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+                        0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
+                        0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--k+');
+                    legend('Err-Jh','ACh+Dh','Err-Jh-AC-Dh')
+                    title('Log plot of errors and estimator');
+                elseif plot_type_flag==2
+                    
+                    plot(0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--bo',...
+                        0.5*log10(mesh_list),log10(abs(est_terms_sum_list)),'--rs',...
+                        0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--k+');
+                    legend('Err-Jh-AC','Dh','Err-Jh-AC-Dh')
+                    title('Log plot of errors and estimator');
+                    
+                end
                 
                 
                 if err_cal_flag==1

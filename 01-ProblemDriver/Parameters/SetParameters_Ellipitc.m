@@ -60,14 +60,14 @@ function para = SetParameters_Ellipitc(varargin)
 %     source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
 %     vD = @(p) 0*p(:,1);
 %     vN = @(p) 0*p(:,1);
-    
+%     
     %%%%%%%%%%% constant g = 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     vexact = @(p)0*p(:,1);
     pexact_1 = @(p)0*p(:,1);
     pexact_2 = @(p)0*p(:,1);
 
-    source_g = @(p)0*p(:,1)+1; %p(:,1).^2+p(:,2).^2;
+    source_g = @(p) 0*p(:,1)+1; % p(:,1).^4+2*p(:,2).^5; % 
     
     vD = @(p) 0*p(:,1);
     vN = @(p) 0*p(:,1);
