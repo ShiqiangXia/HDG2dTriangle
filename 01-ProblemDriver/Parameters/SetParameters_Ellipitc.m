@@ -52,7 +52,7 @@ function para = SetParameters_Ellipitc(varargin)
     %--------------------------------------------------
     
     %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
-    mypi = pi;
+    mypi = 2*pi;
     vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
     pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
     pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));

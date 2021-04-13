@@ -198,7 +198,7 @@ function EllipitcProblemDriver_new_trick(para)
                             vhstar,phstar,vhatstar,...
                             uh,qh,uhat,...
                             vh,ph,vhat,...
-                            GQ1DRef_pts,GQ1DRef_wts,para.order,para.order+1);
+                            GQ1DRef_pts,GQ1DRef_wts,para.order,para.order+1,para.tau);
                         
             est_terms_sum_list(ii) = sum(est_terms_sum);
             est_terms_1_list(ii) = sum(est_term1);
@@ -246,6 +246,7 @@ function EllipitcProblemDriver_new_trick(para)
                 ReportTable('DOF', mesh_list,...
                     'err_Jh',err_Jh_list,'order',order_Jh, ...
                     'ACh',ACh_list,'ACh/err', ACh_list./err_Jh_list,...
+                    'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC,...
                     'Dh',est_terms_sum_list,'Dh/err',est_terms_sum_list./err_Jh_list);
             end
             
@@ -271,7 +272,65 @@ function EllipitcProblemDriver_new_trick(para)
                         'err_uhstar',err_uhstar_list,'order',order_uhstar,...
                         'err_qhstar',err_qhstar_list,'order',order_qhstar,...
                         'err_vhstar',err_vhstar_list,'order',order_vhstar,...
-                        'err_phstar',err_phstar_list,'order',order_phstar)     
+                        'err_phstar',err_phstar_list,'order',order_phstar)  
+                    
+                    
+                    order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
+                    order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
+                    order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
+                    order_err_term_3 = GetOrder(mesh_list,err_terms_3_list);
+                    order_err_term_4 = GetOrder(mesh_list,err_terms_4_list);
+                    order_err_term_5 = GetOrder(mesh_list,err_terms_5_list);
+                    order_err_term_extra = GetOrder(mesh_list,err_terms_extra_list);
+
+                    fprintf('\n');
+                    fprintf('Eh = sum err_i\n')
+                    fprintf('err_1 = (q-qh,p-ph)\n');
+                    fprintf('err_2 = (q-qh,ph+grad_vh) \n');
+                    fprintf('err_3 = (qh+grad_uh,p-ph)\n')
+                    fprintf('err_4 = <(qhat-q)*n,vh-vhat> \n');
+                    fprintf('err_5 =  <uh-uhat,(phat-p)*n>\n');
+                    fprintf('err_extra =  <u-uhat,p*n>\n');
+
+                    ReportTable('DOF', mesh_list,...
+                        'err_sum',err_terms_sum_list,'order',order_err_terms_sum,...
+                        'err_1',err_terms_1_list,'order',order_err_term_1, ...
+                        'err_2',err_terms_2_list,'order',order_err_term_2,...
+                        'err_3',err_terms_3_list,'order',order_err_term_3);
+                     ReportTable('DOF', mesh_list,...
+                        'err_4',err_terms_4_list,'order',order_err_term_4,...
+                        'err_5',err_terms_5_list,'order',order_err_term_5,...
+                        'err_extra',err_terms_extra_list,'order',order_err_term_extra);
+                    
+                    
+                    order_est_terms_sum = GetOrder(mesh_list,est_terms_sum_list);
+                    order_est_term_1 = GetOrder(mesh_list,est_terms_1_list);
+                    order_est_term_2 = GetOrder(mesh_list,est_terms_2_list);
+                    order_est_term_3 = GetOrder(mesh_list,est_terms_3_list);
+                    order_est_term_4 = GetOrder(mesh_list,est_terms_4_list);
+                    order_est_term_5 = GetOrder(mesh_list,est_terms_5_list);
+                    
+                    fprintf('\n');
+                    fprintf('Dh = sum est_i\n')
+                    fprintf('est_1 = (qh*-qh,ph*-ph)\n');
+                    fprintf('est_2 = (qh*-qh,ph+grad_vh) \n');
+                    fprintf('est_3 = (qh+grad_uh,ph*-ph)\n')
+                    fprintf('est_4 = (f-Proj_f, vh* - vh) \n');
+                    fprintf('est_5 =  (uh*-uh, g - Proj_g)\n');
+                    
+                    ReportTable('DOF', mesh_list,...
+                        'est_sum',est_terms_sum_list,'order',order_est_terms_sum,...
+                        'est_1',est_terms_1_list,'order',order_est_term_1, ...
+                        'est_2',est_terms_2_list,'order',order_est_term_2,...
+                        'est_3',est_terms_3_list,'order',order_est_term_3);
+                     ReportTable('DOF', mesh_list,...
+                        'est_4',est_terms_4_list,'order',order_est_term_4,...
+                        'est_5',est_terms_5_list,'order',order_est_term_5);
+                    
+                     fprintf('\n');
+                    
+
+
 
             end
         end

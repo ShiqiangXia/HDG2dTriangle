@@ -6,10 +6,11 @@ function [Est_elewise_list,Est1_elewise_list,...
                 vhstar,phstar,vhatstar,...
                 uh,qh,uhat,...
                 vh,ph,vhat,...
-                GQ1DRef_pts,GQ1DRef_wts,k,k_star)
+                GQ1DRef_pts,GQ1DRef_wts,k,k_star,tau)
 
     Nu = (k+1)*(k+2)/2;
     Nuhat  = k+1;
+    dir_vec = GetDirVec(Nuhat); % correct the uhat oritation
     Nustar = (k_star+1)*(k_star+2)/2;
    
     NGQ = length(GQ1DRef_pts);
@@ -27,6 +28,8 @@ function [Est_elewise_list,Est1_elewise_list,...
             % Vandermonde matrix for uh, qh, and grad(uh)
             V2D = Vandermonde2D(k,a_list,b_list);
             [V2Dr,V2Ds] = GradVandermonde2D(k,a_list,b_list);
+            
+            V1D = Vandermonde1D(k,GQ1DRef_pts);% legendre polynomail at GQ points
             
             % Vanermonde matrix for uhstar and qhstar
             VD_star = Vandermonde2D(k_star,a_list,b_list);
@@ -177,7 +180,7 @@ function [Est_elewise_list,Est1_elewise_list,...
                     [face_a_list,face_b_list] = RStoAB(face_r_list,face_s_list);
                     
                     % ustar qhstar 
-                    V2Dstar_face = Vandermonde2D(k,face_a_list,face_b_list);
+                    V2Dstar_face = Vandermonde2D(k_star,face_a_list,face_b_list);
                     
                     q_face_pts1 = V2Dstar_face*qhstar_coeff_1;
                     q_face_pts2 = V2Dstar_face*qhstar_coeff_2;

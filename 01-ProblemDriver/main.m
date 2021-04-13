@@ -21,7 +21,7 @@ function main(pde_type,varargin)
         
         MaxwellProblemDriver(para);
         
-    elseif strcmp(pde_type,'elliptic_k+1_trick')
+    elseif strcmp(pde_type,'elliptic_trick')
         
         para = SetParameters_Ellipitc(varargin{:});
         
