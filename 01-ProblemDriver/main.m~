@@ -12,7 +12,6 @@ function main(pde_type,varargin)
         class_t=para.precision;
         
         EllipticProblemDriver(para);
-        
     elseif strcmp(pde_type,'maxwell')
         
         para = SetParameters_Maxwell(varargin{:});
@@ -20,15 +19,7 @@ function main(pde_type,varargin)
         class_t=para.precision;
         
         MaxwellProblemDriver(para);
-        
-    elseif strcmp(pde_type,'elliptic_k+1_trick')
-        
-        para = SetParameters_Ellipitc(varargin{:});
-        
-        class_t=para.precision;
-        
-        EllipitcProblemDriver_new_trick(para);
-        
+    elseif
         
     else
         error("Wrong PDE type!");

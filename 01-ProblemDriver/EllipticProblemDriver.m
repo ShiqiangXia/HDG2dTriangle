@@ -265,8 +265,8 @@ function EllipticProblemDriver(para)
                 end
             end
             %if para.visualize_flag==1
-                mymesh.Plot(0); 
-                M(ii) = getframe(gcf);
+            mymesh.Plot(0); 
+            M(ii) = getframe(gcf);
             %end
             mesh_list(ii) = GetDof(mymesh, para.order);
             % -------------------------------------------------------------
@@ -580,11 +580,16 @@ function EllipticProblemDriver(para)
                 plot_type_flag =1;
                 
                 if plot_type_flag==1
-                    plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                        0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
-                        0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--k+');
-                    legend('Err-Jh','ACh+Dh','Err-Jh-AC-Dh')
+%                     plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+%                         0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
+%                         0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--k+');
+%                     legend('Err-Jh','ACh+Dh','Err-Jh-AC-Dh')
+%                     title('Log plot of errors and estimator');
+                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo');
+                    legend('Err-Jh')
                     title('Log plot of errors and estimator');
+                      
+                    
                 elseif plot_type_flag==2
                     
                     plot(0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--bo',...
