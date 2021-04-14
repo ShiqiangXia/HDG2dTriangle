@@ -97,7 +97,7 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
         error ('This type of error has not been implemented yet.')
     end
     
-    % J_exact = pi^2/2; % = int(sin(pi x)sin(pi y) * 2*pi^2* sin(pi x)sin(pi y))
+    % J_exact = pi^2/2 % = int(sin(pi x)sin(pi y) * 1)
     %J_exact = 4/(pi^2);  % = int(sin(pi x)sin(pi y) * 1)
     %J_exact = 4*(-4+pi^2)/(pi^4); % = int(sin(pi x)sin(pi y) * (x^2+y^2))
     
