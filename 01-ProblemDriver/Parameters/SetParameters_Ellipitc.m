@@ -12,30 +12,30 @@ function para = SetParameters_Ellipitc(varargin)
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
 
     %%%%%%%%%% smooth solution u %%%%%%%%
-    mypi = pi;
-    uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-    qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-    qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-    source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
+%     mypi = pi;
+%     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+%     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+%     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+%     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+%     uD = uexact;
+%     uN = @(p) 0*p(:,1);
     
     %%%%%%%%%% cornor singularity solution u %%%%%%%%
     
-%     theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-%     radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-%     
-%     uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-%     
-%     qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-%         + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-%     
-%     source_f =  @(p) 0*p(:,1);
-%     
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
+    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+    
+    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+    
+    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+    
+    source_f =  @(p) 0*p(:,1);
+    
+    uD = uexact;
+    uN = @(p) 0*p(:,1);
     
     %%%%%%%%%%%% Polynomial solution u %%%%%%%%%%%%%%%%%%%%
 %     uexact = @(p) p(:,1)+p(:,2);
@@ -176,7 +176,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     %% experiment parameters --------------------------------------------------
     precision = 'double';
-    GQ_deg = 20;  % need more quads for corner singularity case
+    GQ_deg = 200;  % need more quads for corner singularity case
     
     %Niter = 3;
     %refine_flag = 1; 

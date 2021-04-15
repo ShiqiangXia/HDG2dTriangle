@@ -229,6 +229,7 @@ function EllipticProblemDriver(para)
             post_terms_1_list = zeros(Niter,1,numeric_t);
             post_terms_2_list = zeros(Niter,1,numeric_t);
             post_terms_3_list = zeros(Niter,1,numeric_t);
+            post_terms_4_list = zeros(Niter,1,numeric_t);
             
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,Neig,numeric_t);
@@ -415,7 +416,7 @@ function EllipticProblemDriver(para)
                         para.order,qexact_1,qexact_2);
                 
                     [est_terms_sum,est_term1,est_term2,est_term3,est_term4,est_term5,...
-                        post_term1,post_term2,post_term3] ...
+                        post_term1,post_term2,post_term3,post_term4] ...
                             = Functional_Eh_Estimate_Terms(pb_type(4),pb_type(3),mymesh,...
                             uhstar,qhstar,source_f,...
                             vhstar,phstar,source_g,...
@@ -433,6 +434,7 @@ function EllipticProblemDriver(para)
                     post_terms_1_list(ii) = sqrt(sum(post_term1));
                     post_terms_2_list(ii) = sqrt(sum(post_term2));
                     post_terms_3_list(ii) = sqrt(sum(post_term3));
+                    post_terms_4_list(ii) = sqrt(sum(post_term4));
                     
                 
                 end
@@ -588,14 +590,17 @@ function EllipticProblemDriver(para)
                     order_pterm_1 = GetOrder(mesh_list,post_terms_1_list);
                     order_pterm_2 = GetOrder(mesh_list,post_terms_2_list);
                     order_pterm_3 = GetOrder(mesh_list,post_terms_3_list);
+                    order_pterm_4 = GetOrder(mesh_list,post_terms_4_list);
                     fprintf('\n');
                     fprintf('pterm1 = ||uh*-uh||\n');
                     fprintf('pterm2 = ||qh*-qh||\n');
                     fprintf('pterm3 = ||-graduh* - qh||\n')
+                    fprintf('pterm4 = ||-graduh* - qh*||\n')
                     ReportTable('DOF', mesh_list,...
                         'pterm1',post_terms_1_list,'order',order_pterm_1,...
                         'pterm2',post_terms_2_list,'order',order_pterm_2,...
-                        'pterm3',post_terms_3_list,'order',order_pterm_3);
+                        'pterm3',post_terms_3_list,'order',order_pterm_3,...
+                        'pterm4',post_terms_4_list,'order',order_pterm_4);
                     
 
 
