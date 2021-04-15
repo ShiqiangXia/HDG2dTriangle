@@ -182,7 +182,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional_Elliptic(fun
          % ACh1 and ACh2 are locally zero (since the HDG equations), but
          % not ACh3. So if we add AC3 in ACh_elewise_list, it destroy the
          % local error patterns.
-           
+%            
 %          ACh_elewise_list = ACh1_elewise_list +  ACh2_elewise_list...
 %                              + ACh3_elewise_list + ACh4_elewise_list;
 

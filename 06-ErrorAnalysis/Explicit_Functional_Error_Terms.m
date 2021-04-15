@@ -1,4 +1,6 @@
-function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_list, Err4_elewise_list,Err5_elewise_list,extra_term]...
+function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_list,...
+        Err4_elewise_list,Err5_elewise_list,extra_term,...
+        Eterm1_elewise_list,Eterm2_elewise_list,Eterm3_elewise_list]...
         = Explicit_Functional_Error_Terms(func_type,pde_ype,para,...
         mymesh,uh,qh,uhat,vh,ph,vhat,GQ1DRef_pts,GQ1DRef_wts,k,tau,post_flag)
     Nu = (k+1)*(k+2)/2;
@@ -31,6 +33,10 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_li
             Err4_elewise_list = zeros(num_elements,1,numeric_t);
             Err5_elewise_list = zeros(num_elements,1,numeric_t);
             extra_term = zeros(num_elements,1,numeric_t);
+            
+            Eterm1_elewise_list = zeros(num_elements,1,numeric_t);
+            Eterm2_elewise_list = zeros(num_elements,1,numeric_t);
+            Eterm3_elewise_list = zeros(num_elements,1,numeric_t);
             
             for element_idx = 1: num_elements
                 
@@ -104,6 +110,14 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_li
                     Jk*GQ1DRef_wts'*(temp_formula_2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
                 Err3_elewise_list(element_idx,1) = ...
                     Jk*GQ1DRef_wts'*(temp_formula_22.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                e_formula1 = (qh_pts1 + grad_uh_1).^2 + (qh_pts2 + grad_uh_2).^2;
+                
+                Eterm1_elewise_list(element_idx,1) = ...
+                    Jk*GQ1DRef_wts'*(e_formula1.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                    
+                
+                
 
                 % err_3 <qhat*n - q*n, vh-vhat> + < uh- uhat, phat*n-p*n>
                 ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
@@ -172,6 +186,7 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_li
 
                     Err4_elewise_list(element_idx,1) =  Err4_elewise_list(element_idx,1)+...
                         0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula_3);
+                    
                     Err5_elewise_list(element_idx,1) =  Err5_elewise_list(element_idx,1)+...
                         0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula_33);
                     
@@ -182,7 +197,20 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_li
                     
                     extra_term(element_idx,1) =extra_term(element_idx,1)+ 0.5*e_list(ii)*GQ1DRef_wts'*(temp_f_4);
                     
+                    
+                    %%%%%%%%%%
+                    % <(qhat-q)*n,(qhat-q)*n>
+                    eformula_2 = (qh_q_n + tau*(uh_uhat)).^2;
+                    % <uhat -uh, uhat-uh>
+                    eformula_3 = uh_uhat.^2;
 
+                    
+                    Eterm2_elewise_list(element_idx,1) = Eterm2_elewise_list(element_idx,1)+...
+                        0.5*e_list(ii)*GQ1DRef_wts'*(eformula_2);
+                    
+                    Eterm3_elewise_list(element_idx,1) = Eterm3_elewise_list(element_idx,1)+...
+                        0.5*e_list(ii)*GQ1DRef_wts'*(eformula_3);
+                        
                 end
                 
             end

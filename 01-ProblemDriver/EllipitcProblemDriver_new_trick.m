@@ -7,7 +7,7 @@ function EllipitcProblemDriver_new_trick(para)
     Niter = para.Niter;
     
     k_star = para.order+1;
-    k_uh  = para.order;
+    k_uh  = para.order-1;
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
     err_cal_flag = para.err_cal_flag;
@@ -353,6 +353,12 @@ function EllipitcProblemDriver_new_trick(para)
                 0.5*log10(mesh_list),log10(abs(est_terms_sum_list)),'--rs');
             legend('Err-Jh-AC','Est')
             title('Log plot of errors and estimator');
+            
+%             figure;
+%             plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+%                 0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
+%             legend('Err-Jh','AC+Est')
+%             title('Log plot of errors and estimator');
         end
 
         

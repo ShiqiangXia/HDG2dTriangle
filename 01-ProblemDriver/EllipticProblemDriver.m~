@@ -228,7 +228,7 @@ function EllipticProblemDriver(para)
             
             post_terms_1_list = zeros(Niter,1,numeric_t);
             post_terms_2_list = zeros(Niter,1,numeric_t);
-            post_terms_3_list = zeros(Niter,1,numeric_t);
+            post_terms_5_list = zeros(Niter,1,numeric_t);
             
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,Neig,numeric_t);
@@ -430,10 +430,6 @@ function EllipticProblemDriver(para)
                     est_terms_4_list(ii) = sum(est_term4);
                     est_terms_5_list(ii) = sum(est_term5);
                     
-                    post_terms_1_list(ii) = sqrt(sum(post_term1));
-                    post_terms_2_list(ii) = sqrt(sum(post_term2));
-                    post_terms_3_list(ii) = sqrt(sum(post_term3));
-                    
                 
                 end
                 
@@ -583,20 +579,6 @@ function EllipticProblemDriver(para)
                         'eterm1',eterm_1_list,'order',order_eterm_1,...
                         'eterm2',eterm_2_list,'order',order_eterm_2,...
                         'eterm3',eterm_3_list,'order',order_eterm_3);
-                    
-                    
-                    order_pterm_1 = GetOrder(mesh_list,post_terms_1_list);
-                    order_pterm_2 = GetOrder(mesh_list,post_terms_2_list);
-                    order_pterm_3 = GetOrder(mesh_list,post_terms_3_list);
-                    fprintf('\n');
-                    fprintf('pterm1 = ||uh*-uh||\n');
-                    fprintf('pterm2 = ||qh*-qh||\n');
-                    fprintf('pterm3 = ||-graduh* - qh||\n')
-                    ReportTable('DOF', mesh_list,...
-                        'pterm1',post_terms_1_list,'order',order_pterm_1,...
-                        'pterm2',post_terms_2_list,'order',order_pterm_2,...
-                        'pterm3',post_terms_3_list,'order',order_pterm_3);
-                    
 
 
                     if para.post_process_flag == 1

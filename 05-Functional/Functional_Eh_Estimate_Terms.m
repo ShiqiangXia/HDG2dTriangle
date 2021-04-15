@@ -1,6 +1,7 @@
 function [Est_elewise_list,Est1_elewise_list,...
         Est2_elewise_list,Est3_elewise_list,...
-        Est4_elewise_list,Est5_elewise_list] ...
+        Est4_elewise_list,Est5_elewise_list,...
+        post_term_1_elewise_list,post_term_2_elewise_list,post_term_3_elewise_list] ...
                 = Functional_Eh_Estimate_Terms(func_type,pde_ype,mymesh,...
                 uhstar,qhstar,source_f,...
                 vhstar,phstar,source_g,...
@@ -28,6 +29,7 @@ function [Est_elewise_list,Est1_elewise_list,...
             
             % Vanermonde matrix for uhstar and qhstar
             VD_uhstar = Vandermonde2D(k+1,a_list,b_list);
+            [V2Dr_star,V2Ds_star] = GradVandermonde2D(k+1,a_list,b_list);
             [VD_qhstar_1,VD_qhstar_2] = RTVandermonde2D(k,a_list,b_list);
             
             % compute the estimate terms over all elements
@@ -46,6 +48,12 @@ function [Est_elewise_list,Est1_elewise_list,...
             
             %est5 = (uh*-uh, g - Proj_k g)
             Est5_elewise_list = zeros(num_elements,1,numeric_t);
+            % ||uh*-uh||
+            post_term_1_elewise_list = zeros(num_elements,1,numeric_t);
+            % ||q*-qh||
+            post_term_2_elewise_list = zeros(num_elements,1,numeric_t);
+            % ||-grad(uh*)-qh||
+            post_term_3_elewise_list = zeros(num_elements,1,numeric_t);
              
             
             for element_idx = 1: num_elements
@@ -72,6 +80,14 @@ function [Est_elewise_list,Est1_elewise_list,...
                 
                 vhstar_pts = VD_uhstar*vhstar_coeff;vhstar_pts = reshape(vhstar_pts,[],NGQ);
                 
+                % graduhstar
+                grad_uhstar_1 = V2Dr_star * uhstar_coeff * Inv_AffineMap(1,1)...
+                            + V2Ds_star * uhstar_coeff * Inv_AffineMap(2,1); grad_uhstar_1 = reshape(grad_uhstar_1,[],NGQ);
+
+                grad_uhstar_2 = V2Dr_star * uhstar_coeff * Inv_AffineMap(1,2)...
+                            + V2Ds_star * uhstar_coeff * Inv_AffineMap(2,2); grad_uhstar_2 = reshape(grad_uhstar_2,[],NGQ);
+                
+                
                 % qhstar, phstar at those Gauss points
                 qhstar_coeff = qhstar(:,element_idx);
 
@@ -89,6 +105,8 @@ function [Est_elewise_list,Est1_elewise_list,...
                 
                 uh_pts = V2D*uh_coeff ; uh_pts = reshape(uh_pts,[],NGQ);
                 vh_pts = V2D*vh_coeff ; vh_pts = reshape(vh_pts,[],NGQ);
+                
+             
                 
                 
                 % qh,ph at Gauss points
@@ -108,6 +126,8 @@ function [Est_elewise_list,Est1_elewise_list,...
                             
                 Est1_elewise_list(element_idx,1) =...
                     Jk*GQ1DRef_wts'*(temp_formula_1.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                
             
             
                 %d/dx = d/dr * dr/dx + d/ds * ds/dx
@@ -165,6 +185,20 @@ function [Est_elewise_list,Est1_elewise_list,...
                 
                 Est5_elewise_list(element_idx,1) = ...
                     Jk*GQ1DRef_wts'*(temp_formula_5.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                post_formula_1 = (uhstar_pts - uh_pts).^2;
+                post_term_1_elewise_list(element_idx,1) = ...
+                    Jk*GQ1DRef_wts'*(post_formula_1.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                post_formula_2 = (q1_VD-qh_pts1).^2+(q2_VD-qh_pts2).^2;
+                post_term_2_elewise_list(element_idx,1) =...
+                    Jk*GQ1DRef_wts'*(post_formula_2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                post_formua_3 = (-grad_uhstar_1 - qh_pts1).^2 + (-grad_uhstar_2 -qh_pts2 ).^2;
+                post_term_3_elewise_list(element_idx,1) = ...
+                    Jk*GQ1DRef_wts'*(post_formua_3.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                
                     
                 
             end
