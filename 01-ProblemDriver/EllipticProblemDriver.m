@@ -44,6 +44,7 @@ function EllipticProblemDriver(para)
         cprintf('blue','Start solving PDE problem\n')
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
+            
             % build mesh --------------------------------------------------
             if ii == 1
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
@@ -67,12 +68,9 @@ function EllipticProblemDriver(para)
                     mymesh = mymesh.Refine(marked_elements, r_f);
                 end
             end
-
-            % -------------------------------------------------------------
                        
             % Solve -------------------------------------------------------
-            
-            
+
             if strcmp(pb_type(2),'0')
                 % Solve source problem
                 
@@ -134,6 +132,7 @@ function EllipticProblemDriver(para)
             
             % post processed error 
             if para.post_process_flag == 1
+                
                 [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
                 
                 if err_cal_flag == 1
@@ -147,8 +146,7 @@ function EllipticProblemDriver(para)
                 end
             end
             % ------------------------------------------------------------- 
-            
-            
+
             % visualization -----------------------------------------------
             if ii == Niter && para.visualize_flag==1
                 mymesh.Plot(1);
@@ -167,6 +165,7 @@ function EllipticProblemDriver(para)
             
             ReportProblem(para) 
             
+            % report eigenvalue results
             if strcmp(pb_type(2),'1')
                 tag_text = 'eig_';
                 temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
@@ -174,6 +173,7 @@ function EllipticProblemDriver(para)
                     temp_eig{:})
             end
             
+            % report uh, qh errors
             if  err_cal_flag == 1
                 order_uh = GetOrder(mesh_list,err_uh_list);
                 order_qh = GetOrder(mesh_list,err_qh_list);
@@ -189,15 +189,14 @@ function EllipticProblemDriver(para)
                         'err_qhstar',err_qhstar_list,'order',order_qhstar )
                 end
             end
-            
-            
-            
+                 
         end
         % -----------------------------------------------------------------
     
     elseif strcmp(pb_type(1),'2')
         
         % Solver Functional problem
+        % define some variables to store results
         if strcmp(pb_type(2),'0') % source problem
             Jh_list = zeros(Niter,1,numeric_t);
             err_Jh_list = zeros(Niter,1,numeric_t);
@@ -243,8 +242,7 @@ function EllipticProblemDriver(para)
         
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving functional problem\n')
-        
-        
+
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
@@ -274,13 +272,12 @@ function EllipticProblemDriver(para)
  
                 end
             end
-            %if para.visualize_flag==1
+            
+            
             mymesh.Plot(0); 
             M(ii) = getframe(gcf);
-            %end
-            mesh_list(ii) = GetDof(mymesh, para.order);
-            % -------------------------------------------------------------
             
+            mesh_list(ii) = GetDof(mymesh, para.order);
             
             % Solve -------------------------------------------------------
             if strcmp(pb_type(2),'0') % source problem
@@ -314,7 +311,8 @@ function EllipticProblemDriver(para)
                 % Cal funciton Error ------------------------------------------------
                  
                 if err_cal_flag==1
-
+                    
+                    % error of uh, qh
                     [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
 
                     [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
@@ -330,6 +328,7 @@ function EllipticProblemDriver(para)
                     [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
                     
+                    % compute Eh term by term
                     if strcmp(pb_type(4),'1')
                         [err_terms_sum,err_term1,err_term2,err_term3,...
                             err_term4,err_term5,err_term_extra,...
@@ -339,12 +338,7 @@ function EllipticProblemDriver(para)
                             uh,qh,uhat,...
                             vh,ph,vhat,...
                             GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,0);
-
-
-    %                     PlotElementWiseValue(mymesh,err_term1,'err-terms1');
-    %                     PlotElementWiseValue(mymesh,err_term2,'err-terms2');
-    %                     PlotElementWiseValue(mymesh,err_term3,'err-terms3');
-    %                     
+                 
                         err_terms_sum_list(ii) = sum(err_terms_sum);
                         err_terms_1_list(ii) =  sum(err_term1);
                         err_terms_2_list(ii) =  sum(err_term2);
@@ -361,6 +355,7 @@ function EllipticProblemDriver(para)
                     
                     end
                     
+                    % error vh, ph;
                     [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
                     [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
@@ -445,15 +440,16 @@ function EllipticProblemDriver(para)
             % Posterior error estimate if needed--------------------------- 
             if para.refine_flag > 0
                 mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
+                
                 if para.post_process_flag == 1
                     estimator_functinal = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
                 else
                     estimator_functinal = ACh_elewise_list;
                     
                 end
+                
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
-                %marked_elements = ACh_ErrEstimate(err_Jh_elewise,tol_adp,percent);
                 
                 % Plot estimator
                 if ii <= Niter
@@ -499,7 +495,6 @@ function EllipticProblemDriver(para)
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 
                 err_Jh_AC_Dh = err_Jh_AC_list - est_terms_sum_list;
-                
                 order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
                 
                 if para.post_process_flag == 1
@@ -646,6 +641,7 @@ function EllipticProblemDriver(para)
                 
                 %----------------------------------------------------------
                 figure;
+                
 %                 plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
 %                     0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--kx',...
 %                     0.5*log10(mesh_list),log10(abs(abs(ACh_list))),'--rs',...
@@ -667,7 +663,7 @@ function EllipticProblemDriver(para)
 %                     legend('Err-Jh','ACh+Dh','Err-Jh-AC-Dh')
 %                     title('Log plot of errors and estimator');
 
-                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+                    plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                             0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
                     legend('Err-Jh','ACh+Dh')
                     title('Log plot of errors and estimator');
@@ -737,12 +733,7 @@ function EllipticProblemDriver(para)
                     0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
                 legend('Err-lamh','Err-lamh-AC','ACh')
                 title('Log plot of errors and estimator');
-                
-                
-                
-                
-                
-                
+
                 
             else
                 
