@@ -1,7 +1,10 @@
 function main(pde_type,varargin)
     
     % example:  
-    % main('elliptic','order',1, 'h0',0.2, 'Niter',3, 'refine_flag', 0);
+    % main('elliptic','order',1, 'h0',0.2, 'Niter',3,...
+    %  'refine_flag', 0,'primal',0,'adjoint',0,'post_process_flag',1);
+
+    % main('maxwell','order',1, 'h0',0.2, 'Niter',3,'refine_flag', 0);
     
     global class_t;
     

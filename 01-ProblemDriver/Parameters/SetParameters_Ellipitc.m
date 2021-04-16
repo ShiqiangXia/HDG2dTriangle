@@ -1,6 +1,9 @@
 function para = SetParameters_Ellipitc(varargin)
     
-    [order,h0,Niter,refine_flag] = MyParaParse(varargin,'order','h0','Niter','refine_flag');
+    [order,h0,Niter,refine_flag,...
+    primal_data,adjoint_data,post_process_flag]...
+    = MyParaParse(varargin,...
+    'order','h0','Niter','refine_flag','primal','adjoint','post_process_flag');
 
     % define parameters
     para = Parameter();
@@ -11,32 +14,36 @@ function para = SetParameters_Ellipitc(varargin)
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
 
-    %%%%%%%%%% smooth solution u %%%%%%%%
-%     mypi = pi;
-%     uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-%     qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-%     source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
+
+    % define the primal problem data
+    if primal_data == 0 
+        %%%%%%%%%% smooth solution u %%%%%%%%
+        mypi = pi;
+        uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+        qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+        qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+        source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+        uD = uexact;
+        uN = @(p) 0*p(:,1);
     
-    %%%%%%%%%% cornor singularity solution u %%%%%%%%
-    
-    theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
-    radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
-    
-    uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
-    
-    qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
-        + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
-    
-    source_f =  @(p) 0*p(:,1);
-    
-    uD = uexact;
-    uN = @(p) 0*p(:,1);
-    
+    elseif primal_data == 1
+        %%%%%%%%%% cornor singularity solution u %%%%%%%%
+
+        theta = @(p) atan(abs(p(:,2)./p(:,1))); % only consider 0<=theta<=pi/2
+        radi  =  @(p) sqrt(p(:,1).^2+p(:,2).^2);
+
+        uexact = @(p) radi(p).^(2/3) .* ( sin( 2/3*theta(p) ) );
+
+        qexact_1 = @(p)-( 2/3 * p(:,1).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+            - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+        qexact_2 = @(p) -(2/3 * p(:,2).* radi(p).^(-4/3).*(sin(2/3 *theta(p)))...
+            + 2/3 * p(:,1).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+
+        source_f =  @(p) 0*p(:,1);
+
+        uD = uexact;
+        uN = @(p) 0*p(:,1);
+    else
     %%%%%%%%%%%% Polynomial solution u %%%%%%%%%%%%%%%%%%%%
 %     uexact = @(p) p(:,1)+p(:,2);
 %     
@@ -48,32 +55,50 @@ function para = SetParameters_Ellipitc(varargin)
 %     
 
 
+    end 
+
+
 
     %--------------------------------------------------
-    
-    %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
-    mypi = pi;
-    vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-    pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-    pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+    % define the adjoint problem data
+    if adjoint_data == 0
 
-    source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
-    vD = @(p) 0*p(:,1);
-    vN = @(p) 0*p(:,1);
+    %%%%%%%%%% smooth solution v %%%%%%%%%%%%%%%%%%%%%%
+        mypi = pi;
+        vexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+        pexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+        pexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+
+        source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
+        vD = @(p) 0*p(:,1);
+        vN = @(p) 0*p(:,1);
     
-    %%%%%%%%%%% constant g = 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-%     vexact = @(p)0*p(:,1);
-%     pexact_1 = @(p)0*p(:,1);
-%     pexact_2 = @(p)0*p(:,1);
-% 
-%     source_g = @(p) 0*p(:,1)+1; % p(:,1).^4+2*p(:,2).^5; % 
-%     
-%     vD = @(p) 0*p(:,1);
-%     vN = @(p) 0*p(:,1);
-%     
-   
-    %%%%%%%%% g = exp(x+y) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    elseif adjoint_data == 1
+        %%%%%%%%%%% constant g = 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        vexact = @(p)0*p(:,1);
+        pexact_1 = @(p)0*p(:,1);
+        pexact_2 = @(p)0*p(:,1);
+
+        source_g = @(p) 0*p(:,1)+1; % p(:,1).^4+2*p(:,2).^5; % 
+
+        vD = @(p) 0*p(:,1);
+        vN = @(p) 0*p(:,1);
+
+    elseif adjoint_data == 2
+   %%%%%%%%% v is discontinuous on the boundary %%%%%%%%%%%%%%%%%%%%%%
+        aa = 0.2;
+        bb = 0.8;
+        condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=aa).*(p(:,1)<=bb);
+        vexact = @(p) condition_func(p).*( (p(:,1)-aa).*(p(:,1)-bb)+1);
+        pexact_1 = @(p)0*p(:,1);
+        pexact_2 = @(p)0*p(:,1);
+
+        source_g = @(p)0*p(:,1);
+        vD = vexact;
+        vN = @(p) 0*p(:,1);
+    else
+        %%%%%%%%% g = exp(x+y) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     vexact = @(p)0*p(:,1);
 %     pexact_1 = @(p)0*p(:,1);
 %     pexact_2 = @(p)0*p(:,1);
@@ -82,17 +107,7 @@ function para = SetParameters_Ellipitc(varargin)
 %     vD = @(p) 0*p(:,1);
 %     vN = @(p) 0*p(:,1);
 
-    %%%%%%%%%% v is discontinuous on the boundary %%%%%%%%%%%%%%%%%%%%%%
-%     aa = 0.2;
-%     bb = 0.8;
-%     condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=aa).*(p(:,1)<=bb);
-%     vexact = @(p) condition_func(p).*( (p(:,1)-aa).*(p(:,1)-bb)+1);
-%     pexact_1 = @(p)0*p(:,1);
-%     pexact_2 = @(p)0*p(:,1);
-% 
-%     source_g = @(p)0*p(:,1);
-%     vD = vexact;
-%     vN = @(p) 0*p(:,1);
+   
 %     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -108,6 +123,10 @@ function para = SetParameters_Ellipitc(varargin)
     
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    end
+   
+    
     
     tag_eig = 1;
 
@@ -142,8 +161,6 @@ function para = SetParameters_Ellipitc(varargin)
 %     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
 %     
 %     
-    
-
 %      
 %     dom_type = 'CirHole'; 
 %     dirichlet_flag = ["InnerCircle","OuterCircle"];
@@ -170,13 +187,13 @@ function para = SetParameters_Ellipitc(varargin)
 
     %order = 1;
     tau = numeric_t('1.0');
-    post_process_flag = 1;
-
+    % post_process_flag = 1
     para = para.SetNM(order,tau,post_process_flag);
 
     %% experiment parameters --------------------------------------------------
+
     precision = 'double';
-    GQ_deg = 200;  % need more quads for corner singularity case
+    GQ_deg = 20;  % need more quads for corner singularity case
     
     %Niter = 3;
     %refine_flag = 1; 
