@@ -163,18 +163,21 @@ function [est_sum,est1,est2,est3,est4]=Functional_Eh_Estimate_Residual_method(fu
                     uh_uhat = uh_face_pts - uhat_face_pts;
                     % vh - vhat 
                     vh_vhat = vh_face_pts - vhat_face_pts;
+                    
                     ph_pstar_pts = (ph_face_pts1- phstar_face_1)*normal_vector(1,ii)...
                         +(ph_face_pts2-phstar_face_2)*normal_vector(2,ii);
                     
                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                     % est3 = <(qhat-qh)*n, vh-vh*>
                      
-                    formula_3 = tau*(uh_uhat).*(vh_face_pts -vhstar_face_pts );
+                    formula_3 = tau*(uh_uhat).*(vh_face_pts - vhstar_face_pts );
+                    
                     est3(element_idx,1) =  est3(element_idx,1)+...
                         0.5*e_list(ii)*GQ1DRef_wts'*(formula_3);
                     
                     % est4 = <uh - uhat, (phat + grad uh*)*n>
                     formula_4 = uh_uhat.*(ph_pstar_pts+tau*vh_vhat);
+                    
                     est4(element_idx,1) =  est4(element_idx,1)+...
                         0.5*e_list(ii)*GQ1DRef_wts'*(formula_4);
                     

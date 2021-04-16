@@ -2,8 +2,10 @@ function EllipticProblemDriver(para)
     % This is the main problem driver for elliptic equations.
     % three unknowns: qh, uh, uhat
     
+    %% Step 1 : Set up some varibales
     pb_type = num2str(para.pb_type);
     Niter = para.Niter;
+    posterior_estimate_method = 2;
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
     err_cal_flag = para.err_cal_flag;
@@ -33,13 +35,13 @@ function EllipticProblemDriver(para)
         err_qhstar_list = zeros(Niter,1,numeric_t);
     end
     
-    % step 2: Determine what problem we are solving.
+    %%  step 2: Determine what problem we are solving.
     
     if strcmp(pb_type(1),'1')
         
-        % Solve PDE problem
+        %%  Solve PDE problem
 
-        %%%%%%% step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving PDE problem\n')
         for ii = 1:Niter
@@ -195,7 +197,7 @@ function EllipticProblemDriver(para)
     
     elseif strcmp(pb_type(1),'2')
         
-        % Solver Functional problem
+        %%  Solver Functional problem
         % define some variables to store results
         if strcmp(pb_type(2),'0') % source problem
             Jh_list = zeros(Niter,1,numeric_t);
@@ -239,7 +241,7 @@ function EllipticProblemDriver(para)
         else
             error('Wrong problem type')
         end
-        
+        % step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving functional problem\n')
 
@@ -396,6 +398,7 @@ function EllipticProblemDriver(para)
             
             % post-processing
             if para.post_process_flag == 1 
+ 
                 if strcmp(pb_type(2),'0')&& strcmp(pb_type(4),'1') 
                     % poission source problem
                 
@@ -409,7 +412,8 @@ function EllipticProblemDriver(para)
                     err_qhstar_list(ii)= L2Error_vector(mymesh,qhstar,...
                        GQ1DRef_pts,GQ1DRef_wts,1,...
                         para.order,qexact_1,qexact_2);
-                
+                    if posterior_estimate_method == 1
+                        %% Eh estimate method 1
                     [est_terms_sum,est_term1,est_term2,est_term3,est_term4,est_term5,...
                         post_term1,post_term2,post_term3,post_term4] ...
                             = Functional_Eh_Estimate_Terms(pb_type(4),pb_type(3),mymesh,...
@@ -431,9 +435,25 @@ function EllipticProblemDriver(para)
                     post_terms_3_list(ii) = sqrt(sum(post_term3));
                     post_terms_4_list(ii) = sqrt(sum(post_term4));
                     
-                
-                end
-                
+                    elseif posterior_estimate_method == 2
+                        %% Eh estimate method 2
+                        [est_terms_sum,est1,est2,est3,est4]=...
+                            Functional_Eh_Estimate_Residual_method(func_type,pde_ype,mymesh,...
+                            source_f,...
+                            vhstar,phstar,...
+                            uh,qh,uhat,...
+                            vh,ph,vhat,...
+                            GQ1DRef_pts,GQ1DRef_wts,k,tau);
+                        
+                        est_terms_sum_list(ii) = sum(est_terms_sum);
+                        est_terms_1_list(ii) = sum(est1);
+                        est_terms_2_list(ii) = sum(est2);
+                        est_terms_3_list(ii) = sum(est3);
+                        est_terms_4_list(ii) = sum(est4);
+                        
+                        
+                    end
+                end            
             end
             
             
@@ -490,7 +510,7 @@ function EllipticProblemDriver(para)
             
             ReportProblem(para) 
             
-            if strcmp(pb_type(2),'0')
+            if strcmp(pb_type(2),'0')           
                 order_Jh = GetOrder(mesh_list,err_Jh_list);
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 
@@ -527,6 +547,8 @@ function EllipticProblemDriver(para)
                 %----------------------------------------------------------
                 % error terms 
                 if strcmp(pb_type(4),'1')
+                    
+                    %% report explicit Eh terms
                     order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
                     order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
                     order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
@@ -580,76 +602,84 @@ function EllipticProblemDriver(para)
                         'eterm1',eterm_1_list,'order',order_eterm_1,...
                         'eterm2',eterm_2_list,'order',order_eterm_2,...
                         'eterm3',eterm_3_list,'order',order_eterm_3);
-                    
-                    
-                    order_pterm_1 = GetOrder(mesh_list,post_terms_1_list);
-                    order_pterm_2 = GetOrder(mesh_list,post_terms_2_list);
-                    order_pterm_3 = GetOrder(mesh_list,post_terms_3_list);
-                    order_pterm_4 = GetOrder(mesh_list,post_terms_4_list);
-                    fprintf('\n');
-                    fprintf('pterm1 = ||uh*-uh||\n');
-                    fprintf('pterm2 = ||qh*-qh||\n');
-                    fprintf('pterm3 = ||-graduh* - qh||\n')
-                    fprintf('pterm4 = ||-graduh* - qh*||\n')
-                    ReportTable('DOF', mesh_list,...
-                        'pterm1',post_terms_1_list,'order',order_pterm_1,...
-                        'pterm2',post_terms_2_list,'order',order_pterm_2,...
-                        'pterm3',post_terms_3_list,'order',order_pterm_3,...
-                        'pterm4',post_terms_4_list,'order',order_pterm_4);
-                    
 
-
+                    %% report post-processed results
                     if para.post_process_flag == 1
                         
-                        order_est_terms_sum = GetOrder(mesh_list,est_terms_sum_list);
-                        order_est_term_1 = GetOrder(mesh_list,est_terms_1_list);
-                        order_est_term_2 = GetOrder(mesh_list,est_terms_2_list);
-                        order_est_term_3 = GetOrder(mesh_list,est_terms_3_list);
-                        order_est_term_4 = GetOrder(mesh_list,est_terms_4_list);
-                        order_est_term_5 = GetOrder(mesh_list,est_terms_5_list);
+                        if posterior_estimate_method == 1
+                            %% 
+                            order_pterm_1 = GetOrder(mesh_list,post_terms_1_list);
+                            order_pterm_2 = GetOrder(mesh_list,post_terms_2_list);
+                            order_pterm_3 = GetOrder(mesh_list,post_terms_3_list);
+                            order_pterm_4 = GetOrder(mesh_list,post_terms_4_list);
+                            fprintf('\n');
+                            fprintf('pterm1 = ||uh*-uh||\n');
+                            fprintf('pterm2 = ||qh*-qh||\n');
+                            fprintf('pterm3 = ||-graduh* - qh||\n')
+                            fprintf('pterm4 = ||-graduh* - qh*||\n')
+                            ReportTable('DOF', mesh_list,...
+                                'pterm1',post_terms_1_list,'order',order_pterm_1,...
+                                'pterm2',post_terms_2_list,'order',order_pterm_2,...
+                                'pterm3',post_terms_3_list,'order',order_pterm_3,...
+                                'pterm4',post_terms_4_list,'order',order_pterm_4);
 
-                        fprintf('\n');
-                        fprintf('Dh = sum est_i\n')
-                        fprintf('est_1 = (qh*-qh,ph*-ph)\n');
-                        fprintf('est_2 = (qh*-qh,ph+grad_vh) \n');
-                        fprintf('est_3 = (qh+grad_uh,ph*-ph)\n')
-                        fprintf('est_4 = (f-Proj_f, vh* - vh) \n');
-                        fprintf('est_5 =  (uh*-uh, g - Proj_g)\n');
+                            order_est_terms_sum = GetOrder(mesh_list,est_terms_sum_list);
+                            order_est_term_1 = GetOrder(mesh_list,est_terms_1_list);
+                            order_est_term_2 = GetOrder(mesh_list,est_terms_2_list);
+                            order_est_term_3 = GetOrder(mesh_list,est_terms_3_list);
+                            order_est_term_4 = GetOrder(mesh_list,est_terms_4_list);
+                            order_est_term_5 = GetOrder(mesh_list,est_terms_5_list);
 
-                        ReportTable('DOF', mesh_list,...
-                            'est_sum',est_terms_sum_list,'order',order_est_terms_sum,...
-                            'est_1',est_terms_1_list,'order',order_est_term_1, ...
-                            'est_2',est_terms_2_list,'order',order_est_term_2,...
-                            'est_3',est_terms_3_list,'order',order_est_term_3);
-                         ReportTable('DOF', mesh_list,...
-                            'est_4',est_terms_4_list,'order',order_est_term_4,...
-                            'est_5',est_terms_5_list,'order',order_est_term_5);
+                            fprintf('\n');
+                            fprintf('Dh = sum est_i\n')
+                            fprintf('est_1 = (qh*-qh,ph*-ph)\n');
+                            fprintf('est_2 = (qh*-qh,ph+grad_vh) \n');
+                            fprintf('est_3 = (qh+grad_uh,ph*-ph)\n')
+                            fprintf('est_4 = (f-Proj_f, vh* - vh) \n');
+                            fprintf('est_5 =  (uh*-uh, g - Proj_g)\n');
 
-                         fprintf('\n');
-                    end
-                    
-%                      fprintf('ratio: Eh/Dh\n')
-%                      ReportTable('DOF',mesh_list,...
-%                          'est_sum',est_terms_sum_list,'order',order_est_terms_sum,...
-%                          'err_sum',err_terms_sum_list,'order',order_err_terms_sum,...
-%                          'ratio', err_terms_sum_list./est_terms_sum_list)
-%                   
-                    
-                    
+                            ReportTable('DOF', mesh_list,...
+                                'est_sum',est_terms_sum_list,'order',order_est_terms_sum,...
+                                'est_1',est_terms_1_list,'order',order_est_term_1, ...
+                                'est_2',est_terms_2_list,'order',order_est_term_2,...
+                                'est_3',est_terms_3_list,'order',order_est_term_3);
+                             ReportTable('DOF', mesh_list,...
+                                'est_4',est_terms_4_list,'order',order_est_term_4,...
+                                'est_5',est_terms_5_list,'order',order_est_term_5);
 
+                             fprintf('\n');
+                        elseif posterior_estimate_method == 2
+                            %%
+                            order_est_terms_sum = GetOrder(mesh_list,est_terms_sum_list);
+                            order_est_term_1 = GetOrder(mesh_list,est_terms_1_list);
+                            order_est_term_2 = GetOrder(mesh_list,est_terms_2_list);
+                            order_est_term_3 = GetOrder(mesh_list,est_terms_3_list);
+                            order_est_term_4 = GetOrder(mesh_list,est_terms_4_list);
+                            
+                            fprintf('\n');
+                            fprintf('Dh = sum est_i\n')
+                            fprintf('est_1 = (f-div.qh,vh*-vh)\n');
+                            fprintf('est_2 = (qh+grad uh, ph* - ph) \n');
+                            fprintf('est_3 = <(qhat-qh)*n, vh-vh*>\n')
+                            fprintf('est_4 = <uh - uhat, (phat + grad uh*)*n> \n');
+                            
+                            ReportTable('DOF', mesh_list,...
+                                'est_sum',est_terms_sum_list,'order',order_est_terms_sum,...
+                                'est_1',est_terms_1_list,'order',order_est_term_1, ...
+                                'est_2',est_terms_2_list,'order',order_est_term_2);
+                             ReportTable('DOF', mesh_list,...
+                                 'est_3',est_terms_3_list,'order',order_est_term_3,...
+                                'est_4',est_terms_4_list,'order',order_est_term_4);
+                            
+                        end
+                        
+                    end                  
+          
                 end 
                 
                 %----------------------------------------------------------
-                figure;
-                
-%                 plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-%                     0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--kx',...
-%                     0.5*log10(mesh_list),log10(abs(abs(ACh_list))),'--rs',...
-%                     0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--g+');
-%                 legend('Err-Jh','Err-Jh-AC','ACh','Err-Jh-AC-Dh')
-%                 title('Log plot of errors and estimator');
-                
-                
+                %% Plot log-error 
+                figure;            
                 if para.post_process_flag == 0
                     plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                             0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
@@ -657,29 +687,17 @@ function EllipticProblemDriver(para)
                     title('Log plot of errors and estimator');
                     
                 elseif para.post_process_flag == 1
-%                     plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-%                         0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
-%                         0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--k+');
-%                     legend('Err-Jh','ACh+Dh','Err-Jh-AC-Dh')
-%                     title('Log plot of errors and estimator');
 
                     plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                             0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
                     legend('Err-Jh','ACh+Dh')
                     title('Log plot of errors and estimator');
-                      
-                    
-                    
-%                     plot(0.5*log10(mesh_list),log10(abs(err_Jh_AC_list)),'--bo',...
-%                         0.5*log10(mesh_list),log10(abs(est_terms_sum_list)),'--rs',...
-%                         0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'--k+');
-%                     legend('Err-Jh-AC','Dh','Err-Jh-AC-Dh')
-%                     title('Log plot of errors and estimator');
-%                     
+                  
                 end
-                
+                %%
                 
                 if err_cal_flag==1
+                    %% report uh,qh error results
                     order_uh = GetOrder(mesh_list,err_uh_list);
                     order_qh = GetOrder(mesh_list,err_qh_list);
                     order_vh = GetOrder(mesh_list,err_vh_list);
@@ -699,7 +717,7 @@ function EllipticProblemDriver(para)
            
                 
             elseif strcmp(pb_type(2),'1')
-                
+                %% report eigenvalue results
                 tag_text = 'eh_HDG_';
                 temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
                 
@@ -738,8 +756,6 @@ function EllipticProblemDriver(para)
             else
                 
             end
-            
-            
         end
                
         
