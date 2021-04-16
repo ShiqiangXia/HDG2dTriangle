@@ -1,4 +1,4 @@
-function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_method(func_type,pde_ype,mymesh,...
+function [est_sum,est1,est2,est3,est4]=Functional_Eh_Estimate_Residual_method(func_type,pde_ype,mymesh,...
                 uhstar,qhstar,source_f,...
                 vhstar,phstar,source_g,...
                 uh,qh,uhat,...
@@ -28,7 +28,7 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
             % Vanermonde matrix for uhstar and qhstar
             VD_uhstar = Vandermonde2D(k+1,a_list,b_list);
             [V2Dr_star,V2Ds_star] = GradVandermonde2D(k+1,a_list,b_list);
-            %[VD_qhstar_1,VD_qhstar_2] = RTVandermonde2D(k,a_list,b_list);
+            [VD_qhstar_1,VD_qhstar_2] = RTVandermonde2D(k,a_list,b_list);
             
             % compute the estimate terms over all elements
             
@@ -44,8 +44,7 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
             % est4 = <uh - uh*, (phat-ph)*n>
             est4 = zeros(num_elements,1,numeric_t);
             
-            % est 5 = -(graduh* + qh, gradvh*+ph)  --> -(q-qh,p-ph)
-            est5 = zeros(num_elements,1,numeric_t);
+            % est 5 = -()
             
             for element_idx = 1: num_elements
                 temp_element = mymesh.element_list(element_idx,:);
@@ -65,27 +64,13 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
                 uhstar_pts = VD_uhstar*uhstar_coeff;uhstar_pts = reshape(uhstar_pts,[],NGQ);
                 
                 % phstar at those Gauss points
-%                 phstar_coeff = phstar(:,element_idx);
-%                 p1_VD = VD_qhstar_1*phstar_coeff;p1_VD = reshape(p1_VD,[],NGQ);
-%                 p2_VD = VD_qhstar_2*phstar_coeff;p2_VD = reshape(p2_VD,[],NGQ);
-%                 
-%                 qhstar_coeff = qhstar(:,element_idx);
-%                 q1_VD = VD_qhstar_1*qhstar_coeff;q1_VD = reshape(q1_VD,[],NGQ);
-%                 q2_VD = VD_qhstar_2*qhstar_coeff;q2_VD = reshape(q2_VD,[],NGQ);
-%                 
-                % graduh*, gradvh*
+                phstar_coeff = phstar(:,element_idx);
+                p1_VD = VD_qhstar_1*phstar_coeff;p1_VD = reshape(p1_VD,[],NGQ);
+                p2_VD = VD_qhstar_2*phstar_coeff;p2_VD = reshape(p2_VD,[],NGQ);
                 
-                grad_uhstar_1 = V2Dr_star * uhstar_coeff * Inv_AffineMap(1,1)...
-                            + V2Ds_star * uhstar_coeff * Inv_AffineMap(2,1); grad_uhstar_1 = reshape(grad_uhstar_1,[],NGQ);
-
-                grad_uhstar_2 = V2Dr_star * uhstar_coeff * Inv_AffineMap(1,2)...
-                            + V2Ds_star * uhstar_coeff * Inv_AffineMap(2,2); grad_uhstar_2 = reshape(grad_uhstar_2,[],NGQ);
-                        
-                grad_vhstar_1 = V2Dr_star * vhstar_coeff * Inv_AffineMap(1,1)...
-                            + V2Ds_star * vhstar_coeff * Inv_AffineMap(2,1); grad_vhstar_1 = reshape(grad_vhstar_1,[],NGQ);
-
-                grad_vhstar_2 = V2Dr_star * vhstar_coeff * Inv_AffineMap(1,2)...
-                            + V2Ds_star * vhstar_coeff * Inv_AffineMap(2,2); grad_vhstar_2 = reshape(grad_vhstar_2,[],NGQ);
+                qhstar_coeff = qhstar(:,element_idx);
+                q1_VD = VD_qhstar_1*qhstar_coeff;q1_VD = reshape(q1_VD,[],NGQ);
+                q2_VD = VD_qhstar_2*qhstar_coeff;q2_VD = reshape(q2_VD,[],NGQ);
                 
                 %% %%%%%%%%%% compute uh,vh, qh,ph related points %%%%%%%%%%
                 
@@ -109,11 +94,11 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
                 % d/dx = d/dr * dr/dx + d/ds * ds/dx
                 % d/dy = d/dr * dr/dy + d/ds * ds/dy
                 
-%                 grad_uh_1 = V2Dr * uh_coeff * Inv_AffineMap(1,1)...
-%                             + V2Ds * uh_coeff * Inv_AffineMap(2,1); grad_uh_1 = reshape(grad_uh_1,[],NGQ);
-% 
-%                 grad_uh_2 = V2Dr * uh_coeff * Inv_AffineMap(1,2)...
-%                             + V2Ds * uh_coeff * Inv_AffineMap(2,2); grad_uh_2 = reshape(grad_uh_2,[],NGQ);
+                grad_uh_1 = V2Dr * uh_coeff * Inv_AffineMap(1,1)...
+                            + V2Ds * uh_coeff * Inv_AffineMap(2,1); grad_uh_1 = reshape(grad_uh_1,[],NGQ);
+
+                grad_uh_2 = V2Dr * uh_coeff * Inv_AffineMap(1,2)...
+                            + V2Ds * uh_coeff * Inv_AffineMap(2,2); grad_uh_2 = reshape(grad_uh_2,[],NGQ);
                         
                 div_qh = V2Dr * qh_coeff_1 * Inv_AffineMap(1,1)+V2Ds * qh_coeff_1 * Inv_AffineMap(2,1)...
                     + V2Dr * qh_coeff_2 * Inv_AffineMap(1,2)+ V2Ds * qh_coeff_2 * Inv_AffineMap(2,2);
@@ -142,12 +127,6 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
                 
                 est2(element_idx,1) =...
                     Jk*GQ1DRef_wts'*(formua_2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
-                
-                % est 5 = -(graduh* + qh, gradvh*+ph)
-                
-                formula_5 = - (grad_uhstar_1+qh_pts1).*(grad_vhstar_1+ph_pts1) - (grad_uhstar_2+qh_pts2).*(grad_vhstar_2+ph_pts2) ;
-                est5(element_idx,1) =...
-                    Jk*GQ1DRef_wts'*(formula_5.*Jacobian_rs_to_ab )*GQ1DRef_wts;
                 
                 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
@@ -232,7 +211,7 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
 
             end
             
-            est_sum = est1 + est2 + est3 + est4 + est5;
+            est_sum = est1 +est2 +est3 +est4;
             
         end
         
