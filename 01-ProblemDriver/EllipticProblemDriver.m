@@ -9,7 +9,10 @@ function EllipticProblemDriver(para)
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
     err_cal_flag = para.err_cal_flag;
+    err_analysis_flag = para.err_analysis_flag;
     mesh_list = zeros(Niter,1,numeric_t);
+    
+    reduce_ratio = MyParaParse(para.extra_parameters,'reduce_ratio');
     
     if err_cal_flag == 1
         err_uh_list = zeros(Niter,1,numeric_t);
@@ -206,31 +209,35 @@ function EllipticProblemDriver(para)
             err_Jh_AC_list = zeros(Niter,1,numeric_t);
             ACh_list = zeros(Niter,1,numeric_t);
             err_vh_list = zeros(Niter,1,numeric_t);
+            estimator_list = zeros(Niter,1,numeric_t);
             
-            err_terms_sum_list = zeros(Niter,1,numeric_t);
-            err_terms_1_list = zeros(Niter,1,numeric_t);
-            err_terms_2_list = zeros(Niter,1,numeric_t);
-            err_terms_3_list = zeros(Niter,1,numeric_t);
-            err_terms_4_list = zeros(Niter,1,numeric_t);
-            err_terms_5_list = zeros(Niter,1,numeric_t);
-            err_terms_extra_list = zeros(Niter,1,numeric_t);
+            if err_analysis_flag==1
+                err_terms_sum_list = zeros(Niter,1,numeric_t);
+                err_terms_1_list = zeros(Niter,1,numeric_t);
+                err_terms_2_list = zeros(Niter,1,numeric_t);
+                err_terms_3_list = zeros(Niter,1,numeric_t);
+                err_terms_4_list = zeros(Niter,1,numeric_t);
+                err_terms_5_list = zeros(Niter,1,numeric_t);
+                err_terms_extra_list = zeros(Niter,1,numeric_t);
+
+                eterm_1_list = zeros(Niter,1,numeric_t);
+                eterm_2_list = zeros(Niter,1,numeric_t);
+                eterm_3_list = zeros(Niter,1,numeric_t);
+            end
             
-            eterm_1_list = zeros(Niter,1,numeric_t);
-            eterm_2_list = zeros(Niter,1,numeric_t);
-            eterm_3_list = zeros(Niter,1,numeric_t);
-            
-            
-            est_terms_sum_list = zeros(Niter,1,numeric_t);
-            est_terms_1_list = zeros(Niter,1,numeric_t);
-            est_terms_2_list = zeros(Niter,1,numeric_t);
-            est_terms_3_list = zeros(Niter,1,numeric_t);
-            est_terms_4_list = zeros(Niter,1,numeric_t);
-            est_terms_5_list = zeros(Niter,1,numeric_t);
-            
-            post_terms_1_list = zeros(Niter,1,numeric_t);
-            post_terms_2_list = zeros(Niter,1,numeric_t);
-            post_terms_3_list = zeros(Niter,1,numeric_t);
-            post_terms_4_list = zeros(Niter,1,numeric_t);
+            if para.post_process_flag == 1
+                est_terms_sum_list = zeros(Niter,1,numeric_t);
+                est_terms_1_list = zeros(Niter,1,numeric_t);
+                est_terms_2_list = zeros(Niter,1,numeric_t);
+                est_terms_3_list = zeros(Niter,1,numeric_t);
+                est_terms_4_list = zeros(Niter,1,numeric_t);
+                est_terms_5_list = zeros(Niter,1,numeric_t);
+
+                post_terms_1_list = zeros(Niter,1,numeric_t);
+                post_terms_2_list = zeros(Niter,1,numeric_t);
+                post_terms_3_list = zeros(Niter,1,numeric_t);
+                post_terms_4_list = zeros(Niter,1,numeric_t);
+            end
             
         elseif strcmp(pb_type(2),'1') % eigenproblem
             err_lamh_AC_list = zeros(Niter,Neig,numeric_t);
@@ -249,26 +256,28 @@ function EllipticProblemDriver(para)
             cprintf('blue','Mesh %d ... \n',ii)
             % build mesh --------------------------------------------------
             if ii == 1
+                %% Build initial mesh
                 mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                     para.h0, ...
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
                 
             else
                 if para.refine_flag == 0 % uniform refinement
+                    %% uniform refinement
                     
                     mymesh = mymesh.UniformRefine();
-                 
-                    
+
                 elseif para.refine_flag == -1 % build a new mesh with h
+                    %% build a new mesh with a new h
                     
                     hh = para.h0*(0.5^(ii-1));
                     
                     mymesh = Build2DMesh(para.structure_flag, para.dom_type,...
                         hh, ...
                         para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
-                  
-                    
+                        
                 else % refine based on marked elements
+                    %% adpvie refine
                     r_f = GetRefineMethod(para.refine_flag); %'R', 'RG', 'NVB'
                     mymesh = mymesh.Refine(marked_elements, r_f);
  
@@ -276,8 +285,8 @@ function EllipticProblemDriver(para)
             end
             
             
-            mymesh.Plot(0); 
-            M(ii) = getframe(gcf);
+            %mymesh.Plot(0); 
+            %M(ii) = getframe(gcf); % record video of mesh refinement
             
             mesh_list(ii) = GetDof(mymesh, para.order);
             
@@ -330,8 +339,9 @@ function EllipticProblemDriver(para)
                     [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
                         = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
                     
-                    % compute Eh term by term
-                    if strcmp(pb_type(4),'1')
+                    % Error analysis: compute Eh term by term
+                    if strcmp(pb_type(4),'1') && err_analysis_flag == 1
+                        
                         [err_terms_sum,err_term1,err_term2,err_term3,...
                             err_term4,err_term5,err_term_extra,...
                             eterm1,eterm2,eterm3] ...
@@ -458,20 +468,25 @@ function EllipticProblemDriver(para)
             end
             
             
-            % Posterior error estimate if needed--------------------------- 
+            if para.post_process_flag == 1
+                estimator_functinal = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
+            else
+                estimator_functinal = ACh_elewise_list;
+            end
+            
+            estimator_list(ii) = sum(estimator_functinal);
+            
+            if (abs(estimator_list(ii)/estimator_list(1)) < reduce_ratio)
+                break; 
+            end
+            
+            % Mark mesh refinement if do Adaptivity --------------------------- 
             if para.refine_flag > 0
                 mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
-                
-                if para.post_process_flag == 1
-                    estimator_functinal = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
-                else
-                    estimator_functinal = ACh_elewise_list;
-                    
-                end
-                
+
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
-                
+
                 % Plot estimator
                 if ii <= Niter
 %                     title_text = append('ACh element-wise, mesh: ',num2str(ii));
@@ -487,9 +502,9 @@ function EllipticProblemDriver(para)
 %                     PlotElementWiseValue(mymesh,ACh_elewise_list+est_terms_sum,title_text);
 %                     
                 end
-                
-                
+
             end
+              
             % -------------------------------------------------------------
             
             % visualization -----------------------------------------------
@@ -515,11 +530,16 @@ function EllipticProblemDriver(para)
                 order_Jh = GetOrder(mesh_list,err_Jh_list);
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 
-                err_Jh_AC_Dh = err_Jh_AC_list - est_terms_sum_list;
-                order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
-                
+                fprintf('------------------------------\n')
+                fprintf('Reduce ratio goal: %f\n', reduce_ratio);
+                fprintf('Estimator:  %f',estimator_list(1)/estimator_list(ii) );
+                fprintf('Err_Jh:     %f',err_Jh_list(1)/err_Jh_list(ii) );
+                fprintf('Err_Jh_AC:  %f',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
+
                 if para.post_process_flag == 1
-                    
+                   %%  
+                    err_Jh_AC_Dh = err_Jh_AC_list - est_terms_sum_list;
+                    order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
                     estimate_err_Jh = ACh_list+est_terms_sum_list;
 
                     ReportTable('DOF', mesh_list,...
@@ -532,22 +552,17 @@ function EllipticProblemDriver(para)
                         'ACh',ACh_list,'ACh/err', ACh_list./err_Jh_list,...
                         'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC,...
                         'Dh',est_terms_sum_list,'Dh/err_Jh_AC',est_terms_sum_list./err_Jh_AC_list);
-                else
+                else  
                     estimate_err_Jh = ACh_list;
-                    
                     ReportTable('DOF', mesh_list,...
                         'err_Jh',err_Jh_list,'order',order_Jh, ...
                         'ACh',ACh_list,'ACh/err', ACh_list./err_Jh_list,...
                         'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
-                    
                 end
 
-                
-                    
-                
                 %----------------------------------------------------------
                 % error terms 
-                if strcmp(pb_type(4),'1')
+                if strcmp(pb_type(4),'1') && err_analysis_flag == 1
                     
                     %% report explicit Eh terms
                     order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
@@ -681,9 +696,7 @@ function EllipticProblemDriver(para)
                              ReportTable('DOF', mesh_list,...
                                  'est_3',est_terms_3_list,'order',order_est_term_3,...
                                 'est_4',est_terms_4_list,'order',order_est_term_4);
-                            
-                            
-                            
+                                                                   
                         end
                         
                     end                  
@@ -692,26 +705,28 @@ function EllipticProblemDriver(para)
                 
                 %----------------------------------------------------------
                 %% Plot log-error 
-                figure;            
-                if para.post_process_flag == 0
-                    plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                            0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
-                    legend('Err-Jh','ACh')
-                    title('Log plot of errors and estimator');
-                    
-                elseif para.post_process_flag == 1
+                plot_log_err_flag = 0;
+                if plot_log_err_flag==1
+                    figure;            
+                    if para.post_process_flag == 0
+                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
+                        legend('Err-Jh','ACh')
+                        title('Log plot of errors and estimator');
 
-                    plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                            0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
-                    legend('Err-Jh','ACh+Dh')
-                    title('Log plot of errors and estimator');
-                  
+                    elseif para.post_process_flag == 1
+
+                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
+                        legend('Err-Jh','ACh+Dh')
+                        title('Log plot of errors and estimator');
+
+                    end
                 end
                 %%
                 
                 if err_cal_flag==1
                     %% report uh,qh error results
-                    
                     order_uh = GetOrder(mesh_list,err_uh_list);
                     order_qh = GetOrder(mesh_list,err_qh_list);
                     order_vh = GetOrder(mesh_list,err_vh_list);
@@ -734,6 +749,15 @@ function EllipticProblemDriver(para)
                 
             elseif strcmp(pb_type(2),'1')
                 %% report eigenvalue results
+                
+                fprintf('------------------------------\n')
+                fprintf('Reduce ratio goal: %f\n', reduce_ratio);
+                fprintf('Target eigenvalue: %d\n', tag_eig);
+                fprintf('Estimator:  %f',estimator_list(1)/estimator_list(ii) );
+                fprintf('Err_Jh:     %f',err_lamh2_list(1)/err_lamh2_list(ii) );
+                fprintf('Err_Jh_AC:  %f',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
+                
+                
                 tag_text = 'eh_HDG_';
                 temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
                 

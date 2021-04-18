@@ -45,6 +45,7 @@ classdef Parameter
         refine_flag % 0: uniform refine, 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
         
         err_cal_flag
+        err_analysis_flag
         
         report_flag % 1: report errory analysis if possible
         
@@ -84,12 +85,13 @@ classdef Parameter
             cprintf('blue','Set numerical methods parameters... done\n')
         end
         
-        function obj = SetExp(obj,precision, GQ_deg, Niter, refine_flag,err_cal_flag, report_flag,visualize_flag, varargin)
+        function obj = SetExp(obj,precision, GQ_deg, Niter, refine_flag,err_cal_flag,err_analysis_flag, report_flag,visualize_flag, varargin)
             obj.precision = precision;
             obj.GQ_deg =GQ_deg;
             obj.Niter = Niter;
             obj.refine_flag = refine_flag;
             obj.err_cal_flag = err_cal_flag;
+            obj.err_analysis_flag = err_analysis_flag;
             obj.report_flag = report_flag;
             obj.visualize_flag = visualize_flag;
             obj.extra_parameters = varargin;

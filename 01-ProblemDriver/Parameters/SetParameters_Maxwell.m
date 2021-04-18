@@ -177,6 +177,7 @@ function para = SetParameters_Maxwell(varargin)
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     
     err_cal_flag = 0; % 1: calculate L2 error of uh,qh
+    err_analysis_flag = 0;
     
     report_flag = 1; 
     visualize_flag = 0;
@@ -188,7 +189,7 @@ function para = SetParameters_Maxwell(varargin)
     tol_adp = 1e-6;
     percent = 0.7;
 
-    para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,report_flag,visualize_flag,...
+    para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,err_analysis_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
         'tol_adp',tol_adp,'percent',percent);
 
