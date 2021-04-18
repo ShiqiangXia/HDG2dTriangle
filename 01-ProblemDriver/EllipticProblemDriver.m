@@ -532,7 +532,11 @@ function EllipticProblemDriver(para)
                 
                 fprintf('------------------------------\n')
                 fprintf('Reduce ratio goal: %f\n', reduce_ratio);
-                fprintf('Estimator:  %f',estimator_list(1)/estimator_list(ii) );
+                if para.post_process_flag == 1
+                    fprintf('Estimator ACh+Dh:  %f',estimator_list(1)/estimator_list(ii) );
+                else
+                    fprintf('Estimator ACh:  %f',estimator_list(1)/estimator_list(ii) );
+                end
                 fprintf('Err_Jh:     %f',err_Jh_list(1)/err_Jh_list(ii) );
                 fprintf('Err_Jh_AC:  %f',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
 
@@ -753,9 +757,9 @@ function EllipticProblemDriver(para)
                 fprintf('------------------------------\n')
                 fprintf('Reduce ratio goal: %f\n', reduce_ratio);
                 fprintf('Target eigenvalue: %d\n', tag_eig);
-                fprintf('Estimator:  %f',estimator_list(1)/estimator_list(ii) );
-                fprintf('Err_Jh:     %f',err_lamh2_list(1)/err_lamh2_list(ii) );
-                fprintf('Err_Jh_AC:  %f',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
+                fprintf('Estimator ACh:  %f',estimator_list(1)/estimator_list(ii) );
+                fprintf('Err_lamh:     %f',err_lamh2_list(1)/err_lamh2_list(ii) );
+                fprintf('Err_lamh_AC:  %f',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
                 
                 
                 tag_text = 'eh_HDG_';
