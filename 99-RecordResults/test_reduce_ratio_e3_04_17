@@ -339,25 +339,6 @@ Mesh 14 ...
 Mesh 15 ... 
 Mesh 16 ... 
 Mesh 17 ... 
-<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_AssembleMlambda_Elliptic.m',55,1)">55  </a>                end
-abs(estimator_list(ii)/estimator_list(1)
- abs(estimator_list(ii)/estimator_list(1)
-                                         
-{Error: Invalid expression. When calling a function or indexing a variable, use parentheses.
-Otherwise, check for mismatched delimiters.
-} 
-abs(estimator_list(ii)/estimator_list(1))
-{Index exceeds the number of array elements (16).
-} 
-abs(estimator_list(ii-1)/estimator_list(1))
-
-ans =
-
-    0.0013
-
-if system_dependent('IsDebugMode')==1, dbcont; end
-if system_dependent('IsDebugMode')==1, dbcont; end
-
 ---------- Report ------------
 Functional eigen problem
 Eq: -Laplace u = lam * u
@@ -389,5 +370,132 @@ Mesh 4 ...
 2.023743e-16.] 
 [> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('HDG_Eig_SolveEigenSystem_Elliptic', '/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_SolveEigenSystem_Elliptic.m', 27)" style="font-weight:bold">HDG_Eig_SolveEigenSystem_Elliptic</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_SolveEigenSystem_Elliptic.m',27,0)">line 27</a>)
   In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('HDG_EigPbSolver_Elliptic', '/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_EigPbSolver_Elliptic.m', 16)" style="font-weight:bold">HDG_EigPbSolver_Elliptic</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_EigPbSolver_Elliptic.m',16,0)">line 16</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EllipticProblemDriver', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m', 388)" style="font-weight:bold">EllipticProblemDriver</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',388,0)">line 388</a>)
-  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m', 17)" style="fo
+
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+Mesh 11 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Functional: J(u) = (g,u)
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Reduce ratio goal: 0.001000
+Adptive iterations: 11
+Target eigenvalue: 1
+Estimator ACh:  0.000694
+Err_lamh:     0.001657
+Err_lamh_AC:  0.001705
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Functional: J(u) = (g,u)
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Reduce ratio goal: 0.001000
+Adptive iterations: 10
+Target eigenvalue: 1
+Estimator ACh:  0.000237
+Err_lamh:     0.001597
+Err_lamh_AC:  0.001620
+
+
+nt-weight:bold">main</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m',17,0)">line 17</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_reduce_ratio', '/Users/shiqiangxia/Desktop/hdg2dtriangular/99-RecordResults/test_reduce_ratio.m', 86)" style="font-weight:bold">test_reduce_ratio</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/99-RecordResults/test_reduce_ratio.m',86,0)">line 86</a>)
+] 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+Mesh 11 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Functional: J(u) = (g,u)
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Reduce ratio goal: 0.001000
+Adptive iterations: 11
+Target eigenvalue: 1
+Estimator ACh:  0.000694
+Err_lamh:     0.001657
+Err_lamh_AC:  0.001705
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Functional: J(u) = (g,u)
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Reduce ratio goal: 0.001000
+Adptive iterations: 10
+Target eigenvalue: 1
+Estimator ACh:  0.000237
+Err_lamh:     0.001597
+Err_lamh_AC:  0.001620
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+Mesh 11 ... 
+
+diary off

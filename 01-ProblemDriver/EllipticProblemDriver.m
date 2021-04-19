@@ -537,15 +537,15 @@ function EllipticProblemDriver(para)
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 
                 fprintf('------------------------------\n')
-                fprintf('Reduce ratio goal: %f\n', reduce_ratio);
+                fprintf('Reduce ratio goal: %.1f\n', 1/reduce_ratio);
                 fprintf('Adptive iterations: %d\n',ii);
                 if para.post_process_flag == 1
-                    fprintf('Estimator ACh+Dh:  %f\n',estimator_list(ii)/estimator_list(1) );
+                    fprintf('Estimator ACh+Dh:  %.1f\n',estimator_list(1)/estimator_list(ii) );
                 else
-                    fprintf('Estimator ACh:  %f\n',estimator_list(ii)/estimator_list(1) );
+                    fprintf('Estimator ACh:  %.1f\n',estimator_list(1)/estimator_list(ii) );
                 end
-                fprintf('Err_Jh:     %f\n',err_Jh_list(ii)/err_Jh_list(1) );
-                fprintf('Err_Jh_AC:  %f\n',err_Jh_AC_list(ii)/err_Jh_AC_list(1));
+                fprintf('Err_Jh:     %.1f\n',err_Jh_list(1)/err_Jh_list(ii) );
+                fprintf('Err_Jh_AC:  %.1f\n',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
                 
                 
                 if temp_report_flag == 1
@@ -767,12 +767,12 @@ function EllipticProblemDriver(para)
                 %% report eigenvalue results
                 
                 fprintf('------------------------------\n')
-                fprintf('Reduce ratio goal: %f\n', reduce_ratio);
+                fprintf('Reduce ratio goal: %.1f\n', 1/reduce_ratio);
                 fprintf('Adptive iterations: %d\n',ii);
                 fprintf('Target eigenvalue: %d\n', tag_eig);
-                fprintf('Estimator ACh:  %f\n',estimator_list(ii)/estimator_list(1) );
-                fprintf('Err_lamh:     %f\n',err_lamh2_list(ii)/err_lamh2_list(1) );
-                fprintf('Err_lamh_AC:  %f\n',err_lamh_AC_list(ii)/err_lamh_AC_list(1));
+                fprintf('Estimator ACh:  %.1f\n',estimator_list(1)/estimator_list(ii) );
+                fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1)/err_lamh2_list(ii) );
+                fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
                 
                 
                 

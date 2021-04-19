@@ -225,7 +225,7 @@ function para = SetParameters_Ellipitc(varargin)
     
     percent = 0.5;
     
-    reduce_ratio=1e-3;
+    reduce_ratio=1e-4;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,err_analysis_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...

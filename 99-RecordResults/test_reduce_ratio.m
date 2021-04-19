@@ -6,7 +6,7 @@
 % intial mesh h = 0.2;
 
 Niter_max = 100;
-fprintf('Test reduce_ratio = 1e-3; percent = 0.5; intial mesh h = 0.2\n')
+fprintf('Test reduce_ratio = 1e-4; percent = 0.5; intial mesh h = 0.2\n')
 
 fprintf('\n\nTest Linear functinals J(u) = (u,g)\n\n')
 
