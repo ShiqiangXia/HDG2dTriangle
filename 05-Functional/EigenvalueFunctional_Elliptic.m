@@ -147,6 +147,7 @@ function [lamh2,lamh_AC,ACh,ACh_Neig_elewise_list]=...
         
         lamh2 = A_Neig./B_Neig;
         ACh = ACh_up./B_Neig;
+        ACh_Neig_elewise_list = ACh_Neig_elewise_list./B_Neig;
         lamh_AC = lamh2  + ACh;
         
         

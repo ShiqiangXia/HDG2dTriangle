@@ -3,9 +3,15 @@ function EllipticProblemDriver(para)
     % three unknowns: qh, uh, uhat
     
     %% Step 1 : Set up some varibales
+   
     pb_type = num2str(para.pb_type);
     Niter = para.Niter;
+    
+    % bonus parameters
+    temp_report_flag = 0;
+    plot_log_err_flag = 0;
     posterior_estimate_method = 2;
+    
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
     err_cal_flag = para.err_cal_flag;
@@ -532,14 +538,17 @@ function EllipticProblemDriver(para)
                 
                 fprintf('------------------------------\n')
                 fprintf('Reduce ratio goal: %f\n', reduce_ratio);
+                fprintf('Adptive iterations: %d\n',ii);
                 if para.post_process_flag == 1
-                    fprintf('Estimator ACh+Dh:  %f',estimator_list(1)/estimator_list(ii) );
+                    fprintf('Estimator ACh+Dh:  %f\n',estimator_list(ii)/estimator_list(1) );
                 else
-                    fprintf('Estimator ACh:  %f',estimator_list(1)/estimator_list(ii) );
+                    fprintf('Estimator ACh:  %f\n',estimator_list(ii)/estimator_list(1) );
                 end
-                fprintf('Err_Jh:     %f',err_Jh_list(1)/err_Jh_list(ii) );
-                fprintf('Err_Jh_AC:  %f',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
-
+                fprintf('Err_Jh:     %f\n',err_Jh_list(ii)/err_Jh_list(1) );
+                fprintf('Err_Jh_AC:  %f\n',err_Jh_AC_list(ii)/err_Jh_AC_list(1));
+                
+                
+                if temp_report_flag == 1
                 if para.post_process_flag == 1
                    %%  
                     err_Jh_AC_Dh = err_Jh_AC_list - est_terms_sum_list;
@@ -562,6 +571,7 @@ function EllipticProblemDriver(para)
                         'err_Jh',err_Jh_list,'order',order_Jh, ...
                         'ACh',ACh_list,'ACh/err', ACh_list./err_Jh_list,...
                         'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
+                end
                 end
 
                 %----------------------------------------------------------
@@ -709,7 +719,7 @@ function EllipticProblemDriver(para)
                 
                 %----------------------------------------------------------
                 %% Plot log-error 
-                plot_log_err_flag = 0;
+                
                 if plot_log_err_flag==1
                     figure;            
                     if para.post_process_flag == 0
@@ -731,6 +741,7 @@ function EllipticProblemDriver(para)
                 
                 if err_cal_flag==1
                     %% report uh,qh error results
+                    if temp_report_flag == 1
                     order_uh = GetOrder(mesh_list,err_uh_list);
                     order_qh = GetOrder(mesh_list,err_qh_list);
                     order_vh = GetOrder(mesh_list,err_vh_list);
@@ -748,6 +759,7 @@ function EllipticProblemDriver(para)
                             'err_uhstar',err_uhstar_list,'order',order_uhstar,...
                             'err_qhstar',err_qhstar_list,'order',order_qhstar )
                     end
+                    end
                 end
            
                 
@@ -756,46 +768,53 @@ function EllipticProblemDriver(para)
                 
                 fprintf('------------------------------\n')
                 fprintf('Reduce ratio goal: %f\n', reduce_ratio);
+                fprintf('Adptive iterations: %d\n',ii);
                 fprintf('Target eigenvalue: %d\n', tag_eig);
-                fprintf('Estimator ACh:  %f',estimator_list(1)/estimator_list(ii) );
-                fprintf('Err_lamh:     %f',err_lamh2_list(1)/err_lamh2_list(ii) );
-                fprintf('Err_lamh_AC:  %f',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
+                fprintf('Estimator ACh:  %f\n',estimator_list(ii)/estimator_list(1) );
+                fprintf('Err_lamh:     %f\n',err_lamh2_list(ii)/err_lamh2_list(1) );
+                fprintf('Err_lamh_AC:  %f\n',err_lamh_AC_list(ii)/err_lamh_AC_list(1));
                 
                 
-                tag_text = 'eh_HDG_';
-                temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
                 
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                tag_text = 'eh_func_';
-                temp_eig=ParseEigenError(mesh_list,err_lamh2_list,tag_text);
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                tag_text = 'ACh_eig_';
-                temp_eig=ParseEigenError(mesh_list,ACh_list,tag_text);
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                tag_text = 'eh_ac_';
-                temp_eig=ParseEigenError(mesh_list,err_lamh_AC_list,tag_text);
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                tag_text = 'ratio_';
-                temp_eig=ParseEigenError(mesh_list,err_lamh2_list./ACh_list,tag_text,0);
-                fprintf('ration =  err_lambdah/ACh\n');
-                ReportTable('dof', mesh_list,...
-                    temp_eig{:})
-                
-                figure;
-                plot(0.5*log10(mesh_list),log10(err_lamh2_list(:,tag_eig)),'--bo',...
-                    0.5*log10(mesh_list),log10(err_lamh_AC_list(:,tag_eig)),'--kx',...
-                    0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
-                legend('Err-lamh','Err-lamh-AC','ACh')
-                title('Log plot of errors and estimator');
+                if temp_report_flag == 1
+                    tag_text = 'eh_HDG_';
+                    temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
 
+                    ReportTable('dof', mesh_list,...
+                        temp_eig{:})
+
+                    tag_text = 'eh_func_';
+                    temp_eig=ParseEigenError(mesh_list,err_lamh2_list,tag_text);
+                    ReportTable('dof', mesh_list,...
+                        temp_eig{:})
+
+                    tag_text = 'ACh_eig_';
+                    temp_eig=ParseEigenError(mesh_list,ACh_list,tag_text);
+                    ReportTable('dof', mesh_list,...
+                        temp_eig{:})
+
+                    tag_text = 'eh_ac_';
+                    temp_eig=ParseEigenError(mesh_list,err_lamh_AC_list,tag_text);
+                    ReportTable('dof', mesh_list,...
+                        temp_eig{:})
+
+                    tag_text = 'ratio_';
+                    temp_eig=ParseEigenError(mesh_list,err_lamh2_list./ACh_list,tag_text,0);
+                    fprintf('ration =  err_lambdah/ACh\n');
+                    ReportTable('dof', mesh_list,...
+                        temp_eig{:})
+                end
+                
+                
+                
+                if plot_log_err_flag == 1
+                    figure;
+                    plot(0.5*log10(mesh_list),log10(err_lamh2_list(:,tag_eig)),'--bo',...
+                        0.5*log10(mesh_list),log10(err_lamh_AC_list(:,tag_eig)),'--kx',...
+                        0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
+                    legend('Err-lamh','Err-lamh-AC','ACh')
+                    title('Log plot of errors and estimator');
+                end
                 
             else
                 

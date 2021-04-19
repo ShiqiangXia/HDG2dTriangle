@@ -1,15 +1,18 @@
 function para = SetParameters_Ellipitc(varargin)
     
     [order,h0,Niter,refine_flag,...
-    primal_data,adjoint_data,post_process_flag]...
+    pb_type,dom_type,...
+    primal_data,adjoint_data,post_process_flag,err_cal_flag]...
     = MyParaParse(varargin,...
-    'order','h0','Niter','refine_flag','primal','adjoint','post_process_flag');
+    'order','h0','Niter','refine_flag',...
+    'pb_type','dom_type','primal','adjoint',...
+    'post_process_flag','err_cal_flag');
 
     % define parameters
     para = Parameter();
 
     %% Problem parameters -------------------------------------------------
-    pb_type = 2011;
+    %pb_type = 2111;
     % pb_type: abcd
     % a: PDE-1 /Functional-2, b:source problem-0 or eigen problem-1,
     % c: PDE type (Poission-1), D:functional type (Vol-1, Bdry-2, Non-0)
@@ -141,39 +144,46 @@ function para = SetParameters_Ellipitc(varargin)
     structure_flag = 1;
     
     %h0 = 0.5;
+    if strcmp(dom_type,'Rec')
+        %%%%% Rectangular %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        dom_type = 'Rec';
+        dirichlet_flag = ["bottom","top","left","right"];
+        neuman_flag = [];
+        x1 = 0;
+        y1 = 0;
+        x2 = 1;
+        y2 = 1;
+        tri_dir = 0;
+        para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
+
+    elseif strcmp(dom_type,'L')
+        
+        %%%%% L-shape %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        dom_type = 'L';
+        dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
+        neuman_flag = [];
+        tri_dir = 1;
+        para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
+
+    elseif strcmp(dom_type,'CirHole')
+             
+        dom_type = 'CirHole'; 
+        dirichlet_flag = ["InnerCircle","OuterCircle"];
+        neuman_flag = [];
+        x1 = 0;
+        y1 = 0;
+        r1 = 1;
+        x2=0.2;
+        y2=0.2;
+        r2=0.5;
+        para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,r1,x2,y2,r2);
+    else
+        error('Wrong dom type! not implemented!')
+    end
     
-    %%%%% Rectangular %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    dom_type = 'Rec';
-    dirichlet_flag = ["bottom","top","left","right"];
-    neuman_flag = [];
-    x1 = 0;
-    y1 = 0;
-    x2 = 1;
-    y2 = 1;
-    tri_dir = 0;
-    para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
     
-    %%%%% L-shape %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     dom_type = 'L';
-%     dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
-%     neuman_flag = [];
-%     tri_dir = 1;
-%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
-%     
-%     
-%      
-%     dom_type = 'CirHole'; 
-%     dirichlet_flag = ["InnerCircle","OuterCircle"];
-%     neuman_flag = [];
-%     x1 = 0;
-%     y1 = 0;
-%     r1 = 1;
-%     x2=0.2;
-%     y2=0.2;
-%     r2=0.5;
-%     para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,r1,x2,y2,r2);
-%     
     
+ 
     %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
     % 'Rec': ["bottom","top","left","right"]
     % 'L': ["bottom","left","right_low","right_high","top_low","top_high"]
@@ -201,7 +211,7 @@ function para = SetParameters_Ellipitc(varargin)
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     
-    err_cal_flag = 1; % 1: calculate L2 error of uh,qh
+    %err_cal_flag = 1; % 1: calculate L2 error of uh,qh
     err_analysis_flag = 0;
     
     report_flag = 1; 
@@ -215,7 +225,7 @@ function para = SetParameters_Ellipitc(varargin)
     
     percent = 0.5;
     
-    reduce_ratio=1e-4;
+    reduce_ratio=1e-3;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,err_analysis_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
