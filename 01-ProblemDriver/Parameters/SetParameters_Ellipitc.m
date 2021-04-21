@@ -212,12 +212,12 @@ function para = SetParameters_Ellipitc(varargin)
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     
     %err_cal_flag = 1; % 1: calculate L2 error of uh,qh
-    err_analysis_flag = 0;
+    err_analysis_flag = 1;
     
     report_flag = 1; 
     visualize_flag = 0;
 
-    Neig = 3;
+    Neig = 1;
     Max_iter = 100;
     tol_eig = 1e-10;
 
@@ -225,7 +225,7 @@ function para = SetParameters_Ellipitc(varargin)
     
     percent = 0.5;
     
-    reduce_ratio=1e-4;
+    reduce_ratio=1e-6;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,err_analysis_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...

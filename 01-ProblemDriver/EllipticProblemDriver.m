@@ -8,7 +8,7 @@ function EllipticProblemDriver(para)
     Niter = para.Niter;
     
     % bonus parameters
-    temp_report_flag = 0;
+    temp_report_flag = 1;
     plot_log_err_flag = 0;
     posterior_estimate_method = 2;
     
@@ -42,6 +42,10 @@ function EllipticProblemDriver(para)
     if para.post_process_flag == 1 && err_cal_flag == 1
         err_uhstar_list = zeros(Niter,1,numeric_t);
         err_qhstar_list = zeros(Niter,1,numeric_t);
+        %{
+        err_uh2star_list = zeros(Niter,1,numeric_t);
+        err_qh2star_list = zeros(Niter,1,numeric_t);
+        %}
     end
     
     %%  step 2: Determine what problem we are solving.
@@ -83,7 +87,7 @@ function EllipticProblemDriver(para)
             % Solve -------------------------------------------------------
 
             if strcmp(pb_type(2),'0')
-                % Solve source problem
+                %% Solve source problem
                 
                 [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                 [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
@@ -92,7 +96,7 @@ function EllipticProblemDriver(para)
             % -------------------------------------------------------------
 
             elseif strcmp(pb_type(2),'1')
-                % Solve eigen problem
+                %% Solve eigen problem
                 [lamh,uh_Neig,qh_Neig,uhat_Neig] = HDG_EigPbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts,GQ1DRef_wts,...
                     para.order,para.tau, Neig,Max_iter,Tol_eig);
                 lamh_list(ii,:) = lamh;
@@ -155,6 +159,35 @@ function EllipticProblemDriver(para)
                        GQ1DRef_pts,GQ1DRef_wts,1,...
                     para.order,qexact_1,qexact_2);
                 end
+                
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                %% test 2nd post-processing
+                %{
+                k_star = para.order+1;
+                k_2star = para.order+1;
+                
+                [uh2star,qh2star] = HDG_2nd_Local_Postprocess_Elliptic(pb_type(3),mymesh,...
+                    GQ1DRef_pts,GQ1DRef_wts,...
+                    k_2star,k_star,para.tau,uhstar,source_f,uD,uN);
+                
+                
+                
+                if err_cal_flag == 1
+                    err_uh2star_list(ii) = L2Error_scalar(mymesh,uh2star,...
+                        GQ1DRef_pts,GQ1DRef_wts,0,...
+                    k_2star,uexact);
+
+                    err_qh2star_list(ii)= L2Error_vector(mymesh,qh2star,...
+                       GQ1DRef_pts,GQ1DRef_wts,0,...
+                    k_2star,qexact_1,qexact_2);
+                end
+                %}
+                
+                
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                
+                
+                
             end
             % ------------------------------------------------------------- 
 
@@ -198,6 +231,15 @@ function EllipticProblemDriver(para)
                     ReportTable('DOF', mesh_list,...
                         'err_uhstar',err_uhstar_list,'order',order_uhstar,...
                         'err_qhstar',err_qhstar_list,'order',order_qhstar )
+                    
+                    order_uh2star = GetOrder(mesh_list,err_uh2star_list);
+                    order_qh2star = GetOrder(mesh_list,err_qh2star_list);
+                    ReportTable('DOF', mesh_list,...
+                        'err_uh2star',err_uh2star_list,'order',order_uh2star,...
+                        'err_qh2star',err_qh2star_list,'order',order_qh2star )
+                    
+                    
+                    
                 end
             end
                  
@@ -453,13 +495,15 @@ function EllipticProblemDriver(para)
                     
                     elseif posterior_estimate_method == 2
                         %% Eh estimate method 2
-                        [est_terms_sum,est1,est2,est3,est4,est5]=...
+                        
+                        
+                        [est_terms_sum,est1,est2,est3,est4,est5,pos1]=...
                             Functional_Eh_Estimate_Residual_method(pb_type(4),pb_type(3),mymesh,...
                             uhstar,qhstar,source_f,...
                             vhstar,phstar,source_g,...
                             uh,qh,uhat,...
                             vh,ph,vhat,...
-                            GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau);
+                            GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,uexact);
                         
                         est_terms_sum_list(ii) = sum(est_terms_sum);
                         est_terms_1_list(ii) = sum(est1);
@@ -467,6 +511,8 @@ function EllipticProblemDriver(para)
                         est_terms_3_list(ii) = sum(est3);
                         est_terms_4_list(ii) = sum(est4);
                         est_terms_5_list(ii) = sum(est5);
+                        
+                        post_terms_1_list(ii) = sqrt(sum(pos1));
                         
                         
                     end
@@ -567,10 +613,10 @@ function EllipticProblemDriver(para)
                         'Dh',est_terms_sum_list,'Dh/err_Jh_AC',est_terms_sum_list./err_Jh_AC_list);
                 else  
                     estimate_err_Jh = ACh_list;
-                    ReportTable('DOF', mesh_list,...
-                        'err_Jh',err_Jh_list,'order',order_Jh, ...
-                        'ACh',ACh_list,'ACh/err', ACh_list./err_Jh_list,...
-                        'err_Jh_AC',err_Jh_AC_list,'order',order_Jh_AC);
+                    ReportTable('DOF', mesh_list(1:ii),...
+                        'err_Jh',err_Jh_list(1:ii),'order',order_Jh(1:ii), ...
+                        'ACh',ACh_list(1:ii),'ACh/err', ACh_list(1:ii)./err_Jh_list(1:ii),...
+                        'err_Jh_AC',err_Jh_AC_list(1:ii),'order',order_Jh_AC(1:ii));
                 end
                 end
 
@@ -620,18 +666,18 @@ function EllipticProblemDriver(para)
 
 %                     
 %                     
-%                     order_eterm_1 =  GetOrder(mesh_list,eterm_1_list);
-%                     order_eterm_2 =  GetOrder(mesh_list,eterm_2_list);
-%                     order_eterm_3 =  GetOrder(mesh_list,eterm_3_list);
-%                     
-%                     fprintf('\n');
-%                     fprintf('eterm1 = ||qh+grad_uh||\n');
-%                     fprintf('eterm2 = ||(qhat-q)*n||_F\n');
-%                     fprintf('eterm3 = ||uhat -uh||_F\n')
-%                     ReportTable('DOF', mesh_list,...
-%                         'eterm1',eterm_1_list,'order',order_eterm_1,...
-%                         'eterm2',eterm_2_list,'order',order_eterm_2,...
-%                         'eterm3',eterm_3_list,'order',order_eterm_3);
+                    order_eterm_1 =  GetOrder(mesh_list,eterm_1_list);
+                    order_eterm_2 =  GetOrder(mesh_list,eterm_2_list);
+                    order_eterm_3 =  GetOrder(mesh_list,eterm_3_list);
+                    
+                    fprintf('\n');
+                    fprintf('eterm1 = ||qh+grad_uh||\n');
+                    fprintf('eterm2 = ||(qhat-q)*n||_F\n');
+                    fprintf('eterm3 = ||uhat -u||_F\n')
+                    ReportTable('DOF', mesh_list,...
+                        'eterm1',eterm_1_list,'order',order_eterm_1,...
+                        'eterm2',eterm_2_list,'order',order_eterm_2,...
+                        'eterm3',eterm_3_list,'order',order_eterm_3);
 
                     %% report post-processed results
                     if para.post_process_flag == 1
@@ -680,6 +726,13 @@ function EllipticProblemDriver(para)
                              fprintf('\n');
                         elseif posterior_estimate_method == 2
                             %%
+                            order_pterm_1 = GetOrder(mesh_list,post_terms_1_list);
+                            fprintf('\n');
+                            fprintf('pterm1 = ||u-uh*||_F\n');
+                            ReportTable('DOF', mesh_list,...
+                                'pterm1',post_terms_1_list,'order',order_pterm_1)
+                            
+                            
                             order_est_terms_sum = GetOrder(mesh_list,est_terms_sum_list);
                             order_est_term_1 = GetOrder(mesh_list,est_terms_1_list);
                             order_est_term_2 = GetOrder(mesh_list,est_terms_2_list);
@@ -741,16 +794,16 @@ function EllipticProblemDriver(para)
                 
                 if err_cal_flag==1
                     %% report uh,qh error results
-                    if temp_report_flag == 1
+                    if temp_report_flag == 2
                     order_uh = GetOrder(mesh_list,err_uh_list);
                     order_qh = GetOrder(mesh_list,err_qh_list);
                     order_vh = GetOrder(mesh_list,err_vh_list);
                     fprintf('\n\n');
                     fprintf('Report uh,qh error results \n');
                     ReportTable('DOF', mesh_list,...
-                        'err_uh',err_uh_list,'order', order_uh,...
-                        'err_qh',err_qh_list,'order',order_qh,...
-                        'err_vh',err_vh_list,'order', order_vh)
+                        'err_uh',err_uh_list(1:ii),'order', order_uh(1:ii),...
+                        'err_qh',err_qh_list(1:ii),'order',order_qh(1:ii),...
+                        'err_vh',err_vh_list(1:ii),'order', order_vh(1:ii))
                     
                     if para.post_process_flag == 1
                         order_uhstar = GetOrder(mesh_list,err_uhstar_list);
@@ -776,7 +829,7 @@ function EllipticProblemDriver(para)
                 
                 
                 
-                if temp_report_flag == 1
+                if temp_report_flag == 2
                     tag_text = 'eh_HDG_';
                     temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
 

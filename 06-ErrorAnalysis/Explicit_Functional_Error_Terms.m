@@ -202,7 +202,9 @@ function [Err_elewise_list, Err1_elewise_list, Err2_elewise_list,Err3_elewise_li
                     % <(qhat-q)*n,(qhat-q)*n>
                     eformula_2 = (qh_q_n + tau*(uh_uhat)).^2;
                     % <uhat -uh, uhat-uh>
-                    eformula_3 = uh_uhat.^2;
+                    %eformula_3 = uh_uhat.^2;
+                    
+                    eformula_3 = (u_face_pts - uhat_face_pts).^2;
 
                     
                     Eterm2_elewise_list(element_idx,1) = Eterm2_elewise_list(element_idx,1)+...

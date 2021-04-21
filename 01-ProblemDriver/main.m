@@ -1,10 +1,10 @@
 function main(pde_type,varargin)
     
     % example:  
-    % main('elliptic','order',1, 'h0',0.2, 'Niter',3,...
-    %  'refine_flag', 0,'primal',0,'adjoint',0,'post_process_flag',1);
-
+    
     % main('maxwell','order',1, 'h0',0.2, 'Niter',3,'refine_flag', 0);
+    
+    % main('elliptic','order',3, 'h0',0.2, 'Niter',3, 'refine_flag', 0,'pb_type',2011,'dom_type','Rec','primal',0,'adjoint',0,'post_process_flag',1,'err_cal_flag',1)
     
     global class_t;
     

@@ -1,9 +1,9 @@
-function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_method(func_type,pde_ype,mymesh,...
+function [est_sum,est1,est2,est3,est4,est5,pos1]=Functional_Eh_Estimate_Residual_method(func_type,pde_ype,mymesh,...
                 uhstar,qhstar,source_f,...
                 vhstar,phstar,source_g,...
                 uh,qh,uhat,...
                 vh,ph,vhat,...
-                GQ1DRef_pts,GQ1DRef_wts,k,tau)
+                GQ1DRef_pts,GQ1DRef_wts,k,tau,uexact)
             
     Nu = (k+1)*(k+2)/2;
     Nuhat  = k+1;
@@ -46,6 +46,8 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
             
             % est 5 = -(graduh* + qh, gradvh*+ph)  --> -(q-qh,p-ph)
             est5 = zeros(num_elements,1,numeric_t);
+            
+            pos1 = zeros(num_elements,1,numeric_t);
             
             for element_idx = 1: num_elements
                 temp_element = mymesh.element_list(element_idx,:);
@@ -173,6 +175,11 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
                     uhat_face_pts = V1D * uhat_coeff;
                     vhat_face_pts = V1D * vhat_coeff;
                     
+                    [face_x_list,face_y_list] = GetFaceQaudPts(ii, GQ1DRef_pts,Jk,vertice_list);
+                    
+                    %%% temp code
+                    u_face_pts = uexact([face_x_list,face_y_list]);
+                    
                     [face_r_list,face_s_list] = GetRefFaceQuadPts(ii,GQ1DRef_pts);
                     [face_a_list,face_b_list] = RStoAB(face_r_list,face_s_list);
                     
@@ -227,6 +234,11 @@ function [est_sum,est1,est2,est3,est4,est5]=Functional_Eh_Estimate_Residual_meth
                         0.5*e_list(ii)*GQ1DRef_wts'*(formula_4);
                     
                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    % ||u - uh*||_F
+                    formula_pos = (u_face_pts - uhstar_face_pts).^2;
+                    pos1(element_idx,1) =  pos1(element_idx,1)+...
+                        0.5*e_list(ii)*GQ1DRef_wts'*(formula_pos);
+                    
                     
                 end
 
