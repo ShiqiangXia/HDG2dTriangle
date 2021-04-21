@@ -9,7 +9,7 @@ function EllipticProblemDriver(para)
     
     % bonus parameters
     temp_report_flag = 1;
-    plot_log_err_flag = 0;
+    plot_log_err_flag = 1;
     posterior_estimate_method = 2;
     
     
@@ -19,6 +19,7 @@ function EllipticProblemDriver(para)
     mesh_list = zeros(Niter,1,numeric_t);
     
     reduce_ratio = MyParaParse(para.extra_parameters,'reduce_ratio');
+    
     
     if err_cal_flag == 1
         err_uh_list = zeros(Niter,1,numeric_t);
@@ -251,6 +252,9 @@ function EllipticProblemDriver(para)
         %%  Solver Functional problem
         % define some variables to store results
         if strcmp(pb_type(2),'0') % source problem
+            
+            pb_text_info = MyParaParse(para.pb_parameters,'pb_text_info');
+            
             Jh_list = zeros(Niter,1,numeric_t);
             err_Jh_list = zeros(Niter,1,numeric_t);
             Jh_AC_list = zeros(Niter,1,numeric_t);
@@ -296,6 +300,7 @@ function EllipticProblemDriver(para)
         else
             error('Wrong problem type')
         end
+        
         % step 3. Iterative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving functional problem\n')
@@ -497,7 +502,7 @@ function EllipticProblemDriver(para)
                         %% Eh estimate method 2
                         
                         
-                        [est_terms_sum,est1,est2,est3,est4,est5,pos1]=...
+                        [est_terms_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=...
                             Functional_Eh_Estimate_Residual_method(pb_type(4),pb_type(3),mymesh,...
                             uhstar,qhstar,source_f,...
                             vhstar,phstar,source_g,...
@@ -513,6 +518,9 @@ function EllipticProblemDriver(para)
                         est_terms_5_list(ii) = sum(est5);
                         
                         post_terms_1_list(ii) = sqrt(sum(pos1));
+                        post_terms_2_list(ii) = sqrt(sum(pos2));
+                        post_terms_3_list(ii) = sqrt(sum(pos3));
+                        post_terms_4_list(ii) = (sum(pos4));
                         
                         
                     end
@@ -564,9 +572,16 @@ function EllipticProblemDriver(para)
                 basis_flag = 0;
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
+            
+            if ii == Niter
+                mymesh.Plot(0);
+                title_text = append('Final mesh ', num2str(ii), ' when k = ', num2str(para.order));
+                title({title_text,pb_text_info});
+            end
             % ------------------------------------------------------------- 
    
         end
+        %%%% end mesh iterating %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         if para.visualize_flag==1
             implay(M,2)
@@ -622,9 +637,10 @@ function EllipticProblemDriver(para)
 
                 %----------------------------------------------------------
                 % error terms 
-                if strcmp(pb_type(4),'1') && err_analysis_flag == 1
+                if strcmp(pb_type(4),'1') 
                     
                     %% report explicit Eh terms
+                    if err_analysis_flag == 1
                     order_err_terms_sum = GetOrder(mesh_list,err_terms_sum_list);
                     order_err_term_1 = GetOrder(mesh_list,err_terms_1_list);
                     order_err_term_2 = GetOrder(mesh_list,err_terms_2_list);
@@ -678,7 +694,7 @@ function EllipticProblemDriver(para)
                         'eterm1',eterm_1_list,'order',order_eterm_1,...
                         'eterm2',eterm_2_list,'order',order_eterm_2,...
                         'eterm3',eterm_3_list,'order',order_eterm_3);
-
+                    end
                     %% report post-processed results
                     if para.post_process_flag == 1
                         
@@ -727,10 +743,19 @@ function EllipticProblemDriver(para)
                         elseif posterior_estimate_method == 2
                             %%
                             order_pterm_1 = GetOrder(mesh_list,post_terms_1_list);
+                            order_pterm_2 = GetOrder(mesh_list,post_terms_2_list);
+                            order_pterm_3 = GetOrder(mesh_list,post_terms_3_list);
+                            order_pterm_4 = GetOrder(mesh_list,post_terms_4_list);
                             fprintf('\n');
                             fprintf('pterm1 = ||u-uh*||_F\n');
+                            fprintf('pterm2 = ||graduh*+qh||\n');
+                            fprintf('pterm3 = ||gradvh*+ph||\n');
+                            fprintf('pterm4 = (uh*-uh,g)\n');
                             ReportTable('DOF', mesh_list,...
-                                'pterm1',post_terms_1_list,'order',order_pterm_1)
+                                'pterm1',post_terms_1_list,'order',order_pterm_1,...
+                                'pterm2',post_terms_2_list,'order',order_pterm_2,...
+                                'pterm3',post_terms_3_list,'order',order_pterm_3,...
+                                'pterm4',post_terms_4_list,'order',order_pterm_4)
                             
                             
                             order_est_terms_sum = GetOrder(mesh_list,est_terms_sum_list);
@@ -779,14 +804,16 @@ function EllipticProblemDriver(para)
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                                 0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
                         legend('Err-Jh','ACh')
-                        title('Log plot of errors and estimator');
+                        title_text = append('Log plot when k = ',num2str(para.order));
+                        title(title_text);
 
                     elseif para.post_process_flag == 1
 
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                                 0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
                         legend('Err-Jh','ACh+Dh')
-                        title('Log plot of errors and estimator');
+                        title_text = append('Log plot when k = ',num2str(para.order));
+                        title({title_text,pb_text_info});
 
                     end
                 end

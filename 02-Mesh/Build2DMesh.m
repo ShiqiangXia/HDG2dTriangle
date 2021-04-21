@@ -105,12 +105,12 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
                end
             
                [p,e] = Structured2DMesh(dom_type,h0,varargin{:});
-               simpplot(p,e);
+               %simpplot(p,e);
                
            elseif strcmp(dom_type,'L')
                
                [p,e] = Structured2DMesh(dom_type,h0,varargin{:});
-               simpplot(p,e);
+               %simpplot(p,e);
                
            else
                error("This type of structured mesh is not implemented yet")

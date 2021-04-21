@@ -132,12 +132,14 @@ function para = SetParameters_Ellipitc(varargin)
     
     
     tag_eig = 1;
+    pb_text_info = WriteProbTextInfo(primal_data,adjoint_data);
 
     para = para.SetPb(pb_type,...
         'uexact',uexact,'qexact_1',qexact_1,'qexact_2',qexact_2,...
         'source_f',source_f,'uD',uD, 'uN',uN,...
         'vexact',vexact,'pexact_1',pexact_1,'pexact_2',pexact_2,...
-        'source_g',source_g,'vD',vD,'vN',vN,'tag_eig',tag_eig);
+        'source_g',source_g,'vD',vD,'vN',vN,'tag_eig',tag_eig,...
+        'pb_text_info',pb_text_info);
 
     %% domain and mesh parameters----------------------------------------------
 
@@ -212,7 +214,9 @@ function para = SetParameters_Ellipitc(varargin)
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     
     %err_cal_flag = 1; % 1: calculate L2 error of uh,qh
-    err_analysis_flag = 1;
+    
+    err_analysis_flag = 0; 
+    % 1: compute the exact error terms like (q-qh,p-ph), need to know the exact solution
     
     report_flag = 1; 
     visualize_flag = 0;
@@ -225,7 +229,7 @@ function para = SetParameters_Ellipitc(varargin)
     
     percent = 0.5;
     
-    reduce_ratio=1e-6;
+    reduce_ratio=1e-10;
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,err_analysis_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...

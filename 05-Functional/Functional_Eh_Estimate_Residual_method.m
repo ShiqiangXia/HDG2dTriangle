@@ -1,4 +1,4 @@
-function [est_sum,est1,est2,est3,est4,est5,pos1]=Functional_Eh_Estimate_Residual_method(func_type,pde_ype,mymesh,...
+function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Estimate_Residual_method(func_type,pde_ype,mymesh,...
                 uhstar,qhstar,source_f,...
                 vhstar,phstar,source_g,...
                 uh,qh,uhat,...
@@ -46,8 +46,15 @@ function [est_sum,est1,est2,est3,est4,est5,pos1]=Functional_Eh_Estimate_Residual
             
             % est 5 = -(graduh* + qh, gradvh*+ph)  --> -(q-qh,p-ph)
             est5 = zeros(num_elements,1,numeric_t);
-            
+            % ||u - uh*||_F
             pos1 = zeros(num_elements,1,numeric_t);
+            % ||-graduh* - qh|
+            pos2 = zeros(num_elements,1,numeric_t);
+            % ||-gradvh* - ph|
+            pos3 = zeros(num_elements,1,numeric_t);
+            
+            % post4  = (uh*-uh,g)
+            pos4 = zeros(num_elements,1,numeric_t);
             
             for element_idx = 1: num_elements
                 temp_element = mymesh.element_list(element_idx,:);
@@ -151,6 +158,20 @@ function [est_sum,est1,est2,est3,est4,est5,pos1]=Functional_Eh_Estimate_Residual
                 est5(element_idx,1) =...
                     Jk*GQ1DRef_wts'*(formula_5.*Jacobian_rs_to_ab )*GQ1DRef_wts;
                 
+                %%%%%%%%%%%%%%
+                temp_formula2 = (-grad_uhstar_1 - qh_pts1).*2 + (-grad_uhstar_2-qh_pts2).^2;
+                pos2(element_idx,1) =...
+                    Jk*GQ1DRef_wts'*(temp_formula2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                temp_formula3 = (grad_vhstar_1+ph_pts1).^2 + (grad_vhstar_2+ph_pts2).^2;
+                pos3(element_idx,1) =...
+                    Jk*GQ1DRef_wts'*(temp_formula3.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                temp_formula4 = (uhstar_pts-uh_pts).*source_g_pts;
+                pos4(element_idx,1) =...
+                    Jk*GQ1DRef_wts'*(temp_formula4.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+                
+                
                 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
                 uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
@@ -244,7 +265,7 @@ function [est_sum,est1,est2,est3,est4,est5,pos1]=Functional_Eh_Estimate_Residual
 
             end
             
-            est_sum = est1 + est2 + est3 + est4 + est5;
+            est_sum = est1 + est2 + est3 + est4 ; %+ est5;
             
         end
         
