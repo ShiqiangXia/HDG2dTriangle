@@ -1,18 +1,23 @@
-Niter_max = 15;
+
 h0 = 0.2;
+refine_flag = 1;
+
 
 fprintf('\n\nTest Linear functinals J(u) = (u,g)\n\n')
 fprintf('Initial mesh h0 = %f\n',h0);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-fprintf('Uniform Refinement')
+if refine_flag == 0
+    fprintf('Uniform Refinement')
+elseif refine_flag == 1
+    fprintf('Adaptive Refinement\n')
+end
 
 fprintf('\n\nCase 1: u smooth and g smooth on unit square\n')
-
+Niter_max = 10;
 pb_type = 2011;
 dom_ype = 'Rec';
-refine_flag = 1;
+
 
 fprintf('--------- k = 1 --------------\n')
 main('elliptic','order',1, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
@@ -33,7 +38,7 @@ main('elliptic','order',3, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_fla
 
 pb_type = 2011;
 dom_ype = 'Rec';
-refine_flag = 1;
+Niter_max = 15;
 
 fprintf('\n\nCase 2: u corner singularity and g=sin(pi)sin(pi y) smooth\n')
 
@@ -57,7 +62,6 @@ main('elliptic','order',3, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_fla
 
 pb_type = 2011;
 dom_ype = 'Rec';
-refine_flag = 1;
 
 fprintf('\n\nCase 3: u corner singularity and g=1 smooth\n')
 

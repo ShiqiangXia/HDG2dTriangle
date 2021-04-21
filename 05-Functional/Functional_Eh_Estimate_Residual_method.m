@@ -265,7 +265,7 @@ function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Es
 
             end
             
-            est_sum = est1 + est2 + est3 + est4 ; %+ est5;
+            est_sum = est1 + est2 + est3 + est4 + est5;
             
         end
         
