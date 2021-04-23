@@ -100,15 +100,25 @@ function para = SetParameters_Ellipitc(varargin)
         source_g = @(p)0*p(:,1);
         vD = vexact;
         vN = @(p) 0*p(:,1);
+    elseif adjoint_data == 3
+      %%%%%%%%%  v is continuous on the boundary %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        vexact = @(p)p(:,1).*p(:,2); % x*y
+        pexact_1 = @(p)-p(:,2);
+        pexact_2 = @(p)-p(:,x);
+
+        source_g = @(p) 0*p(:,1);
+        vD = @(p) p(:,1).*p(:,2);
+        vN = @(p) 0*p(:,1);
+    elseif adjoint_data == 4
+        mypi = pi;
+        vexact = @(p)sin(mypi*p(:,1)).*exp(mypi*p(:,2)); % sin(pi x) *exp(pi y)
+        pexact_1 = @(p)  - mypi * cos(mypi*p(:,1)).* exp(mypi*p(:,2));
+        pexact_2  = @(p) - mypi * sin(mypi*p(:,1)).* exp(mypi*p(:,2));
+        source_g = @(p) 0*p(:,1);
+        vD = vexact;
+        vN = @(p) 0*p(:,1);
+        
     else
-        %%%%%%%%% g = exp(x+y) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     vexact = @(p)0*p(:,1);
-%     pexact_1 = @(p)0*p(:,1);
-%     pexact_2 = @(p)0*p(:,1);
-% 
-%     source_g = @(p)exp(p(:,1)+p(:,2));
-%     vD = @(p) 0*p(:,1);
-%     vN = @(p) 0*p(:,1);
 
    
 %     

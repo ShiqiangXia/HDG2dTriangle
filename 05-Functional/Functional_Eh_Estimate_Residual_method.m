@@ -12,7 +12,7 @@ function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Es
     NGQ = length(GQ1DRef_pts);
     num_elements = mymesh.num_elements;
     
-    if strcmp(func_type,'1')
+    if strcmp(func_type,'1') || strcmp(func_type,'2')
         % Get Gauss Quadpoints on the square
         [a_list,b_list,Jacobian_rs_to_ab]= GetRefQuadPt(GQ1DRef_pts);
         % Map Gauss Quadpoints to the reference triangle
@@ -41,11 +41,13 @@ function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Es
             % est3 = <(qhat-qh)*n, vh-vh*>
             est3 = zeros(num_elements,1,numeric_t);
             
-            % est4 = <uh - uh*, (phat-ph)*n>
+            % est4 = <uh - uh*, (phat-ph)*n> if func_type = 1
+            % est4 = <uh* - uhhat, ph*n> if func_type = 2
             est4 = zeros(num_elements,1,numeric_t);
             
             % est 5 = -(graduh* + qh, gradvh*+ph)  --> -(q-qh,p-ph)
             est5 = zeros(num_elements,1,numeric_t);
+            
             % ||u - uh*||_F
             pos1 = zeros(num_elements,1,numeric_t);
             % ||-graduh* - qh|
@@ -224,9 +226,12 @@ function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Es
 %                     qh_face_pts1 = V2D_face * qh_coeff_1;
 %                     qh_face_pts2 = V2D_face * qh_coeff_2; 
                     uh_face_pts  = V2D_face * uh_coeff  ;
-
-%                     ph_face_pts1 = V2D_face * ph_coeff_1;
-%                     ph_face_pts2 = V2D_face * ph_coeff_2;
+                    
+                    if strcmp(func_type,'2')
+                        ph_face_pts1 = V2D_face * ph_coeff_1;
+                        ph_face_pts2 = V2D_face * ph_coeff_2;
+                    end
+                    
                     vh_face_pts  = V2D_face * vh_coeff  ;
                     
                     % uh - uhat    
@@ -247,8 +252,12 @@ function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Es
                     
                     % est4 = <uh - uh*, (phat-ph)*n>
                     
-                    formula_4 = (uh_face_pts-uhstar_face_pts).*(tau*vh_vhat);
-                    
+                    if strcmp(func_type,'1')
+                        formula_4 = (uh_face_pts-uhstar_face_pts).*(tau*vh_vhat);
+                    else
+                        formula_4 = (uhstar_face_pts - uhat_face_pts)...
+                            .*(ph_face_pts1*normal_vector(1,ii)+ph_face_pts2*normal_vector(2,ii));
+                    end
 %                     formula_4 = uh_uhat.*(ph_pstar_pts+tau*vh_vhat);
 %                     
                     est4(element_idx,1) =  est4(element_idx,1)+...
@@ -268,7 +277,6 @@ function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Es
             est_sum = est1 + est2 + est3 + est4 + est5;
             
         end
-        
         
     else
     end

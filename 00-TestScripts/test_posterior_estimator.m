@@ -1,5 +1,5 @@
 
-h0 = 0.2;
+h0 = 1;
 refine_flag = 1;
 
 
@@ -14,7 +14,7 @@ elseif refine_flag == 1
 end
 
 fprintf('\n\nCase 1: u smooth and g smooth on unit square\n')
-Niter_max = 10;
+Niter_max = 15;
 pb_type = 2011;
 dom_ype = 'Rec';
 
@@ -38,7 +38,7 @@ main('elliptic','order',3, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_fla
 
 pb_type = 2011;
 dom_ype = 'Rec';
-Niter_max = 15;
+Niter_max = 20;
 
 fprintf('\n\nCase 2: u corner singularity and g=sin(pi)sin(pi y) smooth\n')
 

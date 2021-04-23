@@ -462,7 +462,7 @@ function EllipticProblemDriver(para)
             % post-processing
             if para.post_process_flag == 1 
  
-                if strcmp(pb_type(2),'0')&& strcmp(pb_type(4),'1') 
+                if strcmp(pb_type(2),'0') && (strcmp(pb_type(4),'1') ||strcmp(pb_type(4),'2'))
                     % poission source problem
                 
                     [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
@@ -637,7 +637,7 @@ function EllipticProblemDriver(para)
 
                 %----------------------------------------------------------
                 % error terms 
-                if strcmp(pb_type(4),'1') 
+                if strcmp(pb_type(4),'1') ||  strcmp(pb_type(4),'2')
                     
                     %% report explicit Eh terms
                     if err_analysis_flag == 1
@@ -770,7 +770,11 @@ function EllipticProblemDriver(para)
                             fprintf('est_1 = (f-div.qh,vh*-vh)\n');
                             fprintf('est_2 = (uh*-uh,g-div.ph)\n');
                             fprintf('est_3 = <(qhat-qh)*n, vh-vh*>\n')
-                            fprintf('est_4 = <uh-uh*, (phat-ph)*n>\n')
+                            if strcmp(pb_type(4),'1')
+                                fprintf('est_4 = <uh-uh*, (phat-ph)*n>\n')
+                            else
+                                fprintf('est_4 = <uh*-uhat, ph*n>\n')
+                            end
                             fprintf('est_5 = -(graduh*+qh,gradvh*+ph) \n');
 
                             order_1_3 = GetOrder(mesh_list,est_terms_1_list+est_terms_3_list);
