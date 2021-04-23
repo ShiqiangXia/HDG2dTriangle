@@ -252,12 +252,12 @@ function [est_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=Functional_Eh_Es
                     
                     % est4 = <uh - uh*, (phat-ph)*n>
                     
-                    if strcmp(func_type,'1')
+                    %if strcmp(func_type,'1')
                         formula_4 = (uh_face_pts-uhstar_face_pts).*(tau*vh_vhat);
-                    else
-                        formula_4 = (uhstar_face_pts - uhat_face_pts)...
-                            .*(ph_face_pts1*normal_vector(1,ii)+ph_face_pts2*normal_vector(2,ii));
-                    end
+                    %else
+                        %formula_4 = (uhstar_face_pts - uhat_face_pts)...
+                         %   .*(ph_face_pts1*normal_vector(1,ii)+ph_face_pts2*normal_vector(2,ii));
+                    %end
 %                     formula_4 = uh_uhat.*(ph_pstar_pts+tau*vh_vhat);
 %                     
                     est4(element_idx,1) =  est4(element_idx,1)+...

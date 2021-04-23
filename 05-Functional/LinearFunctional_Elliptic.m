@@ -328,12 +328,13 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional_Elliptic(fun
                  
 
             end
-            ACh_elewise_list = ACh3_elewise_list;
-            ACh = sum(ACh1_elewise_list+ACh2_elewise_list+ACh3_elewise_list);
-            
+             ACh_elewise_list = ACh3_elewise_list;
+             ACh = sum(ACh1_elewise_list+ACh2_elewise_list+ACh3_elewise_list);
+%              ACh_elewise_list = 0;
+%              ACh = sum(ACh1_elewise_list);
         end
         
-        Jh = Jh2;
+        %Jh = Jh2;
 
     end
     
