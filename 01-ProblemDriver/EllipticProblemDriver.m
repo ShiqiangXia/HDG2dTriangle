@@ -349,7 +349,7 @@ function EllipticProblemDriver(para)
             end
             
             
-            mymesh.Plot(0); 
+            %mymesh.Plot(0); 
             %M(ii) = getframe(gcf); % record video of mesh refinement
             
             mesh_list(ii) = GetDof(mymesh, para.order);

@@ -110,6 +110,7 @@ function para = SetParameters_Ellipitc(varargin)
         vD = @(p) p(:,1).*p(:,2);
         vN = @(p) 0*p(:,1);
     elseif adjoint_data == 4
+        %%%%%%%%%  v smooth %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         mypi = pi;
         vexact = @(p)sin(mypi*p(:,1)).*exp(mypi*p(:,2)); % sin(pi x) *exp(pi y)
         pexact_1 = @(p)  - mypi * cos(mypi*p(:,1)).* exp(mypi*p(:,2));
