@@ -250,10 +250,12 @@ function EllipticProblemDriver(para)
     elseif strcmp(pb_type(1),'2')
         
         %%  Solver Functional problem
+        pb_text_info = MyParaParse(para.pb_parameters,'pb_text_info');
+        
         % define some variables to store results
         if strcmp(pb_type(2),'0') % source problem
             
-            pb_text_info = MyParaParse(para.pb_parameters,'pb_text_info');
+            
             
             Jh_list = zeros(Niter,1,numeric_t);
             err_Jh_list = zeros(Niter,1,numeric_t);
@@ -297,6 +299,15 @@ function EllipticProblemDriver(para)
             lamh2_list = zeros(Niter,Neig,numeric_t);
             err_lamh2_list = zeros(Niter,Neig,numeric_t);
             ACh_list = zeros(Niter,Neig,numeric_t);
+            
+            if para.post_process_flag == 1
+                est_terms_sum_list = zeros(Niter,1,numeric_t);
+                est_terms_1_list = zeros(Niter,1,numeric_t);
+                est_terms_2_list = zeros(Niter,1,numeric_t);
+                est_terms_3_list = zeros(Niter,1,numeric_t);
+                est_terms_4_list = zeros(Niter,1,numeric_t);
+            end
+                
         else
             error('Wrong problem type')
         end
@@ -345,7 +356,7 @@ function EllipticProblemDriver(para)
             
             % Solve -------------------------------------------------------
             if strcmp(pb_type(2),'0') % source problem
-                % need to solve Primal and Adjoint two problems
+                %%  need to solve Primal and Adjoint two problems
                 if strcmp(pb_type(3),'1') % Solve Poission source problem
              
                     [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
@@ -457,13 +468,17 @@ function EllipticProblemDriver(para)
                 
                 ACh_elewise_list = ACh_Neig_elewise_list(:,tag_eig);
                 
+                uh = uh_Neig(:,:,tag_eig);
+                qh = qh_Neig(:,:,tag_eig);
+                uhat = uhat_Neig(:,tag_eig);
+                lamh_tag = lamh(tag_eig);
             end
             
             % post-processing
             if para.post_process_flag == 1 
  
                 if strcmp(pb_type(2),'0') && (strcmp(pb_type(4),'1') ||strcmp(pb_type(4),'2'))
-                    % poission source problem
+                    %%  poission source problem
                 
                     [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
                     [vhstar,phstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,vh,ph,vhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
@@ -522,6 +537,32 @@ function EllipticProblemDriver(para)
                         post_terms_3_list(ii) = sqrt(sum(pos3));
                         post_terms_4_list(ii) = (sum(pos4));
                         
+                        
+                    end
+                elseif strcmp(pb_type(2),'1') 
+                    %% Poisson eigenvalue probelm
+                    [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
+                    if posterior_estimate_method == 1
+                        error('no such method')
+                    elseif  posterior_estimate_method == 2
+                        [est_terms_sum,est1,est2,est3,est4]=...
+                            Eigen_Functional_Eh_Estimate_Residual_method(pb_type(3),mymesh,...
+                            uhstar,qhstar,lamh_tag,...
+                            uh,qh,uhat,...
+                            GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau);
+                        
+                        est_terms_sum_list(ii) = sum(est_terms_sum);
+                        est_terms_1_list(ii) = sum(est1);
+                        est_terms_2_list(ii) = sum(est2);
+                        est_terms_3_list(ii) = sum(est3);
+                        est_terms_4_list(ii) = sum(est4);
+                        
+%                         est_terms_5_list(ii) = sum(est5);
+%                         
+%                         post_terms_1_list(ii) = sqrt(sum(pos1));
+%                         post_terms_2_list(ii) = sqrt(sum(pos2));
+%                         post_terms_3_list(ii) = sqrt(sum(pos3));
+%                         post_terms_4_list(ii) = (sum(pos4));
                         
                     end
                 end            
@@ -593,7 +634,8 @@ function EllipticProblemDriver(para)
             
             ReportProblem(para) 
             
-            if strcmp(pb_type(2),'0')           
+            if strcmp(pb_type(2),'0')   
+                
                 order_Jh = GetOrder(mesh_list,err_Jh_list);
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 
@@ -860,7 +902,9 @@ function EllipticProblemDriver(para)
                 
                 
                 
-                if temp_report_flag == 2
+                if temp_report_flag == 1
+                    
+                    
                     tag_text = 'eh_HDG_';
                     temp_eig=ParseEigenError(mesh_list,err_lamh_list,tag_text);
 
@@ -884,17 +928,43 @@ function EllipticProblemDriver(para)
 
                     tag_text = 'ratio_';
                     temp_eig=ParseEigenError(mesh_list,err_lamh2_list./ACh_list,tag_text,0);
-                    fprintf('ration =  err_lambdah/ACh\n');
+                    fprintf('\n ratio =  err_lambdah/ACh\n');
                     ReportTable('dof', mesh_list,...
                         temp_eig{:})
+                    
+                    if para.post_process_flag == 1
+                        fprintf('\n')
+                        fprintf('Target %d -th eigenvalue\n',tag_eig);
+        
+                        err_lamh_tag = err_lamh2_list(:,tag_eig);                 
+                        order_lamh_tag = GetOrder(mesh_list,err_lamh_tag);
+                        
+                        err_lamh_AC_tag = err_lamh_AC_list(:,tag_eig);
+                        order_lamh_AC_tag = GetOrder(mesh_list,err_lamh_AC_tag);
+                        
+                        err_lamh_AC_Dh_list = err_lamh_AC_tag - est_terms_sum_list;
+                        order_lamh_AC_Dh = GetOrder(mesh_list,err_lamh_AC_Dh_list);
+                        estimate_err_lamh = ACh_list+est_terms_sum_list;
+                        
+                        ReportTable('dof',mesh_list,...
+                            'err_lamh',err_lamh_tag,'order',order_lamh_tag,...
+                            'AC+Dh',estimate_err_lamh,'ratio',err_lamh_tag./estimate_err_lamh,...
+                            'eh_AC_Dh',err_lamh_AC_Dh_list,'order',order_lamh_AC_Dh)
+                        
+                        ReportTable('dof',mesh_list,...
+                            'er_lamh_AC',err_lamh_AC_tag,'order',order_lamh_AC_tag,...
+                            'Dh',est_terms_sum_list,'ratio',err_lamh_AC_tag./est_terms_sum_list,...
+                            'eh_AC_Dh',err_lamh_AC_Dh_list,'order',order_lamh_AC_Dh)
+                        
+                    end
                 end
                 
                 
                 
                 if plot_log_err_flag == 1
                     figure;
-                    plot(0.5*log10(mesh_list),log10(err_lamh2_list(:,tag_eig)),'--bo',...
-                        0.5*log10(mesh_list),log10(err_lamh_AC_list(:,tag_eig)),'--kx',...
+                    plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
+                        0.5*log10(mesh_list),log10(abs(err_lamh_AC_list(:,tag_eig))),'--kx',...
                         0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
                     legend('Err-lamh','Err-lamh-AC','ACh')
                     title('Log plot of errors and estimator');

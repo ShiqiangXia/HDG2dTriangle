@@ -27,7 +27,8 @@ function rlt = EigenError(pde_type,lamh,dom_type,geo_para)
             % the first 885573 eigenvalues are corrrect!
             
             
-            rlt(1,:) = abs(lam_exact(1:Neig) - lamh );
+            %rlt(1,:) = abs(lam_exact(1:Neig) - lamh );
+            rlt(1,:) = (lam_exact(1:Neig) - lamh );
             
         elseif strcmp(dom_type,'L')
             

@@ -141,7 +141,8 @@ function para = SetParameters_Ellipitc(varargin)
    
     
     
-    tag_eig = 1;
+    tag_eig = 3;
+    
     pb_text_info = WriteProbTextInfo(primal_data,adjoint_data);
 
     para = para.SetPb(pb_type,...
@@ -231,7 +232,7 @@ function para = SetParameters_Ellipitc(varargin)
     report_flag = 1; 
     visualize_flag = 0;
 
-    Neig = 1;
+    Neig = 3;
     Max_iter = 100;
     tol_eig = 1e-10;
 

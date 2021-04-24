@@ -9,8 +9,10 @@ function [lamh2,lamh_AC,ACh,ACh_Neig_elewise_list]=...
        % part 2: compute adjoint-correction terms
        %         term_1 = - ( (qh,qh+grad(uh)) + <uhat -uh,qh*n> )
        %         term_2 = - < uhat, qhat*n >
-       %         term_3 = - < uh-uhat, qhat*n - qh*n >
-       % .              = - < uh-uhat, tau*(uh-uhat) >
+       %         term_3 = + < uh-uhat, qhat*n - qh*n >
+       % .              = + < uh-uhat, tau*(uh-uhat) >
+       % term_3 is changed to + + < uh-uhat, qhat*n - qh*n > so that the
+       % error term is easy to estimate.
                 
                 
         Nu = (k+1)*(k+2)/2;
@@ -121,7 +123,7 @@ function [lamh2,lamh_AC,ACh,ACh_Neig_elewise_list]=...
                     
                     ACh2_elewise_list(element_idx,jj) = -ACh2;
                     
-                    % - <tau*(uh-uh_hat),(uh-uh_hat)>
+                    % + <tau*(uh-uh_hat),(uh-uh_hat)>
                     ACh3 = +( (temp_uh_vh  - temp_uhat_vh) - temp_uhuhat_vhat );
                     
                     ACh3_elewise_list(element_idx,jj) = ACh3;
