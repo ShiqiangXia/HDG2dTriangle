@@ -934,7 +934,7 @@ function EllipticProblemDriver(para)
                     
                     if para.post_process_flag == 1
                         fprintf('\n')
-                        fprintf('Target %d -th eigenvalue\n',tag_eig);
+                        fprintf('Target eigenvalue %d\n',tag_eig);
         
                         err_lamh_tag = err_lamh2_list(:,tag_eig);                 
                         order_lamh_tag = GetOrder(mesh_list,err_lamh_tag);
@@ -943,8 +943,10 @@ function EllipticProblemDriver(para)
                         order_lamh_AC_tag = GetOrder(mesh_list,err_lamh_AC_tag);
                         
                         err_lamh_AC_Dh_list = err_lamh_AC_tag - est_terms_sum_list;
+                        
                         order_lamh_AC_Dh = GetOrder(mesh_list,err_lamh_AC_Dh_list);
-                        estimate_err_lamh = ACh_list+est_terms_sum_list;
+                        ACh_tag_list = ACh_list(:,tag_eig);
+                        estimate_err_lamh = ACh_tag_list+est_terms_sum_list;
                         
                         ReportTable('dof',mesh_list,...
                             'err_lamh',err_lamh_tag,'order',order_lamh_tag,...
@@ -952,9 +954,10 @@ function EllipticProblemDriver(para)
                             'eh_AC_Dh',err_lamh_AC_Dh_list,'order',order_lamh_AC_Dh)
                         
                         ReportTable('dof',mesh_list,...
+                            'err_lamh',err_lamh_tag,'order',order_lamh_tag,...
+                            'AC',ACh_tag_list,'ratio',err_lamh_tag./ACh_tag_list,...
                             'er_lamh_AC',err_lamh_AC_tag,'order',order_lamh_AC_tag,...
-                            'Dh',est_terms_sum_list,'ratio',err_lamh_AC_tag./est_terms_sum_list,...
-                            'eh_AC_Dh',err_lamh_AC_Dh_list,'order',order_lamh_AC_Dh)
+                            'Dh',est_terms_sum_list,'ratio',err_lamh_AC_tag./est_terms_sum_list)
                         
                     end
                 end
@@ -963,11 +966,25 @@ function EllipticProblemDriver(para)
                 
                 if plot_log_err_flag == 1
                     figure;
-                    plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
-                        0.5*log10(mesh_list),log10(abs(err_lamh_AC_list(:,tag_eig))),'--kx',...
-                        0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
-                    legend('Err-lamh','Err-lamh-AC','ACh')
-                    title('Log plot of errors and estimator');
+                    if para.post_process_flag == 0
+                        plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
+                            0.5*log10(mesh_list),log10(abs(err_lamh_AC_list(:,tag_eig))),'--kx',...
+                            0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
+                        legend('Err-lamh','Err-lamh-AC','ACh')
+                        title('Log plot of errors and estimator');
+                    
+                    elseif para.post_process_flag == 1
+                        
+                        
+                        plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
+                            0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
+                        0.5*log10(mesh_list),log10(abs(err_lamh_AC_list(:,tag_eig)-est_terms_sum_list)),'--ks');
+                        legend('Err-lamh','AC+Dh','Err-lamh-AC-Dh')
+                        title('Log plot of errors and estimator');
+                    
+                    else
+                        
+                    end
                 end
                 
             else

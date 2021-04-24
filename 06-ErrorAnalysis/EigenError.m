@@ -39,7 +39,8 @@ function rlt = EigenError(pde_type,lamh,dom_type,geo_para)
             
             lam_exact = numeric_t('[9.6397238440219, 15.19725192576365 ,2*pi^2]');
             
-            rlt(1,:) = abs(lam_exact(1:Neig) - lamh);
+            %rlt(1,:) = abs(lam_exact(1:Neig) - lamh);
+            rlt(1,:) = (lam_exact(1:Neig) - lamh);
             
         else
             error('Domain type %s has not been implemented yet',dom_type);

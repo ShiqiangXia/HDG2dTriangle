@@ -141,9 +141,9 @@ function para = SetParameters_Ellipitc(varargin)
    
     
     
-    tag_eig = 3;
+    tag_eig = 1;
     
-    pb_text_info = WriteProbTextInfo(primal_data,adjoint_data);
+    pb_text_info = WriteProbTextInfo(pb_type,primal_data,adjoint_data);
 
     para = para.SetPb(pb_type,...
         'uexact',uexact,'qexact_1',qexact_1,'qexact_2',qexact_2,...
@@ -175,7 +175,7 @@ function para = SetParameters_Ellipitc(varargin)
         dom_type = 'L';
         dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
         neuman_flag = [];
-        tri_dir = 1;
+        tri_dir = 0;
         para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
 
     elseif strcmp(dom_type,'CirHole')
