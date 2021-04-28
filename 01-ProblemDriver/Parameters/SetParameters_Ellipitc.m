@@ -239,7 +239,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     tol_adp = 1e-6;
     
-    percent = 0.5;
+    percent = 0.4;
     
     reduce_ratio=1e-10;
 

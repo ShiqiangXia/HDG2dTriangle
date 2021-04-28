@@ -583,7 +583,7 @@ function EllipticProblemDriver(para)
             
             % Mark mesh refinement if do Adaptivity --------------------------- 
             if para.refine_flag > 0
-                mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
+                mark_flag = 1; % 1: bulk marking strategy Dorfler , 0: max marking strategy
 
                 [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
