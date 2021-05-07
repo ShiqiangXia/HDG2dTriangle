@@ -65,7 +65,7 @@ fprintf('\n\nCase 1:  unit square\n')
 
 pb_type = 2110;
 dom_ype = 'L';
-Niter_max = 10;
+Niter_max = 12;
 
 fprintf('--------- k = 1 --------------\n')
 main('elliptic','order',1, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
