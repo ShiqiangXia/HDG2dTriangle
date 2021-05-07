@@ -614,7 +614,7 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii <= Niter
+            if ii == Niter
                 mymesh.Plot(0);
                 title_text = append('Final mesh ', num2str(ii), ' when k = ', num2str(para.order));
                 title({title_text,pb_text_info});
@@ -857,7 +857,7 @@ function EllipticProblemDriver(para)
 
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                                 0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
-                        legend('Err-Jh','Dh')
+                        legend('Err-Jh','ACh+Dh')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
 
@@ -979,7 +979,7 @@ function EllipticProblemDriver(para)
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
                             0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' );%,...
                         %0.5*log10(mesh_list),log10(abs(err_lamh_AC_list(:,tag_eig)-est_terms_sum_list)),'--ks');
-                        legend('Err-lamh','Dh');%,'Err-lamh-AC-Dh')
+                        legend('Err-lamh','AC+Dh','Err-lamh-AC-Dh')
                         title('Log plot of errors and estimator');
                     
                     else

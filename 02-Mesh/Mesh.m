@@ -105,19 +105,21 @@ classdef Mesh
             labs = 1:nvertice;
             trimesh(e,p(:,1),p(:,2),0*p(:,1),'facecolor',bcol,'edgecolor','k');
             hold on;
-            plot(p(:,1),p(:,2),'k.',...
-                p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
-                p(nodes_neuman,1),p(nodes_neuman,2),'bd')
+            plot(p(:,1),p(:,2),'k.')
+            legend('element','vertices');
             
-            if isempty(nodes_dirichlet) && isempty(nodes_neuman)
-                legend('element','vertices');
-            elseif isempty(nodes_dirichlet)
-                legend('element','vertices', 'neuman')
-            elseif isempty(nodes_neuman)
-                legend('element','vertices', 'dirichlet')
-            else
-                legend('element','vertices','dirichlet', 'neuman');
-            end
+%             plot(p(:,1),p(:,2),'k.',...
+%                 p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
+%                 p(nodes_neuman,1),p(nodes_neuman,2),'bd')     
+%             if isempty(nodes_dirichlet) && isempty(nodes_neuman)
+%                 legend('element','vertices');
+%             elseif isempty(nodes_dirichlet)
+%                 legend('element','vertices', 'neuman')
+%             elseif isempty(nodes_neuman)
+%                 legend('element','vertices', 'dirichlet')
+%             else
+%                 legend('element','vertices','dirichlet', 'neuman');
+%             end
            
             
             if   vertex_flag && nvertice < 150
