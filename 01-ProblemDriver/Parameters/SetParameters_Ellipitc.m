@@ -237,11 +237,12 @@ function para = SetParameters_Ellipitc(varargin)
     Max_iter = 100;
     tol_eig = 1e-10;
 
-    tol_adp = 1e-6;
+    tol_adp = 1e-3; % not used. 
     
     percent = 0.5;
     
-    reduce_ratio=1e-10;
+    reduce_ratio=1e-5; 
+    % if estimator(ii)/estimator(1)<= reduce_ratio, stop iteratios
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,err_analysis_flag,report_flag,visualize_flag,...
         'Neig',Neig, 'Max_iter',Max_iter,'tol_eig',tol_eig,...
