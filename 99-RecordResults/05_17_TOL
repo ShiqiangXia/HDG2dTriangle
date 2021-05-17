@@ -1018,4 +1018,42 @@ ii = 9, Err_lamh :  8.70e-05, tol/err: 5.75e-01
 Reduce ratio goal: 100000.0
 Estimator ACh:  550.5
 Err_lamh:     784.6
-Err_l
+Err_lamh_AC:  -2488.3
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-05
+Adptive iterations: 9
+ii = 9, Estimate: 1.37e-05, tol/est: 3.64e+00
+ii = 9, Err_lamh :  3.52e-05, tol/err: 1.42e+00
+
+Reduce ratio goal: 100000.0
+Estimator ACh:  599.0
+Err_lamh:     855.0
+Err_lamh_AC:  1026.1
+diary off

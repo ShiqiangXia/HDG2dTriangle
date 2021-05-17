@@ -9,7 +9,7 @@ function EllipticProblemDriver(para)
     
     % bonus parameters
     temp_report_flag = 3;
-    plot_log_err_flag = 1;
+    plot_log_err_flag = 0;
     posterior_estimate_method = 2;
     
     
@@ -652,6 +652,7 @@ function EllipticProblemDriver(para)
                 fprintf('Adptive iterations: %d\n',ii);
                 fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
                 fprintf('ii = %d, Err_Jh :  %.2e, tol/err: %.2e\n',ii,err_Jh_list(ii),tol_adp/err_Jh_list(ii) );
+                fprintf('est/err: %.2e\n',estimator_list(ii)/err_Jh_list(ii) );
                 fprintf('\nReduce ratio goal: %.2e\n', 1/reduce_ratio);
                 fprintf('Reduced ratio Estimae :  %.2e\n', estimator_list(1)/estimator_list(ii) ); 
                 fprintf('Reduced ratio Err_Jh:     %.2e\n',err_Jh_list(1)/err_Jh_list(ii) );
@@ -912,7 +913,7 @@ function EllipticProblemDriver(para)
                 fprintf('Adptive iterations: %d\n',ii);
                 fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
                 fprintf('ii = %d, Err_lamh :  %.2e, tol/err: %.2e\n',ii,err_lamh2_list(ii),tol_adp/err_lamh2_list(ii) );
-                
+                fprintf('est/err: %.2e\n',estimator_list(ii)/err_lamh2_list(ii) );
                 fprintf('\nReduce ratio goal: %.1f\n', 1/reduce_ratio);
                 
                 
