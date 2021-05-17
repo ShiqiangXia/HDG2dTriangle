@@ -1155,4 +1155,1313 @@ dof        |err_lamh   order      |AC         ratio      |er_lamh_AC  order     
 4.42e+03   |5.46e-04   9.76e+00   |1.34e-04   4.08e+00   |4.12e-04   1.17e+01   |6.65e-05   6.19e+00   |
 5.71e+03   |2.48e-04   6.15e+00   |1.33e-04   1.86e+00   |1.15e-04   9.96e+00   |-1.81e-05  -6.34e+00  |
 7.00e+03   |1.08e-04   8.17e+00   |4.76e-05   2.27e+00   |6.05e-05   6.31e+00   |7.47e-06   8.09e+00   |
-8.07e+03   |3.52e-05   1.57
+8.07e+03   |3.52e-05   1.57e+01   |6.93e-06   5.08e+00   |2.83e-05   1.06e+01   |6.79e-06   4.17e+00   |
+9.79e+03   |1.65e-05   7.86e+00   |6.90e-06   2.39e+00   |9.56e-06   1.12e+01   |1.32e-06   7.24e+00   |
+1.14e+04   |7.30e-06   1.04e+01   |3.73e-06   1.96e+00   |3.57e-06   1.26e+01   |5.07e-07   7.04e+00   |
+1.32e+04   |3.39e-06   1.09e+01   |2.60e-06   1.31e+00   |7.94e-07   2.15e+01   |-3.23e-07  -2.46e+00  |
+clc
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Esti<TOLMesh 2 ... 
+Esti<TOLMesh 3 ... 
+Esti<TOLMesh 4 ... 
+Esti<TOLMesh 5 ... 
+Esti<TOLMesh 6 ... 
+Esti<TOLMesh 7 ... 
+Esti<TOLMesh 8 ... 
+Esti<TOLMesh 9 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/Parameters/SetParameters_Ellipitc.m',41,1)">41  </a>            - 2/3 * p(:,2).* radi(p).^(-4/3).*(cos(2/3 *theta(p))));
+if system_dependent('IsDebugMode')==1, dbquit; end
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',586,1)">586 </a>            if abs(estimator_list(ii))<tol_adp
+if system_dependent('IsDebugMode')==1, dbquit; end
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 6
+ii = 6, Estimate: 3.97e-07, tol/est: 2.52e+00ii = 6, Err_Jh :  -1.17e-07, tol/err: -8.52e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  -4.75e+02
+Reduced ratio Err_Jh:     -1.61e+03
+Reduced ratio Err_Jh_AC:  7.81e+01
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+8.80e+01   |1.89e-04   0.00e+00   |-1.89e-04  9.96e-01   |3.78e-04   0.00e+00   |
+1.34e+02   |1.62e-05   1.17e+01   |-1.41e-05  8.66e-01   |3.03e-05   1.20e+01   |
+3.33e+02   |7.10e-05   -3.24e+00  |-3.39e-06  4.77e-02   |7.44e-05   -1.97e+00  |
+5.10e+02   |6.16e-06   1.15e+01   |2.76e-06   4.49e-01   |3.40e-06   1.45e+01   |
+1.15e+03   |3.85e-06   1.16e+00   |2.98e-06   7.74e-01   |8.70e-07   3.36e+00   |
+2.08e+03   |-1.17e-07  1.18e+01   |3.97e-07   3.38e+00   |-5.14e-07  1.77e+00   |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+8.80e+01   |1.89e-04   0.00e+00   |3.11e-04   1.64e+00   |-1.21e-04  0.00e+00   |-4.99e-04  4.12e+00   |
+1.34e+02   |1.62e-05   1.17e+01   |1.15e-04   7.10e+00   |-9.91e-05  9.60e-01   |-1.29e-04  1.31e+00   |
+3.33e+02   |7.10e-05   -3.24e+00  |2.71e-05   3.81e-01   |4.39e-05   1.79e+00   |-3.04e-05  -6.93e-01  |
+5.10e+02   |6.16e-06   1.15e+01   |1.23e-05   2.00e+00   |-6.18e-06  9.20e+00   |-9.58e-06  1.55e+00   |
+1.15e+03   |3.85e-06   1.16e+00   |8.69e-07   2.26e-01   |2.98e-06   1.80e+00   |2.11e-06   7.08e-01   |
+2.08e+03   |-1.17e-07  1.18e+01   |1.43e-06   -1.22e+01  |-1.55e-06  2.20e+00   |-1.04e-06  6.68e-01   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+8.80e+01   |1.78e-02   0.00e+00   |2.47e-02   0.00e+00   |2.45e-02   0.00e+00   |5.15e-18   0.00e+00   |
+1.34e+02   |8.58e-03   3.48e+00   |1.59e-02   2.08e+00   |2.32e-02   2.50e-01   |6.53e-19   9.83e+00   |
+3.33e+02   |8.12e-03   1.20e-01   |1.56e-02   4.80e-02   |9.10e-03   2.06e+00   |-3.65e-18  -3.78e+00  |
+5.10e+02   |3.79e-03   3.57e+00   |1.00e-02   2.07e+00   |8.07e-03   5.63e-01   |-4.15e-18  -6.00e-01  |
+1.15e+03   |1.79e-03   1.85e+00   |6.40e-03   1.11e+00   |3.65e-03   1.96e+00   |-1.59e-17  -3.30e+00  |
+2.08e+03   |9.96e-04   1.98e+00   |4.31e-03   1.33e+00   |2.32e-03   1.53e+00   |-1.48e-17  2.32e-01   |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |9.76e-05   0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |8.20e-05   8.27e-01   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |1.98e-05   3.12e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |1.36e-05   1.77e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |3.60e-06   3.28e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |1.73e-06   2.47e+00   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+8.80e+01   |-4.99e-04  0.00e+00   |2.84e-20   0.00e+00   |5.40e-19   0.00e+00   |
+1.34e+02   |-1.29e-04  6.42e+00   |3.15e-21   1.04e+01   |1.88e-20   1.60e+01   |
+3.33e+02   |-3.04e-05  3.18e+00   |-7.77e-22  3.08e+00   |-2.37e-19  -5.58e+00  |
+5.10e+02   |-9.58e-06  5.43e+00   |-1.36e-20  -1.34e+01  |-9.62e-20  4.24e+00   |
+1.15e+03   |2.11e-06   3.72e+00   |-1.38e-20  -3.53e-02  |-5.29e-19  -4.20e+00  |
+2.08e+03   |-1.04e-06  2.40e+00   |-9.28e-21  1.33e+00   |-3.12e-19  1.78e+00   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 4
+ii = 4, Estimate: 6.32e-07, tol/est: 1.58e+00ii = 4, Err_Jh :  1.11e-06, tol/err: 8.97e-01
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  5.04e+01
+Reduced ratio Err_Jh:     3.76e+01
+Reduced ratio Err_Jh_AC:  3.34e+01
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+1.68e+02   |4.19e-05   0.00e+00   |3.19e-05   7.61e-01   |1.00e-05   0.00e+00   |
+2.55e+02   |6.09e-06   9.24e+00   |4.10e-06   6.73e-01   |1.99e-06   7.74e+00   |
+4.53e+02   |3.61e-06   1.82e+00   |5.23e-06   1.45e+00   |-1.62e-06  7.21e-01   |
+6.75e+02   |1.11e-06   5.89e+00   |6.32e-07   5.67e-01   |4.82e-07   6.08e+00   |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+1.68e+02   |4.19e-05   0.00e+00   |1.68e-05   4.01e-01   |2.51e-05   0.00e+00   |1.51e-05   6.01e-01   |
+2.55e+02   |6.09e-06   9.24e+00   |3.29e-06   5.40e-01   |2.80e-06   1.05e+01   |8.12e-07   2.90e-01   |
+4.53e+02   |3.61e-06   1.82e+00   |5.70e-07   1.58e-01   |3.04e-06   -2.81e-01  |4.66e-06   1.53e+00   |
+6.75e+02   |1.11e-06   5.89e+00   |3.62e-07   3.25e-01   |7.52e-07   7.00e+00   |2.70e-07   3.59e-01   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+1.68e+02   |7.84e-03   0.00e+00   |1.87e-02   0.00e+00   |8.33e-03   0.00e+00   |7.17e-19   0.00e+00   |
+2.55e+02   |3.53e-03   3.82e+00   |1.19e-02   2.17e+00   |7.25e-03   6.66e-01   |-1.65e-18  -3.99e+00  |
+4.53e+02   |1.60e-03   2.75e+00   |7.56e-03   1.57e+00   |6.00e-03   6.59e-01   |-5.75e-18  -4.34e+00  |
+6.75e+02   |1.58e-03   7.03e-02   |7.50e-03   3.69e-02   |2.46e-03   4.46e+00   |-2.16e-18  4.92e+00   |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+1.68e+02   |-1.33e-05  0.00e+00   |-1.20e-05  0.00e+00   |4.04e-05   0.00e+00   |
+2.55e+02   |-2.98e-06  7.18e+00   |-2.86e-06  6.90e+00   |6.65e-06   8.65e+00   |
+4.53e+02   |-2.15e-07  9.15e+00   |-2.00e-07  9.26e+00   |5.07e-06   9.40e-01   |
+6.75e+02   |-3.48e-07  -2.40e+00  |-3.30e-07  -2.52e+00  |9.48e-07   8.41e+00   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+1.68e+02   |1.51e-05   0.00e+00   |6.80e-07   0.00e+00   |1.09e-06   0.00e+00   |
+2.55e+02   |8.12e-07   1.40e+01   |6.43e-08   1.13e+01   |9.92e-08   1.15e+01   |
+4.53e+02   |4.66e-06   -6.08e+00  |7.06e-08   -3.24e-01  |7.24e-08   1.10e+00   |
+6.75e+02   |2.70e-07   1.43e+01   |1.90e-09   1.81e+01   |7.44e-09   1.14e+01   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+1.68e+02   |-1.40e-05  0.00e+00   |-1.31e-05  0.00e+00   |
+2.55e+02   |-3.04e-06  7.31e+00   |-2.96e-06  7.15e+00   |
+4.53e+02   |-2.86e-07  8.23e+00   |-2.72e-07  8.30e+00   |
+6.75e+02   |-3.49e-07  -1.01e+00  |-3.38e-07  -1.08e+00  |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 3
+ii = 3, Estimate: 1.18e-07, tol/est: 8.49e+00ii = 3, Err_Jh :  2.90e-07, tol/err: 3.45e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  5.85e+01
+Reduced ratio Err_Jh:     4.02e+01
+Reduced ratio Err_Jh_AC:  3.66e+01
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+2.72e+02   |1.17e-05   0.00e+00   |6.89e-06   5.91e-01   |4.77e-06   0.00e+00   |
+4.12e+02   |1.97e-06   8.57e+00   |1.15e-06   5.84e-01   |8.20e-07   8.48e+00   |
+5.52e+02   |2.90e-07   1.31e+01   |1.18e-07   4.06e-01   |1.72e-07   1.07e+01   |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+2.72e+02   |1.17e-05   0.00e+00   |1.57e-06   1.35e-01   |1.01e-05   0.00e+00   |5.32e-06   5.27e-01   |
+4.12e+02   |1.97e-06   8.57e+00   |1.28e-07   6.52e-02   |1.84e-06   8.19e+00   |1.02e-06   5.55e-01   |
+5.52e+02   |2.90e-07   1.31e+01   |1.46e-08   5.03e-02   |2.75e-07   1.30e+01   |1.03e-07   3.75e-01   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+2.72e+02   |4.10e-03   0.00e+00   |1.38e-02   0.00e+00   |2.10e-03   0.00e+00   |-4.61e-19  0.00e+00   |
+4.12e+02   |1.83e-03   3.88e+00   |8.76e-03   2.20e+00   |1.86e-03   5.70e-01   |-9.32e-19  -3.40e+00  |
+5.52e+02   |8.20e-04   5.50e+00   |5.54e-03   3.13e+00   |1.85e-03   6.66e-02   |4.02e-18   -1.00e+01  |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+2.72e+02   |-1.06e-06  0.00e+00   |-9.43e-07  0.00e+00   |7.32e-06   0.00e+00   |
+4.12e+02   |-8.72e-08  1.20e+01   |-8.14e-08  1.18e+01   |1.19e-06   8.75e+00   |
+5.52e+02   |-1.36e-08  1.27e+01   |-1.56e-08  1.13e+01   |1.32e-07   1.50e+01   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+2.72e+02   |5.32e-06   0.00e+00   |8.91e-08   0.00e+00   |1.46e-07   0.00e+00   |
+4.12e+02   |1.02e-06   7.95e+00   |6.51e-09   1.26e+01   |9.39e-09   1.32e+01   |
+5.52e+02   |1.03e-07   1.57e+01   |-6.24e-10  1.60e+01   |-1.54e-09  1.24e+01   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+2.72e+02   |-1.15e-06  0.00e+00   |-1.09e-06  0.00e+00   |
+4.12e+02   |-9.37e-08  1.21e+01   |-9.08e-08  1.20e+01   |
+5.52e+02   |-1.29e-08  1.35e+01   |-1.40e-08  1.28e+01   |
+
+
+
+
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 6
+ii = 6, Estimate: 3.97e-07, tol/est: 2.52e+00
+ii = 6, Err_Jh :  -1.17e-07, tol/err: -8.52e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  -4.75e+02
+Reduced ratio Err_Jh:     -1.61e+03
+Reduced ratio Err_Jh_AC:  7.81e+01
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+8.80e+01   |1.89e-04   0.00e+00   |-1.89e-04  9.96e-01   |3.78e-04   0.00e+00   |
+1.34e+02   |1.62e-05   1.17e+01   |-1.41e-05  8.66e-01   |3.03e-05   1.20e+01   |
+3.33e+02   |7.10e-05   -3.24e+00  |-3.39e-06  4.77e-02   |7.44e-05   -1.97e+00  |
+5.10e+02   |6.16e-06   1.15e+01   |2.76e-06   4.49e-01   |3.40e-06   1.45e+01   |
+1.15e+03   |3.85e-06   1.16e+00   |2.98e-06   7.74e-01   |8.70e-07   3.36e+00   |
+2.08e+03   |-1.17e-07  1.18e+01   |3.97e-07   3.38e+00   |-5.14e-07  1.77e+00   |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+8.80e+01   |1.89e-04   0.00e+00   |3.11e-04   1.64e+00   |-1.21e-04  0.00e+00   |-4.99e-04  4.12e+00   |
+1.34e+02   |1.62e-05   1.17e+01   |1.15e-04   7.10e+00   |-9.91e-05  9.60e-01   |-1.29e-04  1.31e+00   |
+3.33e+02   |7.10e-05   -3.24e+00  |2.71e-05   3.81e-01   |4.39e-05   1.79e+00   |-3.04e-05  -6.93e-01  |
+5.10e+02   |6.16e-06   1.15e+01   |1.23e-05   2.00e+00   |-6.18e-06  9.20e+00   |-9.58e-06  1.55e+00   |
+1.15e+03   |3.85e-06   1.16e+00   |8.69e-07   2.26e-01   |2.98e-06   1.80e+00   |2.11e-06   7.08e-01   |
+2.08e+03   |-1.17e-07  1.18e+01   |1.43e-06   -1.22e+01  |-1.55e-06  2.20e+00   |-1.04e-06  6.68e-01   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+8.80e+01   |1.78e-02   0.00e+00   |2.47e-02   0.00e+00   |2.45e-02   0.00e+00   |5.15e-18   0.00e+00   |
+1.34e+02   |8.58e-03   3.48e+00   |1.59e-02   2.08e+00   |2.32e-02   2.50e-01   |6.53e-19   9.83e+00   |
+3.33e+02   |8.12e-03   1.20e-01   |1.56e-02   4.80e-02   |9.10e-03   2.06e+00   |-3.65e-18  -3.78e+00  |
+5.10e+02   |3.79e-03   3.57e+00   |1.00e-02   2.07e+00   |8.07e-03   5.63e-01   |-4.15e-18  -6.00e-01  |
+1.15e+03   |1.79e-03   1.85e+00   |6.40e-03   1.11e+00   |3.65e-03   1.96e+00   |-1.59e-17  -3.30e+00  |
+2.08e+03   |9.96e-04   1.98e+00   |4.31e-03   1.33e+00   |2.32e-03   1.53e+00   |-1.48e-17  2.32e-01   |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |9.76e-05   0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |8.20e-05   8.27e-01   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |1.98e-05   3.12e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |1.36e-05   1.77e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |3.60e-06   3.28e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |1.73e-06   2.47e+00   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+8.80e+01   |-4.99e-04  0.00e+00   |2.84e-20   0.00e+00   |5.40e-19   0.00e+00   |
+1.34e+02   |-1.29e-04  6.42e+00   |3.15e-21   1.04e+01   |1.88e-20   1.60e+01   |
+3.33e+02   |-3.04e-05  3.18e+00   |-7.77e-22  3.08e+00   |-2.37e-19  -5.58e+00  |
+5.10e+02   |-9.58e-06  5.43e+00   |-1.36e-20  -1.34e+01  |-9.62e-20  4.24e+00   |
+1.15e+03   |2.11e-06   3.72e+00   |-1.38e-20  -3.53e-02  |-5.29e-19  -4.20e+00  |
+2.08e+03   |-1.04e-06  2.40e+00   |-9.28e-21  1.33e+00   |-3.12e-19  1.78e+00   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 4
+ii = 4, Estimate: 6.32e-07, tol/est: 1.58e+00
+ii = 4, Err_Jh :  1.11e-06, tol/err: 8.97e-01
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  5.04e+01
+Reduced ratio Err_Jh:     3.76e+01
+Reduced ratio Err_Jh_AC:  3.34e+01
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+1.68e+02   |4.19e-05   0.00e+00   |3.19e-05   7.61e-01   |1.00e-05   0.00e+00   |
+2.55e+02   |6.09e-06   9.24e+00   |4.10e-06   6.73e-01   |1.99e-06   7.74e+00   |
+4.53e+02   |3.61e-06   1.82e+00   |5.23e-06   1.45e+00   |-1.62e-06  7.21e-01   |
+6.75e+02   |1.11e-06   5.89e+00   |6.32e-07   5.67e-01   |4.82e-07   6.08e+00   |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+1.68e+02   |4.19e-05   0.00e+00   |1.68e-05   4.01e-01   |2.51e-05   0.00e+00   |1.51e-05   6.01e-01   |
+2.55e+02   |6.09e-06   9.24e+00   |3.29e-06   5.40e-01   |2.80e-06   1.05e+01   |8.12e-07   2.90e-01   |
+4.53e+02   |3.61e-06   1.82e+00   |5.70e-07   1.58e-01   |3.04e-06   -2.81e-01  |4.66e-06   1.53e+00   |
+6.75e+02   |1.11e-06   5.89e+00   |3.62e-07   3.25e-01   |7.52e-07   7.00e+00   |2.70e-07   3.59e-01   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+1.68e+02   |7.84e-03   0.00e+00   |1.87e-02   0.00e+00   |8.33e-03   0.00e+00   |7.17e-19   0.00e+00   |
+2.55e+02   |3.53e-03   3.82e+00   |1.19e-02   2.17e+00   |7.25e-03   6.66e-01   |-1.65e-18  -3.99e+00  |
+4.53e+02   |1.60e-03   2.75e+00   |7.56e-03   1.57e+00   |6.00e-03   6.59e-01   |-5.75e-18  -4.34e+00  |
+6.75e+02   |1.58e-03   7.03e-02   |7.50e-03   3.69e-02   |2.46e-03   4.46e+00   |-2.16e-18  4.92e+00   |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+1.68e+02   |-1.33e-05  0.00e+00   |-1.20e-05  0.00e+00   |4.04e-05   0.00e+00   |
+2.55e+02   |-2.98e-06  7.18e+00   |-2.86e-06  6.90e+00   |6.65e-06   8.65e+00   |
+4.53e+02   |-2.15e-07  9.15e+00   |-2.00e-07  9.26e+00   |5.07e-06   9.40e-01   |
+6.75e+02   |-3.48e-07  -2.40e+00  |-3.30e-07  -2.52e+00  |9.48e-07   8.41e+00   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+1.68e+02   |1.51e-05   0.00e+00   |6.80e-07   0.00e+00   |1.09e-06   0.00e+00   |
+2.55e+02   |8.12e-07   1.40e+01   |6.43e-08   1.13e+01   |9.92e-08   1.15e+01   |
+4.53e+02   |4.66e-06   -6.08e+00  |7.06e-08   -3.24e-01  |7.24e-08   1.10e+00   |
+6.75e+02   |2.70e-07   1.43e+01   |1.90e-09   1.81e+01   |7.44e-09   1.14e+01   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+1.68e+02   |-1.40e-05  0.00e+00   |-1.31e-05  0.00e+00   |
+2.55e+02   |-3.04e-06  7.31e+00   |-2.96e-06  7.15e+00   |
+4.53e+02   |-2.86e-07  8.23e+00   |-2.72e-07  8.30e+00   |
+6.75e+02   |-3.49e-07  -1.01e+00  |-3.38e-07  -1.08e+00  |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 3
+ii = 3, Estimate: 1.18e-07, tol/est: 8.49e+00
+ii = 3, Err_Jh :  2.90e-07, tol/err: 3.45e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  5.85e+01
+Reduced ratio Err_Jh:     4.02e+01
+Reduced ratio Err_Jh_AC:  3.66e+01
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+2.72e+02   |1.17e-05   0.00e+00   |6.89e-06   5.91e-01   |4.77e-06   0.00e+00   |
+4.12e+02   |1.97e-06   8.57e+00   |1.15e-06   5.84e-01   |8.20e-07   8.48e+00   |
+5.52e+02   |2.90e-07   1.31e+01   |1.18e-07   4.06e-01   |1.72e-07   1.07e+01   |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+2.72e+02   |1.17e-05   0.00e+00   |1.57e-06   1.35e-01   |1.01e-05   0.00e+00   |5.32e-06   5.27e-01   |
+4.12e+02   |1.97e-06   8.57e+00   |1.28e-07   6.52e-02   |1.84e-06   8.19e+00   |1.02e-06   5.55e-01   |
+5.52e+02   |2.90e-07   1.31e+01   |1.46e-08   5.03e-02   |2.75e-07   1.30e+01   |1.03e-07   3.75e-01   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+2.72e+02   |4.10e-03   0.00e+00   |1.38e-02   0.00e+00   |2.10e-03   0.00e+00   |-4.61e-19  0.00e+00   |
+4.12e+02   |1.83e-03   3.88e+00   |8.76e-03   2.20e+00   |1.86e-03   5.70e-01   |-9.32e-19  -3.40e+00  |
+5.52e+02   |8.20e-04   5.50e+00   |5.54e-03   3.13e+00   |1.85e-03   6.66e-02   |4.02e-18   -1.00e+01  |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+2.72e+02   |-1.06e-06  0.00e+00   |-9.43e-07  0.00e+00   |7.32e-06   0.00e+00   |
+4.12e+02   |-8.72e-08  1.20e+01   |-8.14e-08  1.18e+01   |1.19e-06   8.75e+00   |
+5.52e+02   |-1.36e-08  1.27e+01   |-1.56e-08  1.13e+01   |1.32e-07   1.50e+01   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+2.72e+02   |5.32e-06   0.00e+00   |8.91e-08   0.00e+00   |1.46e-07   0.00e+00   |
+4.12e+02   |1.02e-06   7.95e+00   |6.51e-09   1.26e+01   |9.39e-09   1.32e+01   |
+5.52e+02   |1.03e-07   1.57e+01   |-6.24e-10  1.60e+01   |-1.54e-09  1.24e+01   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+2.72e+02   |-1.15e-06  0.00e+00   |-1.09e-06  0.00e+00   |
+4.12e+02   |-9.37e-08  1.21e+01   |-9.08e-08  1.20e+01   |
+5.52e+02   |-1.29e-08  1.35e+01   |-1.40e-08  1.28e+01   |
+1.17e-0
+
+ans =
+
+    1.1700
+
+
+
+
+
+
+1.17e-0
+
+ans =
+
+    1.1700
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 6
+ii = 6, Estimate: 3.97e-07, tol/est: 2.52e+00
+ii = 6, Err_Jh :  -1.17e-07, tol/err: -8.52e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  -4.75e+02
+Reduced ratio Err_Jh:     -1.61e+03
+Reduced ratio Err_Jh_AC:  7.81e+01
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+8.80e+01   |1.78e-02   0.00e+00   |2.47e-02   0.00e+00   |2.45e-02   0.00e+00   |5.15e-18   0.00e+00   |
+1.34e+02   |8.58e-03   3.48e+00   |1.59e-02   2.08e+00   |2.32e-02   2.50e-01   |6.53e-19   9.83e+00   |
+3.33e+02   |8.12e-03   1.20e-01   |1.56e-02   4.80e-02   |9.10e-03   2.06e+00   |-3.65e-18  -3.78e+00  |
+5.10e+02   |3.79e-03   3.57e+00   |1.00e-02   2.07e+00   |8.07e-03   5.63e-01   |-4.15e-18  -6.00e-01  |
+1.15e+03   |1.79e-03   1.85e+00   |6.40e-03   1.11e+00   |3.65e-03   1.96e+00   |-1.59e-17  -3.30e+00  |
+2.08e+03   |9.96e-04   1.98e+00   |4.31e-03   1.33e+00   |2.32e-03   1.53e+00   |-1.48e-17  2.32e-01   |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |9.76e-05   0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |8.20e-05   8.27e-01   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |1.98e-05   3.12e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |1.36e-05   1.77e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |3.60e-06   3.28e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |1.73e-06   2.47e+00   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+8.80e+01   |-4.99e-04  0.00e+00   |2.84e-20   0.00e+00   |5.40e-19   0.00e+00   |
+1.34e+02   |-1.29e-04  6.42e+00   |3.15e-21   1.04e+01   |1.88e-20   1.60e+01   |
+3.33e+02   |-3.04e-05  3.18e+00   |-7.77e-22  3.08e+00   |-2.37e-19  -5.58e+00  |
+5.10e+02   |-9.58e-06  5.43e+00   |-1.36e-20  -1.34e+01  |-9.62e-20  4.24e+00   |
+1.15e+03   |2.11e-06   3.72e+00   |-1.38e-20  -3.53e-02  |-5.29e-19  -4.20e+00  |
+2.08e+03   |-1.04e-06  2.40e+00   |-9.28e-21  1.33e+00   |-3.12e-19  1.78e+00   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |
+{Undefined function or variable 'estimate_err_Jh'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EllipticProblemDriver', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m', 866)" style="font-weight:bold">EllipticProblemDriver</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',866,0)">line 866</a>)
+                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m', 17)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m',17,0)">line 17</a>)
+        EllipticProblemDriver(para);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_adaptive_refinement', '/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m', 23)" style="font-weight:bold">test_adaptive_refinement</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m',23,0)">line 23</a>)
+main('elliptic','order',1, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
+} 
+opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',866,0)
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 7
+ii = 7, Estimate: -6.39e-08, tol/est: -1.57e+00
+ii = 7, Err_Jh :  1.33e-07, tol/err: 7.54e-01
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  2.95e+03
+Reduced ratio Err_Jh:     1.43e+03
+Reduced ratio Err_Jh_AC:  3.25e+02
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+8.80e+01   |1.89e-04   0.00e+00   |-1.89e-04  9.96e-01   |3.78e-04   0.00e+00   |
+1.34e+02   |1.62e-05   1.17e+01   |-1.41e-05  8.66e-01   |3.03e-05   1.20e+01   |
+3.33e+02   |7.10e-05   -3.24e+00  |-3.39e-06  4.77e-02   |7.44e-05   -1.97e+00  |
+5.10e+02   |6.16e-06   1.15e+01   |2.76e-06   4.49e-01   |3.40e-06   1.45e+01   |
+1.15e+03   |3.85e-06   1.16e+00   |2.98e-06   7.74e-01   |8.70e-07   3.36e+00   |
+2.08e+03   |-1.17e-07  1.18e+01   |3.97e-07   3.38e+00   |-5.14e-07  1.77e+00   |
+3.30e+03   |1.33e-07   -5.22e-01  |-6.39e-08  4.82e-01   |1.96e-07   4.15e+00   |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+8.80e+01   |1.89e-04   0.00e+00   |3.11e-04   1.64e+00   |-1.21e-04  0.00e+00   |-4.99e-04  4.12e+00   |
+1.34e+02   |1.62e-05   1.17e+01   |1.15e-04   7.10e+00   |-9.91e-05  9.60e-01   |-1.29e-04  1.31e+00   |
+3.33e+02   |7.10e-05   -3.24e+00  |2.71e-05   3.81e-01   |4.39e-05   1.79e+00   |-3.04e-05  -6.93e-01  |
+5.10e+02   |6.16e-06   1.15e+01   |1.23e-05   2.00e+00   |-6.18e-06  9.20e+00   |-9.58e-06  1.55e+00   |
+1.15e+03   |3.85e-06   1.16e+00   |8.69e-07   2.26e-01   |2.98e-06   1.80e+00   |2.11e-06   7.08e-01   |
+2.08e+03   |-1.17e-07  1.18e+01   |1.43e-06   -1.22e+01  |-1.55e-06  2.20e+00   |-1.04e-06  6.68e-01   |
+3.30e+03   |1.33e-07   -5.22e-01  |5.06e-07   3.82e+00   |-3.73e-07  6.14e+00   |-5.70e-07  1.53e+00   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+8.80e+01   |1.78e-02   0.00e+00   |2.47e-02   0.00e+00   |2.45e-02   0.00e+00   |5.15e-18   0.00e+00   |
+1.34e+02   |8.58e-03   3.48e+00   |1.59e-02   2.08e+00   |2.32e-02   2.50e-01   |6.53e-19   9.83e+00   |
+3.33e+02   |8.12e-03   1.20e-01   |1.56e-02   4.80e-02   |9.10e-03   2.06e+00   |-3.65e-18  -3.78e+00  |
+5.10e+02   |3.79e-03   3.57e+00   |1.00e-02   2.07e+00   |8.07e-03   5.63e-01   |-4.15e-18  -6.00e-01  |
+1.15e+03   |1.79e-03   1.85e+00   |6.40e-03   1.11e+00   |3.65e-03   1.96e+00   |-1.59e-17  -3.30e+00  |
+2.08e+03   |9.96e-04   1.98e+00   |4.31e-03   1.33e+00   |2.32e-03   1.53e+00   |-1.48e-17  2.32e-01   |
+3.30e+03   |7.35e-04   1.31e+00   |3.92e-03   4.14e-01   |1.85e-03   9.73e-01   |-1.93e-17  -1.14e+00  |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |9.76e-05   0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |8.20e-05   8.27e-01   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |1.98e-05   3.12e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |1.36e-05   1.77e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |3.60e-06   3.28e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |1.73e-06   2.47e+00   |
+3.30e+03   |-4.93e-07  4.46e+00   |-4.96e-07  4.42e+00   |4.19e-07   6.11e+00   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+8.80e+01   |-4.99e-04  0.00e+00   |2.84e-20   0.00e+00   |5.40e-19   0.00e+00   |
+1.34e+02   |-1.29e-04  6.42e+00   |3.15e-21   1.04e+01   |1.88e-20   1.60e+01   |
+3.33e+02   |-3.04e-05  3.18e+00   |-7.77e-22  3.08e+00   |-2.37e-19  -5.58e+00  |
+5.10e+02   |-9.58e-06  5.43e+00   |-1.36e-20  -1.34e+01  |-9.62e-20  4.24e+00   |
+1.15e+03   |2.11e-06   3.72e+00   |-1.38e-20  -3.53e-02  |-5.29e-19  -4.20e+00  |
+2.08e+03   |-1.04e-06  2.40e+00   |-9.28e-21  1.33e+00   |-3.12e-19  1.78e+00   |
+3.30e+03   |-5.70e-07  2.58e+00   |-9.32e-21  -2.21e-02  |-2.94e-19  2.53e-01   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+8.80e+01   |-2.98e-04  0.00e+00   |-2.98e-04  0.00e+00   |
+1.34e+02   |-1.06e-04  4.94e+00   |-1.06e-04  4.93e+00   |
+3.33e+02   |-2.51e-05  3.16e+00   |-2.52e-05  3.15e+00   |
+5.10e+02   |-1.16e-05  3.61e+00   |-1.16e-05  3.65e+00   |
+1.15e+03   |-7.39e-07  6.79e+00   |-7.47e-07  6.75e+00   |
+2.08e+03   |-1.39e-06  -2.12e+00  |-1.38e-06  -2.07e+00  |
+3.30e+03   |-4.93e-07  4.46e+00   |-4.96e-07  4.42e+00   |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 6
+ii = 6, Estimate: 9.20e-08, tol/est: 1.09e+00
+ii = 6, Err_Jh :  3.02e-08, tol/err: 3.32e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  3.47e+02
+Reduced ratio Err_Jh:     1.39e+03
+Reduced ratio Err_Jh_AC:  -2.17e+02
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+1.68e+02   |4.19e-05   0.00e+00   |3.19e-05   7.61e-01   |1.00e-05   0.00e+00   |
+2.55e+02   |6.09e-06   9.24e+00   |4.10e-06   6.73e-01   |1.99e-06   7.74e+00   |
+4.53e+02   |3.61e-06   1.82e+00   |5.23e-06   1.45e+00   |-1.62e-06  7.21e-01   |
+6.75e+02   |1.11e-06   5.89e+00   |6.32e-07   5.67e-01   |4.82e-07   6.08e+00   |
+9.18e+02   |2.32e-07   1.02e+01   |2.13e-07   9.18e-01   |1.90e-08   2.10e+01   |
+1.43e+03   |3.02e-08   9.23e+00   |9.20e-08   3.05e+00   |-6.18e-08  -5.35e+00  |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+1.68e+02   |4.19e-05   0.00e+00   |1.68e-05   4.01e-01   |2.51e-05   0.00e+00   |1.51e-05   6.01e-01   |
+2.55e+02   |6.09e-06   9.24e+00   |3.29e-06   5.40e-01   |2.80e-06   1.05e+01   |8.12e-07   2.90e-01   |
+4.53e+02   |3.61e-06   1.82e+00   |5.70e-07   1.58e-01   |3.04e-06   -2.81e-01  |4.66e-06   1.53e+00   |
+6.75e+02   |1.11e-06   5.89e+00   |3.62e-07   3.25e-01   |7.52e-07   7.00e+00   |2.70e-07   3.59e-01   |
+9.18e+02   |2.32e-07   1.02e+01   |1.26e-07   5.44e-01   |1.06e-07   1.28e+01   |8.68e-08   8.21e-01   |
+1.43e+03   |3.02e-08   9.23e+00   |1.46e-07   4.83e+00   |-1.16e-07  -4.01e-01  |-5.37e-08  4.65e-01   |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+1.68e+02   |7.84e-03   0.00e+00   |1.87e-02   0.00e+00   |8.33e-03   0.00e+00   |7.17e-19   0.00e+00   |
+2.55e+02   |3.53e-03   3.82e+00   |1.19e-02   2.17e+00   |7.25e-03   6.66e-01   |-1.65e-18  -3.99e+00  |
+4.53e+02   |1.60e-03   2.75e+00   |7.56e-03   1.57e+00   |6.00e-03   6.59e-01   |-5.75e-18  -4.34e+00  |
+6.75e+02   |1.58e-03   7.03e-02   |7.50e-03   3.69e-02   |2.46e-03   4.46e+00   |-2.16e-18  4.92e+00   |
+9.18e+02   |7.26e-04   5.05e+00   |4.79e-03   2.92e+00   |2.04e-03   1.23e+00   |-4.92e-18  -5.36e+00  |
+1.43e+03   |3.45e-04   3.37e+00   |3.08e-03   2.01e+00   |1.19e-03   2.43e+00   |-5.27e-19  1.01e+01   |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+1.68e+02   |-1.33e-05  0.00e+00   |-1.20e-05  0.00e+00   |4.04e-05   0.00e+00   |
+2.55e+02   |-2.98e-06  7.18e+00   |-2.86e-06  6.90e+00   |6.65e-06   8.65e+00   |
+4.53e+02   |-2.15e-07  9.15e+00   |-2.00e-07  9.26e+00   |5.07e-06   9.40e-01   |
+6.75e+02   |-3.48e-07  -2.40e+00  |-3.30e-07  -2.52e+00  |9.48e-07   8.41e+00   |
+9.18e+02   |-1.14e-07  7.25e+00   |-1.20e-07  6.56e+00   |3.21e-07   7.04e+00   |
+1.43e+03   |-1.38e-07  -8.62e-01  |-1.35e-07  -5.21e-01  |2.19e-07   1.73e+00   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+1.68e+02   |1.51e-05   0.00e+00   |6.80e-07   0.00e+00   |1.09e-06   0.00e+00   |
+2.55e+02   |8.12e-07   1.40e+01   |6.43e-08   1.13e+01   |9.92e-08   1.15e+01   |
+4.53e+02   |4.66e-06   -6.08e+00  |7.06e-08   -3.24e-01  |7.24e-08   1.10e+00   |
+6.75e+02   |2.70e-07   1.43e+01   |1.90e-09   1.81e+01   |7.44e-09   1.14e+01   |
+9.18e+02   |8.68e-08   7.39e+00   |2.47e-09   -1.69e+00  |3.09e-10   2.07e+01   |
+1.43e+03   |-5.37e-08  2.17e+00   |1.38e-09   2.62e+00   |2.21e-09   -8.91e+00  |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+1.68e+02   |-1.40e-05  0.00e+00   |-1.31e-05  0.00e+00   |
+2.55e+02   |-3.04e-06  7.31e+00   |-2.96e-06  7.15e+00   |
+4.53e+02   |-2.86e-07  8.23e+00   |-2.72e-07  8.30e+00   |
+6.75e+02   |-3.49e-07  -1.01e+00  |-3.38e-07  -1.08e+00  |
+9.18e+02   |-1.16e-07  7.15e+00   |-1.21e-07  6.69e+00   |
+1.43e+03   |-1.39e-07  -8.10e-01  |-1.37e-07  -5.82e-01  |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 5
+ii = 5, Estimate: 1.35e-08, tol/est: 7.41e+00
+ii = 5, Err_Jh :  3.35e-08, tol/err: 2.99e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  5.11e+02
+Reduced ratio Err_Jh:     3.48e+02
+Reduced ratio Err_Jh_AC:  5.08e+02
+------------------------------
+DOF        |err_Jh     order      |ACh+Dh     |est/err|  |err_Jh_AC_Dh  order      |
+2.72e+02   |1.17e-05   0.00e+00   |6.89e-06   5.91e-01   |4.77e-06   0.00e+00   |
+4.12e+02   |1.97e-06   8.57e+00   |1.15e-06   5.84e-01   |8.20e-07   8.48e+00   |
+5.52e+02   |2.90e-07   1.31e+01   |1.18e-07   4.06e-01   |1.72e-07   1.07e+01   |
+8.70e+02   |1.22e-07   3.80e+00   |1.18e-07   9.67e-01   |4.09e-09   1.64e+01   |
+1.05e+03   |3.35e-08   1.39e+01   |1.35e-08   4.03e-01   |2.00e-08   -1.71e+01  |
+------------------------------
+DOF        |err_Jh     order      |ACh        ACh/err    |err_Jh_AC  order      |Dh         Dh/err_Jh_AC  |
+2.72e+02   |1.17e-05   0.00e+00   |1.57e-06   1.35e-01   |1.01e-05   0.00e+00   |5.32e-06   5.27e-01   |
+4.12e+02   |1.97e-06   8.57e+00   |1.28e-07   6.52e-02   |1.84e-06   8.19e+00   |1.02e-06   5.55e-01   |
+5.52e+02   |2.90e-07   1.31e+01   |1.46e-08   5.03e-02   |2.75e-07   1.30e+01   |1.03e-07   3.75e-01   |
+8.70e+02   |1.22e-07   3.80e+00   |-3.96e-08  -3.24e-01  |1.62e-07   2.34e+00   |1.58e-07   9.75e-01   |
+1.05e+03   |3.35e-08   1.39e+01   |1.36e-08   4.07e-01   |1.99e-08   2.25e+01   |-1.54e-10  -7.78e-03  |
+
+pterm1 = ||u-uh*||_F
+pterm2 = ||graduh*+qh||
+pterm3 = ||gradvh*+ph||
+pterm4 = (uh*-uh,g)
+------------------------------
+DOF        |pterm1     order      |pterm2     order      |pterm3     order      |pterm4     order      |
+2.72e+02   |4.10e-03   0.00e+00   |1.38e-02   0.00e+00   |2.10e-03   0.00e+00   |-4.61e-19  0.00e+00   |
+4.12e+02   |1.83e-03   3.88e+00   |8.76e-03   2.20e+00   |1.86e-03   5.70e-01   |-9.32e-19  -3.40e+00  |
+5.52e+02   |8.20e-04   5.50e+00   |5.54e-03   3.13e+00   |1.85e-03   6.66e-02   |4.02e-18   -1.00e+01  |
+8.70e+02   |3.68e-04   3.52e+00   |3.50e-03   2.02e+00   |1.54e-03   7.87e-01   |6.11e-18   -1.84e+00  |
+1.05e+03   |3.66e-04   7.06e-02   |3.49e-03   1.35e-02   |1.17e-03   3.00e+00   |2.32e-18   1.04e+01   |
+
+Dh = sum est_i
+est_1 = (f-div.qh,vh*-vh)
+est_2 = (uh*-uh,g-div.ph)
+est_3 = <(qhat-qh)*n, vh-vh*>
+est_4 = <uh-uh*, (phat-ph)*n>
+est_5 = -(graduh*+qh,gradvh*+ph) 
+------------------------------
+DOF        |est_1+est_3  order      |est_2+est_4  order      |est_5      order      |
+2.72e+02   |-1.06e-06  0.00e+00   |-9.43e-07  0.00e+00   |7.32e-06   0.00e+00   |
+4.12e+02   |-8.72e-08  1.20e+01   |-8.14e-08  1.18e+01   |1.19e-06   8.75e+00   |
+5.52e+02   |-1.36e-08  1.27e+01   |-1.56e-08  1.13e+01   |1.32e-07   1.50e+01   |
+8.70e+02   |4.69e-08   -5.46e+00  |3.96e-08   -4.10e+00  |7.13e-08   2.72e+00   |
+1.05e+03   |-1.32e-08  1.36e+01   |-1.36e-08  1.15e+01   |2.67e-08   1.06e+01   |
+------------------------------
+DOF        |est_sum    order      |est_1      order      |est_2      order      |
+2.72e+02   |5.32e-06   0.00e+00   |8.91e-08   0.00e+00   |1.46e-07   0.00e+00   |
+4.12e+02   |1.02e-06   7.95e+00   |6.51e-09   1.26e+01   |9.39e-09   1.32e+01   |
+5.52e+02   |1.03e-07   1.57e+01   |-6.24e-10  1.60e+01   |-1.54e-09  1.24e+01   |
+8.70e+02   |1.58e-07   -1.87e+00  |2.59e-09   -6.25e+00  |-9.15e-10  2.29e+00   |
+1.05e+03   |-1.54e-10  7.44e+01   |2.49e-10   2.51e+01   |1.02e-10   2.36e+01   |
+------------------------------
+DOF        |est_3      order      |est_4      order      |
+2.72e+02   |-1.15e-06  0.00e+00   |-1.09e-06  0.00e+00   |
+4.12e+02   |-9.37e-08  1.21e+01   |-9.08e-08  1.20e+01   |
+5.52e+02   |-1.29e-08  1.35e+01   |-1.40e-08  1.28e+01   |
+8.70e+02   |4.43e-08   -5.41e+00  |4.05e-08   -4.66e+00  |
+1.05e+03   |-1.35e-08  1.28e+01   |-1.37e-08  1.17e+01   |
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+TOL : 1.00e-06
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 6
+ii = 6, Estimate: 3.97e-07, tol/est: 2.52e+00
+ii = 6, Err_Jh :  -1.17e-07, tol/err: -8.52e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  -4.75e+02
+Reduced ratio Err_Jh:     -1.61e+03
+Reduced ratio Err_Jh_AC:  7.81e+01
+{Undefined function or variable 'estimate_err_Jh'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EllipticProblemDriver', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m', 869)" style="font-weight:bold">EllipticProblemDriver</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',869,0)">line 869</a>)
+                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m', 17)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m',17,0)">line 17</a>)
+        EllipticProblemDriver(para);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_adaptive_refinement', '/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m', 28)" style="font-weight:bold">test_adaptive_refinement</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m',28,0)">line 28</a>)
+    main('elliptic','order',1, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
+} 
+opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',869,0)
+
+
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+TOL : 1.00e-06
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 6
+ii = 6, Estimate: 3.97e-07, tol/est: 2.52e+00
+ii = 6, Err_Jh :  -1.17e-07, tol/err: -8.52e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  -4.75e+02
+Reduced ratio Err_Jh:     -1.61e+03
+Reduced ratio Err_Jh_AC:  7.81e+01
+
+
+Report uh,qh error results 
+------------------------------
+DOF        |err_uh     order      |err_qh     order      |err_vh     order      |
+8.80e+01   |5.91e-03   0.00e+00   |5.83e-02   0.00e+00   |4.04e-02   0.00e+00   |
+1.34e+02   |3.16e-03   2.98e+00   |3.77e-02   2.08e+00   |4.07e-02   -4.33e-02  |
+3.33e+02   |2.10e-03   8.96e-01   |3.70e-02   4.06e-02   |4.11e-02   -1.87e-02  |
+5.10e+02   |9.90e-04   3.53e+00   |2.37e-02   2.10e+00   |4.12e-02   -8.24e-03  |
+1.15e+03   |5.35e-04   1.52e+00   |1.51e-02   1.11e+00   |4.12e-02   -4.45e-03  |
+2.08e+03   |3.10e-04   1.83e+00   |9.98e-03   1.39e+00   |4.12e-02   -1.27e-03  |
+0.00e+00   |{Index exceeds the number of array elements (6).
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('ReportTable', '/Users/shiqiangxia/Desktop/hdg2dtriangular/08-Report/ReportTable.m', 13)" style="font-weight:bold">ReportTable</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/08-Report/ReportTable.m',13,0)">line 13</a>)
+            fprintf('%-9.2e  ',varargin{ii}(nn))
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EllipticProblemDriver', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m', 890)" style="font-weight:bold">EllipticProblemDriver</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',890,0)">line 890</a>)
+                    ReportTable('DOF', mesh_list,...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m', 17)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m',17,0)">line 17</a>)
+        EllipticProblemDriver(para);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_adaptive_refinement', '/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m', 28)" style="font-weight:bold">test_adaptive_refinement</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m',28,0)">line 28</a>)
+    main('elliptic','order',1, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
+} 
+opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',890,0)
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case 3: u corner singularity and g=1 smooth
+TOL : 1.00e-06
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 6
+ii = 6, Estimate: 3.97e-07, tol/est: 2.52e+00
+ii = 6, Err_Jh :  -1.17e-07, tol/err: -8.52e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  -4.75e+02
+Reduced ratio Err_Jh:     -1.61e+03
+Reduced ratio Err_Jh_AC:  7.81e+01
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 4
+ii = 4, Estimate: 6.32e-07, tol/est: 1.58e+00
+ii = 4, Err_Jh :  1.11e-06, tol/err: 8.97e-01
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  5.04e+01
+Reduced ratio Err_Jh:     3.76e+01
+Reduced ratio Err_Jh_AC:  3.34e+01
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 3
+ii = 3, Estimate: 1.18e-07, tol/est: 8.49e+00
+ii = 3, Err_Jh :  2.90e-07, tol/err: 3.45e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  5.85e+01
+Reduced ratio Err_Jh:     4.02e+01
+Reduced ratio Err_Jh_AC:  3.66e+01
+TOL : 1.00e-07
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 7
+ii = 7, Estimate: -6.39e-08, tol/est: -1.57e+00
+ii = 7, Err_Jh :  1.33e-07, tol/err: 7.54e-01
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  2.95e+03
+Reduced ratio Err_Jh:     1.43e+03
+Reduced ratio Err_Jh_AC:  3.25e+02
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 6
+ii = 6, Estimate: 9.20e-08, tol/est: 1.09e+00
+ii = 6, Err_Jh :  3.02e-08, tol/err: 3.32e+00
+
+Reduce ratio goal: 1.00e+05
+Reduced ratio Estimae :  3.47e+02
+Reduced ratio Err_Jh:     1.39e+03
+Reduced ratio Err_Jh_AC:  -2.17e+02
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+D

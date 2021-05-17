@@ -8,7 +8,7 @@ function EllipticProblemDriver(para)
     Niter = para.Niter;
     
     % bonus parameters
-    temp_report_flag = 1;
+    temp_report_flag = 3;
     plot_log_err_flag = 1;
     posterior_estimate_method = 2;
     
@@ -19,6 +19,7 @@ function EllipticProblemDriver(para)
     mesh_list = zeros(Niter,1,numeric_t);
     
     reduce_ratio = MyParaParse(para.extra_parameters,'reduce_ratio');
+    tol_adp = MyParaParse(para.extra_parameters,'tol_adp');
     
     
     if err_cal_flag == 1
@@ -578,14 +579,20 @@ function EllipticProblemDriver(para)
             estimator_list(ii) = sum(estimator_functinal);
             
             if (abs(estimator_list(ii)/estimator_list(1)) < reduce_ratio)
+                fprintf('Esti(ii)/Esti(1)<reduce_ratio\n')
                 break; 
+            end
+            
+            if abs(estimator_list(ii))<tol_adp
+                fprintf('Esti<TOL\n')
+                break;
             end
             
             % Mark mesh refinement if do Adaptivity --------------------------- 
             if para.refine_flag > 0
                 mark_flag = 1; % 1: bulk marking strategy Dorfler , 0: max marking strategy
 
-                [tol_adp,percent] = MyParaParse(para.extra_parameters,'tol_adp','percent');
+                percent = MyParaParse(para.extra_parameters,'percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
 
                 % Plot estimator
@@ -640,23 +647,23 @@ function EllipticProblemDriver(para)
                 order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
                 
                 fprintf('------------------------------\n')
-                fprintf('Reduce ratio goal: %.2e\n', 1/reduce_ratio);
+                
+                fprintf('Error Tolerence: %.2e\n', tol_adp);
                 fprintf('Adptive iterations: %d\n',ii);
-                if para.post_process_flag == 1
-                    fprintf('Estimator ACh+Dh:  %.2e\n',estimator_list(1)/estimator_list(ii) );
-                else
-                    fprintf('Estimator ACh:  %.2e\n',estimator_list(1)/estimator_list(ii) );
-                end
-                fprintf('Err_Jh:     %.2e\n',err_Jh_list(1)/err_Jh_list(ii) );
-                fprintf('Err_Jh_AC:  %.2e\n',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
+                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
+                fprintf('ii = %d, Err_Jh :  %.2e, tol/err: %.2e\n',ii,err_Jh_list(ii),tol_adp/err_Jh_list(ii) );
+                fprintf('\nReduce ratio goal: %.2e\n', 1/reduce_ratio);
+                fprintf('Reduced ratio Estimae :  %.2e\n', estimator_list(1)/estimator_list(ii) ); 
+                fprintf('Reduced ratio Err_Jh:     %.2e\n',err_Jh_list(1)/err_Jh_list(ii) );
+                fprintf('Reduced ratio Err_Jh_AC:  %.2e\n',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
                 
-                
+                estimate_err_Jh = ACh_list+est_terms_sum_list;
                 if temp_report_flag == 1
                 if para.post_process_flag == 1
                    %%  
                     err_Jh_AC_Dh = err_Jh_AC_list - est_terms_sum_list;
                     order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
-                    estimate_err_Jh = ACh_list+est_terms_sum_list;
+                    
 
                     ReportTable('DOF', mesh_list(1:ii),...
                     'err_Jh',err_Jh_list(1:ii),'order',order_Jh(1:ii), ...
@@ -678,6 +685,7 @@ function EllipticProblemDriver(para)
                 end
 
                 %----------------------------------------------------------
+                if temp_report_flag == 1
                 % error terms 
                 if strcmp(pb_type(4),'1') ||  strcmp(pb_type(4),'2')
                     
@@ -841,6 +849,8 @@ function EllipticProblemDriver(para)
           
                 end 
                 
+                end
+                
                 %----------------------------------------------------------
                 %% Plot log-error 
                 
@@ -897,9 +907,15 @@ function EllipticProblemDriver(para)
                 %% report eigenvalue results
                 
                 fprintf('------------------------------\n')
-                fprintf('Reduce ratio goal: %.1f\n', 1/reduce_ratio);
-                fprintf('Adptive iterations: %d\n',ii);
                 fprintf('Target eigenvalue: %d\n', tag_eig);
+                fprintf('Error Tolerence: %.2e\n', tol_adp);
+                fprintf('Adptive iterations: %d\n',ii);
+                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
+                fprintf('ii = %d, Err_lamh :  %.2e, tol/err: %.2e\n',ii,err_lamh2_list(ii),tol_adp/err_lamh2_list(ii) );
+                
+                fprintf('\nReduce ratio goal: %.1f\n', 1/reduce_ratio);
+                
+                
                 fprintf('Estimator ACh:  %.1f\n',estimator_list(1)/estimator_list(ii) );
                 fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1)/err_lamh2_list(ii) );
                 fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
