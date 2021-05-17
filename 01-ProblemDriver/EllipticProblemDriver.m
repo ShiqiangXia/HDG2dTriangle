@@ -921,7 +921,10 @@ function EllipticProblemDriver(para)
                 fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
                 
                 
-                
+                err_lamh_tag = err_lamh2_list(:,tag_eig);                 
+                order_lamh_tag = GetOrder(mesh_list,err_lamh_tag);
+                ACh_tag_list = ACh_list(:,tag_eig);
+                estimate_err_lamh = ACh_tag_list+est_terms_sum_list;
                 if temp_report_flag == 1
                     
                     
@@ -952,12 +955,13 @@ function EllipticProblemDriver(para)
                     ReportTable('dof', mesh_list(1:ii),...
                         temp_eig{:})
                     
+                    
+                    
                     if para.post_process_flag == 1
                         fprintf('\n')
                         fprintf('Target eigenvalue %d\n',tag_eig);
         
-                        err_lamh_tag = err_lamh2_list(:,tag_eig);                 
-                        order_lamh_tag = GetOrder(mesh_list,err_lamh_tag);
+                        
                         
                         err_lamh_AC_tag = err_lamh_AC_list(:,tag_eig);
                         order_lamh_AC_tag = GetOrder(mesh_list,err_lamh_AC_tag);
