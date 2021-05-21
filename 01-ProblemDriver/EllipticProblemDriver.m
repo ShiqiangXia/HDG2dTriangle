@@ -12,11 +12,18 @@ function EllipticProblemDriver(para)
     plot_log_err_flag = 1;
     posterior_estimate_method = 2;
     
+    % adaptive 
+    mark_flag = 1; % 0: max marking strategy
+                   % 1: bulk marking strategy Dorfler , 
+                   % 2? equi distribution strategy
+                   % 3: fraction marking strategy
+    
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
     err_cal_flag = para.err_cal_flag;
     err_analysis_flag = para.err_analysis_flag;
     mesh_list = zeros(Niter,1,numeric_t);
+    tri_list  = zeros(Niter,1,numeric_t);
     
     reduce_ratio = MyParaParse(para.extra_parameters,'reduce_ratio');
     tol_adp = MyParaParse(para.extra_parameters,'tol_adp');
@@ -350,10 +357,11 @@ function EllipticProblemDriver(para)
             end
             
             
-            mymesh.Plot(0); 
+            %mymesh.Plot(0); 
             %M(ii) = getframe(gcf); % record video of mesh refinement
             
             mesh_list(ii) = GetDof(mymesh, para.order);
+            tri_list(ii) = mymesh.num_elements;
             
             % Solve -------------------------------------------------------
             if strcmp(pb_type(2),'0') % source problem
@@ -569,6 +577,20 @@ function EllipticProblemDriver(para)
                 end            
             end
             
+             
+            % visualization -----------------------------------------------
+            if ii == Niter && para.visualize_flag==1
+                basis_flag = 0;
+                My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
+            end
+            
+            if ii == Niter
+                mymesh.Plot(0);
+                title_text = append('Final mesh ', num2str(ii), ' when k = ', num2str(para.order));
+                title({title_text,pb_text_info});
+            end
+            % ------------------------------------------------------------- 
+   
             
             if para.post_process_flag == 1
                 estimator_functinal = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
@@ -590,8 +612,7 @@ function EllipticProblemDriver(para)
             
             % Mark mesh refinement if do Adaptivity --------------------------- 
             if para.refine_flag > 0
-                mark_flag = 2; % 1: bulk marking strategy Dorfler , 0: max marking strategy
-                                % 2? equi distribution strategy
+                
 
                 percent = MyParaParse(para.extra_parameters,'percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
@@ -615,20 +636,7 @@ function EllipticProblemDriver(para)
             end
               
             % -------------------------------------------------------------
-            
-            % visualization -----------------------------------------------
-            if ii == Niter && para.visualize_flag==1
-                basis_flag = 0;
-                My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
-            end
-            
-            if ii == Niter
-                mymesh.Plot(0);
-                title_text = append('Final mesh ', num2str(ii), ' when k = ', num2str(para.order));
-                title({title_text,pb_text_info});
-            end
-            % ------------------------------------------------------------- 
-   
+           
         end
         %%%% end mesh iterating %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
@@ -651,8 +659,10 @@ function EllipticProblemDriver(para)
                 
                 fprintf('Error Tolerence: %.2e\n', tol_adp);
                 fprintf('Adptive iterations: %d\n',ii);
-                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
+                fprintf('DOF: %d, # Tri: %d \n',mesh_list(ii),tri_list(ii) );
                 fprintf('ii = %d, Err_Jh :  %.2e, tol/err: %.2e\n',ii,err_Jh_list(ii),tol_adp/err_Jh_list(ii) );
+                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
+               
                 fprintf('est/err: %.2e\n',estimator_list(ii)/err_Jh_list(ii) );
                 fprintf('\nReduce ratio goal: %.2e\n', 1/reduce_ratio);
                 fprintf('Reduced ratio Estimae :  %.2e\n', estimator_list(1)/estimator_list(ii) ); 
@@ -912,8 +922,9 @@ function EllipticProblemDriver(para)
                 fprintf('Target eigenvalue: %d\n', tag_eig);
                 fprintf('Error Tolerence: %.2e\n', tol_adp);
                 fprintf('Adptive iterations: %d\n',ii);
-                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
+                fprintf('DOF: %d, # Tri: %d \n',mesh_list(ii),tri_list(ii) );
                 fprintf('ii = %d, Err_lamh :  %.2e, tol/err: %.2e\n',ii,err_lamh2_list(ii),tol_adp/err_lamh2_list(ii) );
+                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
                 fprintf('est/err: %.2e\n',estimator_list(ii)/err_lamh2_list(ii) );
                 fprintf('\nReduce ratio goal: %.1f\n', 1/reduce_ratio);
                 

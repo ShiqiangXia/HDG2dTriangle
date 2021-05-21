@@ -9,8 +9,12 @@ function EllipticProblemDriver(para)
     
     % bonus parameters
     temp_report_flag = 3;
-    plot_log_err_flag = 0;
+    plot_log_err_flag = 1;
     posterior_estimate_method = 2;
+    
+    % adaptive 
+    mark_flag = 0; % 1: bulk marking strategy Dorfler , 0: max marking strategy
+                                % 2? equi distribution strategy
     
     
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
@@ -350,7 +354,7 @@ function EllipticProblemDriver(para)
             end
             
             
-            %mymesh.Plot(0); 
+            mymesh.Plot(0); 
             %M(ii) = getframe(gcf); % record video of mesh refinement
             
             mesh_list(ii) = GetDof(mymesh, para.order);
@@ -590,7 +594,7 @@ function EllipticProblemDriver(para)
             
             % Mark mesh refinement if do Adaptivity --------------------------- 
             if para.refine_flag > 0
-                mark_flag = 1; % 1: bulk marking strategy Dorfler , 0: max marking strategy
+                
 
                 percent = MyParaParse(para.extra_parameters,'percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
@@ -650,9 +654,11 @@ function EllipticProblemDriver(para)
                 
                 fprintf('Error Tolerence: %.2e\n', tol_adp);
                 fprintf('Adptive iterations: %d\n',ii);
+                fprintf('DOF: %d, # Tri: %d \n',mesh_list )
+                 fprintf('ii = %d, Err_Jh :  %.2e, tol/err: %.2e\n',ii,err_Jh_list(ii),tol_adp/err_Jh_list(ii) );
                 fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
-                fprintf('ii = %d, Err_Jh :  %.2e, tol/err: %.2e\n',ii,err_Jh_list(ii),tol_adp/err_Jh_list(ii) );
-                fprintf('est/err')
+               
+                fprintf('est/err: %.2e\n',estimator_list(ii)/err_Jh_list(ii) );
                 fprintf('\nReduce ratio goal: %.2e\n', 1/reduce_ratio);
                 fprintf('Reduced ratio Estimae :  %.2e\n', estimator_list(1)/estimator_list(ii) ); 
                 fprintf('Reduced ratio Err_Jh:     %.2e\n',err_Jh_list(1)/err_Jh_list(ii) );
@@ -913,7 +919,7 @@ function EllipticProblemDriver(para)
                 fprintf('Adptive iterations: %d\n',ii);
                 fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
                 fprintf('ii = %d, Err_lamh :  %.2e, tol/err: %.2e\n',ii,err_lamh2_list(ii),tol_adp/err_lamh2_list(ii) );
-                
+                fprintf('est/err: %.2e\n',estimator_list(ii)/err_lamh2_list(ii) );
                 fprintf('\nReduce ratio goal: %.1f\n', 1/reduce_ratio);
                 
                 
