@@ -23,28 +23,24 @@ function marked = ACh_ErrEstimate(Est_elewise_list,TOL,percent, mark_flag)
             end
             part_sum = part_sum + s(jj);
         end
-        
+        marked = logical(marked);
         
     elseif mark_flag == 2 % equi distribute error
         
         temp_err_est = abs(Est_elewise_list);
-        nn = size(temp_err_est,1);
+        nn = size(temp_err_est);
         ele_tol = TOL/nn;
         marked = zeros(nn,1);
         
         for jj = 1:nn
-            if Est_elewise_list(jj) > ele_tol
+            if Est_elewise_list(jj)>ele_tol
                 marked(jj) = 1;
             end
         end
         
         
-        
-        
     else
         error('Marking strategy %d is not implemented.', mark_flag)
     end
-    
-    marked = logical(marked);
     
 end

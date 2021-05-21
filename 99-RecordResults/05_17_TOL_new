@@ -675,4 +675,386 @@ Dom type: Rec
 order k = 3
 Refinement: Adaptive with RGB
 ------------------------------
-Error Tol
+Error Tolerence: 1.00e-08
+Adptive iterations: 7
+ii = 7, Estimate: -2.81e-09, tol/est: -3.56e+00
+ii = 7, Err_Jh :  -2.46e-09, tol/err: -4.06e+00
+est/err: 1.14e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  -2.52e+05
+Reduced ratio Err_Jh:     -1.02e+06
+Reduced ratio Err_Jh_AC:  -7.70e+05
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.500000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 5.00e-03
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 7
+ii = 7, Estimate: 2.60e-03, tol/est: 1.92e+00
+ii = 7, Err_lamh :  4.22e-03, tol/err: 1.19e+00
+est/err: 6.16e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  130.8
+Err_lamh:     106.6
+Err_lamh_AC:  152.5
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 3
+ii = 3, Estimate: 4.91e-03, tol/est: 1.02e+00
+ii = 3, Err_lamh :  1.47e-02, tol/err: 3.41e-01
+est/err: 3.35e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  5.5
+Err_lamh:     4.6
+Err_lamh_AC:  3.8
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 3
+ii = 3, Estimate: 2.29e-03, tol/est: 2.18e+00
+ii = 3, Err_lamh :  7.88e-03, tol/err: 6.35e-01
+est/err: 2.91e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  3.6
+Err_lamh:     3.8
+Err_lamh_AC:  3.8
+
+
+
+
+diary off
+test_adaptive_refinement
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.500000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 5.00e-04
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+[Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =
+9.075047e-17.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('HDG_Eig_SolveEigenSystem_Elliptic', '/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_SolveEigenSystem_Elliptic.m', 27)" style="font-weight:bold">HDG_Eig_SolveEigenSystem_Elliptic</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_SolveEigenSystem_Elliptic.m',27,0)">line 27</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('HDG_EigPbSolver_Elliptic', '/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_EigPbSolver_Elliptic.m', 16)" style="font-weight:bold">HDG_EigPbSolver_Elliptic</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_EigPbSolver_Elliptic.m',16,0)">line 16</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EllipticProblemDriver', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m', 447)" style="font-weight:bold">EllipticProblemDriver</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',447,0)">line 447</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m', 17)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m',17,0)">line 17</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_adaptive_refinement', '/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m', 95)" style="font-weight:bold">test_adaptive_refinement</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m',95,0)">line 95</a>)
+] 
+Mesh 9 ... 
+Mesh 10 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 10
+ii = 10, Estimate: 2.96e-04, tol/est: 1.69e+00
+ii = 10, Err_lamh :  4.05e-04, tol/err: 1.23e+00
+est/err: 7.30e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  1148.0
+Err_lamh:     1109.2
+Err_lamh_AC:  1000.9
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 7
+ii = 7, Estimate: 3.22e-04, tol/est: 1.55e+00
+ii = 7, Err_lamh :  5.64e-04, tol/err: 8.86e-01
+est/err: 5.71e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  83.7
+Err_lamh:     120.9
+Err_lamh_AC:  440.8
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 5
+ii = 5, Estimate: 4.14e-04, tol/est: 1.21e+00
+ii = 5, Err_lamh :  1.29e-03, tol/err: 3.86e-01
+est/err: 3.20e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  19.8
+Err_lamh:     23.3
+Err_lamh_AC:  25.1
+TOL : 5.00e-05
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+[Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =
+9.075047e-17.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('HDG_Eig_SolveEigenSystem_Elliptic', '/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_SolveEigenSystem_Elliptic.m', 27)" style="font-weight:bold">HDG_Eig_SolveEigenSystem_Elliptic</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_SolveEigenSystem_Elliptic.m',27,0)">line 27</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('HDG_EigPbSolver_Elliptic', '/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_EigPbSolver_Elliptic.m', 16)" style="font-weight:bold">HDG_EigPbSolver_Elliptic</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_EigPbSolver_Elliptic.m',16,0)">line 16</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('EllipticProblemDriver', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m', 447)" style="font-weight:bold">EllipticProblemDriver</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/EllipticProblemDriver.m',447,0)">line 447</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m', 17)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/main.m',17,0)">line 17</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_adaptive_refinement', '/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m', 95)" style="font-weight:bold">test_adaptive_refinement</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/00-TestScripts/test_adaptive_refinement.m',95,0)">line 95</a>)
+] 
+Mesh 9 ... 
+Mesh 10 ... 
+Mesh 11 ... 
+Mesh 12 ... 
+Mesh 13 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-05
+Adptive iterations: 13
+ii = 13, Estimate: 3.35e-05, tol/est: 1.49e+00
+ii = 13, Err_lamh :  4.08e-05, tol/err: 1.22e+00
+est/err: 8.21e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  10137.7
+Err_lamh:     11015.6
+Err_lamh_AC:  6845.0
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-05
+Adptive iterations: 9
+ii = 9, Estimate: 4.89e-05, tol/est: 1.02e+00
+ii = 9, Err_lamh :  8.70e-05, tol/err: 5.75e-01
+est/err: 5.63e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  550.5
+Err_lamh:     784.6
+Err_lamh_AC:  -2488.3
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-05
+Adptive iterations: 9
+ii = 9, Estimate: 1.37e-05, tol/est: 3.64e+00
+ii = 9, Err_lamh :  3.52e-05, tol/err: 1.42e+00
+est/err: 3.89e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  599.0
+Err_lamh:     855.0
+Err_lamh_AC:  1026.1
+diary off

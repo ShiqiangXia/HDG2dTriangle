@@ -9,7 +9,7 @@ function EllipticProblemDriver(para)
     
     % bonus parameters
     temp_report_flag = 3;
-    plot_log_err_flag = 0;
+    plot_log_err_flag = 1;
     posterior_estimate_method = 2;
     
     
@@ -350,7 +350,7 @@ function EllipticProblemDriver(para)
             end
             
             
-            %mymesh.Plot(0); 
+            mymesh.Plot(0); 
             %M(ii) = getframe(gcf); % record video of mesh refinement
             
             mesh_list(ii) = GetDof(mymesh, para.order);
@@ -590,7 +590,8 @@ function EllipticProblemDriver(para)
             
             % Mark mesh refinement if do Adaptivity --------------------------- 
             if para.refine_flag > 0
-                mark_flag = 1; % 1: bulk marking strategy Dorfler , 0: max marking strategy
+                mark_flag = 2; % 1: bulk marking strategy Dorfler , 0: max marking strategy
+                                % 2? equi distribution strategy
 
                 percent = MyParaParse(para.extra_parameters,'percent');
                 marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
