@@ -664,10 +664,17 @@ function EllipticProblemDriver(para)
                 fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
                
                 fprintf('est/err: %.2e\n',estimator_list(ii)/err_Jh_list(ii) );
+                
                 fprintf('\nReduce ratio goal: %.2e\n', 1/reduce_ratio);
                 fprintf('Reduced ratio Estimae :  %.2e\n', estimator_list(1)/estimator_list(ii) ); 
                 fprintf('Reduced ratio Err_Jh:     %.2e\n',err_Jh_list(1)/err_Jh_list(ii) );
                 fprintf('Reduced ratio Err_Jh_AC:  %.2e\n',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
+                
+                fprintf('\nEstimate constant:\n')
+                ratio_temp = (Jh_list(2:ii) - Jh_list(1:ii-1))...
+                    ./(estimator_list(1:ii-1) - estimator_list(2:ii));
+                disp(ratio_temp);
+                
                 
                 estimate_err_Jh = ACh_list+est_terms_sum_list;
                 if temp_report_flag == 1
@@ -878,16 +885,18 @@ function EllipticProblemDriver(para)
                     elseif para.post_process_flag == 1
 
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
-                        legend('Err-Jh','Dh')
+                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
+                                0.5*log10(mesh_list(1:ii-1)),log10(abs(ratio_temp.*estimate_err_Jh(1:ii-1))),'--k*');
+                        legend('|J(u)-J(u_h)|','D_h','C*D_h')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
 
                     end
                     
                     figure;
-                    plot(mesh_list(1:ii),abs(estimate_err_Jh(1:ii)./err_Jh_list(1:ii)),'--bs');
-                    legend('ratio: |est/err|');
+                    plot(mesh_list(1:ii),abs(err_Jh_list(1:ii)./estimate_err_Jh(1:ii)),'--bs',...
+                        mesh_list(1:ii-1),ratio_temp,'--rx');
+                    legend('ratio: |err/est|','estimate ratio');
                 end
                 %%
                 
@@ -932,6 +941,10 @@ function EllipticProblemDriver(para)
                 fprintf('Estimator ACh:  %.1f\n',estimator_list(1)/estimator_list(ii) );
                 fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1)/err_lamh2_list(ii) );
                 fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
+                fprintf('\nEstimate constant:\n')
+                ratio_temp = (lamh2_list(2:ii,tag_eig) - lamh2_list(1:ii-1,tag_eig))'...
+                    ./(estimator_list(1:ii-1) - estimator_list(2:ii));
+                disp(ratio_temp);
                 
                 
                 err_lamh_tag = err_lamh2_list(:,tag_eig);                 
@@ -1012,11 +1025,11 @@ function EllipticProblemDriver(para)
                     
                     elseif para.post_process_flag == 1
                         
-                        
+                        temp_ratio_list = abs(ratio_temp'.*abs(ACh_list(1:ii-1,tag_eig)+est_terms_sum_list(1:ii-1)));
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
-                            0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' );%,...
-                        %0.5*log10(mesh_list),log10(abs(err_lamh_AC_list(:,tag_eig)-est_terms_sum_list)),'--ks');
-                        legend('Err-lamh','Dh');%,'Err-lamh-AC-Dh')
+                            0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
+                        0.5*log10(mesh_list(1:ii-1)),log10(temp_ratio_list),'--ks');
+                        legend('|\lambda - \lambda_h|','D_h','C*D_h');%,'Err-lamh-AC-Dh')
                         title('Log plot of errors and estimator');
                     
                     else
@@ -1025,8 +1038,9 @@ function EllipticProblemDriver(para)
                     
                     figure;
                     
-                    plot(mesh_list(1:ii),err_lamh_tag(1:ii)./estimate_err_lamh(1:ii),'--bs');
-                    legend('ratio: |est/err|');
+                    plot(mesh_list(1:ii),err_lamh_tag(1:ii)./estimate_err_lamh(1:ii),'--bs',...
+                       mesh_list(1:ii-1), ratio_temp,'--rx');
+                    legend('ratio: |err/est|','estimate ratio');
                     
                     
                 end

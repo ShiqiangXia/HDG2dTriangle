@@ -1012,4 +1012,593 @@ Reduced ratio Err_Jh_AC:  -1.89e+06
 test_adaptive_refinement
 Adaptive Refinement
 Initial mesh h0 = 0.250000
-------------------------------------------
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Linear functinals J(u) = <q*n, psi>
+
+
+
+Case: u corner singularity and v discontinuous 
+TOL : 1.00e-14
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 10
+DOF: 66753, # Tri: 2976 
+ii = 10, Err_Jh :  -2.17e-11, tol/err: -4.60e-04
+ii = 10, Estimate: -2.81e-11, tol/est: -3.56e-04
+est/err: 1.29e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  -1.17e+08
+Reduced ratio Err_Jh:     -4.94e+07
+Reduced ratio Err_Jh_AC:  -3.93e+07
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Linear functinals J(u) = <q*n, psi>
+
+
+
+Case: u corner singularity and v discontinuous 
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 9
+DOF: 56941, # Tri: 4759 
+ii = 9, Err_Jh :  -1.50e-07, tol/err: -6.67e-08
+ii = 9, Estimate: -1.47e-07, tol/est: -6.80e-08
+est/err: 9.82e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  2.50e+04
+Reduced ratio Err_Jh:     -1.66e+04
+Reduced ratio Err_Jh_AC:  -1.04e+04
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_AssembleMlambda_Elliptic.m',51,1)">51  </a>                    N0(start_id:end_id,temp_start:temp_end) =...
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbquit; end
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/Source problem/Elliptic/HDG_AssembleGlobalEquation_LHS_Elliptic.m',63,1)">63  </a>        end
+if system_dependent('IsDebugMode')==1, dbquit; end
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 69797, # Tri: 5833 
+ii = 7, Err_lamh :  3.12e-04, tol/err: 3.21e-11
+ii = 7, Estimate: 1.20e-04, tol/est: 8.34e-11
+est/err: 3.84e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  410.9
+Err_lamh:     303.9
+Err_lamh_AC:  89.4
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 9954, # Tri: 446 
+ii = 7, Err_lamh :  1.34e-04, tol/err: 7.47e-11
+ii = 7, Estimate: 5.02e-05, tol/est: 1.99e-10
+est/err: 3.75e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  121.6
+Err_lamh:     176.6
+Err_lamh_AC:  410.9
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 6
+DOF: 8052, # Tri: 226 
+ii = 6, Err_lamh :  1.59e-04, tol/err: 6.29e-11
+ii = 6, Estimate: 5.14e-05, tol/est: 1.95e-10
+est/err: 3.23e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  63.1
+Err_lamh:     75.6
+Err_lamh_AC:  75.5
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 9056, # Tri: 254 
+ii = 7, Err_lamh :  6.39e-05, tol/err: 1.56e-10
+ii = 7, Estimate: 2.15e-05, tol/est: 4.66e-10
+est/err: 3.36e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  151.0
+Err_lamh:     188.1
+Err_lamh_AC:  191.3
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 8
+DOF: 12243, # Tri: 548 
+ii = 8, Err_lamh :  6.32e-05, tol/err: 1.58e-10
+ii = 8, Estimate: 2.98e-05, tol/est: 3.36e-10
+est/err: 4.72e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  205.1
+Err_lamh:     374.4
+Err_lamh_AC:  884.6
+
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 69797, # Tri: 5833 
+ii = 7, Err_lamh :  3.12e-04, tol/err: 3.21e-11
+ii = 7, Estimate: 1.20e-04, tol/est: 8.34e-11
+est/err: 3.84e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  410.9
+Err_lamh:     303.9
+Err_lamh_AC:  89.4
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+[Warning: Setting the "WindowButtonUpFcn" property is not permitted while this mode is
+active.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>localModeWarn', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 226)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>localModeWarn</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',226,0)">line 226</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))', '/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m', 94)" style="font-weight:bold">matlab.uitools.internal.uimodemanager>@(obj,evd)(localModeWarn(obj,evd,hThis))</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/uitools/+matlab/+uitools/+internal/@uimodemanager/uimodemanager.m',94,0)">line 94</a>)
+  In matlab.graphics.illustration.Legend/doMethod>clear_buttondown_state
+  In matlab.graphics.illustration.Legend/doMethod>bdowncb] 
+close all
+diary off
