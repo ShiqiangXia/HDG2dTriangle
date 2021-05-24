@@ -13,9 +13,11 @@ function marked = ACh_ErrEstimate(Est_elewise_list,TOL,percent, mark_flag)
         [s,i] = sort(temp_err_est,'descend');
         nn = size(temp_err_est,1);
         marked = zeros(nn,1);
-        part_sum = 0;
         
-        for jj = 1:nn
+        marked(i(1)) = 1;
+        part_sum = s(1);
+        
+        for jj = 2:nn
             
             if part_sum < criterion
                 marked(i(jj)) = 1;
@@ -23,9 +25,10 @@ function marked = ACh_ErrEstimate(Est_elewise_list,TOL,percent, mark_flag)
                 break;
             end
             part_sum = part_sum + s(jj);
+            
         end
         
-        PercentPlot(s,jj);
+        %PercentPlot(s,jj);
         
         
     elseif mark_flag == 2 % equi distribute error
@@ -51,6 +54,31 @@ function marked = ACh_ErrEstimate(Est_elewise_list,TOL,percent, mark_flag)
         for jj = 1:N_mark
             marked(i(jj)) = 1;
         end
+        
+    elseif mark_flag == 4
+        
+        temp_err_est = abs(Est_elewise_list);
+        total_err_est = sum(temp_err_est);
+        
+        
+        [s,i] = sort(temp_err_est,'descend');
+        nn = size(temp_err_est,1);
+        marked = zeros(nn,1);
+        
+        criterion = 2.0/nn;
+        
+        for jj = 1:nn
+            
+            if (s(jj)/total_err_est)> criterion
+                marked(i(jj)) = 1;
+            else
+                break;
+            end
+            
+        end
+        
+        %PercentPlot(s,jj);
+        
         
         
     else

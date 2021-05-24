@@ -239,7 +239,7 @@ function para = SetParameters_Ellipitc(varargin)
 
     %tol_adp = 1e-7; %. 
     
-    percent = 0.6;
+    percent = 0.7;
     
     reduce_ratio=1e-10; 
     % if estimator(ii)/estimator(1)<= reduce_ratio, stop iteratios

@@ -584,7 +584,7 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii == Niter
+            if ii <= Niter
                 mymesh.Plot(0);
                 title_text = append('Final mesh ', num2str(ii), ' when k = ', num2str(para.order));
                 title({title_text,pb_text_info});
