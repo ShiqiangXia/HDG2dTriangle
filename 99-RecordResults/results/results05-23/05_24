@@ -1,0 +1,1138 @@
+% dorfler 70%
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case: u corner singularity and g=1 smooth
+TOL : 1.00e-05
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-05
+Adptive iterations: 3
+DOF: 1591, # Tri: 135 
+ii = 3, Err_Jh :  -7.16e-07, tol/err: -1.40e+01
+ii = 3, Estimate: -2.88e-06, tol/est: -3.47e+00
+est/err: 4.03e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  1.33e+01
+Reduced ratio Err_Jh:     -4.12e+01
+Reduced ratio Err_Jh_AC:  5.39e+00
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-05
+Adptive iterations: 1
+DOF: 696, # Tri: 32 
+ii = 1, Err_Jh :  7.63e-06, tol/err: 1.31e+00
+ii = 1, Estimate: 4.88e-06, tol/est: 2.05e+00
+est/err: 6.40e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  1.00e+00
+Reduced ratio Err_Jh:     1.00e+00
+Reduced ratio Err_Jh_AC:  1.00e+00
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-05
+Adptive iterations: 1
+DOF: 1120, # Tri: 32 
+ii = 1, Err_Jh :  2.01e-06, tol/err: 4.98e+00
+ii = 1, Estimate: 1.23e-06, tol/est: 8.10e+00
+est/err: 6.15e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  1.00e+00
+Reduced ratio Err_Jh:     1.00e+00
+Reduced ratio Err_Jh_AC:  1.00e+00
+TOL : 1.00e-06
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 4
+DOF: 3938, # Tri: 332 
+ii = 4, Err_Jh :  -4.47e-07, tol/err: -2.24e+00
+ii = 4, Estimate: -7.65e-07, tol/est: -1.31e+00
+est/err: 1.71e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  5.02e+01
+Reduced ratio Err_Jh:     -6.61e+01
+Reduced ratio Err_Jh_AC:  1.71e+01
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 2
+DOF: 783, # Tri: 36 
+ii = 2, Err_Jh :  1.22e-06, tol/err: 8.17e-01
+ii = 2, Estimate: 7.62e-07, tol/est: 1.31e+00
+est/err: 6.23e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  6.41e+00
+Reduced ratio Err_Jh:     6.23e+00
+Reduced ratio Err_Jh_AC:  6.60e+00
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 2
+DOF: 1260, # Tri: 36 
+ii = 2, Err_Jh :  3.28e-07, tol/err: 3.05e+00
+ii = 2, Estimate: 2.03e-07, tol/est: 4.94e+00
+est/err: 6.18e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  6.09e+00
+Reduced ratio Err_Jh:     6.12e+00
+Reduced ratio Err_Jh_AC:  5.94e+00
+TOL : 1.00e-07
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 6
+DOF: 18406, # Tri: 1542 
+ii = 6, Err_Jh :  -3.55e-08, tol/err: -2.82e+00
+ii = 6, Estimate: -5.24e-08, tol/est: -1.91e+00
+est/err: 1.48e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  7.33e+02
+Reduced ratio Err_Jh:     -8.32e+02
+Reduced ratio Err_Jh_AC:  2.33e+02
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 3
+DOF: 1251, # Tri: 57 
+ii = 3, Err_Jh :  1.47e-07, tol/err: 6.79e-01
+ii = 3, Estimate: 9.03e-08, tol/est: 1.11e+00
+est/err: 6.13e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  5.41e+01
+Reduced ratio Err_Jh:     5.18e+01
+Reduced ratio Err_Jh_AC:  1.15e+02
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 3
+DOF: 1400, # Tri: 40 
+ii = 3, Err_Jh :  5.39e-08, tol/err: 1.86e+00
+ii = 3, Estimate: 3.50e-08, tol/est: 2.85e+00
+est/err: 6.51e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  3.52e+01
+Reduced ratio Err_Jh:     3.73e+01
+Reduced ratio Err_Jh_AC:  3.61e+01
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Linear functinals J(u) = <q*n, psi>
+
+
+
+Case: u corner singularity and v discontinuous 
+TOL : 1.00e-05
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-05
+Adptive iterations: 6
+DOF: 5948, # Tri: 500 
+ii = 6, Err_Jh :  -5.42e-06, tol/err: -1.85e+00
+ii = 6, Estimate: -4.66e-06, tol/est: -2.15e+00
+est/err: 8.60e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  7.91e+02
+Reduced ratio Err_Jh:     -4.60e+02
+Reduced ratio Err_Jh_AC:  -2.71e+02
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-05
+Adptive iterations: 3
+DOF: 1164, # Tri: 53 
+ii = 3, Err_Jh :  4.29e-06, tol/err: 2.33e+00
+ii = 3, Estimate: -9.63e-06, tol/est: -1.04e+00
+est/err: -2.25e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  -3.42e+02
+Reduced ratio Err_Jh:     2.50e+02
+Reduced ratio Err_Jh_AC:  4.98e+02
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-05
+Adptive iterations: 2
+DOF: 1260, # Tri: 36 
+ii = 2, Err_Jh :  -9.19e-07, tol/err: -1.09e+01
+ii = 2, Estimate: 2.83e-06, tol/est: 3.53e+00
+est/err: -3.08e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  2.38e+01
+Reduced ratio Err_Jh:     5.63e+02
+Reduced ratio Err_Jh_AC:  4.89e+02
+TOL : 1.00e-06
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 8
+DOF: 27698, # Tri: 2318 
+ii = 8, Err_Jh :  -4.53e-07, tol/err: -2.21e+00
+ii = 8, Estimate: -4.59e-07, tol/est: -2.18e+00
+est/err: 1.01e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  8.02e+03
+Reduced ratio Err_Jh:     -5.51e+03
+Reduced ratio Err_Jh_AC:  -3.24e+03
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 5
+DOF: 3150, # Tri: 142 
+ii = 5, Err_Jh :  -1.15e-07, tol/err: -8.70e+00
+ii = 5, Estimate: -2.28e-07, tol/est: -4.38e+00
+est/err: 1.99e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  -1.44e+04
+Reduced ratio Err_Jh:     -9.33e+03
+Reduced ratio Err_Jh_AC:  -2.93e+03
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-06
+Adptive iterations: 3
+DOF: 2010, # Tri: 57 
+ii = 3, Err_Jh :  -1.26e-07, tol/err: -7.93e+00
+ii = 3, Estimate: -3.22e-07, tol/est: -3.10e+00
+est/err: 2.56e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  -2.09e+02
+Reduced ratio Err_Jh:     4.11e+03
+Reduced ratio Err_Jh_AC:  3.58e+03
+TOL : 1.00e-07
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 10
+DOF: 118058, # Tri: 9858 
+ii = 10, Err_Jh :  -4.52e-08, tol/err: -2.21e+00
+ii = 10, Estimate: -4.46e-08, tol/est: -2.24e+00
+est/err: 9.86e-01
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  8.27e+04
+Reduced ratio Err_Jh:     -5.51e+04
+Reduced ratio Err_Jh_AC:  -3.33e+04
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 6
+DOF: 6441, # Tri: 289 
+ii = 6, Err_Jh :  -4.62e-10, tol/err: -2.16e+02
+ii = 6, Estimate: -3.57e-09, tol/est: -2.80e+01
+est/err: 7.73e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  -9.21e+05
+Reduced ratio Err_Jh:     -2.32e+06
+Reduced ratio Err_Jh_AC:  -8.75e+04
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Error Tolerence: 1.00e-07
+Adptive iterations: 4
+DOF: 2972, # Tri: 84 
+ii = 4, Err_Jh :  1.44e-08, tol/err: 6.95e+00
+ii = 4, Estimate: 1.83e-08, tol/est: 5.46e+00
+est/err: 1.27e+00
+
+Reduce ratio goal: 1.00e+10
+Reduced ratio Estimae :  3.68e+03
+Reduced ratio Err_Jh:     -3.59e+04
+Reduced ratio Err_Jh_AC:  -2.30e+04
+close all
+
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 5.00e-03
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 4
+DOF: 9692, # Tri: 814 
+ii = 4, Err_lamh :  4.95e-03, tol/err: 1.01e+00
+ii = 4, Estimate: 1.94e-03, tol/est: 2.58e+00
+est/err: 3.91e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  25.5
+Err_lamh:     19.2
+Err_lamh_AC:  9.0
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 2
+DOF: 2604, # Tri: 118 
+ii = 2, Err_lamh :  1.07e-02, tol/err: 4.66e-01
+ii = 2, Estimate: 3.04e-03, tol/est: 1.65e+00
+est/err: 2.83e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  2.0
+Err_lamh:     2.2
+Err_lamh_AC:  2.2
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 1
+DOF: 3392, # Tri: 96 
+ii = 1, Err_lamh :  1.20e-02, tol/err: 4.16e-01
+ii = 1, Estimate: 3.24e-03, tol/est: 1.54e+00
+est/err: 2.70e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  1.0
+Err_lamh:     1.0
+Err_lamh_AC:  1.0
+TOL : 5.00e-04
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 6
+DOF: 34719, # Tri: 2905 
+ii = 6, Err_lamh :  8.01e-04, tol/err: 6.24e-01
+ii = 6, Estimate: 3.14e-04, tol/est: 1.59e+00
+est/err: 3.92e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  157.0
+Err_lamh:     118.4
+Err_lamh_AC:  46.3
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 5
+DOF: 5427, # Tri: 244 
+ii = 5, Err_lamh :  9.10e-04, tol/err: 5.50e-01
+ii = 5, Estimate: 3.77e-04, tol/est: 1.33e+00
+est/err: 4.14e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  16.2
+Err_lamh:     26.0
+Err_lamh_AC:  37.8
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 4
+DOF: 6044, # Tri: 170 
+ii = 4, Err_lamh :  1.00e-03, tol/err: 5.00e-01
+ii = 4, Estimate: 3.16e-04, tol/est: 1.58e+00
+est/err: 3.16e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  10.2
+Err_lamh:     12.0
+Err_lamh_AC:  11.9
+TOL : 5.00e-05
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/Source problem/Elliptic/HDG_AssembleGlobalEquation_LHS_Elliptic.m',43,1)">43  </a>                end
+if system_dependent('IsDebugMode')==1, dbquit; end
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.500000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.500000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 5.00e-03
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 5
+DOF: 7542, # Tri: 634 
+ii = 5, Err_lamh :  7.95e-03, tol/err: 6.29e-01
+ii = 5, Estimate: 3.26e-03, tol/est: 1.53e+00
+est/err: 4.11e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  104.2
+Err_lamh:     56.6
+Err_lamh_AC:  -145.0
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 3
+DOF: 2037, # Tri: 92 
+ii = 3, Err_lamh :  1.02e-02, tol/err: 4.90e-01
+ii = 3, Estimate: 3.28e-03, tol/est: 1.52e+00
+est/err: 3.21e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  8.2
+Err_lamh:     6.7
+Err_lamh_AC:  5.9
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 2
+DOF: 1620, # Tri: 46 
+ii = 2, Err_lamh :  1.35e-02, tol/err: 3.70e-01
+ii = 2, Estimate: 3.88e-03, tol/est: 1.29e+00
+est/err: 2.88e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  2.1
+Err_lamh:     2.2
+Err_lamh_AC:  2.2
+TOL : 5.00e-04
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 8
+DOF: 54340, # Tri: 4544 
+ii = 8, Err_lamh :  4.82e-04, tol/err: 1.04e+00
+ii = 8, Estimate: 1.83e-04, tol/est: 2.73e+00
+est/err: 3.80e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  1854.6
+Err_lamh:     933.3
+Err_lamh_AC:  -1668.5
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 6
+DOF: 5745, # Tri: 258 
+ii = 6, Err_lamh :  6.91e-04, tol/err: 7.23e-01
+ii = 6, Estimate: 2.49e-04, tol/est: 2.01e+00
+est/err: 3.61e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  108.1
+Err_lamh:     98.7
+Err_lamh_AC:  101.4
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-04
+Adptive iterations: 5
+DOF: 4920, # Tri: 138 
+ii = 5, Err_lamh :  1.03e-03, tol/err: 4.83e-01
+ii = 5, Estimate: 3.55e-04, tol/est: 1.41e+00
+est/err: 3.43e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  23.2
+Err_lamh:     29.1
+Err_lamh_AC:  31.2
+TOL : 5.00e-05
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/04-HDG/EigenProblem/ellitpic/HDG_Eig_AssembleMlambda_Elliptic.m',55,1)">55  </a>                end
+estimator_list
+
+estimator_list =
+
+  Columns 1 through 7
+
+   3.3984e-01   7.1991e-02   2.4426e-02   8.6647e-03   3.2627e-03   1.2780e-03   5.0420e-04
+
+  Column 8
+
+   1.8325e-04
+
+if system_dependent('IsDebugMode')==1, dbquit; end
+diary off
