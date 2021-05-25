@@ -584,7 +584,7 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii <= Niter
+            if ii >Niter
                 mymesh.Plot(0);
                 title_text = append('Final mesh ', num2str(ii), ' when k = ', num2str(para.order));
                 title({title_text,pb_text_info});
@@ -889,9 +889,10 @@ function EllipticProblemDriver(para)
                     elseif para.post_process_flag == 1
                         start_id = 2;
                         end_id = ii;
+                        temp_corrected_error = err_Jh_list(start_id:end_id)-ratio_temp.*estimate_err_Jh(start_id:end_id);
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs')%,...
-                                %0.5*log10(mesh_list(start_id:end_id)),log10(abs(ratio_temp.*estimate_err_Jh(start_id:end_id))),'--k*');
+                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
+                                0.5*log10(mesh_list(start_id:end_id)),log10(abs(temp_corrected_error)),'--k*');
                         legend('|J(u)-J(u_h)|','D_h','C*D_h')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
@@ -899,9 +900,12 @@ function EllipticProblemDriver(para)
                     end
                     
                     figure;
-                    plot(mesh_list(1:ii),abs(err_Jh_list(1:ii)./estimate_err_Jh(1:ii)),'--bs',...
-                        mesh_list(1:ii-1),ratio_temp,'--rx');
-                    legend('ratio: |err/est|','estimate ratio');
+                    %plot(mesh_list(1:ii),abs(err_Jh_list(1:ii)./estimate_err_Jh(1:ii)),'--bs',...
+                    %    mesh_list(1:ii-1),ratio_temp,'--rx');
+                    %legend('ratio: |err/est|','estimate ratio');
+                    
+                    plot(1:ii,abs(err_Jh_list(1:ii)./estimate_err_Jh(1:ii)),'--bs');
+                    legend('I_{eff}=|err/est|');
                 end
                 %%
                 
@@ -1031,10 +1035,12 @@ function EllipticProblemDriver(para)
                     elseif para.post_process_flag == 1
                         star_id = 1;
                         end_id = ii-1;
-                        temp_ratio_list = abs(ratio_temp'.*abs(ACh_list(star_id:end_id,tag_eig)+est_terms_sum_list(star_id:end_id)));
+                        temp_est_list = ratio_temp'.*abs(ACh_list(star_id:end_id,tag_eig)+est_terms_sum_list(star_id:end_id));
+                        temp_corrected_err_list = err_lamh2_list(star_id:end_id,tag_eig) - temp_est_list;
+                        
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
                             0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
-                        0.5*log10(mesh_list(star_id:end_id)),log10(temp_ratio_list),'--ks');
+                        0.5*log10(mesh_list(star_id:end_id)),log10(abs(temp_corrected_err_list)),'--ks');
                         legend('|\lambda - \lambda_h|','D_h','C*D_h');%,'Err-lamh-AC-Dh')
                         title('Log plot of errors and estimator');
                     
@@ -1044,9 +1050,13 @@ function EllipticProblemDriver(para)
                     
                     figure;
                     
-                    plot(mesh_list(1:ii),err_lamh_tag(1:ii)./estimate_err_lamh(1:ii),'--bs',...
-                       mesh_list(1:ii-1), ratio_temp,'--rx');
-                    legend('ratio: |err/est|','estimate ratio');
+%                     plot(mesh_list(1:ii),err_lamh_tag(1:ii)./estimate_err_lamh(1:ii),'--bs',...
+%                        mesh_list(1:ii-1), ratio_temp,'--rx');
+%                     legend('ratio: |err/est|','estimate ratio');
+%                     
+                    plot(1:ii,abs(err_lamh_tag(1:ii)./estimate_err_lamh(1:ii)),'--bs');
+                    legend('I_{eff}=|err/est|');
+                    
                     
                     
                 end
