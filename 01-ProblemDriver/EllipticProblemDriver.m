@@ -672,7 +672,11 @@ function EllipticProblemDriver(para)
                 
                 fprintf('\nEstimate constant:\n')
                 ratio_temp = (Jh_list(2:ii) - Jh_list(1:ii-1))...
-                    ./(estimator_list(1:ii-1) - estimator_list(2:ii));
+                   ./(estimator_list(1:ii-1) - estimator_list(2:ii));
+                
+%                 ratio_temp = (err_Jh_list(2:ii) - err_Jh_list(1:ii-1))...
+%                     ./(estimator_list(1:ii-1) - estimator_list(2:ii));
+                
                 disp(ratio_temp);
                 
                 
@@ -883,10 +887,11 @@ function EllipticProblemDriver(para)
                         title(title_text);
 
                     elseif para.post_process_flag == 1
-
+                        start_id = 2;
+                        end_id = ii;
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
-                                0.5*log10(mesh_list(1:ii-1)),log10(abs(ratio_temp.*estimate_err_Jh(1:ii-1))),'--k*');
+                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs')%,...
+                                %0.5*log10(mesh_list(start_id:end_id)),log10(abs(ratio_temp.*estimate_err_Jh(start_id:end_id))),'--k*');
                         legend('|J(u)-J(u_h)|','D_h','C*D_h')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
@@ -1024,11 +1029,12 @@ function EllipticProblemDriver(para)
                         title('Log plot of errors and estimator');
                     
                     elseif para.post_process_flag == 1
-                        
-                        temp_ratio_list = abs(ratio_temp'.*abs(ACh_list(1:ii-1,tag_eig)+est_terms_sum_list(1:ii-1)));
+                        star_id = 1;
+                        end_id = ii-1;
+                        temp_ratio_list = abs(ratio_temp'.*abs(ACh_list(star_id:end_id,tag_eig)+est_terms_sum_list(star_id:end_id)));
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
                             0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
-                        0.5*log10(mesh_list(1:ii-1)),log10(temp_ratio_list),'--ks');
+                        0.5*log10(mesh_list(star_id:end_id)),log10(temp_ratio_list),'--ks');
                         legend('|\lambda - \lambda_h|','D_h','C*D_h');%,'Err-lamh-AC-Dh')
                         title('Log plot of errors and estimator');
                     
