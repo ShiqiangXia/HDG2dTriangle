@@ -1,0 +1,301 @@
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 69797, # Tri: 5833 
+ii = 7, Err_lamh :  3.12e-04, tol/err: 3.21e-11
+ii = 7, Estimate: 1.20e-04, tol/est: 8.34e-11
+est/err: 3.84e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  410.9
+Err_lamh:     303.9
+Err_lamh_AC:  89.4
+
+Estimate constant:
+  Columns 1 through 3
+
+           1.7155312902363          2.95617139486071          2.13023735892585
+
+  Columns 4 through 6
+
+          2.62874360784188          2.40554231442405           2.5217722830072
+
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      |AC+Dh      ratio      |eh_AC_Dh   order      |
+1.12e+03   |9.48e-02   0.00e+00   |4.93e-02   1.92e+00   |4.55e-02   0.00e+00   |
+2.65e+03   |3.00e-02   2.67e+00   |1.15e-02   2.61e+00   |1.85e-02   2.09e+00   |
+5.26e+03   |1.33e-02   2.37e+00   |5.87e-03   2.27e+00   |7.46e-03   2.65e+00   |
+9.69e+03   |4.95e-03   3.24e+00   |1.94e-03   2.56e+00   |3.01e-03   2.97e+00   |
+1.99e+04   |2.04e-03   2.47e+00   |8.30e-04   2.46e+00   |1.21e-03   2.54e+00   |
+3.47e+04   |8.01e-04   3.35e+00   |3.14e-04   2.55e+00   |4.87e-04   3.26e+00   |
+6.98e+04   |3.12e-04   2.70e+00   |1.20e-04   2.60e+00   |1.92e-04   2.67e+00   |
+
+Estimate and Correct
+------------------------------
+Mesh       |C          C*Dh       |err-C*Dh   
+2.00e+00   |1.72e+00   1.98e-02   |1.03e-02   
+3.00e+00   |2.96e+00   1.74e-02   |-4.02e-03  
+4.00e+00   |2.13e+00   4.13e-03   |8.26e-04   
+5.00e+00   |2.63e+00   2.18e-03   |-1.39e-04  
+6.00e+00   |2.41e+00   7.55e-04   |4.60e-05   
+7.00e+00   |2.52e+00   3.03e-04   |9.49e-06   
+
+
+
+test_adaptive_refinement
+Adaptive Refinement
+Initial mesh h0 = 0.250000
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 69797, # Tri: 5833 
+ii = 7, Err_lamh :  3.12e-04, tol/err: 3.21e-11
+ii = 7, Estimate: 1.20e-04, tol/est: 8.34e-11
+est/err: 3.84e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  410.9
+Err_lamh:     303.9
+Err_lamh_AC:  89.4
+
+Estimate constant:
+  Columns 1 through 3
+
+           1.7155312902363          2.95617139486071          2.13023735892585
+
+  Columns 4 through 6
+
+          2.62874360784188          2.40554231442405           2.5217722830072
+
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      |Dh(+ACh)   ratio      |eh_AC_Dh   order      |
+1.12e+03   |9.48e-02   0.00e+00   |4.93e-02   1.92e+00   |4.55e-02   0.00e+00   |
+2.65e+03   |3.00e-02   2.67e+00   |1.15e-02   2.61e+00   |1.85e-02   2.09e+00   |
+5.26e+03   |1.33e-02   2.37e+00   |5.87e-03   2.27e+00   |7.46e-03   2.65e+00   |
+9.69e+03   |4.95e-03   3.24e+00   |1.94e-03   2.56e+00   |3.01e-03   2.97e+00   |
+1.99e+04   |2.04e-03   2.47e+00   |8.30e-04   2.46e+00   |1.21e-03   2.54e+00   |
+3.47e+04   |8.01e-04   3.35e+00   |3.14e-04   2.55e+00   |4.87e-04   3.26e+00   |
+6.98e+04   |3.12e-04   2.70e+00   |1.20e-04   2.60e+00   |1.92e-04   2.67e+00   |
+
+Estimate and Correct
+------------------------------
+Mesh       |C          C*Dh       |err/C*Dh   err-C*Dh   |
+2.00e+00   |1.72e+00   1.98e-02   |1.52e+00   1.03e-02   |
+3.00e+00   |2.96e+00   1.74e-02   |7.68e-01   -4.02e-03  |
+4.00e+00   |2.13e+00   4.13e-03   |1.20e+00   8.26e-04   |
+5.00e+00   |2.63e+00   2.18e-03   |9.36e-01   -1.39e-04  |
+6.00e+00   |2.41e+00   7.55e-04   |1.06e+00   4.60e-05   |
+7.00e+00   |2.52e+00   3.03e-04   |1.03e+00   9.49e-06   |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 9954, # Tri: 446 
+ii = 7, Err_lamh :  1.34e-04, tol/err: 7.47e-11
+ii = 7, Estimate: 5.02e-05, tol/est: 1.99e-10
+est/err: 3.75e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  121.6
+Err_lamh:     176.6
+Err_lamh_AC:  410.9
+
+Estimate constant:
+  Columns 1 through 3
+
+          4.20250392604103          4.34152371405782          3.27113309153067
+
+  Columns 4 through 6
+
+          2.72583828061254          2.26435596295369          2.78240742249782
+
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      |Dh(+ACh)   ratio      |eh_AC_Dh   order      |
+2.11e+03   |2.36e-02   0.00e+00   |6.11e-03   3.87e+00   |1.75e-02   0.00e+00   |
+2.60e+03   |1.07e-02   7.54e+00   |3.04e-03   3.53e+00   |7.70e-03   7.86e+00   |
+3.10e+03   |5.15e-03   8.48e+00   |1.75e-03   2.94e+00   |3.40e-03   9.44e+00   |
+3.95e+03   |2.20e-03   7.01e+00   |8.49e-04   2.59e+00   |1.35e-03   7.61e+00   |
+5.43e+03   |9.10e-04   5.54e+00   |3.77e-04   2.42e+00   |5.33e-04   5.83e+00   |
+7.76e+03   |3.32e-04   5.63e+00   |1.22e-04   2.73e+00   |2.11e-04   5.19e+00   |
+9.95e+03   |1.34e-04   7.31e+00   |5.02e-05   2.67e+00   |8.36e-05   7.43e+00   |
+
+Estimate and Correct
+------------------------------
+Mesh       |C          C*Dh       |err/C*Dh   err-C*Dh   |
+2.00e+00   |4.20e+00   1.28e-02   |8.41e-01   -2.03e-03  |
+3.00e+00   |4.34e+00   7.61e-03   |6.77e-01   -2.46e-03  |
+4.00e+00   |3.27e+00   2.78e-03   |7.91e-01   -5.80e-04  |
+5.00e+00   |2.73e+00   1.03e-03   |8.86e-01   -1.17e-04  |
+6.00e+00   |2.26e+00   2.75e-04   |1.21e+00   5.71e-05   |
+7.00e+00   |2.78e+00   1.40e-04   |9.58e-01   -5.89e-06  |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 7
+DOF: 9056, # Tri: 254 
+ii = 7, Err_lamh :  6.39e-05, tol/err: 1.56e-10
+ii = 7, Estimate: 2.15e-05, tol/est: 4.66e-10
+est/err: 3.36e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator ACh:  151.0
+Err_lamh:     188.1
+Err_lamh_AC:  191.3
+
+Estimate constant:
+  Columns 1 through 3
+
+          3.88053718453428          3.88861250627538          3.17891021095393
+
+  Columns 4 through 6
+
+          3.17765614214723           3.1767449244987          3.17644713143932
+
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      |Dh(+ACh)   ratio      |eh_AC_Dh   order      |
+3.39e+03   |1.20e-02   0.00e+00   |3.24e-03   3.71e+00   |8.78e-03   0.00e+00   |
+4.18e+03   |5.37e-03   7.72e+00   |1.53e-03   3.52e+00   |3.84e-03   7.91e+00   |
+4.97e+03   |2.51e-03   8.80e+00   |7.92e-04   3.17e+00   |1.72e-03   9.31e+00   |
+6.04e+03   |1.00e-03   9.39e+00   |3.16e-04   3.16e+00   |6.84e-04   9.40e+00   |
+7.05e+03   |3.99e-04   1.20e+01   |1.27e-04   3.14e+00   |2.72e-04   1.20e+01   |
+8.05e+03   |1.59e-04   1.38e+01   |5.14e-05   3.09e+00   |1.08e-04   1.39e+01   |
+9.06e+03   |6.39e-05   1.55e+01   |2.15e-05   2.98e+00   |4.25e-05   1.58e+01   |
+
+Estimate and Correct
+------------------------------
+Mesh       |C          C*Dh       |err/C*Dh   err-C*Dh   |
+2.00e+00   |3.88e+00   5.93e-03   |9.06e-01   -5.54e-04  |
+3.00e+00   |3.89e+00   3.08e-03   |8.16e-01   -5.67e-04  |
+4.00e+00   |3.18e+00   1.01e-03   |9.95e-01   -4.76e-06  |
+5.00e+00   |3.18e+00   4.03e-04   |9.89e-01   -4.37e-06  |
+6.00e+00   |3.18e+00   1.63e-04   |9.74e-01   -4.25e-06  |
+7.00e+00   |3.18e+00   6.82e-05   |9.38e-01   -4.24e-06  |
+diary off

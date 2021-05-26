@@ -108,6 +108,7 @@ function [err_Jh,err_Jh_AC,err_Jh_elewise]= Error_Functional(func_type,para,...
     
     
     err_Jh = (J_exact - Jh);
+    
     err_Jh_AC = (J_exact - Jh_AC);
     
 

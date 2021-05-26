@@ -956,7 +956,7 @@ function EllipticProblemDriver(para)
                 fprintf('\nEstimate constant:\n')
                 ratio_temp = (lamh2_list(2:ii,tag_eig) - lamh2_list(1:ii-1,tag_eig))'...
                     ./(estimator_list(1:ii-1) - estimator_list(2:ii));
-                disp(ratio_temp);
+                %disp(ratio_temp);
                 
                 
                 err_lamh_tag = err_lamh2_list(:,tag_eig);                 
@@ -972,20 +972,20 @@ function EllipticProblemDriver(para)
 %                     ReportTable('dof', mesh_list(1:ii),...
 %                         temp_eig{:})
 
-                    tag_text = 'eh_func_';
-                    temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh2_list(1:ii,:),tag_text);
-                    ReportTable('dof', mesh_list(1:ii),...
-                        temp_eig{:})
-
-                    tag_text = 'ACh_eig_';
-                    temp_eig=ParseEigenError(mesh_list(1:ii),ACh_list(1:ii,:),tag_text);
-                    ReportTable('dof', mesh_list(1:ii),...
-                        temp_eig{:})
-
-                    tag_text = 'eh_ac_';
-                    temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh_AC_list(1:ii,:),tag_text);
-                    ReportTable('dof', mesh_list(1:ii),...
-                        temp_eig{:})
+%                     tag_text = 'eh_func_';
+%                     temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh2_list(1:ii,:),tag_text);
+%                     ReportTable('dof', mesh_list(1:ii),...
+%                         temp_eig{:})
+% 
+%                     tag_text = 'ACh_eig_';
+%                     temp_eig=ParseEigenError(mesh_list(1:ii),ACh_list(1:ii,:),tag_text);
+%                     ReportTable('dof', mesh_list(1:ii),...
+%                         temp_eig{:})
+% 
+%                     tag_text = 'eh_ac_';
+%                     temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh_AC_list(1:ii,:),tag_text);
+%                     ReportTable('dof', mesh_list(1:ii),...
+%                         temp_eig{:})
 
 %                     tag_text = 'ratio_';
 %                     temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh2_list(1:ii,:)./ACh_list(1:ii,:),tag_text,0);
@@ -1012,15 +1012,15 @@ function EllipticProblemDriver(para)
                         
                         ReportTable('dof',mesh_list(1:ii),...
                             'err_lamh',err_lamh_tag(1:ii),'order',order_lamh_tag(1:ii),...
-                            'AC+Dh',estimate_err_lamh(1:ii),'ratio',err_lamh_tag(1:ii)./estimate_err_lamh(1:ii),...
+                            'Dh(+ACh)',estimate_err_lamh(1:ii),'ratio',err_lamh_tag(1:ii)./estimate_err_lamh(1:ii),...
                             'eh_AC_Dh',err_lamh_AC_Dh_list(1:ii),'order',order_lamh_AC_Dh(1:ii))
                         
-                        ReportTable('dof',mesh_list(1:ii),...
-                            'err_lamh',err_lamh_tag(1:ii),'order',order_lamh_tag(1:ii),...
-                            'AC',ACh_tag_list(1:ii),'ratio',err_lamh_tag(1:ii)./ACh_tag_list(1:ii),...
-                            'er_lamh_AC',err_lamh_AC_tag(1:ii),'order',order_lamh_AC_tag(1:ii),...
-                            'Dh',est_terms_sum_list(1:ii),'ratio',err_lamh_AC_tag(1:ii)./est_terms_sum_list(1:ii))
-                        
+%                         ReportTable('dof',mesh_list(1:ii),...
+%                             'err_lamh',err_lamh_tag(1:ii),'order',order_lamh_tag(1:ii),...
+%                             'AC',ACh_tag_list(1:ii),'ratio',err_lamh_tag(1:ii)./ACh_tag_list(1:ii),...
+%                             'er_lamh_AC',err_lamh_AC_tag(1:ii),'order',order_lamh_AC_tag(1:ii),...
+%                             'Dh',est_terms_sum_list(1:ii),'ratio',err_lamh_AC_tag(1:ii)./est_terms_sum_list(1:ii))
+%                         
                     end
                 end
                 
@@ -1042,11 +1042,17 @@ function EllipticProblemDriver(para)
                         temp_est_list = ratio_temp'.*abs(ACh_list(star_id:end_id,tag_eig)+est_terms_sum_list(star_id:end_id));
                         temp_corrected_err_list = err_lamh2_list(star_id:end_id,tag_eig) - temp_est_list;
                         
-                        fprintf('\nEigenvalue Estimate C*Dh:\n')
-                        disp(temp_corrected_err_list);
+                        fprintf('\nEstimate and Correct\n');
+                        ReportTable('Mesh',(2:ii)','C',ratio_temp',...
+                            'C*Dh',temp_est_list,...
+                            'err/C*Dh',err_lamh2_list(star_id:end_id,tag_eig)./temp_est_list,...
+                            'C*Dh/err',temp_est_list./err_lamh2_list(star_id:end_id,tag_eig),...
+                            'err-C*Dh',temp_corrected_err_list)
+                        
+                        
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
                             0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
-                        0.5*log10(mesh_list(star_id:end_id)),log10(abs(temp_corrected_err_list)),'--ks');
+                        0.5*log10(mesh_list(star_id:end_id)),log10(abs(temp_est_list)),'--ks');
                         legend('|\lambda - \lambda_h|','D_h','C*D_h');%,'Err-lamh-AC-Dh')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
@@ -1062,12 +1068,18 @@ function EllipticProblemDriver(para)
 %                        mesh_list(1:ii-1), ratio_temp,'--rx');
 %                     legend('ratio: |err/est|','estimate ratio');
 %                     
-                    plot(1:ii,abs(estimate_err_lamh(1:ii)./err_lamh_tag(1:ii)),'--bs');
-                    legend('I_{eff}');
+                    plot(1:ii,abs(estimate_err_lamh(1:ii)./err_lamh_tag(1:ii)),'--bs',...
+                        star_id:end_id, 1.0./ratio_temp,'--rx' );
+                    legend('I_{eff}','I^h_{eff}');
                     xlabel('DOF')
                     title_text = append('Effectivity index when k = ',num2str(para.order));
                     title({title_text,pb_text_info});
-                    
+                    figure;
+                    plot(star_id:end_id,abs(temp_est_list./err_lamh2_list(star_id:end_id,tag_eig)),'--bs');
+                    legend('C*D_h/err');
+                    xlabel('DOF')
+                    title_text = append('Effectivity index when k = ',num2str(para.order));
+                    title({title_text,pb_text_info});
                     
                     
                 end
