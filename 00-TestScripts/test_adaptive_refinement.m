@@ -1,6 +1,6 @@
 h0 = 0.25;
 refine_flag = 1;
-Niter_max = 7;
+Niter_max = 10;
 %TOL_list = [1e-5,1e-6,1e-7];
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
@@ -21,9 +21,6 @@ fprintf('\n\nCase: u corner singularity and g=1 smooth\n')
 
 pb_type = 2011;
 dom_ype = 'Rec';
-
-
-
 
 for ii = 1:N_TOL
     fprintf('TOL : %.2e\n',TOL_list(ii))
@@ -92,7 +89,7 @@ fprintf('\n\nCase:  unit square\n')
 h0 = 0.25;
 pb_type = 2110;
 dom_ype = 'L';
-Niter_max = 6;
+Niter_max = 8;
 %TOL_list = [5*1e-3,5*1e-4,5*1e-5];
 N_TOL = size(TOL_list,2);
 

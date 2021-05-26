@@ -8,7 +8,7 @@ function EllipticProblemDriver(para)
     Niter = para.Niter;
     
     % bonus parameters
-    temp_report_flag = 3;
+    temp_report_flag = 1;
     plot_log_err_flag = 1;
     posterior_estimate_method = 2;
     
@@ -584,9 +584,9 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii >Niter
+            if ii <=Niter
                 mymesh.Plot(0);
-                title_text = append('Final mesh ', num2str(ii), ' when k = ', num2str(para.order));
+                title_text = append('k=', num2str(para.order),', Mesh ', num2str(ii),', DOF=',num2str(mesh_list(ii)));
                 title({title_text,pb_text_info});
             end
             % ------------------------------------------------------------- 
@@ -708,7 +708,7 @@ function EllipticProblemDriver(para)
                 end
 
                 %----------------------------------------------------------
-                if temp_report_flag == 1
+                if temp_report_flag == 2
                 % error terms 
                 if strcmp(pb_type(4),'1') ||  strcmp(pb_type(4),'2')
                     
@@ -904,8 +904,11 @@ function EllipticProblemDriver(para)
                     %    mesh_list(1:ii-1),ratio_temp,'--rx');
                     %legend('ratio: |err/est|','estimate ratio');
                     
-                    plot(1:ii,abs(err_Jh_list(1:ii)./estimate_err_Jh(1:ii)),'--bs');
-                    legend('I_{eff}=|err/est|');
+                    plot(mesh_list(1:ii),abs(estimate_err_Jh(1:ii)./err_Jh_list(1:ii)),'--bs');
+                    title_text = append('Effectivity index when k = ',num2str(para.order));
+                    title({title_text,pb_text_info});
+                    xlabel('DOF');
+                    legend('I_{eff}');
                 end
                 %%
                 
@@ -963,11 +966,11 @@ function EllipticProblemDriver(para)
                 if temp_report_flag == 1
                     
                     
-                    tag_text = 'eh_HDG_';
-                    temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh_list(1:ii,:),tag_text);
-
-                    ReportTable('dof', mesh_list(1:ii),...
-                        temp_eig{:})
+%                     tag_text = 'eh_HDG_';
+%                     temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh_list(1:ii,:),tag_text);
+% 
+%                     ReportTable('dof', mesh_list(1:ii),...
+%                         temp_eig{:})
 
                     tag_text = 'eh_func_';
                     temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh2_list(1:ii,:),tag_text);
@@ -984,11 +987,11 @@ function EllipticProblemDriver(para)
                     ReportTable('dof', mesh_list(1:ii),...
                         temp_eig{:})
 
-                    tag_text = 'ratio_';
-                    temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh2_list(1:ii,:)./ACh_list(1:ii,:),tag_text,0);
-                    fprintf('\n ratio =  err_lambdah/ACh\n');
-                    ReportTable('dof', mesh_list(1:ii),...
-                        temp_eig{:})
+%                     tag_text = 'ratio_';
+%                     temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh2_list(1:ii,:)./ACh_list(1:ii,:),tag_text,0);
+%                     fprintf('\n ratio =  err_lambdah/ACh\n');
+%                     ReportTable('dof', mesh_list(1:ii),...
+%                         temp_eig{:})
                     
                     
                     
@@ -1030,19 +1033,24 @@ function EllipticProblemDriver(para)
                             0.5*log10(mesh_list),log10(abs(err_lamh_AC_list(:,tag_eig))),'--kx',...
                             0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig))),'--rs');
                         legend('Err-lamh','Err-lamh-AC','ACh')
-                        title('Log plot of errors and estimator');
+                        title_text = append('Log plot when k = ',num2str(para.order));
+                        title({title_text,pb_text_info});
                     
                     elseif para.post_process_flag == 1
-                        star_id = 1;
-                        end_id = ii-1;
+                        star_id = 2;
+                        end_id = ii;
                         temp_est_list = ratio_temp'.*abs(ACh_list(star_id:end_id,tag_eig)+est_terms_sum_list(star_id:end_id));
                         temp_corrected_err_list = err_lamh2_list(star_id:end_id,tag_eig) - temp_est_list;
                         
+                        fprintf('\nEigenvalue Estimate C*Dh:\n')
+                        disp(temp_corrected_err_list);
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
                             0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
                         0.5*log10(mesh_list(star_id:end_id)),log10(abs(temp_corrected_err_list)),'--ks');
                         legend('|\lambda - \lambda_h|','D_h','C*D_h');%,'Err-lamh-AC-Dh')
-                        title('Log plot of errors and estimator');
+                        title_text = append('Log plot when k = ',num2str(para.order));
+                        title({title_text,pb_text_info});
+                        
                     
                     else
                         
@@ -1054,8 +1062,11 @@ function EllipticProblemDriver(para)
 %                        mesh_list(1:ii-1), ratio_temp,'--rx');
 %                     legend('ratio: |err/est|','estimate ratio');
 %                     
-                    plot(1:ii,abs(err_lamh_tag(1:ii)./estimate_err_lamh(1:ii)),'--bs');
-                    legend('I_{eff}=|err/est|');
+                    plot(1:ii,abs(estimate_err_lamh(1:ii)./err_lamh_tag(1:ii)),'--bs');
+                    legend('I_{eff}');
+                    xlabel('DOF')
+                    title_text = append('Effectivity index when k = ',num2str(para.order));
+                    title({title_text,pb_text_info});
                     
                     
                     
