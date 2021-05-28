@@ -241,7 +241,7 @@ function para = SetParameters_Ellipitc(varargin)
     
     percent = 0.7;
     
-    reduce_ratio=1e-10; 
+    reduce_ratio=1e-14; 
     % if estimator(ii)/estimator(1)<= reduce_ratio, stop iteratios
 
     para = para.SetExp(precision,GQ_deg,Niter,refine_flag,err_cal_flag,err_analysis_flag,report_flag,visualize_flag,...
