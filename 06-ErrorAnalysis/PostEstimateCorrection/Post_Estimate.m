@@ -22,15 +22,15 @@ function [rlt,Cs] = Post_Estimate(dofs, Jhs, Dhs)
         if ii>1 && ii<N-1
             
             Jh_type = CheckType(ii,abs(dff_Jh));
-            Dh_type = CheckType(ii,Dh);
+            Dh_type = CheckType(ii,abs(Dhs));
             
             if Jh_type == 1 && Dh_type ==2
                 
                 x1 = 0.5*log10(dofs(ii-1));
-                y1 = log10(Dh(ii-1));
+                y1 = log10(abs(Dhs(ii-1)));
                 
                 x3 = 0.5*log10(dofs(ii+1));
-                y3 = log10(Dh(ii+1));
+                y3 = log10(abs(Dhs(ii+1)));
                 
                 slope = (y1 - y3)/(x1-x3);
                 
@@ -39,7 +39,7 @@ function [rlt,Cs] = Post_Estimate(dofs, Jhs, Dhs)
                 
                 Cs(ii,1) = (Jhs(ii) - Jhs(ii-1))/(10^y1 - 10^y2);
                 
-                rlt(ii,1) = Cs(ii,1)*Dhs(ii);
+                rlt(ii,1) = Cs(ii,1)*(10^y2);
                 
             elseif Jh_type == 2 && Dh_type ==1
                 
@@ -48,18 +48,20 @@ function [rlt,Cs] = Post_Estimate(dofs, Jhs, Dhs)
                  
             elseif Jh_type == 2 && Dh_type ==3
                 x1 = 0.5*log10(dofs(ii-1));
-                y1 = log10(Dh(ii-1));
-                x2 = 0.5*log10(dofs(ii));
-                y2 = log10(Dh(ii));
-                
-                slope = (y2-y1)/(x2-x1);
+                y1 = log10(abs(Dhs(ii-1)));
                 
                 x3 = 0.5*log10(dofs(ii+1));
-                y3 = slope*(x3-x1) + y1;
+                y3 = log10(abs(Dhs(ii+1)));
+                
+                slope = (y1 - y3)/(x1-x3);
                 
                 
-                Cs(ii,1) = (Jhs(ii) - Jhs(ii+1))/(10^y3 - 10^y2);
-                rlt(ii,1) = Cs(ii,1)*Dhs(ii);
+                x2 = 0.5*log10(dofs(ii));
+                y2 = slope*(x2-x1)+y1;
+                
+                Cs(ii,1) = (Jhs(ii-1) - Jhs(ii+1))/(Dhs(ii+1) - Dhs(ii-1));
+                
+                rlt(ii,1) = Cs(ii,1)*(10^y2);
             else
                 
                 Cs(ii,1) = (Jhs(ii) - Jhs(ii+1))/(Dhs(ii+1) - Dhs(ii));
