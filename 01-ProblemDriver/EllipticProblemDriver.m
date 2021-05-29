@@ -672,7 +672,7 @@ function EllipticProblemDriver(para)
                 
                 fprintf('\nEstimate constant:\n')
                 
-                Eff_Idx_Estimate(mesh_list(1:ii),Jh_list(1:ii),estimator_list(1:ii));
+                [Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),Jh_list(1:ii),estimator_list(1:ii));
                 ratio_temp = (Jh_list(2:ii) - Jh_list(1:ii-1))...
                    ./(estimator_list(1:ii-1) - estimator_list(2:ii));
                 

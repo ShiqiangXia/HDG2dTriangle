@@ -4,8 +4,8 @@ Niter_max = 8;
 %TOL_list = [1e-5,1e-6,1e-7];
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
-flag_func1 = 1;
-flag_func2 = 0;
+flag_func1 = 0;
+flag_func2 = 1;
 flag_func3 = 0;
 
 flag_k1    = 0;
