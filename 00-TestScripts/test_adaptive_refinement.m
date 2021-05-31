@@ -8,7 +8,7 @@ flag_func1 = 1;
 flag_func2 = 1;
 flag_func3 = 0;
 
-flag_k1    = 1;
+flag_k1    = 0;
 flag_k2    = 1;
 flag_k3    = 1;
 
