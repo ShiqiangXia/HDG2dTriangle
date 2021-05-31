@@ -16,6 +16,10 @@ function [rlt,Cs] = Post_Estimate(dofs, Jhs, Dhs)
     N = size(dofs,1);
     rlt = zeros(N,1,numeric_t);
     Cs = zeros(N,1,numeric_t);
+    if N == 1
+        return
+    end
+    
     dff_Jh = Jhs(1:end-1) - Jhs(2:end);
     if method_flag == 1
         %% 

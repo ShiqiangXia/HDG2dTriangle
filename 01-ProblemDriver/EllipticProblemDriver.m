@@ -598,7 +598,9 @@ function EllipticProblemDriver(para)
                 estimator_functinal = ACh_elewise_list;
             end
             
-            estimator_list(ii) = sum(estimator_functinal);
+            estimator_list(ii) = sum(abs(estimator_functinal));
+            %estimator_list(ii) = sum(estimator_functinal);
+            
             
             if (abs(estimator_list(ii)/estimator_list(1)) < reduce_ratio)
                 fprintf('Esti(ii)/Esti(1)<reduce_ratio\n')
@@ -672,17 +674,14 @@ function EllipticProblemDriver(para)
                 
                 fprintf('\nEstimate constant:\n')
                 
-                [Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),Jh_list(1:ii),estimator_list(1:ii));
-%                 ratio_temp = (Jh_list(2:ii) - Jh_list(1:ii-1))...
-%                    ./(estimator_list(1:ii-1) - estimator_list(2:ii));
-%                 
-%                 ratio_temp = (err_Jh_list(2:ii) - err_Jh_list(1:ii-1))...
-%                     ./(estimator_list(1:ii-1) - estimator_list(2:ii));
                 
-%                 disp(ratio_temp);
-%                 
-                
+
                 estimate_err_Jh = ACh_list+est_terms_sum_list;
+                abs_estimate_err_Jh = estimator_list;
+                
+                [Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),Jh_list(1:ii),estimate_err_Jh(1:ii));
+                
+                
                 if temp_report_flag == 1
                 if para.post_process_flag == 1
                    %%  
@@ -906,15 +905,16 @@ function EllipticProblemDriver(para)
                         figure
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                                 0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
+                                0.5*log10(mesh_list),log10(abs(abs_estimate_err_Jh)),'-gs',...
                                 0.5*log10(mesh_list(start_id:end_id)),log10(abs(Corrected_Dh)),'--dk');
-                        legend('|J(u)-J(u_h)|','D_h','C*D_h')
+                        legend('|J(u)-J(u_h)|','D_h','|D_h|','C*D_h')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
                         
                         figure
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                                 0.5*log10(mesh_list(start_id:end_id)),log10(abs(Corrected_Dh)),'--dk',...
-                                0.5*log10(mesh_list),log10(abs(temp_corrected_error)),'--dm');
+                                0.5*log10(mesh_list(start_id:end_id)),log10(abs(temp_corrected_error)),'--dm');
                         legend('|J(u)-J(u_h)|','C*D_h','|J(u)-J(u_h)-C*D_h|')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
@@ -984,18 +984,19 @@ function EllipticProblemDriver(para)
                 fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1)/err_lamh2_list(ii) );
                 fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
                 
-                [Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),lamh2_list(1:ii,tag_eig),estimator_list(1:ii));
-                
-%                 fprintf('\nEstimate constant:\n')
-%                 ratio_temp = (lamh2_list(2:ii,tag_eig) - lamh2_list(1:ii-1,tag_eig))'...
-%                     ./(estimator_list(1:ii-1) - estimator_list(2:ii));
-%                 %disp(ratio_temp);
-                
+                             
                 
                 err_lamh_tag = err_lamh2_list(:,tag_eig);                 
                 order_lamh_tag = GetOrder(mesh_list,err_lamh_tag);
                 ACh_tag_list = ACh_list(:,tag_eig);
+                
+                
                 estimate_err_lamh = ACh_tag_list+est_terms_sum_list;
+                abs_estimate_err_Jh = estimator_list;
+                
+                [Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),lamh2_list(1:ii,tag_eig),estimate_err_lamh(1:ii));
+                
+                
                 if temp_report_flag == 1
                     
                     
@@ -1085,10 +1086,11 @@ function EllipticProblemDriver(para)
                         
                         figure;
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
-                            0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
+                            0.5*log10(mesh_list),log10(abs(estimate_err_lamh)),'--rx' ,...
+                            0.5*log10(mesh_list),log10(abs(abs_estimate_err_Jh)),'--gx',...
                         0.5*log10(mesh_list(start_id:end_id)),log10(abs(Corrected_Dh)),'--kd')%,...
                         %0.5*log10(mesh_list(1:ii-1)),log10(abs(temp_est_alt)),'--dm');
-                        legend('|\lambda - \lambda_h|','D_h','C*D_h');%,'Err-lamh-AC-Dh')
+                        legend('|\lambda - \lambda_h|','D_h','|D_h|','C*D_h');%,'Err-lamh-AC-Dh')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
                         

@@ -39,7 +39,7 @@ function [est_sum,est1,est2,est3,est4]...
         % est3 = (graduh* + qh, graduh* + qh)  --> (q-qh,q-qh)
         est3 = zeros(num_elements,1,numeric_t);
         
-        % est6 = lamh(uh* - uh, uh* -uh)
+        % est4 = lamh(uh* - uh, uh* -uh)
         est4 = zeros(num_elements,1,numeric_t);
         
         uh_L2 = 0.0;
