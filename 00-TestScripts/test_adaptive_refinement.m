@@ -1,16 +1,16 @@
 
 refine_flag = 1;
-Niter_max = 12;
+Niter_max = 4;
 %TOL_list = [1e-5,1e-6,1e-7];
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
-flag_func1 = 1;
-flag_func2 = 1;
-flag_func3 = 0;
+flag_func1 = 0;
+flag_func2 = 0;
+flag_func3 = 1;
 
-flag_k1    = 1;
+flag_k1    = 0;
 flag_k2    = 1;
-flag_k3    = 1;
+flag_k3    = 0;
 
 if refine_flag == 0
     fprintf('Uniform Refinement')
@@ -116,7 +116,7 @@ end
     h0 = 0.25;
     pb_type = 2110;
     dom_ype = 'L';
-    Niter_max = 10;
+    Niter_max = 3;
     %TOL_list = [5*1e-3,5*1e-4,5*1e-5];
     N_TOL = size(TOL_list,2);
 

@@ -11,6 +11,7 @@ function EllipticProblemDriver(para)
     temp_report_flag = 1;
     plot_log_err_flag = 1;
     posterior_estimate_method = 2;
+    latex_table_flag = 1;
     
     % adaptive 
     mark_flag = 1; % 0: max marking strategy
@@ -271,7 +272,7 @@ function EllipticProblemDriver(para)
             err_Jh_AC_list = zeros(Niter,1,numeric_t);
             ACh_list = zeros(Niter,1,numeric_t);
             err_vh_list = zeros(Niter,1,numeric_t);
-            estimator_list = zeros(Niter,1,numeric_t);
+            estimate_sum_abs_list = zeros(Niter,1,numeric_t);
             
             if err_analysis_flag==1
                 err_terms_sum_list = zeros(Niter,1,numeric_t);
@@ -593,20 +594,21 @@ function EllipticProblemDriver(para)
    
             
             if para.post_process_flag == 1
-                estimator_functinal = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
+                estimate_functinal_elewise = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
             else
-                estimator_functinal = ACh_elewise_list;
+                estimate_functinal_elewise = ACh_elewise_list;
             end
             
-            estimator_list(ii) = sum(estimator_functinal);
+            estimate_sum_abs_list(ii) = sum(abs(estimate_functinal_elewise));
+            %estimator_list(ii) = sum(estimator_functinal);
             
             
-            if (abs(estimator_list(ii)/estimator_list(1)) < reduce_ratio)
+            if (abs(estimate_sum_abs_list(ii)/estimate_sum_abs_list(1)) < reduce_ratio)
                 fprintf('Esti(ii)/Esti(1)<reduce_ratio\n')
                 break; 
             end
             
-            if abs(estimator_list(ii))<tol_adp
+            if abs(estimate_sum_abs_list(ii))<tol_adp
                 fprintf('Esti<TOL\n')
                 break;
             end
@@ -616,7 +618,7 @@ function EllipticProblemDriver(para)
                 
 
                 percent = MyParaParse(para.extra_parameters,'percent');
-                marked_elements = ACh_ErrEstimate(estimator_functinal,tol_adp,percent,mark_flag);
+                marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
 
                 % Plot estimator
                 if ii <= Niter
@@ -649,12 +651,21 @@ function EllipticProblemDriver(para)
         
         if para.report_flag==1 
             
-            ReportProblem(para) 
+            ReportProblem(para)
+            if strcmp(pb_type(2),'0') && strcmp(pb_type(4),'1')
+                my_file_name = 'func1_k';
+            elseif strcmp(pb_type(2),'0') && strcmp(pb_type(4),'2')
+                my_file_name = 'func2_k';
+            elseif strcmp(pb_type(2),'1')
+                my_file_name = 'eig_k';
+            end
             
-            if strcmp(pb_type(2),'0')   
+            if strcmp(pb_type(2),'0') 
                 
-                order_Jh = GetOrder(mesh_list,err_Jh_list);
-                order_Jh_AC = GetOrder(mesh_list,err_Jh_AC_list);
+                estimate_sum_list = ACh_list+est_terms_sum_list;
+                
+                order_Jh = GetOrder(mesh_list,abs(err_Jh_list));
+                order_Jh_AC = GetOrder(mesh_list,abs(err_Jh_AC_list));
                 
                 fprintf('------------------------------\n')
                 
@@ -662,47 +673,58 @@ function EllipticProblemDriver(para)
                 fprintf('Adptive iterations: %d\n',ii);
                 fprintf('DOF: %d, # Tri: %d \n',mesh_list(ii),tri_list(ii) );
                 fprintf('ii = %d, Err_Jh :  %.2e, tol/err: %.2e\n',ii,err_Jh_list(ii),tol_adp/err_Jh_list(ii) );
-                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
+                fprintf('ii = %d, Estimate D|h|: %.2e, tol/est: %.2e\n',ii,estimate_sum_abs_list(ii),tol_adp/estimate_sum_abs_list(ii) );
                
-                fprintf('est/err: %.2e\n',estimator_list(ii)/err_Jh_list(ii) );
+                fprintf('est/err: %.2e\n',estimate_sum_abs_list(ii)/err_Jh_list(ii) );
                 
                 fprintf('\nReduce ratio goal: %.2e\n', 1/reduce_ratio);
-                fprintf('Reduced ratio Estimae :  %.2e\n', estimator_list(1)/estimator_list(ii) ); 
+                fprintf('Reduced ratio Estimae :  %.2e\n', estimate_sum_abs_list(1)/estimate_sum_abs_list(ii) ); 
                 fprintf('Reduced ratio Err_Jh:     %.2e\n',err_Jh_list(1)/err_Jh_list(ii) );
                 fprintf('Reduced ratio Err_Jh_AC:  %.2e\n',err_Jh_AC_list(1)/err_Jh_AC_list(ii));
+
                 
-                fprintf('\nEstimate constant:\n')
+                %[Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),Jh_list(1:ii),estimate_abs_sum_list(1:ii));
                 
-                [Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),Jh_list(1:ii),estimator_list(1:ii));
-%                 ratio_temp = (Jh_list(2:ii) - Jh_list(1:ii-1))...
-%                    ./(estimator_list(1:ii-1) - estimator_list(2:ii));
-%                 
-%                 ratio_temp = (err_Jh_list(2:ii) - err_Jh_list(1:ii-1))...
-%                     ./(estimator_list(1:ii-1) - estimator_list(2:ii));
                 
-%                 disp(ratio_temp);
-%                 
-                
-                estimate_err_Jh = ACh_list+est_terms_sum_list;
                 if temp_report_flag == 1
                 if para.post_process_flag == 1
                    %%  
                     err_Jh_AC_Dh = err_Jh_AC_list - est_terms_sum_list;
-                    order_Jh_AC_Dh = GetOrder(mesh_list,err_Jh_AC_Dh);
+                    order_Jh_AC_Dh = GetOrder(mesh_list,abs(err_Jh_AC_Dh));
                     
-
+                    r1 = abs(estimate_sum_list(1:ii)./err_Jh_list(1:ii));
+                    r2 = abs(estimate_sum_abs_list(1:ii)./err_Jh_list(1:ii));
                     ReportTable('DOF', mesh_list(1:ii),...
                     'err_Jh',err_Jh_list(1:ii),'order',order_Jh(1:ii), ...
-                    'Dh',estimate_err_Jh(1:ii),'|est/err|', abs(estimate_err_Jh(1:ii)./err_Jh_list(1:ii)),...
-                    'err_Jh_Dh',err_Jh_AC_Dh(1:ii),'order',order_Jh_AC_Dh(1:ii) );
-
-                    ReportTable('DOF', mesh_list(1:ii),...
-                        'err_Jh',err_Jh_list(1:ii),'order',order_Jh(1:ii), ...
-                        'ACh',ACh_list(1:ii),'ACh/err', ACh_list(1:ii)./err_Jh_list(1:ii),...
-                        'err_Jh_AC',err_Jh_AC_list(1:ii),'order',order_Jh_AC(1:ii),...
-                        'Dh',est_terms_sum_list(1:ii),'Dh/err_Jh_AC',est_terms_sum_list(1:ii)./err_Jh_AC_list(1:ii));
+                    '|Eh|',abs(estimate_sum_list(1:ii)),'|Eh/err|', r1,...
+                    'Eh_loc',estimate_sum_abs_list(1:ii),'|Eh_loc/err|',r2,...
+                    'err_Jh_Eh',err_Jh_AC_Dh(1:ii),'order',order_Jh_AC_Dh(1:ii) );
+                
+                    if latex_table_flag == 1
+                        table_names = {'Mesh','DOF','Err','order1','|Eh|','r1','Eh_loc','r2','Err_Eh','order2'};
+                        T = table((1:ii)',mesh_list(1:ii),...
+                            abs(err_Jh_list(1:ii)),order_Jh(1:ii), ...
+                            abs(estimate_sum_list(1:ii)),r1,...
+                            estimate_sum_abs_list(1:ii),r2,...
+                            abs(err_Jh_AC_Dh(1:ii)),order_Jh_AC_Dh(1:ii));
+                        
+                        n_decimal = 2;
+                        
+                        new_T = varfun(@(x) num2str(x, ['%' sprintf('.%de', n_decimal)]), T);
+                        
+                        new_T.Properties.VariableNames = table_names;
+                        table_file_name= append('Table_',my_file_name,num2str(para.order));
+                        table2latex(new_T,table_file_name);
+                    end
+%{
+%                     ReportTable('DOF', mesh_list(1:ii),...
+%                         'err_Jh',err_Jh_list(1:ii),'order',order_Jh(1:ii), ...
+%                         'ACh',ACh_list(1:ii),'ACh/err', ACh_list(1:ii)./err_Jh_list(1:ii),...
+%                         'err_Jh_AC',err_Jh_AC_list(1:ii),'order',order_Jh_AC(1:ii),...
+%                         'Dh',est_terms_sum_list(1:ii),'Dh/err_Jh_AC',est_terms_sum_list(1:ii)./err_Jh_AC_list(1:ii));
+                    %}
                 else  
-                    estimate_err_Jh = ACh_list;
+                    estimate_sum_list = ACh_list;
                     ReportTable('DOF', mesh_list(1:ii),...
                         'err_Jh',err_Jh_list(1:ii),'order',order_Jh(1:ii), ...
                         'ACh',ACh_list(1:ii),'ACh/err', ACh_list(1:ii)./err_Jh_list(1:ii),...
@@ -881,65 +903,89 @@ function EllipticProblemDriver(para)
                 %% Plot log-error 
                 
                 if plot_log_err_flag==1
-                    figure;            
+                               
                     if para.post_process_flag == 0
+                        figure; 
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs');
+                                0.5*log10(mesh_list),log10(abs(estimate_sum_list)),'--rs');
                         legend('Err-Jh','ACh')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title(title_text);
 
                     elseif para.post_process_flag == 1
-                        start_id = 1;
-                        end_id = ii;
-                        %temp_est_list = ratio_temp.*estimate_err_Jh(start_id:end_id);
+                        %{
+%                         start_id = 1;
+%                         end_id = ii;
+%                         temp_corrected_error = err_Jh_list(start_id:end_id)-Corrected_Dh;
+%                         
+%                         fprintf('\nEstimate and Correct\n');
+%                         ReportTable('Mesh',(1:ii)','C',C_esti,...
+%                             'C*Dh',Corrected_Dh,...
+%                             'err/C*Dh',err_Jh_list(start_id:end_id)./Corrected_Dh,...
+%                             'C*Dh/err',Corrected_Dh./err_Jh_list(start_id:end_id),...
+%                             'err-C*Dh',temp_corrected_error)
+                        %}
+                        h=figure;
                         
-                        %temp_est_list_alt = Jh_list(2:ii)-Jh_list(1:ii-1);
-                        temp_corrected_error = err_Jh_list(start_id:end_id)-Corrected_Dh;
-                        
-                        fprintf('\nEstimate and Correct\n');
-                        ReportTable('Mesh',(1:ii)','C',C_esti,...
-                            'C*Dh',Corrected_Dh,...
-                            'err/C*Dh',err_Jh_list(start_id:end_id)./Corrected_Dh,...
-                            'C*Dh/err',Corrected_Dh./err_Jh_list(start_id:end_id),...
-                            'err-C*Dh',temp_corrected_error)
-                        
-                        figure
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
-                                0.5*log10(mesh_list),log10(abs(estimate_err_Jh)),'--rs',...
-                                0.5*log10(mesh_list(start_id:end_id)),log10(abs(Corrected_Dh)),'--dk');
-                        legend('|J(u)-J(u_h)|','D_h','C*D_h')
+                            'MarkerSize',15,'LineWidth',1);
+                        hold on
+                        
+                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_list)),'--ks',...
+                            'MarkerSize',15,'LineWidth',1);
+                        
+                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'-rd',...
+                            'MarkerSize',15,'LineWidth',1);
+                        
+                        set(gca,'FontSize',15)
+                        legend('$|J(u)-J(u_h)|$','$|\mathcal{E}_h|$','$\mathcal{E}_h^{loc}$',...
+                            'Interpreter','latex','FontSize',15)
+                        xlabel('$\log_{10}(\sqrt{DOF})$','Interpreter','latex');
+                        ylabel('$\log_{10}(error)$','Interpreter','latex')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
+                        hold off
+                        fig_name = append('Err_',my_file_name,num2str(para.order),'.fig');
+                        savefig(h,fig_name);
                         
+                        %{
                         figure
                         plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
                                 0.5*log10(mesh_list(start_id:end_id)),log10(abs(Corrected_Dh)),'--dk',...
-                                0.5*log10(mesh_list),log10(abs(temp_corrected_error)),'--dm');
+                                0.5*log10(mesh_list(start_id:end_id)),log10(abs(temp_corrected_error)),'--dm');
                         legend('|J(u)-J(u_h)|','C*D_h','|J(u)-J(u_h)-C*D_h|')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
+                        %}
 
                     end
                     
-                    figure;
-                    %plot(mesh_list(1:ii),abs(err_Jh_list(1:ii)./estimate_err_Jh(1:ii)),'--bs',...
-                    %    mesh_list(1:ii-1),ratio_temp,'--rx');
-                    %legend('ratio: |err/est|','estimate ratio');
+                    h=figure;
+                   
+                    plot(1:ii,r1,'--bs',...
+                        'MarkerSize',15,'LineWidth',1)
+                    hold on; 
+                    plot(1:ii, r2,'--rd',...
+                        'MarkerSize',15,'LineWidth',1);
                     
-                    plot(1:ii,abs(estimate_err_Jh(1:ii)./err_Jh_list(1:ii)),'--bs',...
-                      start_id:end_id, 1.0./abs(C_esti),'--rx'  );
+                    set(gca,'FontSize',15)
                     title_text = append('Effectivity index when k = ',num2str(para.order));
                     title({title_text,pb_text_info});
                     xlabel('Mesh');
-                    legend('I_{eff}','I^h_{eff}');
+                    legend('$I_{eff}$','$I^{loc}_{eff}$','Interpreter','latex','FontSize',15);
+                    hold off
                     
+                    fig_name = append('I_',my_file_name,num2str(para.order),'.fig');
+                    savefig(h,fig_name);
+                    
+                    %{
                     figure;
                     plot(start_id:end_id,abs(Corrected_Dh./err_Jh_list(start_id:end_id)),'--bs');
                     legend('C*D_h/err');
                     xlabel('Mesh')
                     title_text = append('Effectivity index when k = ',num2str(para.order));
                     title({title_text,pb_text_info});
+                    %}
                 end
                 %%
                 
@@ -976,30 +1022,31 @@ function EllipticProblemDriver(para)
                 fprintf('Adptive iterations: %d\n',ii);
                 fprintf('DOF: %d, # Tri: %d \n',mesh_list(ii),tri_list(ii) );
                 fprintf('ii = %d, Err_lamh :  %.2e, tol/err: %.2e\n',ii,err_lamh2_list(ii),tol_adp/err_lamh2_list(ii) );
-                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimator_list(ii),tol_adp/estimator_list(ii) );
-                fprintf('est/err: %.2e\n',estimator_list(ii)/err_lamh2_list(ii) );
+                fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimate_sum_abs_list(ii),tol_adp/estimate_sum_abs_list(ii) );
+                fprintf('est/err: %.2e\n',estimate_sum_abs_list(ii)/err_lamh2_list(ii) );
                 fprintf('\nReduce ratio goal: %.1f\n', 1/reduce_ratio);
                 
                 
-                fprintf('Estimator ACh:  %.1f\n',estimator_list(1)/estimator_list(ii) );
+                fprintf('Estimator ACh:  %.1f\n',estimate_sum_abs_list(1)/estimate_sum_abs_list(ii) );
                 fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1)/err_lamh2_list(ii) );
                 fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
                 
-                [Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),lamh2_list(1:ii,tag_eig),estimator_list(1:ii));
-                
-%                 fprintf('\nEstimate constant:\n')
-%                 ratio_temp = (lamh2_list(2:ii,tag_eig) - lamh2_list(1:ii-1,tag_eig))'...
-%                     ./(estimator_list(1:ii-1) - estimator_list(2:ii));
-%                 %disp(ratio_temp);
-                
+                             
                 
                 err_lamh_tag = err_lamh2_list(:,tag_eig);                 
-                order_lamh_tag = GetOrder(mesh_list,err_lamh_tag);
+                order_lamh_tag = GetOrder(mesh_list,abs(err_lamh_tag));
                 ACh_tag_list = ACh_list(:,tag_eig);
-                estimate_err_lamh = ACh_tag_list+est_terms_sum_list;
+                
+                
+                estimate_sum_lis = ACh_tag_list+est_terms_sum_list;
+                abs_estimate_err_Jh = estimate_sum_abs_list;
+                
+                %[Corrected_Dh,C_esti]=Post_Estimate(mesh_list(1:ii),lamh2_list(1:ii,tag_eig),estimate_sum_lamh(1:ii));
+                
+                
                 if temp_report_flag == 1
                     
-                    
+                    %{
 %                     tag_text = 'eh_HDG_';
 %                     temp_eig=ParseEigenError(mesh_list(1:ii),err_lamh_list(1:ii,:),tag_text);
 % 
@@ -1027,34 +1074,53 @@ function EllipticProblemDriver(para)
 %                     ReportTable('dof', mesh_list(1:ii),...
 %                         temp_eig{:})
                     
-                    
+                    %}
                     
                     if para.post_process_flag == 1
                         fprintf('\n')
                         fprintf('Target eigenvalue %d\n',tag_eig);
         
-                        
-                        
                         err_lamh_AC_tag = err_lamh_AC_list(:,tag_eig);
                         order_lamh_AC_tag = GetOrder(mesh_list,err_lamh_AC_tag);
                         
                         err_lamh_AC_Dh_list = err_lamh_AC_tag - est_terms_sum_list;
                         
                         order_lamh_AC_Dh = GetOrder(mesh_list,err_lamh_AC_Dh_list);
-                        ACh_tag_list = ACh_list(:,tag_eig);
-                        estimate_err_lamh = ACh_tag_list+est_terms_sum_list;
+                        
+                        r1=abs(err_lamh_tag(1:ii)./estimate_sum_lamh(1:ii));
+                        r2=abs(estimate_sum_abs_list(1:ii)./estimate_sum_lamh(1:ii));
                         
                         ReportTable('dof',mesh_list(1:ii),...
                             'err_lamh',err_lamh_tag(1:ii),'order',order_lamh_tag(1:ii),...
-                            'Dh(+ACh)',estimate_err_lamh(1:ii),'ratio',err_lamh_tag(1:ii)./estimate_err_lamh(1:ii),...
-                            'eh_AC_Dh',err_lamh_AC_Dh_list(1:ii),'order',order_lamh_AC_Dh(1:ii))
-                        
+                            '|Eh|',abs(estimate_sum_lamh(1:ii)),'|Eh/err|',r1,...
+                            'Eh_loc',estimate_sum_abs_list(1:ii),'|Eh_loc/err|',r2,...
+                            'err_Dh',err_lamh_AC_Dh_list(1:ii),'order',order_lamh_AC_Dh(1:ii))
+                       %{ 
 %                         ReportTable('dof',mesh_list(1:ii),...
 %                             'err_lamh',err_lamh_tag(1:ii),'order',order_lamh_tag(1:ii),...
 %                             'AC',ACh_tag_list(1:ii),'ratio',err_lamh_tag(1:ii)./ACh_tag_list(1:ii),...
 %                             'er_lamh_AC',err_lamh_AC_tag(1:ii),'order',order_lamh_AC_tag(1:ii),...
 %                             'Dh',est_terms_sum_list(1:ii),'ratio',err_lamh_AC_tag(1:ii)./est_terms_sum_list(1:ii))
 %                         
+                            %}
+                        if latex_table_flag == 1
+                            table_names = {'Mesh','DOF','Err','order1','|Eh|','r1','Eh_loc','r2','Err_Eh','order2'};
+                            T = table((1:ii)',mesh_list(1:ii),...
+                                abs(err_lamh_tag(1:ii)),order_lamh_tag(1:ii), ...
+                                abs(estimate_sum_lamh(1:ii)),r1,...
+                                estimate_sum_abs_list(1:ii),r2,...
+                                abs(err_lamh_AC_Dh_list(1:ii)),order_lamh_AC_Dh(1:ii));
+
+                            n_decimal = 2;
+
+                            new_T = varfun(@(x) num2str(x, ['%' sprintf('.%de', n_decimal)]), T);
+
+                            new_T.Properties.VariableNames = table_names;
+                            table_file_name= append('Table_',my_file_name,num2str(para.order));
+                            table2latex(new_T,table_file_name);
+                        end
+                            
+                            
                     end
                 end
                 
@@ -1086,10 +1152,11 @@ function EllipticProblemDriver(para)
                         
                         figure;
                         plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
-                            0.5*log10(mesh_list),log10(abs(ACh_list(:,tag_eig)+est_terms_sum_list)),'--rx' ,...
+                            0.5*log10(mesh_list),log10(abs(estimate_sum_lamh)),'--rx' ,...
+                            0.5*log10(mesh_list),log10(abs(abs_estimate_err_Jh)),'--gx',...
                         0.5*log10(mesh_list(start_id:end_id)),log10(abs(Corrected_Dh)),'--kd')%,...
                         %0.5*log10(mesh_list(1:ii-1)),log10(abs(temp_est_alt)),'--dm');
-                        legend('|\lambda - \lambda_h|','D_h','C*D_h');%,'Err-lamh-AC-Dh')
+                        legend('|\lambda - \lambda_h|','D_h','|D_h|','C*D_h');%,'Err-lamh-AC-Dh')
                         title_text = append('Log plot when k = ',num2str(para.order));
                         title({title_text,pb_text_info});
                         
@@ -1112,7 +1179,7 @@ function EllipticProblemDriver(para)
 %                        mesh_list(1:ii-1), ratio_temp,'--rx');
 %                     legend('ratio: |err/est|','estimate ratio');
 %                     
-                    plot(1:ii,abs(estimate_err_lamh(1:ii)./err_lamh_tag(1:ii)),'--bs',...
+                    plot(1:ii,abs(estimate_sum_lamh(1:ii)./err_lamh_tag(1:ii)),'--bs',...
                         start_id:end_id, abs(1.0./C_esti),'--rx' );
                     legend('I_{eff}','I^h_{eff}');
                     xlabel('Mesh')
