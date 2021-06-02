@@ -1,0 +1,393 @@
+
+test_adaptive_refinement
+Uniform Refinement--------------------------------------------------------------
+--------------------------------------------------------------
+Initial mesh h0 = 0.250000
+
+
+Test Linear functinals J(u) = (u,g)
+
+
+
+Case: u smooth and g smooth
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 1
+Refinement: Uniform
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 24448, # Tri: 2048 
+ii = 4, Err_Jh :  -1.99e-04, tol/err: -5.01e-11
+ii = 4, Estimate D|h|: 2.10e-04, tol/est: 4.75e-11
+est/err: -1.06e+00
+
+Reduce ratio goal: 1.00e+14
+Reduced ratio Estimae :  5.01e+02
+Reduced ratio Err_Jh:     4.18e+02
+Reduced ratio Err_Jh_AC:  6.38e+02
+------------------------------
+DOF        |err_Jh     order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Jh_Eh  order      |
+3.68e+02   |8.33e-02   0.00e+00   |9.13e-02   1.09e+00   |1.05e-01   1.27e+00   |7.92e-03   0.00e+00   |
+1.50e+03   |1.19e-02   2.77e+00   |1.23e-02   1.04e+00   |1.33e-02   1.12e+00   |4.84e-04   3.97e+00   |
+6.08e+03   |1.56e-03   2.90e+00   |1.59e-03   1.02e+00   |1.68e-03   1.07e+00   |2.97e-05   4.00e+00   |
+2.44e+04   |1.99e-04   2.96e+00   |2.01e-04   1.01e+00   |2.10e-04   1.06e+00   |1.83e-06   4.00e+00   |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Uniform
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 45888, # Tri: 2048 
+ii = 4, Err_Jh :  -4.73e-08, tol/err: -2.11e-07
+ii = 4, Estimate D|h|: 5.19e-08, tol/est: 1.93e-07
+est/err: -1.10e+00
+
+Reduce ratio goal: 1.00e+14
+Reduced ratio Estimae :  3.36e+04
+Reduced ratio Err_Jh:     2.74e+04
+Reduced ratio Err_Jh_AC:  3.91e+04
+------------------------------
+DOF        |err_Jh     order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Jh_Eh  order      |
+6.96e+02   |1.30e-03   0.00e+00   |1.43e-03   1.10e+00   |1.75e-03   1.35e+00   |1.35e-04   0.00e+00   |
+2.83e+03   |4.54e-05   4.78e+00   |4.75e-05   1.05e+00   |5.24e-05   1.15e+00   |2.13e-06   5.91e+00   |
+1.14e+04   |1.48e-06   4.91e+00   |1.52e-06   1.02e+00   |1.66e-06   1.12e+00   |3.31e-08   5.97e+00   |
+4.59e+04   |4.73e-08   4.96e+00   |4.78e-08   1.01e+00   |5.19e-08   1.10e+00   |5.15e-10   5.99e+00   |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 3
+Refinement: Uniform
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 73472, # Tri: 2048 
+ii = 4, Err_Jh :  -7.29e-12, tol/err: -1.37e-03
+ii = 4, Estimate D|h|: 7.70e-12, tol/est: 1.30e-03
+est/err: -1.06e+00
+
+Reduce ratio goal: 1.00e+14
+Reduced ratio Estimae :  2.18e+06
+Reduced ratio Err_Jh:     1.67e+06
+Reduced ratio Err_Jh_AC:  2.43e+06
+------------------------------
+DOF        |err_Jh     order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Jh_Eh  order      |
+1.12e+03   |1.22e-05   0.00e+00   |1.33e-05   1.09e+00   |1.68e-05   1.38e+00   |1.13e-06   0.00e+00   |
+4.54e+03   |1.05e-07   6.79e+00   |1.10e-07   1.04e+00   |1.23e-07   1.18e+00   |4.48e-09   7.89e+00   |
+1.83e+04   |8.54e-10   6.91e+00   |8.71e-10   1.02e+00   |9.84e-10   1.15e+00   |1.75e-11   7.96e+00   |
+7.35e+04   |7.29e-12   6.85e+00   |7.36e-12   1.01e+00   |7.70e-12   1.06e+00   |7.44e-14   7.86e+00   |
+--------------------------------------------------------------
+--------------------------------------------------------------
+Initial mesh h0 = 0.250000
+
+
+Test Linear functinals J(u) = <q*n, psi>
+
+
+
+Case: u smooth and g smooth
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 1
+Refinement: Uniform
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 24448, # Tri: 2048 
+ii = 4, Err_Jh :  -1.34e-04, tol/err: -7.46e-11
+ii = 4, Estimate D|h|: 2.69e-04, tol/est: 3.72e-11
+est/err: -2.01e+00
+
+Reduce ratio goal: 1.00e+14
+Reduced ratio Estimae :  5.81e+02
+Reduced ratio Err_Jh:     4.30e+02
+Reduced ratio Err_Jh_AC:  4.41e+02
+------------------------------
+DOF        |err_Jh     order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Jh_Eh  order      |
+3.68e+02   |5.77e-02   0.00e+00   |3.94e-02   6.83e-01   |1.56e-01   2.71e+00   |1.83e-02   0.00e+00   |
+1.50e+03   |8.17e-03   2.78e+00   |7.03e-03   8.60e-01   |1.80e-02   2.21e+00   |1.14e-03   3.94e+00   |
+6.08e+03   |1.06e-03   2.93e+00   |9.90e-04   9.35e-01   |2.19e-03   2.06e+00   |6.87e-05   4.02e+00   |
+2.44e+04   |1.34e-04   2.97e+00   |1.30e-04   9.69e-01   |2.69e-04   2.01e+00   |4.18e-06   4.02e+00   |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 2
+Refinement: Uniform
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 45888, # Tri: 2048 
+ii = 4, Err_Jh :  -3.48e-08, tol/err: -2.87e-07
+ii = 4, Estimate D|h|: 6.03e-08, tol/est: 1.66e-07
+est/err: -1.73e+00
+
+Reduce ratio goal: 1.00e+14
+Reduced ratio Estimae :  3.62e+04
+Reduced ratio Err_Jh:     3.61e+04
+Reduced ratio Err_Jh_AC:  3.34e+04
+------------------------------
+DOF        |err_Jh     order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Jh_Eh  order      |
+6.96e+02   |1.26e-03   0.00e+00   |9.03e-04   7.18e-01   |2.18e-03   1.73e+00   |3.56e-04   0.00e+00   |
+2.83e+03   |3.75e-05   5.01e+00   |3.22e-05   8.57e-01   |6.44e-05   1.72e+00   |5.35e-06   5.98e+00   |
+1.14e+04   |1.14e-06   5.02e+00   |1.05e-06   9.28e-01   |1.96e-06   1.73e+00   |8.17e-08   6.00e+00   |
+4.59e+04   |3.48e-08   5.01e+00   |3.36e-08   9.64e-01   |6.03e-08   1.73e+00   |1.26e-09   6.00e+00   |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = <q*n,phi>
+Dom type: Rec
+order k = 3
+Refinement: Uniform
+------------------------------
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 73472, # Tri: 2048 
+ii = 4, Err_Jh :  -3.01e-12, tol/err: -3.33e-03
+ii = 4, Estimate D|h|: 5.61e-12, tol/est: 1.78e-03
+est/err: -1.87e+00
+
+Reduce ratio goal: 1.00e+14
+Reduced ratio Estimae :  2.42e+06
+Reduced ratio Err_Jh:     2.21e+06
+Reduced ratio Err_Jh_AC:  2.13e+06
+------------------------------
+DOF        |err_Jh     order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Jh_Eh  order      |
+1.12e+03   |6.64e-06   0.00e+00   |6.37e-06   9.60e-01   |1.36e-05   2.05e+00   |2.66e-07   0.00e+00   |
+4.54e+03   |4.61e-08   7.10e+00   |4.55e-08   9.86e-01   |9.84e-08   2.13e+00   |6.37e-10   8.62e+00   |
+1.83e+04   |3.38e-10   7.06e+00   |3.38e-10   9.99e-01   |7.37e-10   2.18e+00   |4.25e-13   1.05e+01   |
+7.35e+04   |3.01e-12   6.80e+00   |2.52e-12   8.39e-01   |5.61e-12   1.87e+00   |4.84e-13   -1.88e-01  |
+--------------------------------------------------------------
+--------------------------------------------------------------
+
+
+Test Eigenvalue problem
+
+Initial mesh h0 = 0.250000, tag_eig = 1;
+
+
+Case:  unit square
+TOL : 1.00e-14
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: Rec
+order k = 1
+Refinement: Uniform
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 24448, # Tri: 2048 
+ii = 4, Err_lamh :  8.50e-04, tol/err: 1.18e-11
+ii = 4, Estimate: 8.89e-04, tol/est: 1.12e-11
+est/err: 1.05e+00
+
+Reduce ratio goal: 100000000000000.0
+Estimator ACh:  656.3
+Err_lamh:     667.5
+Err_lamh_AC:  1307.8
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+3.68e+02   |5.67e-01   0.00e+00   |5.63e-01   9.93e-01   |5.84e-01   1.03e+00   |3.99e-03   0.00e+00   |
+1.50e+03   |6.19e-02   3.15e+00   |6.35e-02   1.03e+00   |6.54e-02   1.06e+00   |1.66e-03   1.24e+00   |
+6.08e+03   |7.10e-03   3.10e+00   |7.22e-03   1.02e+00   |7.48e-03   1.05e+00   |1.18e-04   3.79e+00   |
+2.44e+04   |8.50e-04   3.05e+00   |8.58e-04   1.01e+00   |8.89e-04   1.05e+00   |7.38e-06   3.98e+00   |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: Rec
+order k = 2
+Refinement: Uniform
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 45888, # Tri: 2048 
+ii = 4, Err_lamh :  1.98e-07, tol/err: 5.06e-08
+ii = 4, Estimate: 2.15e-07, tol/est: 4.66e-08
+est/err: 1.08e+00
+
+Reduce ratio goal: 100000000000000.0
+Estimator ACh:  42374.2
+Err_lamh:     39082.7
+Err_lamh_AC:  67757.0
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+6.96e+02   |7.73e-03   0.00e+00   |8.35e-03   1.08e+00   |9.09e-03   1.18e+00   |6.21e-04   0.00e+00   |
+2.83e+03   |2.19e-04   5.08e+00   |2.28e-04   1.04e+00   |2.41e-04   1.10e+00   |8.91e-06   6.05e+00   |
+1.14e+04   |6.50e-06   5.04e+00   |6.63e-06   1.02e+00   |7.10e-06   1.09e+00   |1.35e-07   6.01e+00   |
+4.59e+04   |1.98e-07   5.02e+00   |2.00e-07   1.01e+00   |2.15e-07   1.08e+00   |2.08e-09   6.00e+00   |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: Rec
+order k = 3
+Refinement: Uniform
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 1.00e-14
+Adptive iterations: 4
+DOF: 73472, # Tri: 2048 
+ii = 4, Err_lamh :  2.54e-11, tol/err: 3.94e-04
+ii = 4, Estimate: 3.15e-11, tol/est: 3.17e-04
+est/err: 1.24e+00
+
+Reduce ratio goal: 100000000000000.0
+Estimator ACh:  2573621.8
+Err_lamh:     2586560.7
+Err_lamh_AC:  3529146.3
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+1.12e+03   |6.56e-05   0.00e+00   |7.05e-05   1.08e+00   |8.12e-05   1.24e+00   |4.94e-06   0.00e+00   |
+4.54e+03   |4.84e-07   7.01e+00   |5.02e-07   1.04e+00   |5.45e-07   1.13e+00   |1.86e-08   7.97e+00   |
+1.83e+04   |3.66e-09   7.01e+00   |3.73e-09   1.02e+00   |4.13e-09   1.13e+00   |7.12e-11   7.99e+00   |
+7.35e+04   |2.54e-11   7.15e+00   |2.57e-11   1.01e+00   |3.15e-11   1.24e+00   |3.43e-13   7.68e+00   |
+diary off
