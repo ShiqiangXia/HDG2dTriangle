@@ -1029,7 +1029,7 @@ function EllipticProblemDriver(para)
                 fprintf('\nReduce ratio goal: %.1f\n', 1/reduce_ratio);
                 
                 
-                fprintf('Estimator ACh:  %.1f\n',estimate_sum_abs_list(1)/estimate_sum_abs_list(ii) );
+                fprintf('Estimator :  %.1f\n',estimate_sum_abs_list(1)/estimate_sum_abs_list(ii) );
                 fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1)/err_lamh2_list(ii) );
                 fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
                 
