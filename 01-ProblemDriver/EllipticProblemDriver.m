@@ -11,7 +11,8 @@ function EllipticProblemDriver(para)
     temp_report_flag = 1;
     plot_log_err_flag = 1;
     posterior_estimate_method = 2;
-    latex_table_flag = 1;
+    latex_table_flag = 0;
+    save_flag = 0;
     
     % adaptive 
     mark_flag = 1; % 0: max marking strategy
@@ -587,8 +588,14 @@ function EllipticProblemDriver(para)
             
             if ii==Niter
                 mymesh.Plot(0);
-                title_text = append('k=', num2str(para.order),', Mesh ', num2str(ii),', DOF=',num2str(mesh_list(ii)));
-                title({title_text,pb_text_info});
+                if strcmp(pb_type(2),'0') % source problem
+                    title_error = err_Jh_list(ii);
+                else
+                    title_error = err_lamh2_list(ii,tag_eig);
+                end
+                title_text = append('k=', num2str(para.order),', Mesh ', num2str(ii));
+                title_text2 = append('Error: ',num2str(abs(title_error),'%.2e') ,', # Tri: ', num2str(tri_list(ii)),', DOF:',num2str(mesh_list(ii)));
+                title({title_text,title_text2,pb_text_info});
             end
             % ------------------------------------------------------------- 
    
@@ -948,7 +955,9 @@ function EllipticProblemDriver(para)
                         title({title_text,pb_text_info});
                         hold off
                         fig_name = append('Err_',my_file_name,num2str(para.order),'.fig');
-                        savefig(h,fig_name);
+                        if save_flag == 1
+                            savefig(h,fig_name);
+                        end
                         
                         %{
                         figure
@@ -978,7 +987,9 @@ function EllipticProblemDriver(para)
                     hold off
                     
                     fig_name = append('I_',my_file_name,num2str(para.order),'.fig');
-                    savefig(h,fig_name);
+                    if save_flag == 1
+                        savefig(h,fig_name);
+                    end
                     
                     %{
                     figure;
@@ -1023,14 +1034,14 @@ function EllipticProblemDriver(para)
                 fprintf('Error Tolerence: %.2e\n', tol_adp);
                 fprintf('Adptive iterations: %d\n',ii);
                 fprintf('DOF: %d, # Tri: %d \n',mesh_list(ii),tri_list(ii) );
-                fprintf('ii = %d, Err_lamh :  %.2e, tol/err: %.2e\n',ii,err_lamh2_list(ii),tol_adp/err_lamh2_list(ii) );
+                fprintf('ii = %d, Err_lamh :  %.2e, tol/err: %.2e\n',ii,err_lamh2_list(ii,tag_eig),tol_adp/err_lamh2_list(ii,tag_eig) );
                 fprintf('ii = %d, Estimate: %.2e, tol/est: %.2e\n',ii,estimate_sum_abs_list(ii),tol_adp/estimate_sum_abs_list(ii) );
-                fprintf('est/err: %.2e\n',estimate_sum_abs_list(ii)/err_lamh2_list(ii) );
+                fprintf('est/err: %.2e\n',estimate_sum_abs_list(ii)/err_lamh2_list(ii,tag_eig) );
                 fprintf('\nReduce ratio goal: %.1f\n', 1/reduce_ratio);
                 
                 
                 fprintf('Estimator :  %.1f\n',estimate_sum_abs_list(1)/estimate_sum_abs_list(ii) );
-                fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1)/err_lamh2_list(ii) );
+                fprintf('Err_lamh:     %.1f\n',err_lamh2_list(1,tag_eig)/err_lamh2_list(ii,tag_eig) );
                 fprintf('Err_lamh_AC:  %.1f\n',err_lamh_AC_list(1)/err_lamh_AC_list(ii));
                 
                              
@@ -1168,7 +1179,9 @@ function EllipticProblemDriver(para)
                         
                         hold off
                         fig_name = append('Err_',my_file_name,num2str(para.order),'.fig');
-                        savefig(h,fig_name);
+                        if save_flag == 1
+                            savefig(h,fig_name);
+                        end
                         
                         
                         
@@ -1193,7 +1206,10 @@ function EllipticProblemDriver(para)
                     hold off
                     
                     fig_name = append('I_',my_file_name,num2str(para.order),'.fig');
-                    savefig(h,fig_name);
+                    
+                    if save_flag == 1
+                        savefig(h,fig_name);
+                    end
 
                     
                 end

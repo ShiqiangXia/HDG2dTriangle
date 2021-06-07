@@ -1,6 +1,6 @@
 
 refine_flag = 1;
-Niter_max = 6;
+Niter_max = 4;
 %TOL_list = [1e-6,1e-7,1e-8];
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
@@ -11,7 +11,7 @@ flag_func1 = 0;
 flag_func2 = 0;
 flag_func3 = 1;
 
-flag_k1    = 1;
+flag_k1    = 0;
 flag_k2    = 0;
 flag_k3    = 1;
 
@@ -141,7 +141,7 @@ end
     
     pb_type = 2110;
     
-    Niter_max = 6;
+    %Niter_max = 6;
     %TOL_list = [5*1e-3,5*1e-4,5*1e-5];
     %N_TOL = size(TOL_list,2);
     
