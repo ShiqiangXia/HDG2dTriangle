@@ -1,6 +1,6 @@
 
-refine_flag = 1;
-Niter_max = 4;
+refine_flag = 0;
+Niter_max = 3;
 %TOL_list = [1e-6,1e-7,1e-8];
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
@@ -16,7 +16,7 @@ flag_k2    = 0;
 flag_k3    = 1;
 
 if refine_flag == 0
-    fprintf('Uniform Refinement')
+    fprintf('Uniform Refinement\n')
 elseif refine_flag == 1
     fprintf('Adaptive Refinement\n')
 end
@@ -147,10 +147,10 @@ end
     
     if smooth_flag == 0
         dom_ype = 'L';
-        fprintf('\n\nCase:  L shape\n')
+        fprintf('Case:  L shape\n')
     else
          dom_ype = 'Rec';
-         fprintf('\n\nCase:  unit square\n')
+         fprintf('Case:  unit square\n')
     end
     
     

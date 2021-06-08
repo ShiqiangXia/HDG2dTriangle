@@ -186,31 +186,21 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
         %%%%%%%%%%%%%%
         
 %         lam_ustar = sum(temp1)/temp2_uhstar;
-%         %lam_ustar = numeric_t('9.6397238440219');
 %         
 %         est4 = lam_ustar*est4;
 %         
 %         est1 = lam_ustar*est1 + est12;
 
-        %%%%%%%%%%%%%%%%%%%%%%%%
+        %lam_ustar = ( uh_L2*lamh_tag + sum(est3) - 2.0*(sum(est2+est12)) )/(uh_L2 - sum(est4 + 2.0 * est1));
         
-%         lam_ustar = ( uh_L2*lamh_tag + sum(est3) - 2.0*(sum(est2+est12)) )/(uh_L2 - sum(est4 + 2.0 * est1));
-%         
-%         est4 = lam_ustar*est4;
-%         est1 = lam_ustar*est1 + est12;
-%         
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%
         est4 = lamh_tag * est4;
-        
         est1 = lamh_tag * est1 + est12;
-        
-        lam_ustar = abs(sum(est1)/uh_L2);
         
         %%%%%%%%%%%%%%%
 
-        est_sum = (est4 +est3 - 2.0*(est2 + est1))/uh_L2; % est3
+        est_sum = (est4 + est3 - 2.0*(est2 + est1))/uh_L2;
         
-        
+        lam_ustar = abs(sum(est1)/uh_L2);
         
       
 

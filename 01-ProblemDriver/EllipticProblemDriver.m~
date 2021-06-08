@@ -572,8 +572,6 @@ function EllipticProblemDriver(para)
                         %err_lam_ustar_list(ii) = EigenError(pb_type(3),lam_ustar,para.dom_type,para.geo_parameters);
                         err_lam_ustar_list(ii) = lam_ustar;
                         %err_lam_ustar_list(ii) = sum(ACh_elewise_list);
-                        
-                        
 %                         est_terms_5_list(ii) = sum(est5);
 %                         
 %                         post_terms_1_list(ii) = sqrt(sum(pos1));
@@ -712,13 +710,11 @@ function EllipticProblemDriver(para)
                     '|Eh|',abs(estimate_sum_list(1:ii)),'|Eh/err|', r1,...
                     'Eh_loc',estimate_sum_abs_list(1:ii),'|Eh_loc/err|',r2,...
                     'err_Jh_Eh',abs(err_Jh_AC_Dh(1:ii)),'order',order_Jh_AC_Dh(1:ii) );
+                    
+                    ReportTable('DOF', mesh_list(1:ii),...
+                        'err_Jh',abs(err_Jh_list(1:ii)),'order',order_Jh(1:ii), ...
+                        'ex_term'
                 
-                    %%%%%%%%%%%%%%%%%%%%%%%
-%                     order_ex = GetOrder(mesh_list(1:ii),abs(est_terms_5_list(1:ii)));
-%                     ReportTable('DOF', mesh_list(1:ii),...
-%                         'err_Jh',abs(err_Jh_list(1:ii)),'order',order_Jh(1:ii), ...
-%                         'err_Jh',abs(est_terms_5_list(1:ii)),'order',order_ex)
-                    %%%%%%%%%%%%%%%%%%%%%%%
                 
                     if latex_table_flag == 1
                         table_names = {'Mesh','DOF','Err','order1','Eh','r1','Eh_loc','r2','Err_Eh','order2'};
