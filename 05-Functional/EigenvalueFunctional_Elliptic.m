@@ -124,7 +124,7 @@ function [lamh2,lamh_AC,ACh,ACh_Neig_elewise_list]=...
                     ACh2_elewise_list(element_idx,jj) = -ACh2;
                     
                     % + <tau*(uh-uh_hat),(uh-uh_hat)>
-                    ACh3 = +( (temp_uh_vh  - temp_uhat_vh) - temp_uhuhat_vhat );
+                    ACh3 = ( (temp_uh_vh  - temp_uhat_vh) - temp_uhuhat_vhat );
                     
                     ACh3_elewise_list(element_idx,jj) = ACh3;
                     

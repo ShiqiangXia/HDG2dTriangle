@@ -47,6 +47,13 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
         % (graduh* ,graduh* )
         temp1 = zeros(num_elements,1,numeric_t);
         temp2_uhstar = 0.0;
+        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        % (graduh* + qh, graduh* - graduh)
+        temp3 = zeros(num_elements,1,numeric_t);
+        
+        % <-graduh* - qh, uh*-uh>
+        temp4 = zeros(num_elements,1,numeric_t);
+        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         for element_idx = 1: num_elements
             temp_element = mymesh.element_list(element_idx,:);
@@ -95,7 +102,14 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
             div_qh = V2Dr * qh_coeff_1 * Inv_AffineMap(1,1)+V2Ds * qh_coeff_1 * Inv_AffineMap(2,1)...
                 + V2Dr * qh_coeff_2 * Inv_AffineMap(1,2)+ V2Ds * qh_coeff_2 * Inv_AffineMap(2,2);
             div_qh = reshape(div_qh,[],NGQ);
-
+            
+            %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            grad_uh_1 = V2Dr * uh_coeff * Inv_AffineMap(1,1)+V2Ds * uh_coeff * Inv_AffineMap(2,1);
+            grad_uh_1 = reshape(grad_uh_1,[],NGQ);
+            grad_uh_2 = V2Dr * uh_coeff * Inv_AffineMap(1,2)+ V2Ds * uh_coeff * Inv_AffineMap(2,2);
+            grad_uh_2 = reshape(grad_uh_2,[],NGQ);
+            
+            %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % est1 = (lamh*uh* - div.qh, vh* - vh)
@@ -133,7 +147,15 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
             
             temp_formula2 = uhstar_pts.^2;
             temp2_uhstar = temp2_uhstar + Jk*GQ1DRef_wts'*(temp_formula2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
-
+            
+            %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            temp_formula3 = (grad_uhstar_1+qh_pts1).*(grad_uhstar_1 - grad_uh_1)...
+                + (grad_uhstar_2+qh_pts2).*(grad_uhstar_2 - grad_uh_2);
+            
+            temp3(element_idx,1) = Jk*GQ1DRef_wts'*(temp_formula3.*Jacobian_rs_to_ab )*GQ1DRef_wts;
+            
+            %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            
             %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             ele_face_idx_list  = mymesh.element_faces_list(element_idx,:);
             uhat_dir_list = mymesh.uhat_dir_list(element_idx,:);
@@ -161,13 +183,28 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
 
 
                 V2Dstar_face = Vandermonde2D(k+1,face_a_list,face_b_list);
+                [V2Dr_star_face,V2Ds_star_face] = GradVandermonde2D(k+1,face_a_list,face_b_list);
+                
+                %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+                grad_uhstar_face_1 = V2Dr_star_face * uhstar_coeff * Inv_AffineMap(1,1)...
+                        + V2Ds_star_face * uhstar_coeff * Inv_AffineMap(2,1); grad_uhstar_1 = reshape(grad_uhstar_1,[],NGQ);
+
+                grad_uhstar_face_2 = V2Dr_star_face * uhstar_coeff * Inv_AffineMap(1,2)...
+                        + V2Ds_star_face * uhstar_coeff * Inv_AffineMap(2,2); grad_uhstar_2 = reshape(grad_uhstar_2,[],NGQ);
+
+               %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 
                 uhstar_face_pts = V2Dstar_face*uhstar_coeff;
 
                 V2D_face = Vandermonde2D(k,face_a_list,face_b_list);
 
                 uh_face_pts  = V2D_face * uh_coeff  ;
+                
+                %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                qh_face_pts1 = V2D_face * qh_coeff_1;
+                qh_face_pts2 = V2D_face * qh_coeff_2;
+                %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 % uh - uhat    
                 uh_uhat = uh_face_pts - uhat_face_pts;
@@ -179,6 +216,15 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
 
                 est2(element_idx,1) =  est2(element_idx,1)+...
                     0.5*e_list(ii)*GQ1DRef_wts'*(formula_3);
+                
+                %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                temp_formula4 = ((-grad_uhstar_face_1 -qh_face_pts1 ) * normal_vector(1,ii) +...
+                    (-grad_uhstar_face_2 -qh_face_pts2) * normal_vector(2,ii))...
+                    .*(uhstar_face_pts - uh_face_pts);
+                
+                temp4(element_idx,1) = temp4(element_idx,1)+...
+                    0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula4);
+                %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
             end
 
@@ -186,21 +232,33 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
         %%%%%%%%%%%%%%
         
 %         lam_ustar = sum(temp1)/temp2_uhstar;
+%         %lam_ustar = numeric_t('9.6397238440219');
 %         
 %         est4 = lam_ustar*est4;
 %         
 %         est1 = lam_ustar*est1 + est12;
 
-        %lam_ustar = ( uh_L2*lamh_tag + sum(est3) - 2.0*(sum(est2+est12)) )/(uh_L2 - sum(est4 + 2.0 * est1));
+        %%%%%%%%%%%%%%%%%%%%%%%%
+        
+%         lam_ustar = ( uh_L2*lamh_tag + sum(est3) - 2.0*(sum(est2+est12)) )/(uh_L2 - sum(est4 + 2.0 * est1));
+%         
+%         est4 = lam_ustar*est4;
+%         est1 = lam_ustar*est1 + est12;
+%         
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         est4 = lamh_tag * est4;
+        
         est1 = lamh_tag * est1 + est12;
+        
+        lam_ustar = abs(sum(temp4)/uh_L2);
         
         %%%%%%%%%%%%%%%
 
-        est_sum = (est4 + est3 - 2.0*(est2 + est1))/uh_L2;
+        %est_sum = (est4 +est3 - 2.0*(est2 + est1))/uh_L2; % est3
+        est_sum = (est4 +est3 - 2.0*(est2 + temp4))/uh_L2; % est3
         
-        lam_ustar = abs(sum(est1)/uh_L2);
+        
         
       
 

@@ -592,7 +592,7 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii==Niter
+            if ii<=Niter
                 mymesh.Plot(0);
                 if strcmp(pb_type(2),'0') % source problem
                     title_error = err_Jh_list(ii);
