@@ -200,15 +200,17 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
 %         est1 = lam_ustar*est1 + est12;
 %         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
         est4 = lamh_tag * est4;
         
         est1 = lamh_tag * est1 + est12;
         
-        lam_ustar = abs(sum(est1)/uh_L2);
+        lam_ustar = abs(sum(est4)/uh_L2);
         
         %%%%%%%%%%%%%%%
 
         est_sum = (est4 +est3 - 2.0*(est2 + est1))/uh_L2; % est3
+        %est_sum = (est4 +est3 - 2.0*(est2 + est4))/uh_L2; % est3
         
         
         
