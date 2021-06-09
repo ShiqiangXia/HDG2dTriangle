@@ -48,7 +48,7 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
         temp1 = zeros(num_elements,1,numeric_t);
         temp2_uhstar = 0.0;
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        % (graduh* + qh, graduh* - graduh)
+        % (graduh* + qh, qh + graduh )
         temp3 = zeros(num_elements,1,numeric_t);
         
         % <-graduh* - qh, uh*-uh>
@@ -149,8 +149,8 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
             temp2_uhstar = temp2_uhstar + Jk*GQ1DRef_wts'*(temp_formula2.*Jacobian_rs_to_ab )*GQ1DRef_wts;
             
             %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            temp_formula3 = (grad_uhstar_1+qh_pts1).*(grad_uhstar_1 - grad_uh_1)...
-                + (grad_uhstar_2+qh_pts2).*(grad_uhstar_2 - grad_uh_2);
+            temp_formula3 = (grad_uhstar_1+qh_pts1).*(qh_pts1 + grad_uh_1 )...
+                + (grad_uhstar_2+qh_pts2).*(qh_pts2+ grad_uh_2);
             
             temp3(element_idx,1) = Jk*GQ1DRef_wts'*(temp_formula3.*Jacobian_rs_to_ab )*GQ1DRef_wts;
             
@@ -218,9 +218,17 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
                     0.5*e_list(ii)*GQ1DRef_wts'*(formula_3);
                 
                 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                temp_formula4 = ((-grad_uhstar_face_1 -qh_face_pts1 ) * normal_vector(1,ii) +...
-                    (-grad_uhstar_face_2 -qh_face_pts2) * normal_vector(2,ii))...
-                    .*(uhstar_face_pts - uh_face_pts);
+                % <qh +graduh*, uh - uhat>
+                temp_formula4 = ((grad_uhstar_face_1+qh_face_pts1 ) * normal_vector(1,ii) +...
+                    (grad_uhstar_face_2 + qh_face_pts2) * normal_vector(2,ii))...
+                    .*( uh_face_pts - uhat_face_pts);
+                
+%                 % (qh +graduh*, uh - uhstar)
+%                 temp_formula4 = ((grad_uhstar_face_1+qh_face_pts1 ) * normal_vector(1,ii) +...
+%                     (grad_uhstar_face_2 + qh_face_pts2) * normal_vector(2,ii))...
+%                     .*( uh_face_pts - uhstar_face_pts);
+%                 
+                
                 
                 temp4(element_idx,1) = temp4(element_idx,1)+...
                     0.5*e_list(ii)*GQ1DRef_wts'*(temp_formula4);
@@ -251,14 +259,22 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
         
         est1 = lamh_tag * est1 + est12;
         
-        lam_ustar = abs(sum(temp4)/uh_L2);
+        
         
         %%%%%%%%%%%%%%%
 
-        %est_sum = (est4 +est3 - 2.0*(est2 + est1))/uh_L2; % est3
-        est_sum = (est4 +est3 - 2.0*(est2 + temp4))/uh_L2; % est3
+        %est_sum = (est4 +est3 - 2.0*(est2 + est1))/uh_L2 ; % est3
+        %est_sum = (est4 + est3 - 2.0*(est2 + est1 ))/uh_L2  + 2 * temp4/uh_L2; % est3
+        %est_sum = (est4 - est3 + 2.0*(temp3 - temp4))/uh_L2; % est3
+        est_sum = (est4 - est3 + 2.0*(temp3 ))/uh_L2  - 2 * temp4/uh_L2; % est3
         
         
+        fprintf('e4 = lamh(uh* - uh, uh* -uh): %.2e\n', sum(est4))
+        fprintf('(e3 = graduh* + qh, graduh* + qh): %.2e\n', sum(est3))
+        fprintf('e2 = <(qhat-qh)*n, uh-uh*> : %.2e\n', sum(est2))
+        fprintf('e1 = (lamhuh* - div.qh, uh* - uh) : %.2e\n', sum(est1))
+        fprintf('temp3 = (graduh* + qh, qh + graduh ) : %.2e\n', sum(temp3))
+        fprint('temp4 = ')
         
       
 

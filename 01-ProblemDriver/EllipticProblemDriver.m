@@ -14,6 +14,14 @@ function EllipticProblemDriver(para)
     latex_table_flag = 0;
     save_flag = 0;
     
+    if strcmp(pb_type(2),'0') && strcmp(pb_type(4),'1')
+        my_file_name = 'func1_k';
+    elseif strcmp(pb_type(2),'0') && strcmp(pb_type(4),'2')
+        my_file_name = 'func2_k';
+    elseif strcmp(pb_type(2),'1')
+        my_file_name = 'eig_k';
+    end
+    
     % adaptive 
     mark_flag = 1; % 0: max marking strategy
                    % 1: bulk marking strategy Dorfler , 
@@ -571,6 +579,7 @@ function EllipticProblemDriver(para)
                         
                         %err_lam_ustar_list(ii) = EigenError(pb_type(3),lam_ustar,para.dom_type,para.geo_parameters);
                         err_lam_ustar_list(ii) = lam_ustar;
+                        fprintf('AC = <tau*(uh-uh_hat),(uh-uh_hat)> : %.2e\n', sum(ACh_elewise_list))
                         %err_lam_ustar_list(ii) = sum(ACh_elewise_list);
                         
                         
@@ -602,6 +611,13 @@ function EllipticProblemDriver(para)
                 title_text = append('k=', num2str(para.order),', Mesh ', num2str(ii));
                 title_text2 = append('Error: ',num2str(abs(title_error),'%.2e') ,', # Tri: ', num2str(tri_list(ii)),', DOF:',num2str(mesh_list(ii)));
                 title({title_text,title_text2,pb_text_info});
+                fig_name = append('Mesh_',...
+                    my_file_name,num2str(para.order),'_m',num2str(ii),'.fig');
+                if save_flag == 1
+                    savefig(gcf,fig_name);
+                end
+               
+                
             end
             % ------------------------------------------------------------- 
    
@@ -665,13 +681,7 @@ function EllipticProblemDriver(para)
         if para.report_flag==1 
             
             ReportProblem(para)
-            if strcmp(pb_type(2),'0') && strcmp(pb_type(4),'1')
-                my_file_name = 'func1_k';
-            elseif strcmp(pb_type(2),'0') && strcmp(pb_type(4),'2')
-                my_file_name = 'func2_k';
-            elseif strcmp(pb_type(2),'1')
-                my_file_name = 'eig_k';
-            end
+            
             
             if strcmp(pb_type(2),'0') 
                 
@@ -947,19 +957,24 @@ function EllipticProblemDriver(para)
                         %}
                         h=figure;
                         
-                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'--bo',...
+                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_list)),'-bo',...
                             'MarkerSize',10,'LineWidth',1);
                         hold on
                         
-                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_list)),'--ks',...
+                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_list)),'-ks',...
                             'MarkerSize',10,'LineWidth',1);
                         
-                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'-rd',...
+                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'--rd',...
                             'MarkerSize',10,'LineWidth',1);
+                        
+                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'-m*',...
+                            'MarkerSize',10,'LineWidth',1);
+                        
+                        
                         
                         set(gca,'FontSize',15)
                         legend('$|J(u)-J(u_h)|$','$|\mathcal{E}_h|$','$\mathcal{E}_h^{loc}$',...
-                            'Interpreter','latex','FontSize',15)
+                            '$|J(u)-J(u_h)-\mathcal{E}_h|$','Interpreter','latex','FontSize',15)
                         
                         xlabel('$\log_{10}(\sqrt{DOF})$','Interpreter','latex');
                         ylabel('$\log_{10}(error)$','Interpreter','latex')
@@ -987,16 +1002,17 @@ function EllipticProblemDriver(para)
                     h=figure;
                    
                     plot(1:ii,r1,'--bs',...
-                        'MarkerSize',15,'LineWidth',1)
-                    hold on; 
-                    plot(1:ii, r2,'--rd',...
-                        'MarkerSize',15,'LineWidth',1);
-                    
+                        'MarkerSize',10,'LineWidth',1)
+%                     hold on; 
+%                     plot(1:ii, r2,'--rd',...
+%                         'MarkerSize',15,'LineWidth',1);
+%                     
                     set(gca,'FontSize',15)
                     title_text = append('Effectivity index when k = ',num2str(para.order));
                     title({title_text,pb_text_info});
                     xlabel('Mesh');
-                    legend('$I_{eff}$','$I^{loc}_{eff}$','Interpreter','latex','FontSize',15);
+                    %legend('$I_{eff}$','$I^{loc}_{eff}$','Interpreter','latex','FontSize',15);
+                    legend('$I_{eff}$','Interpreter','latex','FontSize',15);
                     hold off
                     
                     fig_name = append('I_',my_file_name,num2str(para.order),'.fig');
@@ -1174,21 +1190,24 @@ function EllipticProblemDriver(para)
                         
                      
                         h= figure;
-                        plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'--bo',...
-                            'MarkerSize',15,'LineWidth',1);
+                        plot(0.5*log10(mesh_list),log10(abs(err_lamh2_list(:,tag_eig))),'-bo',...
+                            'MarkerSize',10,'LineWidth',1);
                         
                         hold on
                         
-                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_list)),'--ks',...
-                            'MarkerSize',15,'LineWidth',1);
+                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_list)),'-ks',...
+                            'MarkerSize',10,'LineWidth',1);
                         
-                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'-rd',...
-                            'MarkerSize',15,'LineWidth',1);
+                        plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'--rd',...
+                            'MarkerSize',10,'LineWidth',1);
+                        
+                        plot(0.5*log10(mesh_list),log10(abs(err_lamh_AC_Dh_list)),'-m*',...
+                            'MarkerSize',10,'LineWidth',1);
                         
                         set(gca,'FontSize',15)
                         
                         legend('$|\lambda-\lambda_h|$','$|\mathcal{E}_h|$','$\mathcal{E}_h^{loc}$',...
-                            'Interpreter','latex','FontSize',15)
+                            '$|\lambda-\lambda_h -\mathcal{E}_h |$','Interpreter','latex','FontSize',15)
                         
                         xlabel('$\log_{10}(\sqrt{DOF})$','Interpreter','latex');
                         ylabel('$\log_{10}(error)$','Interpreter','latex')
@@ -1211,17 +1230,18 @@ function EllipticProblemDriver(para)
                     
                     h = figure;
                     
-                    plot(1:ii,r1,'--bs',...
+                    plot(1:ii,r1,'--ks',...
                         'MarkerSize',15,'LineWidth',1)
-                    hold on; 
-                    plot(1:ii, r2,'--rd',...
-                        'MarkerSize',15,'LineWidth',1);
-                    
+%                     hold on; 
+%                     plot(1:ii, r2,'--rd',...
+%                         'MarkerSize',15,'LineWidth',1);
+%                     
                     set(gca,'FontSize',15)
                     title_text = append('Effectivity index when k = ',num2str(para.order));
                     title({title_text,pb_text_info});
                     xlabel('Mesh');
-                    legend('$I_{eff}$','$I^{loc}_{eff}$','Interpreter','latex','FontSize',15);
+                    %legend('$I_{eff}$','$I^{loc}_{eff}$','Interpreter','latex','FontSize',15);
+                    legend('$I_{eff}$','Interpreter','latex','FontSize',15);
                     hold off
                     
                     fig_name = append('I_',my_file_name,num2str(para.order),'.fig');

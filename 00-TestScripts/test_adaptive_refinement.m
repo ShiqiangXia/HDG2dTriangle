@@ -5,15 +5,15 @@ Niter_max = 3;
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
 
-smooth_flag =1;
+smooth_flag =0;
 
 flag_func1 = 0;
 flag_func2 = 0;
 flag_func3 = 1;
 
-flag_k1    = 1;
+flag_k1    = 0;
 flag_k2    = 1;
-flag_k3    = 1;
+flag_k3    = 0;
 
 if refine_flag == 0
     fprintf('Uniform Refinement\n')

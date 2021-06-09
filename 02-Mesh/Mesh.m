@@ -132,6 +132,8 @@ classdef Mesh
                 cprintf('UnterminatedStrings', '%d vertices are too many to plot, so I ignored them.\n',nvertice);
             end
             %simpplot(obj.vertices_list,obj.element_list);
+            
+            
         end
         
         function mymesh = Refine(obj, marked, flag)
