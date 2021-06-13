@@ -601,7 +601,7 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii<=Niter
+            if ii>Niter
                 mymesh.Plot(0);
                 if strcmp(pb_type(2),'0') % source problem
                     title_error = err_Jh_list(ii);
@@ -1001,7 +1001,7 @@ function EllipticProblemDriver(para)
                     
                     h=figure;
                    
-                    plot(1:ii,r1,'--bs',...
+                    plot(1:ii,r1,'--ks',...
                         'MarkerSize',10,'LineWidth',1)
 %                     hold on; 
 %                     plot(1:ii, r2,'--rd',...
@@ -1201,8 +1201,8 @@ function EllipticProblemDriver(para)
                         plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'--rd',...
                             'MarkerSize',10,'LineWidth',1);
                         
-                        plot(0.5*log10(mesh_list),log10(abs(err_lamh_AC_Dh_list)),'-m*',...
-                            'MarkerSize',10,'LineWidth',1);
+                        %plot(0.5*log10(mesh_list),log10(abs(err_lamh_AC_Dh_list)),'-m*',...
+                        %    'MarkerSize',10,'LineWidth',1);
                         
                         set(gca,'FontSize',15)
                         

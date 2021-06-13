@@ -212,7 +212,7 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 % est3 = <(qhat-qh)*n, vh-vh*>
 
-                formula_3 = tau*(uh_uhat).*(uh_face_pts - uhstar_face_pts );
+                formula_3 = tau*(uh_uhat).*(uh_face_pts - uhat_face_pts);% - uhstar_face_pts );
 
                 est2(element_idx,1) =  est2(element_idx,1)+...
                     0.5*e_list(ii)*GQ1DRef_wts'*(formula_3);
@@ -264,14 +264,14 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
         %%%%%%%%%%%%%%%
 
         %est_sum = (est4 +est3 - 2.0*(est2 + est1))/uh_L2 ; % est3
-        est_sum = (est4 + est3 - 2.0*(est2 + est1 ))/uh_L2  + 3 * temp4/uh_L2; % est3
+        est_sum = (est4 + est3 - 2.0*(est2 + est1 ))/uh_L2  + 2 * temp4/uh_L2; % est3
         %est_sum = (est4 - est3 + 2.0*(temp3 - temp4))/uh_L2; % est3
         
         
         
         fprintf('e4 = lamh(uh* - uh, uh* -uh): %.2e\n', sum(est4)/uh_L2)
         fprintf('e3 = (graduh* + qh, graduh* + qh): %.2e\n', sum(est3)/uh_L2)
-        fprintf('e2 = <(qhat-qh)*n, uh-uh*> : %.2e\n', sum(est2)/uh_L2)
+        fprintf('e2 = <(qhat-qh)*n, uh-uhhat> : %.2e\n', sum(est2)/uh_L2)
         fprintf('e1 = (lamhuh* - div.qh, uh* - uh) : %.2e\n', sum(est1)/uh_L2)
         fprintf('temp3 = (graduh* + qh, qh + graduh ) : %.2e\n', sum(temp3)/uh_L2)
         fprintf('temp4 = <qh +graduh*, uh - uhat>: %.2e\n', sum(temp4)/uh_L2)

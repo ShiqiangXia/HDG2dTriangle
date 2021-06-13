@@ -1,6 +1,6 @@
 
-refine_flag = 0;
-Niter_max = 3;
+refine_flag = 1;
+Niter_max = 6;
 %TOL_list = [1e-6,1e-7,1e-8];
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
@@ -11,9 +11,9 @@ flag_func1 = 0;
 flag_func2 = 0;
 flag_func3 = 1;
 
-flag_k1    = 0;
+flag_k1    = 1;
 flag_k2    = 1;
-flag_k3    = 0;
+flag_k3    = 1;
 
 if refine_flag == 0
     fprintf('Uniform Refinement\n')
@@ -117,6 +117,7 @@ if flag_func2 >0
         
             
         if flag_k3>0
+            
             fprintf('--------- k = 3 --------------\n')
             main('elliptic','order',3, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
             'pb_type',pb_type,'dom_type',dom_ype,'primal',pri,'adjoint',adj,...
@@ -175,6 +176,7 @@ end
         
 
         if flag_k3>0
+            
             fprintf('--------- k = 3 --------------\n')
             main('elliptic','order',3, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
             'pb_type',pb_type,'dom_type',dom_ype,'primal',0,'adjoint',0,...
