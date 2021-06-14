@@ -1,6 +1,6 @@
 
 refine_flag = 1;
-Niter_max = 6;
+Niter_max = 12;
 %TOL_list = [1e-6,1e-7,1e-8];
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
@@ -11,8 +11,8 @@ flag_func1 = 0;
 flag_func2 = 0;
 flag_func3 = 1;
 
-flag_k1    = 1;
-flag_k2    = 1;
+flag_k1    = 0;
+flag_k2    = 0;
 flag_k3    = 1;
 
 if refine_flag == 0
@@ -178,7 +178,7 @@ end
         if flag_k3>0
             
             fprintf('--------- k = 3 --------------\n')
-            main('elliptic','order',3, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
+            main('elliptic','order',5, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
             'pb_type',pb_type,'dom_type',dom_ype,'primal',0,'adjoint',0,...
             'post_process_flag',1,'err_cal_flag',1,'tol_adp',TOL_list(ii));
         end
