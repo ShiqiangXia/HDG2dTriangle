@@ -13,6 +13,7 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
     % dirichlet_flag, neuman_flag defined the data type of the boundary
     %
     % structured_flag: 0/1 structured mesh or not 
+    %
     % specify the bounary data type by 'bottom','left','right','top'
     
     if structured_flag == 0
