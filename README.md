@@ -2,6 +2,8 @@
 
 This project is to implement HDG method on general (unstructured or structured) 2D triangular meshes and with mesh adaptivity.
 
+## To test the code
+Run the test files  in 00-TestScripts. 
 
 ### Features:
 
