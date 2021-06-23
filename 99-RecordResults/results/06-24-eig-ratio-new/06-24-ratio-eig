@@ -8,7 +8,226 @@ Test Eigenvalue problem
 
 Initial mesh h0 = 0.250000, tag_eig = 1;
 Case:  L shape
-TOL : 1.00e-14
+TOL : 5.00e-03
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.56e-02
+e3 = (graduh* + qh, graduh* + qh): 1.32e-02
+e2 = <(qhat-qh)*n, uh-uhhat> : 8.57e-02
+e1 = (lamhuh* - div.qh, uh* - uh) : -5.29e-02
+temp3 = (graduh* + qh, qh + graduh ) : 1.32e-02
+temp4 = <qh +graduh*, uh - uhat>: 1.32e-02
+est_sum : -1.05e-02
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 8.57e-02
+Mesh 2 ... 
+e4 = lamh(uh* - uh, uh* -uh): 4.97e-03
+e3 = (graduh* + qh, graduh* + qh): 5.90e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 3.22e-02
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.77e-02
+temp3 = (graduh* + qh, qh + graduh ) : 5.90e-03
+temp4 = <qh +graduh*, uh - uhat>: 5.90e-03
+est_sum : -6.35e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 3.22e-02
+Mesh 3 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.58e-03
+e3 = (graduh* + qh, graduh* + qh): 2.07e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.38e-02
+e1 = (lamhuh* - div.qh, uh* - uh) : -8.50e-03
+temp3 = (graduh* + qh, qh + graduh ) : 2.07e-03
+temp4 = <qh +graduh*, uh - uhat>: 2.07e-03
+est_sum : -2.77e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.38e-02
+Mesh 4 ... 
+e4 = lamh(uh* - uh, uh* -uh): 5.29e-04
+e3 = (graduh* + qh, graduh* + qh): 8.89e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 5.74e-03
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.52e-03
+temp3 = (graduh* + qh, qh + graduh ) : 8.89e-04
+temp4 = <qh +graduh*, uh - uhat>: 8.89e-04
+est_sum : -1.24e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 5.74e-03
+Mesh 5 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.46e-04
+e3 = (graduh* + qh, graduh* + qh): 3.56e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 2.25e-03
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.45e-03
+temp3 = (graduh* + qh, qh + graduh ) : 3.56e-04
+temp4 = <qh +graduh*, uh - uhat>: 3.56e-04
+est_sum : -3.88e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 2.25e-03
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 5
+DOF: 14100, # Tri: 1182 
+ii = 5, Err_lamh :  2.37e-03, tol/err: 2.11e+00
+ii = 5, Estimate: 2.19e-03, tol/est: 2.29e+00
+est/err: 9.24e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator :  36.6
+Err_lamh:     40.0
+Err_lamh_AC:  79.8
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+1.12e+03   |9.48e-02   0.00e+00   |7.53e-02   7.94e-01   |8.00e-02   8.44e-01   |1.96e-02   0.00e+00   |
+2.34e+03   |3.30e-02   2.87e+00   |2.59e-02   7.84e-01   |3.07e-02   9.29e-01   |7.13e-03   2.75e+00   |
+4.27e+03   |1.44e-02   2.75e+00   |1.10e-02   7.66e-01   |1.25e-02   8.70e-01   |3.37e-03   2.48e+00   |
+7.97e+03   |5.78e-03   2.92e+00   |4.50e-03   7.79e-01   |5.32e-03   9.20e-01   |1.28e-03   3.11e+00   |
+1.41e+04   |2.37e-03   3.13e+00   |1.87e-03   7.88e-01   |2.19e-03   9.24e-01   |5.02e-04   3.28e+00   |
+------------------------------
+dof        |err_lamh   order      |extra_term  order      |
+1.12e+03   |9.48e-02   0.00e+00   |1.32e-02   0.00e+00   |
+2.34e+03   |3.30e-02   2.87e+00   |5.90e-03   2.18e+00   |
+4.27e+03   |1.44e-02   2.75e+00   |2.07e-03   3.47e+00   |
+7.97e+03   |5.78e-03   2.92e+00   |8.89e-04   2.71e+00   |
+1.41e+04   |2.37e-03   3.13e+00   |3.56e-04   3.21e+00   |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.53e-04
+e3 = (graduh* + qh, graduh* + qh): 6.08e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.20e-03
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.91e-04
+temp3 = (graduh* + qh, qh + graduh ) : 6.08e-03
+temp4 = <qh +graduh*, uh - uhat>: 6.08e-03
+est_sum : 1.68e-02
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.20e-03
+Mesh 2 ... 
+e4 = lamh(uh* - uh, uh* -uh): 7.27e-05
+e3 = (graduh* + qh, graduh* + qh): 2.85e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 6.51e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.41e-04
+temp3 = (graduh* + qh, qh + graduh ) : 2.85e-03
+temp4 = <qh +graduh*, uh - uhat>: 2.85e-03
+est_sum : 8.01e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 6.51e-04
+Mesh 3 ... 
+e4 = lamh(uh* - uh, uh* -uh): 6.06e-05
+e3 = (graduh* + qh, graduh* + qh): 1.53e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 5.30e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.28e-04
+temp3 = (graduh* + qh, qh + graduh ) : 1.53e-03
+temp4 = <qh +graduh*, uh - uhat>: 1.53e-03
+est_sum : 4.26e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 5.30e-04
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 3
+DOF: 3096, # Tri: 140 
+ii = 3, Err_lamh :  5.15e-03, tol/err: 9.70e-01
+ii = 3, Estimate: 4.83e-03, tol/est: 1.04e+00
+est/err: 9.37e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator :  3.7
+Err_lamh:     4.6
+Err_lamh_AC:  4.9
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+2.11e+03   |2.36e-02   0.00e+00   |1.80e-02   7.61e-01   |1.80e-02   7.63e-01   |5.65e-03   0.00e+00   |
+2.60e+03   |1.07e-02   7.54e+00   |8.66e-03   8.07e-01   |8.70e-03   8.11e-01   |2.07e-03   9.58e+00   |
+3.10e+03   |5.15e-03   8.48e+00   |4.79e-03   9.29e-01   |4.83e-03   9.37e-01   |3.65e-04   2.01e+01   |
+------------------------------
+dof        |err_lamh   order      |extra_term  order      |
+2.11e+03   |2.36e-02   0.00e+00   |6.08e-03   0.00e+00   |
+2.60e+03   |1.07e-02   7.54e+00   |2.85e-03   7.23e+00   |
+3.10e+03   |5.15e-03   8.48e+00   |1.53e-03   7.17e+00   |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.78e-05
+e3 = (graduh* + qh, graduh* + qh): 3.30e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.64e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : 1.29e-05
+temp3 = (graduh* + qh, qh + graduh ) : 3.30e-03
+temp4 = <qh +graduh*, uh - uhat>: 3.30e-03
+est_sum : 9.58e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.64e-04
+Mesh 2 ... 
+e4 = lamh(uh* - uh, uh* -uh): 2.99e-06
+e3 = (graduh* + qh, graduh* + qh): 1.54e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 4.55e-05
+e1 = (lamhuh* - div.qh, uh* - uh) : 1.41e-07
+temp3 = (graduh* + qh, qh + graduh ) : 1.54e-03
+temp4 = <qh +graduh*, uh - uhat>: 1.54e-03
+est_sum : 4.53e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 4.55e-05
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-03
+Adptive iterations: 2
+DOF: 4180, # Tri: 118 
+ii = 2, Err_lamh :  5.37e-03, tol/err: 9.31e-01
+ii = 2, Estimate: 4.58e-03, tol/est: 1.09e+00
+est/err: 8.52e-01
+
+Reduce ratio goal: 10000000000.0
+Estimator :  2.1
+Err_lamh:     2.2
+Err_lamh_AC:  2.2
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+3.39e+03   |1.20e-02   0.00e+00   |9.74e-03   8.10e-01   |9.74e-03   8.10e-01   |2.28e-03   0.00e+00   |
+4.18e+03   |5.37e-03   7.72e+00   |4.58e-03   8.52e-01   |4.58e-03   8.52e-01   |7.92e-04   1.01e+01   |
+------------------------------
+dof        |err_lamh   order      |extra_term  order      |
+3.39e+03   |1.20e-02   0.00e+00   |3.30e-03   0.00e+00   |
+4.18e+03   |5.37e-03   7.72e+00   |1.54e-03   7.31e+00   |
+TOL : 5.00e-04
 --------- k = 1 --------------
 Initiate empty Parameter object.
 Set problem parameters... done
@@ -80,15 +299,7 @@ temp3 = (graduh* + qh, qh + graduh ) : 5.58e-05
 temp4 = <qh +graduh*, uh - uhat>: 5.58e-05
 est_sum : -1.40e-04
 AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 4.36e-04
-Mesh 8 ... 
-e4 = lamh(uh* - uh, uh* -uh): 4.96e-06
-e3 = (graduh* + qh, graduh* + qh): 2.18e-05
-e2 = <(qhat-qh)*n, uh-uhhat> : 1.76e-04
-e1 = (lamhuh* - div.qh, uh* - uh) : -1.19e-04
-temp3 = (graduh* + qh, qh + graduh ) : 2.18e-05
-temp4 = <qh +graduh*, uh - uhat>: 2.18e-05
-est_sum : -4.40e-05
-AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.76e-04
+Esti<TOL
 
 ---------- Report ------------
 Functional eigen problem
@@ -99,17 +310,17 @@ order k = 1
 Refinement: Adaptive with RGB
 ------------------------------
 Target eigenvalue: 1
-Error Tolerence: 1.00e-14
-Adptive iterations: 8
-DOF: 78474, # Tri: 6558 
-ii = 8, Err_lamh :  1.64e-04, tol/err: 6.08e-11
-ii = 8, Estimate: 1.59e-04, tol/est: 6.30e-11
-est/err: 9.66e-01
+Error Tolerence: 5.00e-04
+Adptive iterations: 7
+DOF: 43152, # Tri: 3608 
+ii = 7, Err_lamh :  3.79e-04, tol/err: 1.32e+00
+ii = 7, Estimate: 3.85e-04, tol/est: 1.30e+00
+est/err: 1.02e+00
 
 Reduce ratio goal: 10000000000.0
-Estimator :  503.9
-Err_lamh:     577.0
-Err_lamh_AC:  -791.6
+Estimator :  208.0
+Err_lamh:     250.5
+Err_lamh_AC:  -158.8
 
 Target eigenvalue 1
 ------------------------------
@@ -121,7 +332,6 @@ dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err
 1.41e+04   |2.37e-03   3.13e+00   |1.87e-03   7.88e-01   |2.19e-03   9.24e-01   |5.02e-04   3.28e+00   |
 2.67e+04   |9.97e-04   2.72e+00   |7.86e-04   7.89e-01   |9.06e-04   9.08e-01   |2.11e-04   2.72e+00   |
 4.32e+04   |3.79e-04   4.02e+00   |2.96e-04   7.82e-01   |3.85e-04   1.02e+00   |8.24e-05   3.90e+00   |
-7.85e+04   |1.64e-04   2.79e+00   |1.32e-04   8.03e-01   |1.59e-04   9.66e-01   |3.25e-05   3.12e+00   |
 ------------------------------
 dof        |err_lamh   order      |extra_term  order      |
 1.12e+03   |9.48e-02   0.00e+00   |1.32e-02   0.00e+00   |
@@ -131,7 +341,6 @@ dof        |err_lamh   order      |extra_term  order      |
 1.41e+04   |2.37e-03   3.13e+00   |3.56e-04   3.21e+00   |
 2.67e+04   |9.97e-04   2.72e+00   |1.35e-04   3.04e+00   |
 4.32e+04   |3.79e-04   4.02e+00   |5.58e-05   3.68e+00   |
-7.85e+04   |1.64e-04   2.79e+00   |2.18e-05   3.14e+00   |
 --------- k = 2 --------------
 Initiate empty Parameter object.
 Set problem parameters... done
@@ -203,15 +412,7 @@ temp3 = (graduh* + qh, qh + graduh ) : 4.45e-05
 temp4 = <qh +graduh*, uh - uhat>: 4.45e-05
 est_sum : 6.50e-06
 AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.85e-04
-Mesh 8 ... 
-e4 = lamh(uh* - uh, uh* -uh): 8.31e-06
-e3 = (graduh* + qh, graduh* + qh): 1.87e-05
-e2 = <(qhat-qh)*n, uh-uhhat> : 7.62e-05
-e1 = (lamhuh* - div.qh, uh* - uh) : -3.77e-05
-temp3 = (graduh* + qh, qh + graduh ) : 1.87e-05
-temp4 = <qh +graduh*, uh - uhat>: 1.87e-05
-est_sum : -1.26e-05
-AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 7.62e-05
+Esti<TOL
 
 ---------- Report ------------
 Functional eigen problem
@@ -222,17 +423,17 @@ order k = 2
 Refinement: Adaptive with RGB
 ------------------------------
 Target eigenvalue: 1
-Error Tolerence: 1.00e-14
-Adptive iterations: 8
-DOF: 10716, # Tri: 480 
-ii = 8, Err_lamh :  5.85e-05, tol/err: 1.71e-10
-ii = 8, Estimate: 9.35e-05, tol/est: 1.07e-10
-est/err: 1.60e+00
+Error Tolerence: 5.00e-04
+Adptive iterations: 7
+DOF: 8211, # Tri: 368 
+ii = 7, Err_lamh :  1.83e-04, tol/err: 2.73e+00
+ii = 7, Estimate: 2.31e-04, tol/est: 2.17e+00
+est/err: 1.26e+00
 
 Reduce ratio goal: 10000000000.0
-Estimator :  192.9
-Err_lamh:     403.9
-Err_lamh_AC:  -1270.5
+Estimator :  78.1
+Err_lamh:     129.0
+Err_lamh_AC:  -12127.7
 
 Target eigenvalue 1
 ------------------------------
@@ -244,7 +445,6 @@ dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err
 4.66e+03   |1.02e-03   7.23e+00   |1.00e-03   9.80e-01   |1.04e-03   1.02e+00   |2.01e-05   1.60e+01   |
 6.01e+03   |4.88e-04   5.83e+00   |4.92e-04   1.01e+00   |5.31e-04   1.09e+00   |4.04e-06   1.27e+01   |
 8.21e+03   |1.83e-04   6.28e+00   |1.92e-04   1.05e+00   |2.31e-04   1.26e+00   |8.35e-06   -4.64e+00  |
-1.07e+04   |5.85e-05   8.58e+00   |6.36e-05   1.09e+00   |9.35e-05   1.60e+00   |5.10e-06   3.71e+00   |
 ------------------------------
 dof        |err_lamh   order      |extra_term  order      |
 2.11e+03   |2.36e-02   0.00e+00   |6.08e-03   0.00e+00   |
@@ -254,7 +454,6 @@ dof        |err_lamh   order      |extra_term  order      |
 4.66e+03   |1.02e-03   7.23e+00   |2.56e-04   8.35e+00   |
 6.01e+03   |4.88e-04   5.83e+00   |1.05e-04   7.05e+00   |
 8.21e+03   |1.83e-04   6.28e+00   |4.45e-05   5.48e+00   |
-1.07e+04   |5.85e-05   8.58e+00   |1.87e-05   6.51e+00   |
 --------- k = 3 --------------
 Initiate empty Parameter object.
 Set problem parameters... done
@@ -308,33 +507,7 @@ temp3 = (graduh* + qh, qh + graduh ) : 1.26e-04
 temp4 = <qh +graduh*, uh - uhat>: 1.26e-04
 est_sum : 3.76e-04
 AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 2.51e-06
-Mesh 6 ... 
-e4 = lamh(uh* - uh, uh* -uh): 1.77e-07
-e3 = (graduh* + qh, graduh* + qh): 5.07e-05
-e2 = <(qhat-qh)*n, uh-uhhat> : 2.02e-06
-e1 = (lamhuh* - div.qh, uh* - uh) : -1.21e-06
-temp3 = (graduh* + qh, qh + graduh ) : 5.07e-05
-temp4 = <qh +graduh*, uh - uhat>: 5.07e-05
-est_sum : 1.51e-04
-AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 2.02e-06
-Mesh 7 ... 
-e4 = lamh(uh* - uh, uh* -uh): 1.77e-07
-e3 = (graduh* + qh, graduh* + qh): 2.08e-05
-e2 = <(qhat-qh)*n, uh-uhhat> : 1.92e-06
-e1 = (lamhuh* - div.qh, uh* - uh) : -1.21e-06
-temp3 = (graduh* + qh, qh + graduh ) : 2.08e-05
-temp4 = <qh +graduh*, uh - uhat>: 2.08e-05
-est_sum : 6.11e-05
-AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.92e-06
-Mesh 8 ... 
-e4 = lamh(uh* - uh, uh* -uh): 1.77e-07
-e3 = (graduh* + qh, graduh* + qh): 8.88e-06
-e2 = <(qhat-qh)*n, uh-uhhat> : 1.90e-06
-e1 = (lamhuh* - div.qh, uh* - uh) : -1.21e-06
-temp3 = (graduh* + qh, qh + graduh ) : 8.88e-06
-temp4 = <qh +graduh*, uh - uhat>: 8.88e-06
-est_sum : 2.54e-05
-AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.90e-06
+Esti<TOL
 
 ---------- Report ------------
 Functional eigen problem
@@ -345,17 +518,17 @@ order k = 3
 Refinement: Adaptive with RGB
 ------------------------------
 Target eigenvalue: 1
-Error Tolerence: 1.00e-14
-Adptive iterations: 8
-DOF: 10060, # Tri: 282 
-ii = 8, Err_lamh :  2.62e-05, tol/err: 3.82e-10
-ii = 8, Estimate: 2.75e-05, tol/est: 3.64e-10
-est/err: 1.05e+00
+Error Tolerence: 5.00e-04
+Adptive iterations: 5
+DOF: 7048, # Tri: 198 
+ii = 5, Err_lamh :  3.99e-04, tol/err: 1.25e+00
+ii = 5, Estimate: 3.79e-04, tol/est: 1.32e+00
+est/err: 9.51e-01
 
 Reduce ratio goal: 10000000000.0
-Estimator :  354.5
-Err_lamh:     459.6
-Err_lamh_AC:  488.9
+Estimator :  25.7
+Err_lamh:     30.2
+Err_lamh_AC:  29.9
 
 Target eigenvalue 1
 ------------------------------
@@ -363,43 +536,4 @@ dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err
 3.39e+03   |1.20e-02   0.00e+00   |9.74e-03   8.10e-01   |9.74e-03   8.10e-01   |2.28e-03   0.00e+00   |
 4.18e+03   |5.37e-03   7.72e+00   |4.58e-03   8.52e-01   |4.58e-03   8.52e-01   |7.92e-04   1.01e+01   |
 4.97e+03   |2.51e-03   8.80e+00   |2.37e-03   9.44e-01   |2.37e-03   9.44e-01   |1.41e-04   2.00e+01   |
-6.04e+03   |1.00e-03   9.39e+00   |9.47e-04   9.46e-01   |9.47e-04   9.46e-01   |5.38e-05   9.86e+00   |
-7.05e+03   |3.99e-04   1.20e+01   |3.79e-04   9.51e-01   |3.79e-04   9.51e-01   |1.97e-05   1.31e+01   |
-8.05e+03   |1.59e-04   1.38e+01   |1.53e-04   9.61e-01   |1.53e-04   9.62e-01   |6.25e-06   1.72e+01   |
-9.06e+03   |6.39e-05   1.55e+01   |6.30e-05   9.85e-01   |6.32e-05   9.88e-01   |9.41e-07   3.22e+01   |
-1.01e+04   |2.62e-05   1.70e+01   |2.73e-05   1.04e+00   |2.75e-05   1.05e+00   |1.16e-06   -3.98e+00  |
-------------------------------
-dof        |err_lamh   order      |extra_term  order      |
-3.39e+03   |1.20e-02   0.00e+00   |3.30e-03   0.00e+00   |
-4.18e+03   |5.37e-03   7.72e+00   |1.54e-03   7.31e+00   |
-4.97e+03   |2.51e-03   8.80e+00   |7.95e-04   7.66e+00   |
-6.04e+03   |1.00e-03   9.39e+00   |3.16e-04   9.40e+00   |
-7.05e+03   |3.99e-04   1.20e+01   |1.26e-04   1.20e+01   |
-8.05e+03   |1.59e-04   1.38e+01   |5.07e-05   1.37e+01   |
-9.06e+03   |6.39e-05   1.55e+01   |2.08e-05   1.52e+01   |
-1.01e+04   |2.62e-05   1.70e+01   |8.88e-06   1.62e+01   |
-close all
-scripts_draw_triangle
-{Undefined function or variable 'slpe'.
-
-Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('scripts_draw_triangle', '/Users/shiqiangxia/Desktop/hdg2dtriangular/06-ErrorAnalysis/scripts_draw_triangle.m', 9)" style="font-weight:bold">scripts_draw_triangle</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/06-ErrorAnalysis/scripts_draw_triangle.m',9,0)">line 9</a>)
-end_y = start_y + slpe * delta;
-} 
-opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/06-ErrorAnalysis/scripts_draw_triangle.m',9,0)
-scripts_draw_triangle
-scripts_draw_triangle
-hold on
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-scripts_draw_triangle
-clc
-diary 06-24-ratio-eig
+6.04e+03   |1.00e-03   9.39e+00   |9.47e-04   9.46e-01   |9.47e-04   9.46e-01   |5.38e-05   9.86e+

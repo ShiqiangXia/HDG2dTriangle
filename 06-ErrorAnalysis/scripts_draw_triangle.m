@@ -1,8 +1,8 @@
 
-start_x = 1.925;
-start_y = -3;
+start_x = 2.1;
+start_y = -7.5;
 
-end_x = 2;
+end_x = 2.3;
 
 slope = -7;
 

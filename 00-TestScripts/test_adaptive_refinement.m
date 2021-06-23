@@ -142,9 +142,9 @@ end
     
     pb_type = 2110;
     
-    %Niter_max = 6;
-    %TOL_list = [5*1e-3,5*1e-4,5*1e-5];
-    %N_TOL = size(TOL_list,2);
+    Niter_max = 20;
+    TOL_list = [5*1e-3,5*1e-4,5*1e-5];
+    N_TOL = size(TOL_list,2);
     
     if smooth_flag == 0
         dom_ype = 'L';
