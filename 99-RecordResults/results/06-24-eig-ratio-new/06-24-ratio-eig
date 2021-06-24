@@ -536,4 +536,419 @@ dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err
 3.39e+03   |1.20e-02   0.00e+00   |9.74e-03   8.10e-01   |9.74e-03   8.10e-01   |2.28e-03   0.00e+00   |
 4.18e+03   |5.37e-03   7.72e+00   |4.58e-03   8.52e-01   |4.58e-03   8.52e-01   |7.92e-04   1.01e+01   |
 4.97e+03   |2.51e-03   8.80e+00   |2.37e-03   9.44e-01   |2.37e-03   9.44e-01   |1.41e-04   2.00e+01   |
-6.04e+03   |1.00e-03   9.39e+00   |9.47e-04   9.46e-01   |9.47e-04   9.46e-01   |5.38e-05   9.86e+
+6.04e+03   |1.00e-03   9.39e+00   |9.47e-04   9.46e-01   |9.47e-04   9.46e-01   |5.38e-05   9.86e+00   |
+7.05e+03   |3.99e-04   1.20e+01   |3.79e-04   9.51e-01   |3.79e-04   9.51e-01   |1.97e-05   1.31e+01   |
+------------------------------
+dof        |err_lamh   order      |extra_term  order      |
+3.39e+03   |1.20e-02   0.00e+00   |3.30e-03   0.00e+00   |
+4.18e+03   |5.37e-03   7.72e+00   |1.54e-03   7.31e+00   |
+4.97e+03   |2.51e-03   8.80e+00   |7.95e-04   7.66e+00   |
+6.04e+03   |1.00e-03   9.39e+00   |3.16e-04   9.40e+00   |
+7.05e+03   |3.99e-04   1.20e+01   |1.26e-04   1.20e+01   |
+TOL : 5.00e-05
+--------- k = 1 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.56e-02
+e3 = (graduh* + qh, graduh* + qh): 1.32e-02
+e2 = <(qhat-qh)*n, uh-uhhat> : 8.57e-02
+e1 = (lamhuh* - div.qh, uh* - uh) : -5.29e-02
+temp3 = (graduh* + qh, qh + graduh ) : 1.32e-02
+temp4 = <qh +graduh*, uh - uhat>: 1.32e-02
+est_sum : -1.05e-02
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 8.57e-02
+Mesh 2 ... 
+e4 = lamh(uh* - uh, uh* -uh): 4.97e-03
+e3 = (graduh* + qh, graduh* + qh): 5.90e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 3.22e-02
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.77e-02
+temp3 = (graduh* + qh, qh + graduh ) : 5.90e-03
+temp4 = <qh +graduh*, uh - uhat>: 5.90e-03
+est_sum : -6.35e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 3.22e-02
+Mesh 3 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.58e-03
+e3 = (graduh* + qh, graduh* + qh): 2.07e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.38e-02
+e1 = (lamhuh* - div.qh, uh* - uh) : -8.50e-03
+temp3 = (graduh* + qh, qh + graduh ) : 2.07e-03
+temp4 = <qh +graduh*, uh - uhat>: 2.07e-03
+est_sum : -2.77e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.38e-02
+Mesh 4 ... 
+e4 = lamh(uh* - uh, uh* -uh): 5.29e-04
+e3 = (graduh* + qh, graduh* + qh): 8.89e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 5.74e-03
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.52e-03
+temp3 = (graduh* + qh, qh + graduh ) : 8.89e-04
+temp4 = <qh +graduh*, uh - uhat>: 8.89e-04
+est_sum : -1.24e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 5.74e-03
+Mesh 5 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.46e-04
+e3 = (graduh* + qh, graduh* + qh): 3.56e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 2.25e-03
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.45e-03
+temp3 = (graduh* + qh, qh + graduh ) : 3.56e-04
+temp4 = <qh +graduh*, uh - uhat>: 3.56e-04
+est_sum : -3.88e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 2.25e-03
+Mesh 6 ... 
+e4 = lamh(uh* - uh, uh* -uh): 3.97e-05
+e3 = (graduh* + qh, graduh* + qh): 1.35e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 8.71e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -6.06e-04
+temp3 = (graduh* + qh, qh + graduh ) : 1.35e-04
+temp4 = <qh +graduh*, uh - uhat>: 1.35e-04
+est_sum : -8.43e-05
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 8.71e-04
+Mesh 7 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.69e-05
+e3 = (graduh* + qh, graduh* + qh): 5.58e-05
+e2 = <(qhat-qh)*n, uh-uhhat> : 4.36e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -2.74e-04
+temp3 = (graduh* + qh, qh + graduh ) : 5.58e-05
+temp4 = <qh +graduh*, uh - uhat>: 5.58e-05
+est_sum : -1.40e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 4.36e-04
+Mesh 8 ... 
+e4 = lamh(uh* - uh, uh* -uh): 4.96e-06
+e3 = (graduh* + qh, graduh* + qh): 2.18e-05
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.76e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.19e-04
+temp3 = (graduh* + qh, qh + graduh ) : 2.18e-05
+temp4 = <qh +graduh*, uh - uhat>: 2.18e-05
+est_sum : -4.40e-05
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.76e-04
+Mesh 9 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.60e-06
+e3 = (graduh* + qh, graduh* + qh): 8.66e-06
+e2 = <(qhat-qh)*n, uh-uhhat> : 7.53e-05
+e1 = (lamhuh* - div.qh, uh* - uh) : -4.90e-05
+temp3 = (graduh* + qh, qh + graduh ) : 8.66e-06
+temp4 = <qh +graduh*, uh - uhat>: 8.66e-06
+est_sum : -2.50e-05
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 7.53e-05
+Mesh 10 ... 
+e4 = lamh(uh* - uh, uh* -uh): 5.25e-07
+e3 = (graduh* + qh, graduh* + qh): 3.38e-06
+e2 = <(qhat-qh)*n, uh-uhhat> : 3.25e-05
+e1 = (lamhuh* - div.qh, uh* - uh) : -2.16e-05
+temp3 = (graduh* + qh, qh + graduh ) : 3.38e-06
+temp4 = <qh +graduh*, uh - uhat>: 3.38e-06
+est_sum : -1.13e-05
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 3.25e-05
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 1
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-05
+Adptive iterations: 10
+DOF: 246596, # Tri: 20580 
+ii = 10, Err_lamh :  2.64e-05, tol/err: 1.89e+00
+ii = 10, Estimate: 2.69e-05, tol/est: 1.86e+00
+est/err: 1.02e+00
+
+Reduce ratio goal: 10000000000.0
+Estimator :  2971.2
+Err_lamh:     3585.7
+Err_lamh_AC:  -1493.6
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+1.12e+03   |9.48e-02   0.00e+00   |7.53e-02   7.94e-01   |8.00e-02   8.44e-01   |1.96e-02   0.00e+00   |
+2.34e+03   |3.30e-02   2.87e+00   |2.59e-02   7.84e-01   |3.07e-02   9.29e-01   |7.13e-03   2.75e+00   |
+4.27e+03   |1.44e-02   2.75e+00   |1.10e-02   7.66e-01   |1.25e-02   8.70e-01   |3.37e-03   2.48e+00   |
+7.97e+03   |5.78e-03   2.92e+00   |4.50e-03   7.79e-01   |5.32e-03   9.20e-01   |1.28e-03   3.11e+00   |
+1.41e+04   |2.37e-03   3.13e+00   |1.87e-03   7.88e-01   |2.19e-03   9.24e-01   |5.02e-04   3.28e+00   |
+2.67e+04   |9.97e-04   2.72e+00   |7.86e-04   7.89e-01   |9.06e-04   9.08e-01   |2.11e-04   2.72e+00   |
+4.32e+04   |3.79e-04   4.02e+00   |2.96e-04   7.82e-01   |3.85e-04   1.02e+00   |8.24e-05   3.90e+00   |
+7.85e+04   |1.64e-04   2.79e+00   |1.32e-04   8.03e-01   |1.59e-04   9.66e-01   |3.25e-05   3.12e+00   |
+1.40e+05   |6.32e-05   3.31e+00   |5.03e-05   7.95e-01   |6.50e-05   1.03e+00   |1.30e-05   3.18e+00   |
+2.47e+05   |2.64e-05   3.07e+00   |2.12e-05   8.03e-01   |2.69e-05   1.02e+00   |5.20e-06   3.21e+00   |
+------------------------------
+dof        |err_lamh   order      |extra_term  order      |
+1.12e+03   |9.48e-02   0.00e+00   |1.32e-02   0.00e+00   |
+2.34e+03   |3.30e-02   2.87e+00   |5.90e-03   2.18e+00   |
+4.27e+03   |1.44e-02   2.75e+00   |2.07e-03   3.47e+00   |
+7.97e+03   |5.78e-03   2.92e+00   |8.89e-04   2.71e+00   |
+1.41e+04   |2.37e-03   3.13e+00   |3.56e-04   3.21e+00   |
+2.67e+04   |9.97e-04   2.72e+00   |1.35e-04   3.04e+00   |
+4.32e+04   |3.79e-04   4.02e+00   |5.58e-05   3.68e+00   |
+7.85e+04   |1.64e-04   2.79e+00   |2.18e-05   3.14e+00   |
+1.40e+05   |6.32e-05   3.31e+00   |8.66e-06   3.21e+00   |
+2.47e+05   |2.64e-05   3.07e+00   |3.38e-06   3.31e+00   |
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.53e-04
+e3 = (graduh* + qh, graduh* + qh): 6.08e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.20e-03
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.91e-04
+temp3 = (graduh* + qh, qh + graduh ) : 6.08e-03
+temp4 = <qh +graduh*, uh - uhat>: 6.08e-03
+est_sum : 1.68e-02
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.20e-03
+Mesh 2 ... 
+e4 = lamh(uh* - uh, uh* -uh): 7.27e-05
+e3 = (graduh* + qh, graduh* + qh): 2.85e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 6.51e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.41e-04
+temp3 = (graduh* + qh, qh + graduh ) : 2.85e-03
+temp4 = <qh +graduh*, uh - uhat>: 2.85e-03
+est_sum : 8.01e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 6.51e-04
+Mesh 3 ... 
+e4 = lamh(uh* - uh, uh* -uh): 6.06e-05
+e3 = (graduh* + qh, graduh* + qh): 1.53e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 5.30e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.28e-04
+temp3 = (graduh* + qh, qh + graduh ) : 1.53e-03
+temp4 = <qh +graduh*, uh - uhat>: 1.53e-03
+est_sum : 4.26e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 5.30e-04
+Mesh 4 ... 
+e4 = lamh(uh* - uh, uh* -uh): 5.80e-05
+e3 = (graduh* + qh, graduh* + qh): 6.23e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 4.81e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.26e-04
+temp3 = (graduh* + qh, qh + graduh ) : 6.23e-04
+temp4 = <qh +graduh*, uh - uhat>: 6.23e-04
+est_sum : 1.62e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 4.81e-04
+Mesh 5 ... 
+e4 = lamh(uh* - uh, uh* -uh): 5.60e-05
+e3 = (graduh* + qh, graduh* + qh): 2.56e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 4.58e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.18e-04
+temp3 = (graduh* + qh, qh + graduh ) : 2.56e-04
+temp4 = <qh +graduh*, uh - uhat>: 2.56e-04
+est_sum : 5.43e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 4.58e-04
+Mesh 6 ... 
+e4 = lamh(uh* - uh, uh* -uh): 4.59e-05
+e3 = (graduh* + qh, graduh* + qh): 1.05e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 3.74e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -2.53e-04
+temp3 = (graduh* + qh, qh + graduh ) : 1.05e-04
+temp4 = <qh +graduh*, uh - uhat>: 1.05e-04
+est_sum : 1.18e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 3.74e-04
+Mesh 7 ... 
+e4 = lamh(uh* - uh, uh* -uh): 2.22e-05
+e3 = (graduh* + qh, graduh* + qh): 4.45e-05
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.85e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.11e-04
+temp3 = (graduh* + qh, qh + graduh ) : 4.45e-05
+temp4 = <qh +graduh*, uh - uhat>: 4.45e-05
+est_sum : 6.50e-06
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.85e-04
+Mesh 8 ... 
+e4 = lamh(uh* - uh, uh* -uh): 8.31e-06
+e3 = (graduh* + qh, graduh* + qh): 1.87e-05
+e2 = <(qhat-qh)*n, uh-uhhat> : 7.62e-05
+e1 = (lamhuh* - div.qh, uh* - uh) : -3.77e-05
+temp3 = (graduh* + qh, qh + graduh ) : 1.87e-05
+temp4 = <qh +graduh*, uh - uhat>: 1.87e-05
+est_sum : -1.26e-05
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 7.62e-05
+Mesh 9 ... 
+e4 = lamh(uh* - uh, uh* -uh): 3.44e-06
+e3 = (graduh* + qh, graduh* + qh): 8.51e-06
+e2 = <(qhat-qh)*n, uh-uhhat> : 3.83e-05
+e1 = (lamhuh* - div.qh, uh* - uh) : -2.34e-05
+temp3 = (graduh* + qh, qh + graduh ) : 8.51e-06
+temp4 = <qh +graduh*, uh - uhat>: 8.51e-06
+est_sum : -7.23e-07
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 3.83e-05
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 2
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-05
+Adptive iterations: 9
+DOF: 12777, # Tri: 572 
+ii = 9, Err_lamh :  3.32e-05, tol/err: 1.50e+00
+ii = 9, Estimate: 4.27e-05, tol/est: 1.17e+00
+est/err: 1.29e+00
+
+Reduce ratio goal: 10000000000.0
+Estimator :  421.9
+Err_lamh:     711.3
+Err_lamh_AC:  -4474.4
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+2.11e+03   |2.36e-02   0.00e+00   |1.80e-02   7.61e-01   |1.80e-02   7.63e-01   |5.65e-03   0.00e+00   |
+2.60e+03   |1.07e-02   7.54e+00   |8.66e-03   8.07e-01   |8.70e-03   8.11e-01   |2.07e-03   9.58e+00   |
+3.10e+03   |5.15e-03   8.48e+00   |4.79e-03   9.29e-01   |4.83e-03   9.37e-01   |3.65e-04   2.01e+01   |
+3.77e+03   |2.21e-03   8.62e+00   |2.10e-03   9.50e-01   |2.14e-03   9.67e-01   |1.11e-04   1.22e+01   |
+4.66e+03   |1.02e-03   7.23e+00   |1.00e-03   9.80e-01   |1.04e-03   1.02e+00   |2.01e-05   1.60e+01   |
+6.01e+03   |4.88e-04   5.83e+00   |4.92e-04   1.01e+00   |5.31e-04   1.09e+00   |4.04e-06   1.27e+01   |
+8.21e+03   |1.83e-04   6.28e+00   |1.92e-04   1.05e+00   |2.31e-04   1.26e+00   |8.35e-06   -4.64e+00  |
+1.07e+04   |5.85e-05   8.58e+00   |6.36e-05   1.09e+00   |9.35e-05   1.60e+00   |5.10e-06   3.71e+00   |
+1.28e+04   |3.32e-05   6.43e+00   |3.75e-05   1.13e+00   |4.27e-05   1.29e+00   |4.29e-06   1.95e+00   |
+------------------------------
+dof        |err_lamh   order      |extra_term  order      |
+2.11e+03   |2.36e-02   0.00e+00   |6.08e-03   0.00e+00   |
+2.60e+03   |1.07e-02   7.54e+00   |2.85e-03   7.23e+00   |
+3.10e+03   |5.15e-03   8.48e+00   |1.53e-03   7.17e+00   |
+3.77e+03   |2.21e-03   8.62e+00   |6.23e-04   9.17e+00   |
+4.66e+03   |1.02e-03   7.23e+00   |2.56e-04   8.35e+00   |
+6.01e+03   |4.88e-04   5.83e+00   |1.05e-04   7.05e+00   |
+8.21e+03   |1.83e-04   6.28e+00   |4.45e-05   5.48e+00   |
+1.07e+04   |5.85e-05   8.58e+00   |1.87e-05   6.51e+00   |
+1.28e+04   |3.32e-05   6.43e+00   |8.51e-06   8.95e+00   |
+--------- k = 3 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+Mesh 1 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.78e-05
+e3 = (graduh* + qh, graduh* + qh): 3.30e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.64e-04
+e1 = (lamhuh* - div.qh, uh* - uh) : 1.29e-05
+temp3 = (graduh* + qh, qh + graduh ) : 3.30e-03
+temp4 = <qh +graduh*, uh - uhat>: 3.30e-03
+est_sum : 9.58e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.64e-04
+Mesh 2 ... 
+e4 = lamh(uh* - uh, uh* -uh): 2.99e-06
+e3 = (graduh* + qh, graduh* + qh): 1.54e-03
+e2 = <(qhat-qh)*n, uh-uhhat> : 4.55e-05
+e1 = (lamhuh* - div.qh, uh* - uh) : 1.41e-07
+temp3 = (graduh* + qh, qh + graduh ) : 1.54e-03
+temp4 = <qh +graduh*, uh - uhat>: 1.54e-03
+est_sum : 4.53e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 4.55e-05
+Mesh 3 ... 
+e4 = lamh(uh* - uh, uh* -uh): 7.71e-07
+e3 = (graduh* + qh, graduh* + qh): 7.95e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.74e-05
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.47e-06
+temp3 = (graduh* + qh, qh + graduh ) : 7.95e-04
+temp4 = <qh +graduh*, uh - uhat>: 7.95e-04
+est_sum : 2.35e-03
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.74e-05
+Mesh 4 ... 
+e4 = lamh(uh* - uh, uh* -uh): 2.36e-07
+e3 = (graduh* + qh, graduh* + qh): 3.16e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 4.99e-06
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.30e-06
+temp3 = (graduh* + qh, qh + graduh ) : 3.16e-04
+temp4 = <qh +graduh*, uh - uhat>: 3.16e-04
+est_sum : 9.42e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 4.99e-06
+Mesh 5 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.83e-07
+e3 = (graduh* + qh, graduh* + qh): 1.26e-04
+e2 = <(qhat-qh)*n, uh-uhhat> : 2.51e-06
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.23e-06
+temp3 = (graduh* + qh, qh + graduh ) : 1.26e-04
+temp4 = <qh +graduh*, uh - uhat>: 1.26e-04
+est_sum : 3.76e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 2.51e-06
+Mesh 6 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.77e-07
+e3 = (graduh* + qh, graduh* + qh): 5.07e-05
+e2 = <(qhat-qh)*n, uh-uhhat> : 2.02e-06
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.21e-06
+temp3 = (graduh* + qh, qh + graduh ) : 5.07e-05
+temp4 = <qh +graduh*, uh - uhat>: 5.07e-05
+est_sum : 1.51e-04
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 2.02e-06
+Mesh 7 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.77e-07
+e3 = (graduh* + qh, graduh* + qh): 2.08e-05
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.92e-06
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.21e-06
+temp3 = (graduh* + qh, qh + graduh ) : 2.08e-05
+temp4 = <qh +graduh*, uh - uhat>: 2.08e-05
+est_sum : 6.11e-05
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.92e-06
+Mesh 8 ... 
+e4 = lamh(uh* - uh, uh* -uh): 1.77e-07
+e3 = (graduh* + qh, graduh* + qh): 8.88e-06
+e2 = <(qhat-qh)*n, uh-uhhat> : 1.90e-06
+e1 = (lamhuh* - div.qh, uh* - uh) : -1.21e-06
+temp3 = (graduh* + qh, qh + graduh ) : 8.88e-06
+temp4 = <qh +graduh*, uh - uhat>: 8.88e-06
+est_sum : 2.54e-05
+AC = <tau*(uh-uh_hat),(uh-uh_hat)> : 1.90e-06
+Esti<TOL
+
+---------- Report ------------
+Functional eigen problem
+Eq: -Laplace u = lam * u
+   u = 0 on bounary
+Dom type: L
+order k = 3
+Refinement: Adaptive with RGB
+------------------------------
+Target eigenvalue: 1
+Error Tolerence: 5.00e-05
+Adptive iterations: 8
+DOF: 10060, # Tri: 282 
+ii = 8, Err_lamh :  2.62e-05, tol/err: 1.91e+00
+ii = 8, Estimate: 2.75e-05, tol/est: 1.82e+00
+est/err: 1.05e+00
+
+Reduce ratio goal: 10000000000.0
+Estimator :  354.5
+Err_lamh:     459.6
+Err_lamh_AC:  488.9
+
+Target eigenvalue 1
+------------------------------
+dof        |err_lamh   order      ||Eh|       |Eh/err|   |Eh_loc     |Eh_loc/err|  |err_Dh     order      |
+3.39e+03   |1.20e-02   0.00e+00   |9.74e-03   8.10e-01   |9.74e-03   8.10e-01   |2.28e-03   0.00e+00   |
+4.18e+03   |5.37e-03   7.72e+00   |4.58e-03   8.52e-01   |4.58e-03   8.52e-01   |7.92e-04   1.01e+01   |
+4.97e+03   |2.51e-03   8.80e+00   |2.37e-03   9.44e-01   |2.37e-03   9.44e-01   |1.41e-04   2.00e+01   |
+6.04e+03   |1.00e-03   9.39e+00   |9.47e-04   9.46e-01   |9.47e-04   9.46e-01   |5.38e-05   9.86e+00   |
+7.05e+03   |3.99e-04   1.20e+01   |3.79e-04   9.51e-01   |3.79e-04   9.51e-01   |1.97e-05   1.31e+01   |
+8.05e+03   |1.59e-04   1.38e+01   |1.53e-04   9.61e-01   |1.53e-04   9.62e-01   |6.25e-06   1.72e+01   |
+9.06e+03   |6.39e-05   1.55e+01   |6.30e-05   9.85e-01   |6.32e-05   9.88e-01   |9.41e-07   3.22e+01   |
+1.01e+04   |2.62e-05   1.70e+01   |2.73e-05   1.04e+00   |2.75e-05   1.05e+00   |1.16e-06   -3.98e+00  |
+------------------------------
+dof        |err_lamh   order      |extra_term  order      |
+3.39e+03   |1.20e-02   0.00e+00   |3.30e-03   0.00e+00   |
+4.18e+03   |5.37e-03   7.72e+00   |1.54e-03   7.31e+00   |
+4.97e+03   |2.51e-03   8.80e+00   |7.95e-04   7.66e+00   |
+6.04e+03   |1.00e-03   9.39e+00   |3.16e-04   9.40e+00   |
+7.05e+03   |3.99e-04   1.20e+01   |1.26e-04   1.20e+01   |
+8.05e+03   |1.59e-04   1.38e+01   |5.07e-05   1.37e+01   |
+9.06e+03   |6.39e-05   1.55e+01   |2.08e-05   1.52e+01   |
+1.01e+04   |2.62e-05   1.70e+01   |8.88e-06   1.62e+01   |
+diary off
