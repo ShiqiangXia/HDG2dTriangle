@@ -265,7 +265,7 @@ function [est_sum,est1,est2,est3,est4,lam_ustar]...
         %%%%%%%%%%%%%%%
 
         %est_sum = (est4 +est3 - 2.0*(est2 + est1))/uh_L2 ; % est3
-        est_sum = (est4 + est3 - 2.0*(est2 + est1 ))/uh_L2  + 2 * temp4/uh_L2; % est3
+        est_sum = (est4 + est3 - 2.0*(est2 + est1 ))/uh_L2;  %+ 2 * temp4/uh_L2; % est3
         %est_sum = (est4 - est3 + 2.0*(temp3 - temp4))/uh_L2; % est3
         
         

@@ -11,8 +11,8 @@ function EllipticProblemDriver(para)
     temp_report_flag = 1;
     plot_log_err_flag = 1;
     posterior_estimate_method = 2;
-    latex_table_flag = 0;
-    save_flag = 0;
+    latex_table_flag = 1;
+    save_flag = 1;
     
     if strcmp(pb_type(2),'0') && strcmp(pb_type(4),'1')
         my_file_name = 'func1_k';
@@ -601,7 +601,7 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii>Niter
+            if ii<=Niter
                 mymesh.Plot(0);
                 if strcmp(pb_type(2),'0') % source problem
                     title_error = err_Jh_list(ii);
