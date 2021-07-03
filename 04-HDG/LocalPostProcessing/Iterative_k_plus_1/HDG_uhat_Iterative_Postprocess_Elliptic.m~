@@ -1,0 +1,31 @@
+function HDG_uhat_Iterative_Postprocess_Elliptic(pb,mymesh,...
+        GQ1DRef_pts,GQ1DRef_wts,...
+        k_out,k_in,tau,uhat,source_f,uD,uN)
+    
+    % Iterative postprocessing
+    % input: uhat_k from HDG k 
+    % step 1: uhat_k+1 = Proj(uhat_k) (project uhat_k to P_{k+1} )
+    % step 2: Solve HDG k+1 Local solver A_{k+1} x = uhat_k+1
+    % step 3: get new uhat_k+1 using the relation of uhat and uh,qh
+    %        formula uhat = tau+/T uh+  + tau-/T + uh-  + 1/T [[qh]]
+    %         here T = tau+ + tau-,  [[qh]] = qh+ * n+  + qh- * n-
+    % step 4: GO TO step 2 and iterate
+    
+    %% ---- step 1: Project uhat_k to P_{k+1} space ----------------------
+    
+    uhat_out = SomeFunc(mymesh, k_out, k_in, uhat, uD, uN);
+    
+    %% ---- step 2.1: Get local equations for HDG k_out -------------------
+    
+    [List_LocSol, List_LocSol_f, List_Ns]...
+        = HDG_GetLocalEquations_Elliptic(pb, mymesh,GQ1DRef_pts,GQ1DRef_wts,...
+        k_out,tau,source_f);
+    
+    %% ---- Step 2.2: Recover the local variables -------------------------
+    [qh_out,uh_out] = HDG_RecoverLovalVariable_Elliptic(mymesh,...
+        k_out,uhat_out,List_LocSol,List_LocSol_f);
+    
+    %% ---- Step 3: Ite
+    
+    
+end

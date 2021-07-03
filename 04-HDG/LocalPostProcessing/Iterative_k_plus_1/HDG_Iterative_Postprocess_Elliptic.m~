@@ -1,0 +1,11 @@
+function HDG_Iterative_Postprocess_Elliptic()
+    
+    % Iterative postprocessing
+    % step1: HDG k ---> uhat_k
+    % step2: uhat_k+1 = Proj(uhat_k) (project uhat_k to P_{k+1} )
+    % step3: HDG k+1 Local solver A_{k+1} x = uhat_k+1
+    % step4: get new uhat_k+1 using the relation of uhat and uh,qh
+    %        
+    
+    
+end
