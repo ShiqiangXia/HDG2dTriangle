@@ -1,14 +1,12 @@
 function uhat = BuildUhatFromQhUh(mymesh, k,qh,uh,tau, uhatD, List_Ns)
     
     % go through each element and build uhat from qh and uh
-    % use the transmission condition
     %        formula uhat = tau+/T uh+  + tau-/T + uh-  + 1/T [[qh]]
     %         here T = tau+ + tau-,  [[qh]] = qh+ * n+  + qh- * n-
     
     % to get the right coefficients: multiply both side by a test func mu
-    % we get 
-    % <uhat, mu> 
-    % = ( <qh+ * n + tau+ * uh+, mu> + <qh- * n + tau- * uh-, mu> )/(tau+ + tau-)
+    % we get <uhat, mu> = ( <qh+ * n + tau+ * uh+, mu> + <qh- * n + tau- *
+    % uh-, mu> )
     
     
     Nuhat = k + 1 ;

@@ -15,7 +15,7 @@ function [uh_out, qh_out, uhat_out]=HDG_uhat_Iterative_Postprocess_Elliptic(pb,m
     %% ---- step 1: Project uhat_k to P_{k+1} space ----------------------
     % 1. set uhat to the right position
     % 2. for bdry, project uD to k+1
-    uhat0 = ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts);
+    [uhat0, uhatD] = ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts);
     
     %% ---- step 2.1: Get local equations for HDG k_out -------------------
     

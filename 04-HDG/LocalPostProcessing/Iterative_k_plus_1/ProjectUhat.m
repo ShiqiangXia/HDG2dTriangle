@@ -1,4 +1,4 @@
-function ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts)
+function [uhat_out, uhatD_out] = ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts)
     % project uhat from k_in to k_out
     % Since we use Legendre polynomial, the projection is simple injection
     % the only extra thing we need to handle is the boundary uD
@@ -7,13 +7,15 @@ function ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts)
     Nuhat_in = k_in + 1;
     Nuhat_out = k_out + 1;
     num_elements = mymesh.num_elements;
+    num_faces = mymesh.num_faces;
     
-    uhat_out = zeros(Nuhat_out, num_elements, numeric_t);
-    uhat_in = reshape(uhat, [Nuhat_in,num_elements]);
+    uhat_out = zeros(Nuhat_out, num_faces, numeric_t);
+    uhat_in = reshape(uhat, [Nuhat_in,num_faces]);
     
     uhat_out(1:Nuhat_in,:) = uhat_in(:,:);
     
-    uhat_out = reshape(uhat_out,[Nuhat_out * num_elements, 1]);
+    uhat_out = reshape(uhat_out,[Nuhat_out * num_faces, 1]);
+    uhatD_out = numeric_t(sparse(Nuhat_out*num_faces,1));
     
     for element_idx = 1: num_elements
         
@@ -28,8 +30,8 @@ function ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts)
         for ii = 1:length(ele_face_idx_list)
             face_id = ele_face_idx_list(ii);
           
-            start_id=(face_id-1)*Nuhat+1;
-            end_id = face_id*Nuhat;
+            start_id=(face_id-1) * Nuhat_out+1;
+            end_id = face_id * Nuhat_out;
          
             bdry_flag = mymesh.f_type(face_id);
             
@@ -37,9 +39,12 @@ function ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts)
                 % dirichlet boundary face 
                 % just simply enforce boundary conditions
                 Jk = mymesh.Jacobian_list(element_idx);
-                uhat_out(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,...
+                temp_proj = Project_F_to_Face(Jk,vertice_list,...
                     ii,uhat_dir_list(1,ii),edge_len_list(ii),...
                     k_out,uD,GQ1DRef_pts,GQ1DRef_wts);
+                
+                uhat_out(start_id:end_id,1) = temp_proj;
+                uhatD_out(start_id:end_id,1) = temp_proj;
             end
         end
     end
