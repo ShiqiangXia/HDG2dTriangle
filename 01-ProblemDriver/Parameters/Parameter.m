@@ -19,7 +19,7 @@ classdef Parameter
         pb_parameters % all the necessary parameters to define the PDE,
                       % including the source_f, the boundary data 
         
-        % domain and mesh parameters---------------------------------------
+        %% domain and mesh parameters---------------------------------------
         
         structure_flag % 0: unstructured, 1: structured
         dom_type % 'Rec', 'L', 'Cir', 'CirHole'
@@ -30,13 +30,13 @@ classdef Parameter
         
         
         
-        % numerical method parameters -------------------------------------
+        %% numerical method parameters -------------------------------------
         
         order  % HDG method polynomial degree
         tau % stabiliaztion parameter
         post_process_flag
         
-        % experiment parameters--------------------------------------------
+        %% experiment parameters--------------------------------------------
         precision
         GQ_deg % Gauss Quadrature 
         

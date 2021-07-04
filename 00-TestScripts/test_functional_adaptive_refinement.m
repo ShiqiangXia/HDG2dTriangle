@@ -1,3 +1,4 @@
+% script to test functional approximation 
 
 refine_flag = 1; % 1 adaptive; 0: uniform
 Niter_max = 8;
@@ -5,13 +6,15 @@ Niter_max = 8;
 TOL_list = [1e-14];
 N_TOL = size(TOL_list,2);
 
-smooth_flag =0;
+smooth_flag =0; % 1: smooth data; 0: non-smooth
+
+% 1: run this case; 0: not run
 
 flag_func1 = 0;
 flag_func2 = 0;
 flag_func3 = 1;
 
-flag_k1    = 1;
+flag_k1    = 1; 
 flag_k2    = 1;
 flag_k3    = 1;
 

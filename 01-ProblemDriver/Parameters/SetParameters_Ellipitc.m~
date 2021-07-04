@@ -71,8 +71,10 @@ function para = SetParameters_Ellipitc(varargin)
         source_g = @(p)2*mypi^2*sin(mypi*p(:,1)).*(sin(mypi*p(:,2)));
         vD = @(p) 0*p(:,1);
         vN = @(p) 0*p(:,1);
+    
     elseif adjoint_data == 1
         %% %%%%%%%%% constant g = 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
         vexact = @(p)0*p(:,1);
         pexact_1 = @(p)0*p(:,1);
         pexact_2 = @(p)0*p(:,1);
@@ -81,8 +83,9 @@ function para = SetParameters_Ellipitc(varargin)
 
         vD = @(p) 0*p(:,1);
         vN = @(p) 0*p(:,1);
+
     elseif adjoint_data == 2
-        %% %%%%%%% v is discontinuous on the boundary %%%%%%%%%%%%%%%%%%%%%%
+   %%%%%%%%% v is discontinuous on the boundary %%%%%%%%%%%%%%%%%%%%%%
         aa = 0.2;
         bb = 0.8;
         condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=aa).*(p(:,1)<=bb);
@@ -94,7 +97,7 @@ function para = SetParameters_Ellipitc(varargin)
         vD = vexact;
         vN = @(p) 0*p(:,1);
     elseif adjoint_data == 3
-        %% %%%%%%%  v is continuous on the boundary %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      %%%%%%%%%  v is continuous on the boundary %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         vexact = @(p)p(:,1).*p(:,2); % x*y
         pexact_1 = @(p)-p(:,2);
         pexact_2 = @(p)-p(:,x);
@@ -103,7 +106,7 @@ function para = SetParameters_Ellipitc(varargin)
         vD = @(p) p(:,1).*p(:,2);
         vN = @(p) 0*p(:,1);
     elseif adjoint_data == 4
-        %% %%%%%%%  v smooth %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%  v smooth %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         mypi = pi;
         vexact = @(p)sin(mypi*p(:,1)).*exp(mypi*p(:,2)); % sin(pi x) *exp(pi y)
         pexact_1 = @(p)  - mypi * cos(mypi*p(:,1)).* exp(mypi*p(:,2));
@@ -114,8 +117,27 @@ function para = SetParameters_Ellipitc(varargin)
         
     else
 
+   
+%     
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+%     vexact = uexact;
+%     pexact_1 = qexact_1;
+%     
+%     pexact_2 = qexact_2;
+%     
+%     source_g= source_f;
+%     vD = vexact;
+%     vN = @(p) 0*p(:,1);
+%     
+    
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     end
    
+    
+    
     tag_eig = 1;
     
     pb_text_info = WriteProbTextInfo(pb_type,primal_data,adjoint_data);
@@ -128,16 +150,12 @@ function para = SetParameters_Ellipitc(varargin)
         'pb_text_info',pb_text_info);
 
     %% domain and mesh parameters----------------------------------------------
-    %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
-    % 'Rec': ["bottom","top","left","right"]
-    % 'L': ["bottom","left","right_low","right_high","top_low","top_high"]
-    % 'Cir': ["Circle"]
-    % 'CirHole': ["InnerCircle","OuterCircle"]
 
     structure_flag = 1;
     
+    %h0 = 0.5;
     if strcmp(dom_type,'Rec')
-        %% %%% Rectangular %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%% Rectangular %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         dom_type = 'Rec';
         dirichlet_flag = ["bottom","top","left","right"];
         neuman_flag = [];
@@ -149,7 +167,8 @@ function para = SetParameters_Ellipitc(varargin)
         para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,x1,y1,x2,y2,tri_dir);
 
     elseif strcmp(dom_type,'L')
-        %% %%% L-shape %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        %%%%% L-shape %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         dom_type = 'L';
         dirichlet_flag = ["bottom","top_high","right_low","left","right_high","top_low"];
         neuman_flag = [];
@@ -157,7 +176,7 @@ function para = SetParameters_Ellipitc(varargin)
         para = para.SetMesh(structure_flag,dom_type,h0,dirichlet_flag,neuman_flag,tri_dir);
 
     elseif strcmp(dom_type,'CirHole')
-        %% CirHole     
+             
         dom_type = 'CirHole'; 
         dirichlet_flag = ["InnerCircle","OuterCircle"];
         neuman_flag = [];
@@ -172,10 +191,23 @@ function para = SetParameters_Ellipitc(varargin)
         error('Wrong dom type! not implemented!')
     end
     
+    
+    
+ 
+    %  dom_type and boundary names:   USE " " for boundary names, NOT ' '
+    % 'Rec': ["bottom","top","left","right"]
+    % 'L': ["bottom","left","right_low","right_high","top_low","top_high"]
+    % 'Cir': ["Circle"]
+    % 'CirHole': ["InnerCircle","OuterCircle"]
+
+
+    
 
     %% numerical method parameters---------------------------------------------
 
+    %order = 1;
     tau = numeric_t('1.0');
+    % post_process_flag = 1
     para = para.SetNM(order,tau,post_process_flag);
 
     %% experiment parameters --------------------------------------------------
@@ -183,12 +215,13 @@ function para = SetParameters_Ellipitc(varargin)
     precision = 'double';
     GQ_deg = 20;  % need more quads for corner singularity case
     
-    % refine_flag = 1; 
+    %Niter = 3;
+    %refine_flag = 1; 
     % 0: uniform refine,
     % -1: build new mesh based on h
     % 1: adaptive refine 'RGB', '2': 'RG' 3. 'NVB'
     
-    % err_cal_flag = 1; % 1: calculate L2 error of uh,qh
+    %err_cal_flag = 1; % 1: calculate L2 error of uh,qh
     
     err_analysis_flag = 0; 
     % 1: compute the exact error terms like (q-qh,p-ph), need to know the exact solution
@@ -199,6 +232,8 @@ function para = SetParameters_Ellipitc(varargin)
     Neig = 3;
     Max_iter = 100;
     tol_eig = 1e-10;
+
+    %tol_adp = 1e-7; %. 
     
     percent = 0.7;
     

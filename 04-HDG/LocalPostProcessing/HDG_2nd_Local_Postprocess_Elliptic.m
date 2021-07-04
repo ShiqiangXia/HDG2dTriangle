@@ -2,7 +2,8 @@ function [uh2star,qh2star] = HDG_2nd_Local_Postprocess_Elliptic(pb,mymesh,...
         GQ1DRef_pts,GQ1DRef_wts,...
         k_2star,k_star,tau,uhstar,source_f,uD,uN)
     
-    
+    % Idea: use uhstar as uhat in the local equation of higher order HDG
+    % method and solve for uh* and qh*
     
     %% ---- step 1: Get local equations -----------------------------------
     

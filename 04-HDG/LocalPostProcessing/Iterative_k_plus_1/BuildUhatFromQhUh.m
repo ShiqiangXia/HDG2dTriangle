@@ -1,4 +1,4 @@
-function uhat = BuildUhatFromQhUh(mymesh, k,qh,uh,tau, uhatD, List_Ns)
+function uhat = BuildUhatFromQhUh(mymesh, k, qh, uh, tau, uhatD, List_Ns)
     
     % go through each element and build uhat from qh and uh
     % use the transmission condition
@@ -13,6 +13,7 @@ function uhat = BuildUhatFromQhUh(mymesh, k,qh,uh,tau, uhatD, List_Ns)
     
     Nuhat = k + 1 ;
     num_faces = mymesh.num_faces;
+    num_elements = mymesh.num_elements;
     COEFF =  numeric_t('1.0')/(tau+ tau);
     
     uhat = zeros(Nuhat * num_faces, 1, numeric_t);
@@ -28,15 +29,14 @@ function uhat = BuildUhatFromQhUh(mymesh, k,qh,uh,tau, uhatD, List_Ns)
         
         for ii = 1:length(ele_face_idx_list)
             face_id = ele_face_idx_list(ii);
-          
-            start_id=(face_id-1)*Nuhat+1;
-            end_id = face_id*Nuhat;
-         
             bdry_flag = mymesh.f_type(face_id);
             
-            scale_factor = numeric_t('1.0')/(edge_len_list(ii)*0.5);
+            start_id=(face_id-1)*Nuhat+1;
+            end_id = face_id*Nuhat;
             
             if bdry_flag == 0 % interior face
+                
+                scale_factor = numeric_t('1.0')/(edge_len_list(ii)*0.5);
                 
                 Bd_Int_mat = List_Ns(:,:,element_idx,ii)'; % transpose
                 
@@ -44,7 +44,7 @@ function uhat = BuildUhatFromQhUh(mymesh, k,qh,uh,tau, uhatD, List_Ns)
                     + COEFF * Bd_Int_mat * temp_vec * scale_factor ;
                 
             elseif bdry_flag == 1 % dirichlet boundary 
-                uhat(start_id:end_id,1) = uhatD(start_id:end_id,1) * scale_factor;
+                uhat(start_id:end_id,1) = uhatD(start_id:end_id,1) ;
             end
         end
         
