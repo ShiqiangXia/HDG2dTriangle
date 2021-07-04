@@ -2,7 +2,7 @@
 
 refine_flag = 0; % 1 adaptive; 0: uniform
 
-Niter_max = 3;
+Niter_max = 2;
 
 %TOL_list = [1e-14];
 %N_TOL = size(TOL_list,2);
@@ -14,9 +14,9 @@ err_cal_flag = 1;
 
 % 1: run this case; 0: not run
 
-flag_k1    = 1; 
+flag_k1    = 0; 
 flag_k2    = 1;
-flag_k3    = 1;
+flag_k3    = 0;
 
 if refine_flag == 0
     fprintf('Uniform Refinement\n')

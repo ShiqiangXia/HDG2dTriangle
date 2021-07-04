@@ -43,8 +43,8 @@ function [uhat_out, uhatD_out] = ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, 
                     ii,uhat_dir_list(1,ii),edge_len_list(ii),...
                     k_out,uD,GQ1DRef_pts,GQ1DRef_wts);
                 
-                uhat_out(start_id:end_id,1) = temp_proj/(edge_len_list(ii)*0.5);
-                uhatD_out(start_id:end_id,1) = temp_proj/(edge_len_list(ii)*0.5);
+                uhat_out(start_id:end_id,1) = temp_proj/(edge_len_list(ii)*numeric_t('0.5'));
+                uhatD_out(start_id:end_id,1) = temp_proj/(edge_len_list(ii)*numeric_t('0.5'));
                 
             end
         end

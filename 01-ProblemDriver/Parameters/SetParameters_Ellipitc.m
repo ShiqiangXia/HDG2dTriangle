@@ -45,16 +45,16 @@ function para = SetParameters_Ellipitc(varargin)
 
         uD = uexact;
         uN = @(p) 0*p(:,1);
-    else
+    elseif primal_data == 2
        %% %%%%%%%%%% Polynomial solution u %%%%%%%%%%%%%%%%%%%%
-%     uexact = @(p) p(:,1)+p(:,2);
-%     
-%     qexact_1 = @(p) 0*p(:,1) - 1;
-%     qexact_2 = @(p) 0*p(:,2) - 1;
-%     source_f = @(p) 0*p(:,1);
-%     uD = uexact;
-%     uN = @(p) 0*p(:,1);
-%     
+        uexact = @(p) p(:,1)+p(:,2);
+
+        qexact_1 = @(p) 0*p(:,1) - 1;
+        qexact_2 = @(p) 0*p(:,2) - 1;
+        source_f = @(p) 0*p(:,1);
+        uD = uexact;
+        uN = @(p) 0*p(:,1);
+
     end 
 
 
@@ -180,7 +180,8 @@ function para = SetParameters_Ellipitc(varargin)
 
     %% experiment parameters --------------------------------------------------
 
-    precision = 'double';
+    %precision = 'double';
+    precision = 'mp' ;
     GQ_deg = 20;  % need more quads for corner singularity case
     
     % refine_flag = 1; 

@@ -14,7 +14,7 @@ function uhat = BuildUhatFromQhUh(mymesh, k, qh, uh, tau, uhatD, List_Ns)
     Nuhat = k + 1 ;
     num_faces = mymesh.num_faces;
     num_elements = mymesh.num_elements;
-    COEFF =  numeric_t('1.0')/(tau+ tau);
+    COEFF =  numeric_t('1.0')/(tau + tau);
     
     uhat = zeros(Nuhat * num_faces, 1, numeric_t);
     
@@ -36,7 +36,7 @@ function uhat = BuildUhatFromQhUh(mymesh, k, qh, uh, tau, uhatD, List_Ns)
             
             if bdry_flag == 0 % interior face
                 
-                scale_factor = numeric_t('1.0')/(edge_len_list(ii)*0.5);
+                scale_factor = numeric_t('2.0')/(edge_len_list(ii));
                 
                 Bd_Int_mat = List_Ns(:,:,element_idx,ii)'; % transpose
                 
