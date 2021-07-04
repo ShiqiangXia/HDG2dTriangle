@@ -4,7 +4,8 @@ function [uh_out, qh_out, uhat_out]=HDG_uhat_Iterative_Postprocess_Elliptic(pb,m
     
     % Iterative postprocessing
     % k_in= k; k_out = k+1
-    % input: uhat_k from HDG k 
+    % input 1 : uhat_k from HDG k 
+    % input 2: uhstar from local postproceesed HDG k 
     % step 1: uhat_k+1 = Proj(uhat_k) (project uhat_k to P_{k+1} )
     % step 2: Solve HDG k+1 Local solver A_{k+1} x = uhat_k+1
     % step 3: get new uhat_k+1 using the relation of uhat and uh,qh
@@ -12,7 +13,7 @@ function [uh_out, qh_out, uhat_out]=HDG_uhat_Iterative_Postprocess_Elliptic(pb,m
     %         here T = tau+ + tau-,  [[qh]] = qh+ * n+  + qh- * n-
     % step 4: GO TO step 2 and iterate
     
-    Max_iter = 0;
+    Max_iter = 5;
     
     %% ---- step 1: Project uhat_k to P_{k+1} space ----------------------
     % 1. set uhat to the right position

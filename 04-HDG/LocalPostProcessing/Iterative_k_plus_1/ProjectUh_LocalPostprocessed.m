@@ -2,7 +2,7 @@ function [uhat_out, uhatD_out] = ...
         ProjectUh_LocalPostprocessed(mymesh, k_out, k_in,...
         uhstar, uD, uN, GQ1DRef_pts,GQ1DRef_wts)
     
-    Nuhat_in = k_in + 1;
+    
     Nuhat_out = k_out + 1;
     num_elements = mymesh.num_elements;
     num_faces = mymesh.num_faces;
@@ -48,7 +48,7 @@ function [uhat_out, uhatD_out] = ...
                 temp_uhat = GQ1DRef_wts'*(uhstar_face_pts.*V1D);
                 temp_uhat = temp_uhat';
             
-                if uhat_dir_list(ll) == 0
+                if uhat_dir_list(ii) == 0
                     temp_uhat = temp_uhat.*dir_vec;
                 end
                 uhat_out(start_id:end_id,1) = uhat_out(start_id:end_id,1)...
