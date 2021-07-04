@@ -12,7 +12,7 @@ function [uh_out, qh_out, uhat_out]=HDG_uhat_Iterative_Postprocess_Elliptic(pb,m
     %         here T = tau+ + tau-,  [[qh]] = qh+ * n+  + qh- * n-
     % step 4: GO TO step 2 and iterate
     
-    Max_iter = 5;
+    Max_iter = 2;
     
     %% ---- step 1: Project uhat_k to P_{k+1} space ----------------------
     % 1. set uhat to the right position
@@ -35,13 +35,13 @@ function [uh_out, qh_out, uhat_out]=HDG_uhat_Iterative_Postprocess_Elliptic(pb,m
     
      %% ---- Step 3: Iterative process -------------------------------------
     
-%     for ii = 1:Max_iter
-%         
-%         uhat_out = BuildUhatFromQhUh(mymesh, k_out, qh_out, uh_out, tau, uhatD, List_Ns) ;
-%         [qh_out,uh_out] = HDG_RecoverLovalVariable_Elliptic(mymesh,...
-%         k_out,uhat_out,List_LocSol,List_LocSol_f);
-%         
-%     end
+    for ii = 1:Max_iter
+        
+        uhat_out = BuildUhatFromQhUh(mymesh, k_out, qh_out, uh_out, tau, uhatD, List_Ns) ;
+        [qh_out,uh_out] = HDG_RecoverLovalVariable_Elliptic(mymesh,...
+        k_out,uhat_out,List_LocSol,List_LocSol_f);
+        
+    end
     
     
     
