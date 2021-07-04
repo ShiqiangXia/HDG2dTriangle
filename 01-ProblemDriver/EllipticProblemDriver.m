@@ -182,7 +182,7 @@ function EllipticProblemDriver(para)
                 
                 %% test a 2n post-processing-- NOT SO GOOD 
                 % Idea: use uhstar as uhat in the local equation of higher order HDG method 
-                %{
+                %
                 k_star = para.order+1;
                 k_2star = para.order+1;
                 
@@ -203,8 +203,10 @@ function EllipticProblemDriver(para)
                 
                 %% test 3rd post-processing idea
                 % iterative method
+                %{
                 k_in = para.order;
                 k_out = para.order+1;
+                %k_out = para.order;
                 
                 [uh2star, qh2star, uhat_2star]...
                     = HDG_uhat_Iterative_Postprocess_Elliptic(pb_type(3),mymesh,...
@@ -220,6 +222,7 @@ function EllipticProblemDriver(para)
                        GQ1DRef_pts,GQ1DRef_wts,0,...
                     k_out,qexact_1,qexact_2);
                 end
+                %}
                 
             end
             % ------------------------------------------------------------- 

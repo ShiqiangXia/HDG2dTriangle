@@ -62,10 +62,10 @@ function EllipticProblemDriver(para)
     if para.post_process_flag == 1 && err_cal_flag == 1
         err_uhstar_list = zeros(Niter,1,numeric_t);
         err_qhstar_list = zeros(Niter,1,numeric_t);
-        %{
+        
         err_uh2star_list = zeros(Niter,1,numeric_t);
         err_qh2star_list = zeros(Niter,1,numeric_t);
-        %}
+        
     end
     
     %%  step 2: Determine what problem we are solving.
@@ -180,7 +180,7 @@ function EllipticProblemDriver(para)
                 end
                 
                 
-                %% test a new post-processing: 
+                %% test a 2n post-processing-- NOT SO GOOD 
                 % Idea: use uhstar as uhat in the local equation of higher order HDG method 
                 %{
                 k_star = para.order+1;
@@ -205,27 +205,22 @@ function EllipticProblemDriver(para)
                 % iterative method
                 k_in = para.order;
                 k_out = para.order+1;
+                k_out = para.order;
                 
                 [uh2star, qh2star, uhat_2star]...
-                    = HDG_uhat_Iterative_Postprocess_Elliptic(pb,mymesh,...
+                    = HDG_uhat_Iterative_Postprocess_Elliptic(pb_type(3),mymesh,...
                     GQ1DRef_pts,GQ1DRef_wts,...
                     k_out,k_in, para.tau, uhat,source_f,uD,uN);
-                [uh2star,qh2star] = HDG_2nd_Local_Postprocess_Elliptic(pb_type(3),mymesh,...
-                    GQ1DRef_pts,GQ1DRef_wts,...
-                    k_2star,k_star,para.tau,uhstar,source_f,uD,uN);
 
                 if err_cal_flag == 1
                     err_uh2star_list(ii) = L2Error_scalar(mymesh,uh2star,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
-                    k_2star,uexact);
+                    k_out,uexact);
 
                     err_qh2star_list(ii)= L2Error_vector(mymesh,qh2star,...
                        GQ1DRef_pts,GQ1DRef_wts,0,...
-                    k_2star,qexact_1,qexact_2);
+                    k_out,qexact_1,qexact_2);
                 end
-                
-                
-                
                 
             end
             % ------------------------------------------------------------- 
@@ -274,8 +269,8 @@ function EllipticProblemDriver(para)
                     order_uh2star = GetOrder(mesh_list,err_uh2star_list);
                     order_qh2star = GetOrder(mesh_list,err_qh2star_list);
                     ReportTable('DOF', mesh_list,...
-                        'err_uh2star',err_uh2star_list,'order',order_uh2star,...
-                        'err_qh2star',err_qh2star_list,'order',order_qh2star )
+                        'err_uh**',err_uh2star_list,'order',order_uh2star,...
+                        'err_qh**',err_qh2star_list,'order',order_qh2star )
                     
                     
                     
