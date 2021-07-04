@@ -1,6 +1,6 @@
 function [uh_out, qh_out, uhat_out]=HDG_uhat_Iterative_Postprocess_Elliptic(pb,mymesh,...
         GQ1DRef_pts,GQ1DRef_wts,...
-        k_out,k_in,tau,u_in,source_f,uD,uN, input_flag)
+        k_out,k_in,tau,uhat,source_f,uD,uN)
     
     % Iterative postprocessing
     % k_in= k; k_out = k+1
@@ -18,10 +18,10 @@ function [uh_out, qh_out, uhat_out]=HDG_uhat_Iterative_Postprocess_Elliptic(pb,m
     % 1. set uhat to the right position
     % 2. for bdry, project uD to k+1
     if input_flag == 1
-        [uhat0, uhatD] = ProjectUhat(mymesh, k_out, k_in, u_in, uD, uN, GQ1DRef_pts,GQ1DRef_wts);
-    elseif input_flag == 2
-        [uhat0, uhatD] = ProjectUh_LocalPostprocessed(mymesh, k_out, k_in, u_in, uD, uN, GQ1DRef_pts,GQ1DRef_wts);
-    end
+    [uhat0, uhatD] = ProjectUhat(mymesh, k_out, k_in, uhat, uD, uN, GQ1DRef_pts,GQ1DRef_wts);
+    el
+    [uhat0, uhatD] = ProjectUh_LocalPostprocessed(mymesh, k_out, k_in, uhstar, uD, uN, GQ1DRef_pts,GQ1DRef_wts);
+    
     %% ---- step 2.1: Get local equations for HDG k_out -------------------
     
     [List_LocSol, List_LocSol_f, List_Ns]...
