@@ -205,14 +205,14 @@ function EllipticProblemDriver(para)
                 % iterative method
                 %
                 k_in = para.order;
-                k_out = para.order;
+                k_out = para.order+1;
                 %k_out = para.order;
                 
                 [uh2star, qh2star, uhat_2star]...
                     = HDG_uhat_Iterative_Postprocess_Elliptic(pb_type(3),mymesh,...
                     GQ1DRef_pts,GQ1DRef_wts,...
                     k_out,k_in, para.tau, uhat,source_f,uD,uN,1);
-                fprintf('u: %.2e  q: %.2e  uhat: %.2e\n', sum(sum(uh - uh2star)),  sum(sum(qh2star - qh)),  sum(sum(uhat - uhat_2star)))
+                %fprintf('u: %.2e  q: %.2e  uhat: %.2e\n', sum(sum(uh - uh2star)),  sum(sum(qh2star - qh)),  sum(sum(uhat - uhat_2star)))
                 if err_cal_flag == 1
                     err_uh2star_list(ii) = L2Error_scalar(mymesh,uh2star,...
                         GQ1DRef_pts,GQ1DRef_wts,0,...
