@@ -21,10 +21,8 @@ function [err,err_list] = L2Error_scalar(mymesh,uh,...
                 [V2D,~] = RTVandermonde2D(k,a_list,b_list); % 1st comp. of RT_k
             elseif post_flag == 4
                 [~,V2D] = RTVandermonde2D(k,a_list,b_list);% 2nd comp. of RT_k
-            elseif post_flag == 5
-                [V2D,~] = GradVandermonde2D(k,a_list,b_list);
-            elseif post_flag == 6
-                [~,V2D] = GradVandermonde2D(k,a_list,b_list);
+            elseif post_flag == 5 || post_flag == 6
+                [V2D_r, V2D_s] = GradVandermonde2D(k,a_list,b_list);
             else
                 error('Wrong post-flag')
             end
@@ -44,7 +42,14 @@ function [err,err_list] = L2Error_scalar(mymesh,uh,...
                 
                 uexact_pts = reshape(uexact_pts,[],NGQ);
                 
-                uh_pts = V2D * (uh(:,element_idx));
+                if post_flag < 5
+                    uh_pts = V2D * (uh(:,element_idx));
+                elseif post_flag == 5
+                    uh_pts = GetGradUhPts(1,Jk,vertice_list,V2D_r,V2D_s,uh(:,element_idx));
+                elseif post_flag == 6
+                    uh_pts = GetGradUhPts(2,Jk,vertice_list,V2D_r,V2D_s,uh(:,element_idx));
+                end
+                
                 uh_pts = reshape(uh_pts,[],NGQ);
                 
                 diff2 = (uexact_pts - uh_pts).^2;

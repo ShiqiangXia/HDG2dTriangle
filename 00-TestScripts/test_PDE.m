@@ -14,9 +14,9 @@ err_cal_flag = 1;
 
 % 1: run this case; 0: not run
 
-flag_k1    = 0; 
+flag_k1    = 1; 
 flag_k2    = 1;
-flag_k3    = 0;
+flag_k3    = 1;
 
 if refine_flag == 0
     fprintf('Uniform Refinement\n')
