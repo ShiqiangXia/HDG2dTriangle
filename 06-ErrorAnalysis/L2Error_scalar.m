@@ -21,6 +21,10 @@ function [err,err_list] = L2Error_scalar(mymesh,uh,...
                 [V2D,~] = RTVandermonde2D(k,a_list,b_list); % 1st comp. of RT_k
             elseif post_flag == 4
                 [~,V2D] = RTVandermonde2D(k,a_list,b_list);% 2nd comp. of RT_k
+            elseif post_flag == 5
+                [V2D,~] = GradVandermonde2D(k,a_list,b_list);
+            elseif post_flag == 6
+                [~,V2D] = GradVandermonde2D(k,a_list,b_list);
             else
                 error('Wrong post-flag')
             end

@@ -12,9 +12,9 @@ function W_RHS = MixedPostScalar_GetRHS(Jk,vertice_list,RT1_ur, RT1_us, RT2_ur, 
     
     
     % RT1 * ux
-    W_RHS_1 = Jk * (RT1_ur' * r_x + RT1_us' * s_x) * qh_RT_coef;
+    W_RHS_1 = Jk * (RT1_ur' * r_x + RT1_us' * s_x) * (-qh_RT_coef);
     % RT2 * uy
-    W_RHS_2 = Jk * (RT2_ur' * r_y + RT2_us' * s_y) * qh_RT_coef;
+    W_RHS_2 = Jk * (RT2_ur' * r_y + RT2_us' * s_y) * (-qh_RT_coef);
     
     W_RHS = W_RHS_1 + W_RHS_2;
     W_RHS(1) = uh_ave*Jk; 
