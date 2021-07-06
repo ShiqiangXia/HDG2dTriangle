@@ -7,16 +7,38 @@ output functionals on 2D triangle meshes.
 
 1. general 2D domain and triangle meshes
 
-2. Arbitrary precision in Matlab (Multi-precison tool box)
+2. Arbitrary precision in Matlab (need the [Multi-precison toolbox](https://www.advanpix.com/))
 
 3. HDG method with Static condensation (source problem and eigenvalue problem)
 
-4. Output functional approximation with adjoint-based method
+4. Output functional approximation with the adjoint-based method
 
 5. Adaptive mesh refinement
 
 ## To test the code
 Run the test files  in 00-TestScripts. 
+
+## Some explaination
+00-TestScripts
+Example of test scripts to run the code
+
+01-ProblemDriver
+    * main: enter point of the code
+    * Problem driver scripts 
+    * Parameter class object and scripts to set paramters
+
+02-Mesh
+    * Mesh class object
+    * 
+03-Basis&Quad&Integral
+04-HDG
+05-FUncitonal
+06-ErrorAnalysis
+07-Visualizaiton
+08-Report
+98-Toolbox
+99-RecordResults
+100-Notes
 
 
 #### Toolbox used
