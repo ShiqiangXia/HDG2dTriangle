@@ -55,29 +55,12 @@ Example of test scripts to run the code
     
     * L2 error for solutions
     * Error for functionals
-    * Posterior error estimate for funcitonals
-
+    * Posterior error estimate for
 07-Visualizaiton
-
-    * Plot 2D solution on given mesh (not implemented yet)
-    * Plot elementwise average value
-
 08-Report
-    
-    * Report problem info
-    * Tables for show results
-
 98-Toolbox
-    
-    * toolbox used
-
 99-RecordResults
-
-    * log
-
 100-Notes
-
-    * notes used for coding
 
 
 #### Toolbox used
