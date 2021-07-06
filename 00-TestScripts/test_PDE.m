@@ -2,20 +2,20 @@
 
 refine_flag = 0; % 1 adaptive; 0: uniform
 
-Niter_max = 5;
+Niter_max = 3;
 
 %TOL_list = [1e-14];
 %N_TOL = size(TOL_list,2);
 tol_adp = 10e-14;
 
-smooth_flag =1; % 1: smooth data; 0: non-smooth
+smooth_flag =0; % 1: smooth data; 0: non-smooth
 pp_flag = 1; % post_processing
 err_cal_flag = 1; 
 
 % 1: run this case; 0: not run
 
-flag_k1    = 1; 
-flag_k2    = 0;
+flag_k1    = 0; 
+flag_k2    = 1;
 flag_k3    = 0;
 
 if refine_flag == 0
@@ -24,7 +24,7 @@ elseif refine_flag == 1
     fprintf('Adaptive Refinement\n')
 end
 
-h0 = 0.1;
+h0 = 0.2;
 
 fprintf('--------------------------------------------------------------\n')
 fprintf('--------------------------------------------------------------\n')

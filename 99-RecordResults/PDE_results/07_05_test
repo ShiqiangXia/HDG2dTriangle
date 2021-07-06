@@ -1,0 +1,262 @@
+
+
+
+k= 2
+HDG  uhat
+
+k+1 = 3
+
+A x = P_uhat
+
+x = uh, qh
+Iteration
+
+uhat = uh, qh
+
+Ax = uhat
+uh,qh
+
+
+% 0 - iteration
+test_PDE
+Uniform Refinement
+--------------------------------------------------------------
+--------------------------------------------------------------
+Initial mesh h0 = 0.200000
+Solve PDE with HDG method 
+
+Case: u smooth 
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving PDE problem
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+
+---------- Report ------------
+PDE source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Uniform
+------------------------------
+DOF        |err_uh     order      |err_qh     order      |
+1.10e+03   |2.61e-03   0.00e+00   |5.72e-03   0.00e+00   |
+4.44e+03   |3.34e-04   2.94e+00   |7.20e-04   2.96e+00   |
+1.79e+04   |4.20e-05   2.97e+00   |9.01e-05   2.98e+00   |
+7.18e+04   |5.27e-06   2.99e+00   |1.13e-05   2.99e+00   |
+------------------------------
+DOF        |err_uhstar  order      |err_qhstar  order      |
+1.10e+03   |1.34e-04   0.00e+00   |7.09e-03   0.00e+00   |
+4.44e+03   |8.38e-06   3.96e+00   |8.96e-04   2.95e+00   |
+1.79e+04   |5.23e-07   3.98e+00   |1.12e-04   2.98e+00   |
+7.18e+04   |3.26e-08   3.99e+00   |1.40e-05   2.99e+00   |
+------------------------------
+DOF        |err_uh**   order      |err_qh**   order      |
+1.10e+03   |6.72e-04   0.00e+00   |5.20e-02   0.00e+00   |
+4.44e+03   |9.14e-05   2.85e+00   |1.33e-02   1.95e+00   |
+1.79e+04   |1.19e-05   2.93e+00   |3.35e-03   1.98e+00   |
+7.18e+04   |1.52e-06   2.96e+00   |8.39e-04   1.99e+00   |
+
+
+test_PDE
+Uniform Refinement
+--------------------------------------------------------------
+--------------------------------------------------------------
+Initial mesh h0 = 0.200000
+Solve PDE with HDG method 
+
+Case: u smooth 
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving PDE problem
+Mesh 1 ... 
+u0 - u1:  -2.09e-01  q0-q1:   2.39e-12  uhat0- uhat1   7.51e-01
+Mesh 2 ... 
+u0 - u1:  -1.09e-01  q0-q1:   7.84e-12  uhat0- uhat1   4.26e-02
+Mesh 3 ... 
+u0 - u1:  -5.55e-02  q0-q1:   1.01e-11  uhat0- uhat1  -1.44e-01
+Mesh 4 ... 
+u0 - u1:  -2.79e-02  q0-q1:  -1.07e-09  uhat0- uhat1  -1.57e-01
+
+---------- Report ------------
+PDE source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Uniform
+------------------------------
+DOF        |err_uh     order      |err_qh     order      |
+1.10e+03   |2.61e-03   0.00e+00   |5.72e-03   0.00e+00   |
+4.44e+03   |3.34e-04   2.94e+00   |7.20e-04   2.96e+00   |
+1.79e+04   |4.20e-05   2.97e+00   |9.01e-05   2.98e+00   |
+7.18e+04   |5.27e-06   2.99e+00   |1.13e-05   2.99e+00   |
+------------------------------
+DOF        |err_uhstar  order      |err_qhstar  order      |
+1.10e+03   |1.34e-04   0.00e+00   |7.09e-03   0.00e+00   |
+4.44e+03   |8.38e-06   3.96e+00   |8.96e-04   2.95e+00   |
+1.79e+04   |5.23e-07   3.98e+00   |1.12e-04   2.98e+00   |
+7.18e+04   |3.26e-08   3.99e+00   |1.40e-05   2.99e+00   |
+------------------------------
+DOF        |err_uh**   order      |err_qh**   order      |
+1.10e+03   |2.37e-02   0.00e+00   |3.80e+00   0.00e+00   |
+4.44e+03   |5.93e-03   1.98e+00   |2.02e+00   9.03e-01   |
+1.79e+04   |1.48e-03   1.99e+00   |1.04e+00   9.59e-01   |
+7.18e+04   |3.69e-04   2.00e+00   |5.24e-01   9.81e-01   |
+test_PDE
+Uniform Refinement
+--------------------------------------------------------------
+--------------------------------------------------------------
+Initial mesh h0 = 0.200000
+Solve PDE with HDG method 
+
+Case: u smooth 
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving PDE problem
+Mesh 1 ... 
+u0 - u1:  -2.09e-01  q0-q1:   2.39e-12  uhat0- uhat1   7.51e-01
+u0 - u1:   2.25e+01  q0-q1:  -2.89e-10  uhat0- uhat1  -6.45e+01
+Mesh 2 ... 
+u0 - u1:  -1.09e-01  q0-q1:   7.84e-12  uhat0- uhat1   4.26e-02
+u0 - u1:   2.29e+01  q0-q1:  -1.84e-09  uhat0- uhat1  -3.28e+01
+Mesh 3 ... 
+u0 - u1:  -5.55e-02  q0-q1:   1.01e-11  uhat0- uhat1  -1.44e-01
+u0 - u1:   2.30e+01  q0-q1:   8.96e-09  uhat0- uhat1  -1.67e+00
+Mesh 4 ... 
+u0 - u1:  -2.79e-02  q0-q1:  -1.07e-09  uhat0- uhat1  -1.57e-01
+u0 - u1:   2.31e+01  q0-q1:   1.32e-06  uhat0- uhat1   3.27e+01
+
+---------- Report ------------
+PDE source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Uniform
+------------------------------
+DOF        |err_uh     order      |err_qh     order      |
+1.10e+03   |2.61e-03   0.00e+00   |5.72e-03   0.00e+00   |
+4.44e+03   |3.34e-04   2.94e+00   |7.20e-04   2.96e+00   |
+1.79e+04   |4.20e-05   2.97e+00   |9.01e-05   2.98e+00   |
+7.18e+04   |5.27e-06   2.99e+00   |1.13e-05   2.99e+00   |
+------------------------------
+DOF        |err_uhstar  order      |err_qhstar  order      |
+1.10e+03   |1.34e-04   0.00e+00   |7.09e-03   0.00e+00   |
+4.44e+03   |8.38e-06   3.96e+00   |8.96e-04   2.95e+00   |
+1.79e+04   |5.23e-07   3.98e+00   |1.12e-04   2.98e+00   |
+7.18e+04   |3.26e-08   3.99e+00   |1.40e-05   2.99e+00   |
+------------------------------
+DOF        |err_uh**   order      |err_qh**   order      |
+1.10e+03   |2.01e+00   0.00e+00   |4.10e+02   0.00e+00   |
+4.44e+03   |1.01e+00   9.86e-01   |4.57e+02   -1.55e-01  |
+1.79e+04   |5.05e-01   9.94e-01   |4.78e+02   -6.42e-02  |
+7.18e+04   |2.53e-01   9.95e-01   |4.88e+02   -2.81e-02  |
+test_PDE
+Uniform Refinement
+--------------------------------------------------------------
+--------------------------------------------------------------
+Initial mesh h0 = 0.200000
+Solve PDE with HDG method 
+
+Case: u smooth 
+--------- k = 2 --------------
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving PDE problem
+Mesh 1 ... 
+u0 - u1:  -2.09e-01  q0-q1:   2.39e-12  uhat0- uhat1   7.51e-01
+u0 - u1:   2.25e+01  q0-q1:  -2.89e-10  uhat0- uhat1  -6.45e+01
+u0 - u1:  -2.39e+03  q0-q1:   3.62e-08  uhat0- uhat1   5.44e+03
+u0 - u1:   2.64e+05  q0-q1:  -4.58e-06  uhat0- uhat1  -5.10e+05
+Mesh 2 ... 
+u0 - u1:  -1.09e-01  q0-q1:   7.84e-12  uhat0- uhat1   4.26e-02
+u0 - u1:   2.29e+01  q0-q1:  -1.84e-09  uhat0- uhat1  -3.28e+01
+u0 - u1:  -4.89e+03  q0-q1:   4.58e-07  uhat0- uhat1   7.04e+03
+u0 - u1:   1.10e+06  q0-q1:  -1.15e-04  uhat0- uhat1  -1.49e+06
+Mesh 3 ... 
+u0 - u1:  -5.55e-02  q0-q1:   1.01e-11  uhat0- uhat1  -1.44e-01
+u0 - u1:   2.30e+01  q0-q1:   8.96e-09  uhat0- uhat1  -1.67e+00
+u0 - u1:  -9.85e+03  q0-q1:  -5.29e-06  uhat0- uhat1   5.69e+03
+u0 - u1:   4.45e+06  q0-q1:   2.51e-03  uhat0- uhat1  -2.86e+06
+Mesh 4 ... 
+u0 - u1:  -2.79e-02  q0-q1:  -1.07e-09  uhat0- uhat1  -1.57e-01
+u0 - u1:   2.31e+01  q0-q1:   1.32e-06  uhat0- uhat1   3.27e+01
+u0 - u1:  -1.98e+04  q0-q1:  -1.34e-03  uhat0- uhat1  -9.48e+03
+u0 - u1:   1.79e+07  q0-q1:   1.32e+00  uhat0- uhat1   5.48e+06
+
+---------- Report ------------
+PDE source problem
+Eq: -Laplace u = f
+   u = uD on bounary
+Functional: J(u) = (g,u)
+Dom type: Rec
+order k = 2
+Refinement: Uniform
+------------------------------
+DOF        |err_uh     order      |err_qh     order      |
+1.10e+03   |2.61e-03   0.00e+00   |5.72e-03   0.00e+00   |
+4.44e+03   |3.34e-04   2.94e+00   |7.20e-04   2.96e+00   |
+1.79e+04   |4.20e-05   2.97e+00   |9.01e-05   2.98e+00   |
+7.18e+04   |5.27e-06   2.99e+00   |1.13e-05   2.99e+00   |
+------------------------------
+DOF        |err_uhstar  order      |err_qhstar  order      |
+1.10e+03   |1.34e-04   0.00e+00   |7.09e-03   0.00e+00   |
+4.44e+03   |8.38e-06   3.96e+00   |8.96e-04   2.95e+00   |
+1.79e+04   |5.23e-07   3.98e+00   |1.12e-04   2.98e+00   |
+7.18e+04   |3.26e-08   3.99e+00   |1.40e-05   2.99e+00   |
+------------------------------
+DOF        |err_uh**   order      |err_qh**   order      |
+1.10e+03   |2.68e+04   0.00e+00   |5.42e+06   0.00e+00   |
+4.44e+03   |5.90e+04   -1.13e+00  |2.60e+07   -2.24e+00  |
+1.79e+04   |1.23e+05   -1.06e+00  |1.12e+08   -2.09e+00  |
+7.18e+04   |2.51e+05   -1.03e+00  |4.61e+08   -2.04e+00  |
+diary off
+
+
+
+HDG k  --> uhat_k
+
+HDG k+1 : uhat_k --> Local solver (k+1) -->  uh, qh in k+1 --> uhat_k+1 = uh, qh
+
+HDG k  --> uhat_k
+HDG k : uhat_k --> Local solver (k) -->  uh, qh in k --> uhat_k = uh, qh
+
+
+uh0, qh0
+uhat1 = uh0 , qh0
+uh1,qh1 = M * uhat1
+
+uh1 = uh0
+qh1 = qh1
+
+
+
+
+
+
