@@ -16,7 +16,7 @@ output functionals on 2D triangle meshes.
 5. Adaptive mesh refinement
 
 ## To test the code
-Run the test files  in 00-TestScripts. 
+Run the test scripts  in 00-TestScripts. 
 
 ## Paper References
 1. [HDG method] (https://www.ams.org/journals/mcom/2010-79-271/S0025-5718-10-02334-3/viewer/)
