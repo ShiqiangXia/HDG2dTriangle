@@ -19,7 +19,7 @@ output functionals on 2D triangle meshes.
 Run the test scripts  in 00-TestScripts. 
 
 ## Paper References
-1. [HDG method] (https://www.ams.org/journals/mcom/2010-79-271/S0025-5718-10-02334-3/viewer/)
+1. [HDG method](https://www.ams.org/journals/mcom/2010-79-271/S0025-5718-10-02334-3/viewer/)
 2. Adjoint-based method and Post-Processing
 	1. [Adjoint-Based, Superconvergent Galerkin Approximations of Linear Functionals](https://dl.acm.org/doi/abs/10.1007/s10915-017-0507-7)
 	2. [An a priori error analysis of adjoint-based super-convergent Galerkin approximations of linear functionals](https://academic.oup.com/imajna/advance-article-abstract/doi/10.1093/imanum/draa102/6104058)
