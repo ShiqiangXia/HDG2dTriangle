@@ -26,7 +26,7 @@ function [err,err_list] = L2Error_qhs(mymesh, k1, qh1, k2, qh2, GQ1DRef_pts,GQ1D
         qh2_2 = qh2(Nu2+1:end,:);
         
         [err1,err_list1] = L2Error_uhs(mymesh,k1, qh1, k2, qh2_1, ...
-            GQ1DRef_pts,GQ1DRef_wts1,1);
+            GQ1DRef_pts,GQ1DRef_wts,1);
 
         [err2,err_list2] = L2Error_uhs(mymesh,k1, qh1, k2, qh2_2,...
             GQ1DRef_pts,GQ1DRef_wts,2) ;

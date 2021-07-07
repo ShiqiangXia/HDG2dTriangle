@@ -22,12 +22,14 @@ function [err,err_list] = L2Error_qh_graduhs(mymesh, k1, qh1, k2, uh2, GQ1DRef_p
         
         qh1_pts1 = V2D_1 * (qh1_1(:,element_idx));
         qh1_pts1 = reshape(qh1_pts1,[],NGQ);
+        
         qh1_pts2 = V2D_1 * (qh1_2(:,element_idx));
         qh1_pts2 = reshape(qh1_pts2,[],NGQ);
         
         qh2_pts1 = - GetGradUhPts(1,Jk,vertice_list,V2D_r,V2D_s,uh2(:,element_idx));
         qh2_pts1 = reshape(qh2_pts1,[],NGQ);
-        qh2_pts2 = - GetGradUhPts(1,Jk,vertice_list,V2D_r,V2D_s,uh2(:,element_idx));
+        
+        qh2_pts2 = - GetGradUhPts(2,Jk,vertice_list,V2D_r,V2D_s,uh2(:,element_idx));
         qh2_pts2 = reshape(qh2_pts2,[],NGQ);
         
         diff1 = (qh1_pts1 - qh2_pts1).^2 ;
