@@ -1,1 +1,0 @@
-uh_pts = GetGradUhPts(1,vertice_list,V2D_r,V2D_s,uh(:,element_idx);
