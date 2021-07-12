@@ -8,7 +8,7 @@ Niter_max = 3;
 %N_TOL = size(TOL_list,2);
 tol_adp = 10e-14;
 
-smooth_flag =0; % 1: smooth data; 0: non-smooth
+smooth_flag =1; % 1: smooth data; 0: non-smooth
 pp_flag = 1; % post_processing
 err_cal_flag = 1; 
 
