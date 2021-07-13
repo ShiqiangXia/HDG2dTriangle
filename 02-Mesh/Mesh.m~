@@ -194,7 +194,8 @@ classdef Mesh
             
             p = obj.vertices_list;
             e = obj.element_list;
-          
+           
+            nvertice = length(p);
             
             % plot the mesh
             trimesh(e,p(:,1),p(:,2),0*p(:,1),'facecolor',bcol,'edgecolor','k');
@@ -214,14 +215,14 @@ classdef Mesh
           
             
             if  num < 150
-                labelpoints(ave_x,ave_y,labs,'center','FontSize', 14);
+                labelpoints(ave_x,ave_y,labs,'NW',0.5,0,'FontSize', 14);
             end
             
             view(2)
             axis equal
             ax=axis;axis(ax*1.001);
             if num >= 150
-                cprintf('UnterminatedStrings', '%d elements are too many to label, so I ignored them.\n',num);
+                cprintf('UnterminatedStrings', '%d vertices are too many to plot, so I ignored them.\n',num);
             end
             %simpplot(obj.vertices_list,obj.element_list);
             
