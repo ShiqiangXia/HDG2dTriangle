@@ -25,7 +25,7 @@ function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
             end
             
             % evaluate uh in element target_idx at point P
-            vertice_list = mesh.vertices_list(target_idx,:);
+            vertice_list = mesh.vertices_list(mesh.element_list(target_idx,:),:);
             Jk = mesh.Jacobian_list(target_idx);
             
             [r_list,s_list] = XYtoRS(P(1),P(2),Jk,vertice_list);

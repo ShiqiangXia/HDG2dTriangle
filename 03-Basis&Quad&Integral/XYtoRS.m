@@ -9,7 +9,7 @@ function [r,s] = XYtoRS(x_list,y_list,Jk,vertice_list)
     
     pts_v = [x_list';y_list'] - V1;
     
-    temp = Inv_AffineMap*pts_v + [-1,-1];
+    temp = Inv_AffineMap*pts_v + [-1;-1];
     
     r = temp(1,:)';
     s = temp(2,:)';

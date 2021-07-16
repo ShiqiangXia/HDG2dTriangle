@@ -27,9 +27,10 @@ $$
 
 ## Steps we done
 1. figure out the relation of two meshes 
+2. Obtain uh at GQ points of coarse mesh
 
 ## Steps to do
-2. Obtain uh at GQ points of coarse mesh
+3. check GQ points are correct
 2. Check simple smooth case if convolution
 
  

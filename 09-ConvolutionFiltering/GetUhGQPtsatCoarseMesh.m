@@ -16,7 +16,6 @@ function uh_pts = GetUhGQPtsatCoarseMesh(k, coarse, fine, uh, GQ_x, GQ_y)
         % the triangels in the fine mesh 
         candidate_triangles = [relation_mat{ii}, relation_mat{ii + Nsquare}] ;
         
-        
         uh_pts(:,:,ii) = GetUhvales(k,uh,fine, GQ_x(:,ii), GQ_y(:,ii), candidate_triangles);
         
     end
