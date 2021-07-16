@@ -1,4 +1,4 @@
-function uh_pts = GetUhGQPtsatCoarseMesh(dom_type, k, coarse, fine, uh, GQ1DRef_pts)
+function uh_pts = GetUhGQPtsatCoarseMesh(k, coarse, fine, uh, GQ_x, GQ_y)
     
     % Get relation mat
     relation_mat = BuildRelationof2Meshes(coarse, fine);
@@ -6,7 +6,7 @@ function uh_pts = GetUhGQPtsatCoarseMesh(dom_type, k, coarse, fine, uh, GQ1DRef_
     num_coarse = coarse.num_elements ;
     Nsquare = num_coarse / 2; % two triangels make a square
     
-    NGQ = length(GQ1DRef_pts);
+    [NGQ,~] = length(GQ_x);
     % store the uh values for each element
     uh_pts = zeros(NGQ, NGQ, Nsquare, numeric_t); 
     
@@ -16,10 +16,8 @@ function uh_pts = GetUhGQPtsatCoarseMesh(dom_type, k, coarse, fine, uh, GQ1DRef_
         % the triangels in the fine mesh 
         candidate_triangles = [relation_mat{ii}, relation_mat{ii + Nsquare}] ;
         
-        % GQ points for this physical squaere
-        [GQ_x, GQ_y] = GetPhyGQPts(dom_type, ii, Nsquare, GQ1DRef_pts);
         
-        uh_pts(:,:,ii) = GetUhvales(k,uh,fine, GQ_x, GQ_y, candidate_triangles);
+        uh_pts(:,:,ii) = GetUhvales(k,uh,fine, GQ_x(:,ii), GQ_y(:,ii), candidate_triangles);
         
     end
     
