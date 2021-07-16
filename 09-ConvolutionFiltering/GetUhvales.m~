@@ -2,7 +2,6 @@ function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
     
     n = lenghth(candidate_triangles);
     [NGQ,~] = size(GQ_x);
-    mat = zeros(NGQ,NGQ, numeric_t);
     for jj = 1:NGQ
         for ii = 1:NGQ
             
@@ -25,13 +24,9 @@ function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
             end
             
             % evaluate uh in element target_idx at point P
-            vertice_list = mesh.vertices_list(target_idx,:);
-            Jk = mesh.Jacobian_list(target_idx);
             
-            [r_list,s_list] = XYtoRS(P(1),P(2),Jk,vertice_list);
-            [a_list,b_list] = RStoAB(r_list,s_list);
             V2D = Vandermonde2D(k,a_list,b_list);
-            mat(jj,ii) = V2D * (uh(:,target_idx));
+            mat()
             
         end
     end
