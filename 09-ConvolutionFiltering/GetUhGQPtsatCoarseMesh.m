@@ -6,7 +6,7 @@ function uh_pts = GetUhGQPtsatCoarseMesh(k, coarse, fine, uh, GQ_x, GQ_y)
     num_coarse = coarse.num_elements ;
     Nsquare = num_coarse / 2; % two triangels make a square
     
-    [NGQ,~] = length(GQ_x);
+    [NGQ,~] = size(GQ_x);
     % store the uh values for each element
     uh_pts = zeros(NGQ, NGQ, Nsquare, numeric_t); 
     

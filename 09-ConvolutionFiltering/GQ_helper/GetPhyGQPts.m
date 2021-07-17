@@ -1,11 +1,11 @@
-function [GQ_x, GQ_y] = GetPhyGQPts(structured_flag,dom_type,h0,GQ1DRef_wts, varargin)
+function [GQ_x, GQ_y, hx, hy] = GetPhyGQPts(structured_flag,dom_type,h0,GQ1DRef_pts, varargin)
     
     if structured_flag ~= 1
         error('None structured type is not implemented')
     end
     
     
-    NGQ = length(GQ1DRef_wts);
+    NGQ = length(GQ1DRef_pts);
     
     if strcmp(dom_type,'Rec')
         x1=varargin{1};
@@ -28,10 +28,10 @@ function [GQ_x, GQ_y] = GetPhyGQPts(structured_flag,dom_type,h0,GQ1DRef_wts, var
         for jj = 0:Ny-1
             for ii = 1:Nx
                 xmid = (ii-1)*hx + hx*0.5;
-                GQ_x(:, jj*Nx + ii) = hx*0.5 * GQ1DRef_wts + xmid;
+                GQ_x(:, jj*Nx + ii) = hx*0.5 * GQ1DRef_pts + xmid;
                 
                 ymid = jj*hy + hy*0.5;
-                GQ_y(:,jj*Nx+ii) = hy*0.5 * GQ1DRef_wts + ymid;
+                GQ_y(:,jj*Nx+ii) = hy*0.5 * GQ1DRef_pts + ymid;
             end
         end
         

@@ -1,12 +1,20 @@
 function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
     
-    n = lenghth(candidate_triangles);
+    % mat: NGQ x NGQ 
+    %  each row: same y, x go from left to right
+    % each col: same x, y go from bottom to top
+    
+    n = length(candidate_triangles);
     [NGQ,~] = size(GQ_x);
     mat = zeros(NGQ,NGQ, numeric_t);
     for jj = 1:NGQ
         for ii = 1:NGQ
             
-            P = [GQ_x(ii),GQ_y(ii)];
+            P = [GQ_x(ii),GQ_y(jj)];
+            
+%             if (ii == 4 && jj == 17)
+%                 fprintf('Check here\n')
+%             end
             
             % check which triangle does point P belong to
             for s = 1:n
@@ -18,7 +26,7 @@ function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
                 flag = CheckPointInTriangle(P, P1,P2,P3);
                 
                 if flag
-                    target_idx = s;
+                    target_idx = ele_idx;
                     break;
                 end
                 

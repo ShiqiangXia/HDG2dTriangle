@@ -54,6 +54,25 @@ function para = SetParameters_Ellipitc(varargin)
         source_f = @(p) 0*p(:,1);
         uD = uexact;
         uN = @(p) 0*p(:,1);
+    elseif primal_data == 3
+        %% constant
+        uexact = @(p) p(:,1)*0+5;
+
+        qexact_1 = @(p) 0*p(:,1);
+        qexact_2 = @(p) 0*p(:,2);
+        source_f = @(p) 0*p(:,1);
+        uD = uexact;
+        uN = @(p) 0*p(:,1);
+    elseif primal_data == 4
+        uexact = @(p) p(:,1);
+
+        qexact_1 = @(p) 0*p(:,1) - 1;
+        qexact_2 = @(p) 0*p(:,2) ;
+        source_f = @(p) 0*p(:,1);
+        uD = uexact;
+        uN = @(p) 0*p(:,1);
+        
+        
 
     end 
 
