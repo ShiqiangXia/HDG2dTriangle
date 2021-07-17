@@ -35,7 +35,7 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
         err_list(ii,1) =...
            scale_factor*GQ1DRef_wts'*(diff2)*GQ1DRef_wts;
        
-       fpts(1,(ii-1)*NGQ+1:ii*NGQ) = uexact_pts(y_cut,:) - uh_GQ_pts(y_cut,:,ii);
+        fpts(1,(ii-1)*NGQ+1:ii*NGQ) = uexact_pts(y_cut,:) - uh_GQ_pts(y_cut,:,ii);
 
     end
     err = sqrt(sum(err_list));
@@ -51,7 +51,7 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
     figure
     plot(xpts(stard_id:end_id),fpts(stard_id:end_id),'*--')
     hold on
-    yline(0,'r-')
+    yline(0,'r-');
     for j = 1:N_col-1
         xline(hx*j,'r--');
     end
