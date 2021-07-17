@@ -213,14 +213,14 @@ classdef Mesh
             
           
             
-            if  num < 150
+            if  num < 250
                 labelpoints(ave_x,ave_y,labs,'center','FontSize', 14);
             end
             
             view(2)
             axis equal
             ax=axis;axis(ax*1.001);
-            if num >= 150
+            if num >= 250
                 cprintf('UnterminatedStrings', '%d elements are too many to label, so I ignored them.\n',num);
             end
             %simpplot(obj.vertices_list,obj.element_list);

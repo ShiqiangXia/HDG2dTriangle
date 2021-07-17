@@ -12,7 +12,7 @@ function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
             
             P = [GQ_x(ii),GQ_y(jj)];
             
-%             if (ii == 4 && jj == 17)
+%             if (ii == 3 && jj == 9) || (ii == 3 && jj == 10)
 %                 fprintf('Check here\n')
 %             end
             
