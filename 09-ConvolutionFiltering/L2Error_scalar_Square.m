@@ -5,6 +5,11 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
     err_list = zeros(num_ele,1,numeric_t);
     scale_factor = hx * hy * numeric_t('1/4.0');
     
+    y_cut = 3;
+    xpts = reshape(GQ_x,[],1);
+    xpts = xpts';
+    fpts = zeros(1, num_ele*NGQ, numeric_t);
+    
     for ii = 1:num_ele
         % get GQ points
         % total of NGQxNGQ points
@@ -29,9 +34,29 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
         % do quadratrue.
         err_list(ii,1) =...
            scale_factor*GQ1DRef_wts'*(diff2)*GQ1DRef_wts;
+       
+       fpts((ii-1)*NGQ+1:ii*NGQ,1) = uexact_pts(y_cut,:) - uh_GQ_pts(y_cut,:,ii);
 
     end
     err = sqrt(sum(err_list));
     err_list = sqrt(err_list);
+    
+    
+    N_col = sqrt(num_ele);
+    N_level = 1;
+    stard_id = (N_level-1)*N_col*NGQ + 1;
+    end_id = N_level*N_col*NGQ;
+    
+    figure
+    plot(xpts(stard_id:end_id),fpts(stard_id:end_id),'*--')
+    hold on
+    for j = 1:N_col-1
+        xline(hx*j,'r--');
+    end
+    
+    text = "y cut and GQ #" + num2str(y_cut) +" and level "+num2str(N_level);
+    title(text)
+    legend('u- uh at GQ')
+    
     
 end

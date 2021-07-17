@@ -64,11 +64,12 @@ function para = SetParameters_Ellipitc(varargin)
         uD = uexact;
         uN = @(p) 0*p(:,1);
     elseif primal_data == 4
-        uexact = @(p) p(:,1);
-
-        qexact_1 = @(p) 0*p(:,1) - 1;
-        qexact_2 = @(p) 0*p(:,2) ;
-        source_f = @(p) 0*p(:,1);
+        %% %%%%%%%% smooth solution only on x %%%%%%%%
+        mypi = pi;
+        uexact = @(p)sin(mypi*p(:,1));
+        qexact_1 = @(p)-mypi*cos(mypi*p(:,1));
+        qexact_2 = @(p) 0*p(:,2);
+        source_f = @(p)mypi^2 * ( sin(mypi*p(:,1)) );
         uD = uexact;
         uN = @(p) 0*p(:,1);
         

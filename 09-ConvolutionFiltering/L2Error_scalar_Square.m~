@@ -5,6 +5,11 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
     err_list = zeros(num_ele,1,numeric_t);
     scale_factor = hx * hy * numeric_t('1/4.0');
     
+    y_cut = 1;
+    xpts = reshape(GQ_x,[],1);
+    xpts = xpts';
+    fpts = zeros(1, num_ele*NGQ, numeric_t);
+    
     for ii = 1:num_ele
         % get GQ points
         % total of NGQxNGQ points
@@ -19,7 +24,9 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
                 
         uexact_pts = reshape(uexact_pts,[],NGQ);
         
-        uexact_pts = uexact_pts'; % make sure the matrix data matches with the structure of uh_GQ_pts
+        % make sure the matrix data matches with the structure of uh_GQ_pts
+        % each row is the same y, x go from left to right
+        uexact_pts = uexact_pts'; 
         
         
         diff2 = (uh_GQ_pts(:,:,ii) - uexact_pts).^2;
@@ -27,9 +34,18 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
         % do quadratrue.
         err_list(ii,1) =...
            scale_factor*GQ1DRef_wts'*(diff2)*GQ1DRef_wts;
+       
+       fpts((ii-1)*NGQ+1:ii*NGQ,1) = uexact_pts(y_cut,:) - uh_GQ_pts(y_cut,:,ii);
 
     end
     err = sqrt(sum(err_list));
     err_list = sqrt(err_list);
+    
+    
+    N_col = sqrt(num_ele);
+    N_level = 1
+    
+    plot(xpts((N_level-11:NGQ*N_col),fpts(1:NGQ*N_col),'*--')
+    legend('u- uh at GQ')
     
 end
