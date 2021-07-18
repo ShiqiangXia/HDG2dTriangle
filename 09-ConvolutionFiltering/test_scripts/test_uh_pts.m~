@@ -104,11 +104,16 @@ function test_uh_pts(para)
             end
             
             %% Evalue uh for GQ pts on coarse mesh (merged to squares)
-            [GQ_x, GQ_y] = GetPhyGQPts(para.structure_flag,para.dom_type,...
+            [GQ_x, GQ_y, hx, hy] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                 2*para.h0,GQ1DRef_pts, para.geo_parameters{:});
             
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(para.order, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
+            N_bd = 0;
+            
+            Conv_matrix=Get_convolution_matrix(GQ1DRef_pts,para.order,GQ1DRef_pts);
+            M = ConvolutionFilter(para.dom_type,para.order,...
+                uh_coarse_GQ_pts,Conv_matrix, Nx,Ny,N_bd,GQ1DRef_wts)
             
             %%  Calculate function Error ---------------------------------------------
             mesh_list(ii) = GetDof(mymesh, para.order);
@@ -127,7 +132,8 @@ function test_uh_pts(para)
                     GQ1DRef_pts,GQ1DRef_wts,0,...
                     para.order,qexact_1,qexact_2);
                 
-                err_uh_coarse_list = L2Error_scalar_Square()
+                err_uh_coarse_list(ii) = L2Error_scalar_Square(uh_coarse_GQ_pts,...
+                    uexact, GQ_x, GQ_y, GQ1DRef_wts, hx, hy);
                 
                 
             end
@@ -141,9 +147,13 @@ function test_uh_pts(para)
             if  err_cal_flag == 1
                 order_uh = GetOrder(mesh_list,err_uh_list);
                 order_qh = GetOrder(mesh_list,err_qh_list);
+                
+                order_uh_coarse = GetOrder(mesh_list,err_uh_coarse_list);
+                
                 ReportTable('DOF', mesh_list,...
                     'err_uh',err_uh_list,'order', order_uh,...
-                    'err_qh',err_qh_list,'order',order_qh)
+                    'err_qh',err_qh_list,'order',order_qh,...
+                    'err_uh_coar', err_uh_coarse_list, 'order',order_uh_coarse)
             end
         end
         

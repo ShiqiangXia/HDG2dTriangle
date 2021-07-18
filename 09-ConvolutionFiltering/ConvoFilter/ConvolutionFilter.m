@@ -1,4 +1,4 @@
-function ConvolutionFilter(dom_type,k,uh_GQpts,Conv_Matrix, Nx,Ny,N_bd,GQ1DRef_wts)
+function M = ConvolutionFilter(dom_type,k,uh_GQpts,Conv_Matrix, Nx,Ny,N_bd,GQ1DRef_wts)
     % return M = NGQ x NGQ x num_element
     % k is the degree of uh
     % uh_GQpts are uh at GQ pts for each element

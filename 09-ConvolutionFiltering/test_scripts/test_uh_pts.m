@@ -33,6 +33,7 @@ function test_uh_pts(para)
         err_qh_list = zeros(Niter,1,numeric_t);
         
         err_uh_coarse_list = zeros(Niter,1,numeric_t);
+        err_uhstar_coarse_list = zeros(Niter,1,numeric_t);
     end
     
     if strcmp(pb_type(2),'1')
@@ -104,11 +105,16 @@ function test_uh_pts(para)
             end
             
             %% Evalue uh for GQ pts on coarse mesh (merged to squares)
-            [GQ_x, GQ_y, hx, hy] = GetPhyGQPts(para.structure_flag,para.dom_type,...
+            [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                 2*para.h0,GQ1DRef_pts, para.geo_parameters{:});
             
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(para.order, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
+            N_bd = 0;
+            
+            Conv_matrix=Get_convolution_matrix(GQ1DRef_pts,para.order,GQ1DRef_pts);
+            M = ConvolutionFilter(para.dom_type,para.order,...
+                uh_coarse_GQ_pts,Conv_matrix, Nx_coarse,Ny_coarse,N_bd,GQ1DRef_wts);
             
             %%  Calculate function Error ---------------------------------------------
             mesh_list(ii) = GetDof(mymesh, para.order);
