@@ -111,19 +111,25 @@ function test_uh_pts(para)
             
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(para.order, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
+            PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh_coarse','uh_corase on coarse mesh' )
             
             %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
-            
-            uh_coarse_proj = GetUhProjCoarseMesh(para.order,uh_coarse_GQ_pts,GQ1DRef_pts);
-            
             poly_k = para.order;
+            uh_coarse_proj = GetUhProjCoarseMesh(poly_k,uh_coarse_GQ_pts,GQ1DRef_pts);
+            
+            uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_k,GQ1DRef_pts);
+            PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh_proj','uh proj on coarse mesh' )
+            
             N_bd = 0;%2*poly_k;
             %LGL_pts = JacobiGL(0,0,2*poly_k+1);% 2k+2 Gauss Lobato points for polynomial of degree 2k+1
             Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,poly_k,poly_k+1,GQ1DRef_pts,GQ1DRef_wts);
             
+            
+            
             M = ConvolutionFiltering(para.dom_type,poly_k,poly_k+1,...
                 uh_coarse_proj,hx,Nx_coarse,hy,Ny_coarse,N_bd,Conv_matrix);
             
+            PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
             %M = ConvertUhPts(M,poly_k,LGL_pts,GQ1DRef_pts);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -150,10 +156,17 @@ function test_uh_pts(para)
                     GQ1DRef_pts,GQ1DRef_wts,0,...
                     para.order,qexact_1,qexact_2);
                 
+                uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
+                
                 err_uh_coarse_list(ii) = L2Error_scalar_Square(uh_coarse_GQ_pts,...
-                    uexact, GQ_x, GQ_y, GQ1DRef_wts, hx, hy);
+                    uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 err_uhstar_coarse_list(ii) = L2Error_scalar_Square(M,...
-                    uexact, GQ_x, GQ_y, GQ1DRef_wts, hx, hy);
+                    uexact_GQ_pts, GQ1DRef_wts, hx, hy);
+                
+                % Plot
+                PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,'u-uh_coarse','u-uh_coarse on coarse mesh' )
+                PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,10,3, GQ_x,'u-uh_proj','u-uh_proj on coarse mesh' )
+                PlotUhcut(uexact_GQ_pts-M, hx,10,3, GQ_x,'u-uh*','u-uh* on coarse mesh' )
                 
             end
             
