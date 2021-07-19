@@ -33,6 +33,7 @@ function test_uh_pts(para)
         err_qh_list = zeros(Niter,1,numeric_t);
         
         err_uh_coarse_list = zeros(Niter,1,numeric_t);
+        err_uh_proj_coarse_list = zeros(Niter,1,numeric_t);
         err_uhstar_coarse_list = zeros(Niter,1,numeric_t);
     end
     
@@ -111,23 +112,25 @@ function test_uh_pts(para)
             
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(para.order, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
-            PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh_coarse','uh_corase on coarse mesh' )
+            PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
             
             %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
             poly_k = para.order;
-            uh_coarse_proj = GetUhProjCoarseMesh(poly_k,uh_coarse_GQ_pts,GQ1DRef_pts);
+            spline_degree = poly_k;
+            poly_proj = poly_k;
+            uh_coarse_proj = GetUhProjCoarseMesh(poly_proj,uh_coarse_GQ_pts,GQ1DRef_pts);
             
-            uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_k,GQ1DRef_pts);
-            PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh_proj','uh proj on coarse mesh' )
+            uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_proj,GQ1DRef_pts);
+            PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
             
             N_bd = 0;%2*poly_k;
             %LGL_pts = JacobiGL(0,0,2*poly_k+1);% 2k+2 Gauss Lobato points for polynomial of degree 2k+1
-            Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,poly_k,poly_k+1,GQ1DRef_pts,GQ1DRef_wts);
+            Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,spline_degree,poly_proj+1,GQ1DRef_pts,GQ1DRef_wts);
             
             
             
-            M = ConvolutionFiltering(para.dom_type,poly_k,poly_k+1,...
-                uh_coarse_proj,hx,Nx_coarse,hy,Ny_coarse,N_bd,Conv_matrix);
+            M = ConvolutionFiltering(para.dom_type,spline_degree,...
+                uh_coarse_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
             
             PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
             %M = ConvertUhPts(M,poly_k,LGL_pts,GQ1DRef_pts);
@@ -160,14 +163,19 @@ function test_uh_pts(para)
                 
                 err_uh_coarse_list(ii) = L2Error_scalar_Square(uh_coarse_GQ_pts,...
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
+                
+                err_uh_proj_coarse_list(ii)=L2Error_scalar_Square(uh_proj_GQpts,...
+                    uexact_GQ_pts, GQ1DRef_wts, hx, hy);
+                
+                
                 err_uhstar_coarse_list(ii) = L2Error_scalar_Square(M,...
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
                 % Plot
-                PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,'u-uh_coarse','u-uh_coarse on coarse mesh' )
-                PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,10,3, GQ_x,'u-uh_proj','u-uh_proj on coarse mesh' )
-                PlotUhcut(uexact_GQ_pts-M, hx,10,3, GQ_x,'u-uh*','u-uh* on coarse mesh' )
-                
+%                 PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,'u - uh-coarse','u - uh-coarse on coarse mesh' )
+%                 PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,10,3, GQ_x,'u - uh-proj','u - uh-proj on coarse mesh' )
+%                 PlotUhcut(uexact_GQ_pts-M, hx,10,3, GQ_x,'u - uh*','u - uh* on coarse mesh' )
+%                 
             end
             
         end
@@ -181,13 +189,15 @@ function test_uh_pts(para)
                 order_qh = GetOrder(mesh_list,err_qh_list);
                 
                 order_uh_coarse = GetOrder(mesh_list,err_uh_coarse_list);
-                
+                order_uh_proj_coarse = GetOrder(mesh_list,err_uh_proj_coarse_list);
                 order_uhstar_coarse = GetOrder(mesh_list,err_uhstar_coarse_list);
                 
                 ReportTable('DOF', mesh_list,...
                     'err_uh',err_uh_list,'order', order_uh,...
-                    'err_qh',err_qh_list,'order',order_qh,...
+                    'err_qh',err_qh_list,'order',order_qh)
+                 ReportTable('DOF', mesh_list,...
                     'err_uh_coar', err_uh_coarse_list, 'order',order_uh_coarse,...
+                    'err_uh_proj_coar', err_uh_proj_coarse_list, 'order',order_uh_proj_coarse,...
                     'err_uhstar', err_uhstar_coarse_list, 'order',order_uhstar_coarse)
             end
         end

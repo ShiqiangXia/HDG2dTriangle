@@ -1,4 +1,4 @@
-function [M]=ConvolutionFiltering(mesh_type,deg_spline,Nk,uh,hx,Nx,hy,Ny,N_bd,Conv_Matrix)
+function [M]=ConvolutionFiltering(dom_type,deg_spline,uh,Nx,Ny,N_bd,Conv_Matrix)
 % uh is the numerical solution (coeffs) on each element
 % deg_spline : kernel order
 % Nk: dimesion of HDG method (polynomial degree Nk-1 for HDG)
@@ -25,7 +25,7 @@ end
 % end
 
 %h = numeric_t('1.0')/N;
-if  strcmp(mesh_type,'Rec')
+if  strcmp(dom_type,'Rec')
     
     M = zeros(num_pt,num_pt,Nx*Ny,numeric_t);
     %scale_factor = numeric_t('2')/h;
@@ -47,6 +47,7 @@ if  strcmp(mesh_type,'Rec')
 
                     scan_ele_id = (idy-1)*Nx+idx ;
                     temp_uh = uh(:,:,scan_ele_id);
+                   
                     
 %                     scan_ele_id = (l1-1)*N+l2 ;
 %                     
@@ -58,11 +59,11 @@ if  strcmp(mesh_type,'Rec')
                      
                 end
             end
-            M(:,:,(m1-1)*Nx+m2) = temp_sum ; %scale_factor*temp_sum;  
+            M(:,:,(m1-1)*Nx+m2) = temp_sum' ; %scale_factor*temp_sum;  
         end
     end
     
-elseif strcmp(mesh_type,'Lshape')
+elseif strcmp(dom_type,'Lshape')
         
       error('not implemented yet')
       %% L shape

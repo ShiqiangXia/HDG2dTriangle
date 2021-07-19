@@ -52,9 +52,7 @@ for rr = -k:1:k
         
         % compute Bspine_k+1 (pt_n/2 - jj - r_n/2 -r)
         % matrix: each row same point, diffent Gauss points rn
-             if nn==1 && rr == 1 && jj == -2
-                stop_flag = 1;
-             end
+         
              
             bspine_matrix = Bspline_int(deg_bspine,center_pt,Nu,GQ_points,GQ_weights);
             %bspine_matrix = Bspine(temp,deg_bspine);
