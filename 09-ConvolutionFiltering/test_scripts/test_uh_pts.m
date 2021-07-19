@@ -135,7 +135,8 @@ function test_uh_pts(para)
                 
                 err_uh_coarse_list(ii) = L2Error_scalar_Square(uh_coarse_GQ_pts,...
                     uexact, GQ_x, GQ_y, GQ1DRef_wts, hx, hy);
-                
+                err_uhstar_coarse_list(ii) = L2Error_scalar_Square(M,...
+                    uexact, GQ_x, GQ_y, GQ1DRef_wts, hx, hy);
                 
             end
             
@@ -151,10 +152,13 @@ function test_uh_pts(para)
                 
                 order_uh_coarse = GetOrder(mesh_list,err_uh_coarse_list);
                 
+                order_uhstar_coarse = GetOrder(mesh_list,err_uhstar_coarse_list);
+                
                 ReportTable('DOF', mesh_list,...
                     'err_uh',err_uh_list,'order', order_uh,...
                     'err_qh',err_qh_list,'order',order_qh,...
-                    'err_uh_coar', err_uh_coarse_list, 'order',order_uh_coarse)
+                    'err_uh_coar', err_uh_coarse_list, 'order',order_uh_coarse,...
+                    'err_uhstar', err_uhstar_coarse_list, 'order',order_uhstar_coarse)
             end
         end
         

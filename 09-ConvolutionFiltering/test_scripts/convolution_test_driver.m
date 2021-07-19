@@ -10,7 +10,7 @@ order = 1;
 % mesh
 h0 = 0.1;
 refine_flag = 0; % 1 adaptive; 0: uniform
-Niter_max = 1;
+Niter_max = 4;
 
 % other
 tol_adp = 10e-14;
@@ -18,13 +18,13 @@ pp_flag = 1; % post_processing
 err_cal_flag = 1;
 
 % data
-smooth_flag =0; % 1: smooth data; 0: non-smooth
+smooth_flag =1; % 1: smooth data; 0: non-smooth
 if smooth_flag == 0
     pri  = 1;
     adj  = 1;  
     fprintf('\nCase: u corner singularity\n')
 else
-    pri  = 4; 
+    pri  = 3; 
     % 2: x+y
     % 0: sin
     % 3: constant
