@@ -65,11 +65,20 @@ function para = SetParameters_Ellipitc(varargin)
         uN = @(p) 0*p(:,1);
     elseif primal_data == 4
         %% %%%%%%%% smooth solution only on x %%%%%%%%
-        mypi = pi;
+        mypi = 2*pi;
         uexact = @(p)sin(mypi*p(:,1));
         qexact_1 = @(p)-mypi*cos(mypi*p(:,1));
         qexact_2 = @(p) 0*p(:,2);
         source_f = @(p)mypi^2 * ( sin(mypi*p(:,1)) );
+        uD = uexact;
+        uN = @(p) 0*p(:,1);
+    elseif primal_data == 5
+         %% %%%%%%%% smooth solution u %%%%%%%%
+        mypi = 2*pi;
+        uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
+        qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
+        qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
+        source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
         uD = uexact;
         uN = @(p) 0*p(:,1);
         
@@ -117,7 +126,7 @@ function para = SetParameters_Ellipitc(varargin)
         %% %%%%%%%  v is continuous on the boundary %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         vexact = @(p)p(:,1).*p(:,2); % x*y
         pexact_1 = @(p)-p(:,2);
-        pexact_2 = @(p)-p(:,x);
+        pexact_2 = @(p)-p(:,1);
 
         source_g = @(p) 0*p(:,1);
         vD = @(p) p(:,1).*p(:,2);

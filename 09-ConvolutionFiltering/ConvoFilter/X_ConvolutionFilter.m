@@ -1,9 +1,9 @@
-function ConvolutionFilter(dom_type,k,uh_GQpts,Conv_Matrix, Nx,Ny,N_bd,GQ1DRef_wts)
+function M = ConvolutionFilter(dom_type,k,uh_GQpts,Conv_Matrix, Nx,Ny,N_bd,GQ1DRef_wts)
     % return M = NGQ x NGQ x num_element
     % k is the degree of uh
     % uh_GQpts are uh at GQ pts for each element
     % Nx, Ny are how many elements in each row and col
-    [NGQ,~,num_ele] = size(uh_GQpts);
+    [NGQ,~,~] = size(uh_GQpts);
     
     %% so far we assume perioidc bdry so don't consider bound
     if(k==0)
@@ -27,7 +27,7 @@ function ConvolutionFilter(dom_type,k,uh_GQpts,Conv_Matrix, Nx,Ny,N_bd,GQ1DRef_w
         % go through each element and do convolution
         for m1 = N_bd+1:1:Ny-N_bd % y-direction index
             for  m2 = N_bd+1:1:Nx-N_bd % x-direction index
-                sum = zeros(NGQ,NGQ,numeric_t);
+                sums = zeros(NGQ,NGQ,numeric_t);
                 % scan neighbor element with support 2k
                 for l1 = m1 - support:1:m1+support % y-direction index
                     for l2 = m2 - support:1:m2+support % x-direction index
@@ -42,14 +42,14 @@ function ConvolutionFilter(dom_type,k,uh_GQpts,Conv_Matrix, Nx,Ny,N_bd,GQ1DRef_w
                         temp_uh_GQpts = uh_GQpts(:,:,scan_ele_id);
                         temp_uh_GQpts = (temp_uh_GQpts');
 
-                        sum = sum + Conv_Matrix(:,:,px+support+1)...
-                            * (temp_uh_GQpts.*GQ1DRef_wts) ...
+                        sums = sums + (Conv_Matrix(:,:,px+support+1).*(GQ1DRef_wts'))...
+                            * temp_uh_GQpts ...
                             * (Conv_Matrix(:,:,py+support+1)'.*GQ1DRef_wts);
 
                     end
                 end
                 
-                M(:,:,(m1-1)*Nx+m2) = sum;  
+                M(:,:,(m1-1)*Nx+m2) = sums;  
                 
             end
         end

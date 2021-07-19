@@ -64,8 +64,9 @@ function test_uh_pts(para)
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving PDE problem\n')
         
+        h_corase = 2*para.h0;
         coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
-                    2*para.h0, ...
+                    h_corase, ...
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
                 
         for ii = 1:Niter
@@ -106,15 +107,31 @@ function test_uh_pts(para)
             
             %% Evalue uh for GQ pts on coarse mesh (merged to squares)
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
-                2*para.h0,GQ1DRef_pts, para.geo_parameters{:});
+                h_corase,GQ1DRef_pts, para.geo_parameters{:});
             
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(para.order, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
-            N_bd = 0;
             
-            Conv_matrix=Get_convolution_matrix(GQ1DRef_pts,para.order,GQ1DRef_pts);
-            M = ConvolutionFilter(para.dom_type,para.order,...
-                uh_coarse_GQ_pts,Conv_matrix, Nx_coarse,Ny_coarse,N_bd,GQ1DRef_wts);
+            %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
+            
+            uh_coarse_proj = GetUhProjCoarseMesh(para.order,uh_coarse_GQ_pts,GQ1DRef_pts);
+            
+            poly_k = para.order;
+            N_bd = 0;%2*poly_k;
+            %LGL_pts = JacobiGL(0,0,2*poly_k+1);% 2k+2 Gauss Lobato points for polynomial of degree 2k+1
+            Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,poly_k,poly_k+1,GQ1DRef_pts,GQ1DRef_wts);
+            
+            M = ConvolutionFiltering(para.dom_type,poly_k,poly_k+1,...
+                uh_coarse_proj,hx,Nx_coarse,hy,Ny_coarse,N_bd,Conv_matrix);
+            
+            %M = ConvertUhPts(M,poly_k,LGL_pts,GQ1DRef_pts);
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+            
+            
+%             Conv_matrix=Get_convolution_matrix(GQ1DRef_pts,para.order,GQ1DRef_pts);
+%             M = ConvolutionFilter(para.dom_type,para.order,...
+%                 uh_coarse_GQ_pts,Conv_matrix, Nx_coarse,Ny_coarse,N_bd,GQ1DRef_wts);
             
             %%  Calculate function Error ---------------------------------------------
             mesh_list(ii) = GetDof(mymesh, para.order);

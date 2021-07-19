@@ -43,7 +43,7 @@ function err = L2Error_scalar_Square(uh_GQ_pts,...
     
     
     N_col = sqrt(num_ele);
-    N_level = 1;
+    N_level = 3;
     stard_id = (N_level-1)*N_col*NGQ + 1;
     end_id = N_level*N_col*NGQ;
    

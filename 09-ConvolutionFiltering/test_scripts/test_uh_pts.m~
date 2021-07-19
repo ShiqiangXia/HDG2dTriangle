@@ -110,7 +110,14 @@ function test_uh_pts(para)
             
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(para.order, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
-            N_bd = 0;
+            
+            %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
+            
+            uh_coarse
+            
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+            N_bd = 2*para.order;
             
             Conv_matrix=Get_convolution_matrix(GQ1DRef_pts,para.order,GQ1DRef_pts);
             M = ConvolutionFilter(para.dom_type,para.order,...
@@ -152,12 +159,13 @@ function test_uh_pts(para)
                 
                 order_uh_coarse = GetOrder(mesh_list,err_uh_coarse_list);
                 
-                order_uhstar_coa
+                order_uhstar_coarse = GetOrder(mesh_list,err_uhstar_coarse_list);
                 
                 ReportTable('DOF', mesh_list,...
                     'err_uh',err_uh_list,'order', order_uh,...
                     'err_qh',err_qh_list,'order',order_qh,...
-                    'err_uh_coar', err_uh_coarse_list, 'order',order_uh_coarse)
+                    'err_uh_coar', err_uh_coarse_list, 'order',order_uh_coarse,...
+                    'err_uhstar', err_uhstar_coarse_list, 'order',order_uhstar_coarse)
             end
         end
         

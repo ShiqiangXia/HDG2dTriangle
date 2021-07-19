@@ -10,7 +10,7 @@ function AA = PrecompBsplineGQ(k,pts, GQ1DRef_pts)
             for jj = 1:J
                 pts = 0.5*pts(n) - 0.5*GQ1DRef_pts - (jj-2*k-1) - (rr - k- 1);
                 spline_pts =  Bspline(pts, k+1);
-                AA(n,:,rr,J) = spline_pts';
+                AA(n,:,rr,jj) = spline_pts';
             end
         end
     end
