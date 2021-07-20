@@ -6,11 +6,11 @@ pb_type = 1011;
 dom_ype = 'Rec';
 
 % k
-order = 1;
+order = 2;
 % mesh
 h0 = 0.1;
 refine_flag = 0; % 1 adaptive; 0: uniform
-Niter_max = 4;
+Niter_max = 3;
 
 % other
 tol_adp = 10e-14;

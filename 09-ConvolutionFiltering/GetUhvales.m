@@ -32,6 +32,10 @@ function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
                 
             end
             
+            if ~flag
+                error("error")
+            end
+            
             % evaluate uh in element target_idx at point P
             vertice_list = mesh.vertices_list(mesh.element_list(target_idx,:),:);
             Jk = mesh.Jacobian_list(target_idx);

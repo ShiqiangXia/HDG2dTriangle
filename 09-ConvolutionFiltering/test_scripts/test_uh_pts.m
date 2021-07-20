@@ -70,6 +70,15 @@ function test_uh_pts(para)
                     h_corase, ...
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
                 
+        N_bd = 0;%2*poly_k;
+        
+        poly_k = para.order;
+        spline_degree = poly_k;
+        poly_proj = poly_k;  
+        
+        %LGL_pts = JacobiGL(0,0,2*poly_k+1);% 2k+2 Gauss Lobato points for polynomial of degree 2k+1
+        Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,spline_degree,poly_proj+1,GQ1DRef_pts,GQ1DRef_wts);
+        
         for ii = 1:Niter
             cprintf('blue','Mesh %d ... \n',ii)
             
@@ -96,39 +105,35 @@ function test_uh_pts(para)
                     mymesh = mymesh.Refine(marked_elements, r_f);
                 end
             end
-            
+%             h_corase = para.h0*(0.5^(ii-1));
+%             coarse_mesh = mymesh;
+%             
             
             if strcmp(pb_type(2),'0')
                 %% Solve source problem
                 
                 [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                 [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
-                    para.order, para.tau,source_f,uD,uN); 
+                    poly_k, para.tau,source_f,uD,uN); 
             end
             
             %% Evalue uh for GQ pts on coarse mesh (merged to squares)
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                 h_corase,GQ1DRef_pts, para.geo_parameters{:});
             
-            uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(para.order, ...
+            uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(poly_k, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
             PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
             
+            
             %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
-            poly_k = para.order;
-            spline_degree = poly_k;
-            poly_proj = poly_k;
+            
             uh_coarse_proj = GetUhProjCoarseMesh(poly_proj,uh_coarse_GQ_pts,GQ1DRef_pts);
             
             uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_proj,GQ1DRef_pts);
             PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
             
-            N_bd = 0;%2*poly_k;
-            %LGL_pts = JacobiGL(0,0,2*poly_k+1);% 2k+2 Gauss Lobato points for polynomial of degree 2k+1
-            Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,spline_degree,poly_proj+1,GQ1DRef_pts,GQ1DRef_wts);
-            
-            
-            
+
             M = ConvolutionFiltering(para.dom_type,spline_degree,...
                 uh_coarse_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
             
@@ -136,12 +141,7 @@ function test_uh_pts(para)
             %M = ConvertUhPts(M,poly_k,LGL_pts,GQ1DRef_pts);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
-            
-            
-%             Conv_matrix=Get_convolution_matrix(GQ1DRef_pts,para.order,GQ1DRef_pts);
-%             M = ConvolutionFilter(para.dom_type,para.order,...
-%                 uh_coarse_GQ_pts,Conv_matrix, Nx_coarse,Ny_coarse,N_bd,GQ1DRef_wts);
-            
+
             %%  Calculate function Error ---------------------------------------------
             mesh_list(ii) = GetDof(mymesh, para.order);
             
