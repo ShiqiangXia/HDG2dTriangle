@@ -65,7 +65,7 @@ function test_uh_pts(para)
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving PDE problem\n')
         
-        h_corase = 2*para.h0;
+        h_corase = para.h0;
         coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
                     h_corase, ...
                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
@@ -137,16 +137,17 @@ function test_uh_pts(para)
             
             
             % some plots
-            
-            %PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
-            Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
-            
-            %PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
-            Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
-            
-            %PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
-            Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-post}$, Mesh: "+ num2str(ii))
-            
+            flag_2D_plot = 1;
+            if flag_2D_plot == 1
+                %PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
+                Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
+
+                %PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
+                Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
+
+                %PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
+                Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii))
+            end
             
 
             %%  Calculate function Error ---------------------------------------------
@@ -179,18 +180,32 @@ function test_uh_pts(para)
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
                 % Plot
-%                 PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,'$u- u_h^{coarse}$',"$u- u_h^{coarse}$, Mesh: " + num2str(ii) )
-%                 PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,10,3, GQ_x,'$u - u_h^{coarse-proj}$',"$u - u_h^{coarse-proj}$, Mesh: "+ num2str(ii) )
-%                 PlotUhcut(uexact_GQ_pts-M, hx,10,3, GQ_x,'$u - u_h^{coarse-proj-post}$',"$u - u_h^{coarse-proj-post}$, Mesh: "+ num2str(ii) )
-%               
-                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_coarse_GQ_pts,...
-                    "$u- u_h^{coarse}$, Mesh: " + num2str(ii))
+                flag_plot_y_cut = 1;
+                if flag_plot_y_cut == 1
+                    PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,...
+                        '$u- u_h^{coarse}$',"$u- u_h^{coarse}$, Mesh: " + num2str(ii) )
+
+                    PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,10,3, GQ_x,...
+                        '$u - u_h^{coarse-proj}$',"$u - u_h^{coarse-proj}$, Mesh: "+ num2str(ii) )
+
+                    PlotUhcut(uexact_GQ_pts-M, hx,10,3, GQ_x,...
+                        '$u - u_h^{coarse-conv-post}$',"$u - u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii) )
+                end
                 
-                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts,...
-                    "$u - u_h^{coarse-proj}$, Mesh: "+ num2str(ii))  
+                flag_plot_diff = 0;
+                if flag_plot_diff == 1
                 
-                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-M, ...
-                    "$u - u_h^{coarse-proj-post}$, Mesh: "+ num2str(ii))
+                    Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_coarse_GQ_pts,...
+                        "$u- u_h^{coarse}$, Mesh: " + num2str(ii))
+
+                    Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts,...
+                        "$u - u_h^{coarse-proj}$, Mesh: "+ num2str(ii))  
+
+                    Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-M, ...
+                        "$u - u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii))
+                end
+                
+                
             end
             
         end
