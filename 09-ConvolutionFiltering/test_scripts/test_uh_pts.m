@@ -123,24 +123,30 @@ function test_uh_pts(para)
             
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(poly_k, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
-            PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
-            Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, 'Plot uh-corase')
+            
             
             %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
             
             uh_coarse_proj = GetUhProjCoarseMesh(poly_proj,uh_coarse_GQ_pts,GQ1DRef_pts);
             
             uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_proj,GQ1DRef_pts);
-            PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
-            Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, 'Plot uh-corase-proj')
+            
 
             M = ConvolutionFiltering(para.dom_type,spline_degree,...
                 uh_coarse_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
             
-            PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
-            Plot2D(para.dom_type, GQ_x, GQ_y, M, 'Plot uh-corase-proj')
-            %M = ConvertUhPts(M,poly_k,LGL_pts,GQ1DRef_pts);
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+            % some plots
+            
+            %PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
+            Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
+            
+            %PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
+            Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
+            
+            %PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
+            Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-post}$, Mesh: "+ num2str(ii))
+            
             
 
             %%  Calculate function Error ---------------------------------------------
@@ -173,10 +179,18 @@ function test_uh_pts(para)
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
                 % Plot
-%                 PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,'u - uh-coarse','u - uh-coarse on coarse mesh' )
-%                 PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,10,3, GQ_x,'u - uh-proj','u - uh-proj on coarse mesh' )
-%                 PlotUhcut(uexact_GQ_pts-M, hx,10,3, GQ_x,'u - uh*','u - uh* on coarse mesh' )
-%                 
+%                 PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,'$u- u_h^{coarse}$',"$u- u_h^{coarse}$, Mesh: " + num2str(ii) )
+%                 PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,10,3, GQ_x,'$u - u_h^{coarse-proj}$',"$u - u_h^{coarse-proj}$, Mesh: "+ num2str(ii) )
+%                 PlotUhcut(uexact_GQ_pts-M, hx,10,3, GQ_x,'$u - u_h^{coarse-proj-post}$',"$u - u_h^{coarse-proj-post}$, Mesh: "+ num2str(ii) )
+%               
+                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_coarse_GQ_pts,...
+                    "$u- u_h^{coarse}$, Mesh: " + num2str(ii))
+                
+                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts,...
+                    "$u - u_h^{coarse-proj}$, Mesh: "+ num2str(ii))  
+                
+                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-M, ...
+                    "$u - u_h^{coarse-proj-post}$, Mesh: "+ num2str(ii))
             end
             
         end

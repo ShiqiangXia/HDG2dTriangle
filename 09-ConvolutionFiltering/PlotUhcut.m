@@ -23,8 +23,8 @@ function PlotUhcut(uh_pts, hx,y_cut,N_level, GQ_x,legend_text,title_text )
         xline(hx*j,'r--');
     end
     
-    title(title_text)
-    legend(legend_text)
+    title(title_text,'Interpreter','latex','FontSize',15)
+    legend(legend_text,'Interpreter','latex','FontSize',15)
     
     
 end

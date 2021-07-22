@@ -88,7 +88,7 @@ function Plot2D(dom_type, x_pts,y_pts,f_vals,legend_str)
     %shading interp
     xlabel("x");
     ylabel("y");
-    zlabel(legend_str);
+    title(legend_str,'Interpreter','latex','FontSize',18);
     colorbar;
 
     
