@@ -124,7 +124,7 @@ function test_uh_pts(para)
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(poly_k, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
             PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
-            
+            Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, 'Plot uh-corase')
             
             %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
             
@@ -132,12 +132,13 @@ function test_uh_pts(para)
             
             uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_proj,GQ1DRef_pts);
             PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
-            
+            Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, 'Plot uh-corase-proj')
 
             M = ConvolutionFiltering(para.dom_type,spline_degree,...
                 uh_coarse_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
             
             PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
+            Plot2D(para.dom_type, GQ_x, GQ_y, M, 'Plot uh-corase-proj')
             %M = ConvertUhPts(M,poly_k,LGL_pts,GQ1DRef_pts);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             

@@ -20,7 +20,7 @@ function para = SetParameters_Ellipitc(varargin)
     % define the primal problem data
     if primal_data == 0 
         %% %%%%%%%% smooth solution u %%%%%%%%
-        mypi = pi;
+        mypi = 2*pi;
         uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
         qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
         qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
@@ -75,10 +75,10 @@ function para = SetParameters_Ellipitc(varargin)
     elseif primal_data == 5
          %% %%%%%%%% smooth solution u %%%%%%%%
         mypi = 2*pi;
-        uexact = @(p)sin(mypi*p(:,1)).*sin(mypi*p(:,2));
-        qexact_1 = @(p)-mypi*cos(mypi*p(:,1)).*sin(mypi*p(:,2));
-        qexact_2 = @(p)-mypi*sin(mypi*p(:,1)).*cos(mypi*p(:,2));
-        source_f = @(p)2*mypi^2 * ( sin(mypi*p(:,1)).* sin(mypi*p(:,2)) );
+        uexact = @(p)sin(mypi*p(:,2));
+        qexact_1 = @(p)0*p(:,1);
+        qexact_2 = @(p) -mypi*cos(mypi*p(:,2));
+        source_f = @(p)mypi^2 * ( sin(mypi*p(:,2)) );
         uD = uexact;
         uN = @(p) 0*p(:,1);
         
