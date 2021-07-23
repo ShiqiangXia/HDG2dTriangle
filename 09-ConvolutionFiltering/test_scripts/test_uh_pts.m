@@ -65,11 +65,11 @@ function test_uh_pts(para)
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving PDE problem\n')
         
-        h_corase = para.h0;
-        coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
-                    h_corase, ...
-                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
-                
+%         h_corase = para.h0;
+%         coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
+%                     h_corase, ...
+%                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
+%                 
         N_bd = 0;%2*poly_k;
         
         poly_k = para.order;
@@ -105,9 +105,10 @@ function test_uh_pts(para)
                     mymesh = mymesh.Refine(marked_elements, r_f);
                 end
             end
-%             h_corase = para.h0*(0.5^(ii-1));
-%             coarse_mesh = mymesh;
-%             
+            
+            h_corase = para.h0*(0.5^(ii-1));
+            coarse_mesh = mymesh;
+            
             
             if strcmp(pb_type(2),'0')
                 %% Solve source problem
@@ -139,14 +140,14 @@ function test_uh_pts(para)
             % some plots
             flag_2D_plot = 1;
             if flag_2D_plot == 1
-                %PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
-                Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
+                PlotUhcut(uh_coarse_GQ_pts, hx,10,3, GQ_x,'uh-coarse','uh-corase on coarse mesh' )
+                %Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
 
-                %PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
-                Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
+                PlotUhcut(uh_proj_GQpts, hx,10,3, GQ_x,'uh-proj','uh proj on coarse mesh' )
+                %Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
 
-                %PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
-                Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii))
+                PlotUhcut(M, hx,10,3, GQ_x,'uh*','uh* on coarse mesh' )
+                %Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii))
             end
             
 
@@ -180,7 +181,7 @@ function test_uh_pts(para)
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
                 % Plot
-                flag_plot_y_cut = 1;
+                flag_plot_y_cut = 0;
                 if flag_plot_y_cut == 1
                     PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,10,3, GQ_x,...
                         '$u- u_h^{coarse}$',"$u- u_h^{coarse}$, Mesh: " + num2str(ii) )

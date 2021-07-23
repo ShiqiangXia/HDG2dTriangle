@@ -13,10 +13,4 @@ function uh_coeff = GetUhProjCoarseMesh(k,uh_coarse_GQ_pts,GQ1DRef_pts)
         temp_uh_GQ = uh_coarse_GQ_pts(:,:,ii);
         uh_coeff(:,:,ii) = Iv * temp_uh_GQ * IvT;  
     end
-    
-    
-    
-    
-    
-
 end
