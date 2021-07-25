@@ -48,8 +48,8 @@ function uh_coeff = GetUhL2ProjectionCoarseMesh(poly_k,coarse, fine,...
                 %labs = 1:NGQ*NGQ;
                 %plot3(x_phy_list,y_phy_list, 0 *labs,'r*')
                 
-                x_list = (x_phy_list - xmid)/(hx*0.5); % map the physical GQ points on triangle to [-1,1]
-                y_list = (y_phy_list - ymid)/(hy*0.5);
+                x_list = (x_phy_list - xmid)/hy; % map the physical GQ points on triangle to [-1,1]
+                y_list = (y_phy_list - ymid)/hy;
                 
                 V1D_x = Vandermonde1D(poly_k,x_list);
                 V1D_y = Vandermonde1D(poly_k,y_list);

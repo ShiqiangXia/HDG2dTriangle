@@ -10,7 +10,7 @@ order = 2;
 % mesh
 h0 = 0.2;
 refine_flag = -1; % 1 adaptive; 0: uniform
-Niter_max = 4;
+Niter_max = ;
 
 % other
 tol_adp = 10e-14;
