@@ -1,4 +1,6 @@
 function uh_pts = GetUhGQPtsatCoarseMesh(k, coarse, fine, uh, GQ_x, GQ_y)
+    % Matrix of NGQ x NGQ x num_element
+    % each row is the same y point different x points
     
     % Get relation mat
     relation_mat = BuildRelationof2Meshes(coarse, fine);

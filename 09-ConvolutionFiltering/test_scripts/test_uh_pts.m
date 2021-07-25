@@ -123,19 +123,19 @@ function test_uh_pts(para)
                 h_corase,GQ1DRef_pts, para.geo_parameters{:});
             
             % just evaluate GQ points
+            
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(poly_k, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
             
-%             uh_coarse_proj = GetUhProjCoarseMesh(poly_proj,uh_coarse_GQ_pts,GQ1DRef_pts);
-%             
+            %uh_coarse_proj2 = GetUhProjCoarseMesh(poly_proj,uh_coarse_GQ_pts,GQ1DRef_pts);
+            
             % L2 projection 
+            
             uh_coarse_proj = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,mymesh,...
                 uh,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
             
             %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
-            
-            
-            
+           
             uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_proj,GQ1DRef_pts);
             
             %%%%%%%%%%%% Convolution %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

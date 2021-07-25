@@ -2,6 +2,10 @@ function [M]=ConvolutionFiltering(dom_type,deg_spline,uh,Nx,Ny,N_bd,Conv_Matrix)
     %
 % output M is a 3D array: num_pt x num_pt x num_elemnt
 % each row of M(:,:, ele) is the same y different x
+
+% note that this M is the transpose of HDG2D code I wrote before.
+
+%
 % uh is the numerical solution (coeffs) on each element
 % uh is a matrix  uh_ij = P_i(x)*P_j(y)
 % deg_spline : kernel order
