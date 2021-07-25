@@ -122,16 +122,23 @@ function test_uh_pts(para)
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                 h_corase,GQ1DRef_pts, para.geo_parameters{:});
             
+            % just evaluate GQ points
             uh_coarse_GQ_pts = GetUhGQPtsatCoarseMesh(poly_k, ...
                 coarse_mesh, mymesh, uh, GQ_x, GQ_y);
             
+%             uh_coarse_proj = GetUhProjCoarseMesh(poly_proj,uh_coarse_GQ_pts,GQ1DRef_pts);
+%             
+            % L2 projection 
+            uh_coarse_proj = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,mymesh,...
+                uh,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
             
             %%%%%%%%%% project uh to P_k on coarse mesh and then postprocessing
             
-            uh_coarse_proj = GetUhProjCoarseMesh(poly_proj,uh_coarse_GQ_pts,GQ1DRef_pts);
+            
             
             uh_proj_GQpts = GetUhProjGQpts(uh_coarse_proj,poly_proj,GQ1DRef_pts);
             
+            %%%%%%%%%%%% Convolution %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
             M = ConvolutionFiltering(para.dom_type,spline_degree,...
                 uh_coarse_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);

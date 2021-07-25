@@ -1,0 +1,56 @@
+function uh_coeff = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,...
+        uh,GQ1DRef_pts, GQ1DRef_wts, hx, hy)
+    
+    % GQ_x and GQ_y are the GQ points for each triangle element mapped to
+    % [-1,1]
+    
+    % Get relation mat
+    relation_mat = BuildRelationof2Meshes(coarse, fine);
+    
+    num_coarse = coarse_mesh.num_elements ;
+    Nsquare = num_coarse / 2; % two triangels make a square
+    Ns = sqrt(Nsquare);
+    
+    Nk = poly_k+1;
+    
+    uh_coeff = zeros(Nk,Nk,Nsquare, numeric_t);
+    
+    [a_list,b_list,Jacobian_rs_to_ab]= GetRefQuadPt(GQ1DRef_pts);
+    V2D = Vandermonde2D(poly_k,a_list,b_list);  % scalar Pk
+    
+    for ee = 1:Ns
+        for rr = 1:Ns
+            square_idx = (ee-1)*Ns + rr;
+            % do (uh_proj, basis_ij) = sum (uh, basis_ij)_K for all elements
+            % K contained in this square
+            tri_elements = relation_mat{square_idx};
+            n = length(tri_elements);
+
+            for tt = 1:n
+                % get Gauss points on this triangle
+                element_idx = tri_elements(tt);
+                x_list = GQ_x(:,element_idx);
+                y_list = GQ_y(:,element_idx);
+                V1D_x = Vandermonde1D(poly_k,x_list);
+                V1D_y = Vandermonde1D(poly_k,y_list);
+
+                uh_pts = V2D * (uh(:,element_idx));
+                mat = zeros(Nk,Nk, numeric_t);
+                for ii = 1:Nk
+                    for jj = 1:Nk
+                        basis_ij = V1D_x(:,ii) .* V1D_y(:,jj);
+                        basis_ij = reshape(basis_ij,[],NGQ);
+
+                        temp = (uh_pts.*basis_ij);
+                        mat(ii,jj) = Jk*GQ1DRef_wts'*(temp.*Jacobian_rs_to_ab)*GQ1DRef_wts;
+
+                    end
+                end
+
+                uh_coeff(:,:,square_idx) = uh_coeff(:,:,square_idx) + mat;
+            end
+        end
+        
+    end
+    
+end
