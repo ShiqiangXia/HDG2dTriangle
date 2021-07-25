@@ -65,11 +65,11 @@ function test_uh_pts(para)
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving PDE problem\n')
         
-%         h_corase = para.h0;
-%         coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
-%                     h_corase, ...
-%                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
-%                 
+        h_corase = para.h0;
+        coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
+                    h_corase, ...
+                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
+                
         N_bd = 0;%2*poly_k;
         
         poly_k = para.order;
@@ -108,8 +108,8 @@ function test_uh_pts(para)
                 end
             end
             
-            h_corase = para.h0*(0.5^(ii-1));
-            coarse_mesh = mymesh;
+%             h_corase = para.h0*(0.5^(ii-1));
+%             coarse_mesh = mymesh;
             
             
             if strcmp(pb_type(2),'0')
@@ -149,13 +149,13 @@ function test_uh_pts(para)
             % some plots
             flag_2D_plot = 1;
             if flag_2D_plot == 1
-                PlotUhcut(uh_coarse_GQ_pts, hx,y_cut,n_level, GQ_x,'uh','uh on coarse mesh' )
+                PlotUhcut(uh_coarse_GQ_pts, hx,y_cut,n_level, GQ_x,"$u_h$","$u_h$ on the coarse mesh" )
                 %Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
 
-                PlotUhcut(uh_proj_GQpts, hx,y_cut,n_level, GQ_x,'u_H','u_H (the L2 projection of uh) on coarse mesh' )
+                PlotUhcut(uh_proj_GQpts, hx,y_cut,n_level, GQ_x,"$u_H$","$u_H$ (the L2 projection of u_h) on the coarse mesh" )
                 %Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
 
-                PlotUhcut(M, hx,y_cut,n_level, GQ_x,'u_H^*','u_H^* on the coarse mesh' )
+                PlotUhcut(M, hx,y_cut,n_level, GQ_x,"$u_H^*$","$u_H^*$ on the coarse mesh" )
                 %Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii))
             end
             
@@ -190,23 +190,23 @@ function test_uh_pts(para)
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
                 % Plot
-                flag_plot_y_cut = 1;
+                flag_plot_y_cut = 0;
                 if flag_plot_y_cut == 1
                     PlotUhcut(uexact_GQ_pts-uh_coarse_GQ_pts, hx,y_cut,n_level, GQ_x,...
-                        '$\|u- u_h\|_{coarse}$',"Error $\|u- u_h\|_{coarse}$, Mesh: " + num2str(ii) )
+                        "$u- u_h|_{coarse}$","Error $u- u_h|_{coarse}$, Mesh: " + num2str(ii) )
 
                     PlotUhcut(uexact_GQ_pts-uh_proj_GQpts, hx,y_cut,n_level, GQ_x,...
-                        '$\|u - u_H\|_{coarse}$',"Error $\|u - u_H\|_{coarse}$, Mesh: "+ num2str(ii) )
+                        "$u - u_H|_{coarse}$","Error $u - u_H|_{coarse}$, Mesh: "+ num2str(ii) )
 
                     PlotUhcut(uexact_GQ_pts-M, hx,y_cut,n_level, GQ_x,...
-                        '$\|u - u_H^{*}\|_{coarse}$',"Error $\|u - u_H^{*}\|_{coarse}, Mesh: "+ num2str(ii) )
+                        "$u - u_H^*|_{coarse}$","Error $u - u_H^*|_{coarse}$, Mesh: "+ num2str(ii) )
                 end
                 
-                flag_plot_diff = 1;
+                flag_plot_diff = 0;
                 if flag_plot_diff == 1
                 
                     Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_coarse_GQ_pts,...
-                        "$u- u_h^{coarse} on the coarse $, Mesh: " + num2str(ii))
+                        "$u- u_h^{coarse}$ on the coarse , Mesh: " + num2str(ii))
 
                     Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts,...
                         "$u - u_H$ on the coarse Mesh: "+ num2str(ii))  
@@ -235,10 +235,15 @@ function test_uh_pts(para)
                 ReportTable('DOF', mesh_list,...
                     'err_uh',err_uh_list,'order', order_uh,...
                     'err_qh',err_qh_list,'order',order_qh)
+               
                  ReportTable('DOF', mesh_list,...
                     'err_uh_coar', err_uh_coarse_list, 'order',order_uh_coarse,...
                     'err_uH', err_uh_proj_coarse_list, 'order',order_uh_proj_coarse,...
                     'err_uH*', err_uhstar_coarse_list, 'order',order_uhstar_coarse)
+%                 fprintf("err_uh_coar: L2 error of u - uh on the coarse mesh\n")
+%                 fprintf("err_uH: L2 error of u - uH on the coarse mesh\n")
+%                 fprintf("err_uH*: L2 error of u - uH* on the coarse mesh\n")
+                
             end
         end
         
