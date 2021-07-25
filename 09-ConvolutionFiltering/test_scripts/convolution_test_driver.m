@@ -6,7 +6,7 @@ pb_type = 1011;
 dom_ype = 'Rec';
 
 % k
-order = 1;
+order = 2;
 % mesh
 h0 = 0.2;
 refine_flag = -1; % 1 adaptive; 0: uniform
