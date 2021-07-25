@@ -29,13 +29,15 @@ $$
 
 ## Steps we done
 1. figure out the relation of two meshes 
-2. Obtain uh at GQ points of coarse mesh
-3. check GQ points are correct
+2. ~~Obtain uh at GQ points of coarse mesh~~
+3. ~~check GQ points are correct~~
+4. precompute convolution matrix
+5. do convolution 
+2. ~~Check simple smooth case if convolution~~
 
 
 ## Steps to do
-4. precompute convolution matrix
-5. do convolution 
-2. Check simple smooth case if convolution
+1. L2 projection of uh from finer mesh to coarse
+
 
  

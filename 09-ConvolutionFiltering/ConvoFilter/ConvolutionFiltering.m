@@ -1,5 +1,9 @@
 function [M]=ConvolutionFiltering(dom_type,deg_spline,uh,Nx,Ny,N_bd,Conv_Matrix)
+    %
+% output M is a 3D array: num_pt x num_pt x num_elemnt
+% each row of M(:,:, ele) is the same y different x
 % uh is the numerical solution (coeffs) on each element
+% uh is a matrix  uh_ij = P_i(x)*P_j(y)
 % deg_spline : kernel order
 % Nk: dimesion of HDG method (polynomial degree Nk-1 for HDG)
 % Amtrix, cr: convolution kernel matrix at pts.
@@ -59,7 +63,9 @@ if  strcmp(dom_type,'Rec')
                      
                 end
             end
-            M(:,:,(m1-1)*Nx+m2) = temp_sum' ; %scale_factor*temp_sum;  
+            M(:,:,(m1-1)*Nx+m2) = temp_sum' ; 
+            % each row of M is the same y different x
+            % make sure M is consistent with the data structure we use
         end
     end
     
