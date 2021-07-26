@@ -227,6 +227,36 @@ classdef Mesh
             
         end
         
+        function Plot2(obj,vertex_flag, title_text)
+            bcol=[.8,.9,1];
+            
+            figure;
+            
+            p = obj.vertices_list;
+            e = obj.element_list;
+           
+            nvertice = length(p);
+            labs = 1:nvertice;
+            trimesh(e,p(:,1),p(:,2),0*p(:,1),'facecolor',bcol,'edgecolor','k');
+            hold on;
+            plot(p(:,1),p(:,2),'k.')
+            legend('element','vertices');
+            title(title_text)
+           
+            
+            if   vertex_flag && nvertice < 150
+                labelpoints(p(:,1),p(:,2),labs,'NW',0.5,0,'FontSize', 14);
+            end
+            view(2)
+            axis equal
+            ax=axis;axis(ax*1.001);
+            
+            if vertex_flag && nvertice>=150
+                cprintf('UnterminatedStrings', '%d vertices are too many to plot, so I ignored them.\n',nvertice);
+            end
+            %simpplot(obj.vertices_list,obj.element_list);
+            
+        end
     end
     
 end

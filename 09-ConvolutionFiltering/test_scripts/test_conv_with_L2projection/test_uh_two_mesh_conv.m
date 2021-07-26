@@ -153,13 +153,13 @@ function test_uh_two_mesh_conv(para)
             flag_2D_plot = 0;
             if flag_2D_plot == 1
                 PlotUhcut(uh_coarse_GQ_pts, hx,y_cut,n_level, GQ_x,"$u_h$","$u_h$ on the coarse mesh" )
-                %Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
+                %Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii),0,"")
 
                 PlotUhcut(uh_proj_GQpts, hx,y_cut,n_level, GQ_x,"$u_H$","$u_H$ (the L2 projection of u_h) on the coarse mesh" )
-                %Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
+                %Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii),0,"")
 
                 PlotUhcut(M, hx,y_cut,n_level, GQ_x,"$u_H^*$","$u_H^*$ on the coarse mesh" )
-                %Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii))
+                %Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii),0,"")
             end
             
 
