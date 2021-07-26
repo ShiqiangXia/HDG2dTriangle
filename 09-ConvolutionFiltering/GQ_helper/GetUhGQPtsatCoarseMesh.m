@@ -1,7 +1,11 @@
 function uh_pts = GetUhGQPtsatCoarseMesh(k, coarse, fine, uh, GQ_x, GQ_y)
-    % Matrix of NGQ x NGQ x num_element
+    % GOAL: evaluate uh at GQ points defined on coarse mesh (square element)
+    % here uh is defined on fine mesh (triangle element)
+    % OUTPUT: Matrix of NGQ x NGQ x num_element
     % each row is the same y point different x points
-    
+ 
+    % all the GQ physical points are stored in GQ_x and GQ_y (NGQ x num_ele)
+   
     % Get relation mat
     relation_mat = BuildRelationof2Meshes(coarse, fine);
     

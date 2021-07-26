@@ -1,10 +1,10 @@
 function uh_coeff = GetUhL2ProjectionCoarseMesh(poly_k,coarse, fine,...
         uh, GQ1DRef_pts, GQ1DRef_wts, hx, hy)
+    % Goal: L2 projection of uh defined on fine mesh (triangle) to coarse mesh(square)
     % Output: uh_coeff is a matrix of Nk x Nk x num_element
     % (i,j) is for the basis P_i(x)*P_j(y)
     % so each row is the same x basis, diff y basis
-    
-    % right now the code ONLY works for unit square domain
+    % WARNING: right now the code ONLY works for unit square domain
     
     % Get relation mat
     relation_mat = BuildRelationof2Meshes(coarse, fine);

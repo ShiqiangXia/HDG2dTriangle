@@ -1,7 +1,8 @@
 function mat = GetUhvales(k,uh,mesh, GQ_x, GQ_y, candidate_triangles)
-    
+    %GOAL: For given GQ point, find the triangle that contains this point
+    % and evaluate uh at this point
     % mat: NGQ x NGQ 
-    %  each row: same y, x go from left to right
+    % each row: same y, x go from left to right
     % each col: same x, y go from bottom to top
     
     n = length(candidate_triangles);

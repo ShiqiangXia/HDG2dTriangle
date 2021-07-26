@@ -48,7 +48,7 @@ for order = 1:3
 
     %% Test 
 
-    test_uh_pts(para)
+    test_uh_two_mesh_conv(para)
     
 end
 

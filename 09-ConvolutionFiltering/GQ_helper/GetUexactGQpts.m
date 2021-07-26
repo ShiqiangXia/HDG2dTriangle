@@ -1,5 +1,6 @@
 function uexact_mat = GetUexactGQpts(uexact, GQ_x, GQ_y)
-                
+        % GOAL: Evaluate uexact at GQ physical points 
+        
         [NGQ,num_ele] = size(GQ_x);
         uexact_mat = zeros(NGQ,NGQ,num_ele,numeric_t);
         for ii = 1:num_ele

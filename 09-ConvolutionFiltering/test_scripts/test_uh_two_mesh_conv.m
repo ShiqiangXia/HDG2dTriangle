@@ -1,4 +1,4 @@
-function test_uh_pts(para)
+function test_uh_two_mesh_conv(para)
     
     %% Step 1 : Set up some varibales
    
@@ -108,10 +108,11 @@ function test_uh_pts(para)
                 end
             end
             
-            h_corase = para.h0*(0.5^(ii-1-1));
-            coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
-                        h_corase, ...
-                        para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
+            h_corase = para.h0*(0.5^(ii-1));
+            coarse_mesh = mymesh;
+%             coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
+%                         h_corase, ...
+%                         para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
             
             
             if strcmp(pb_type(2),'0')

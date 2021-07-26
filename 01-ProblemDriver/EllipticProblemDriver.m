@@ -11,8 +11,8 @@ function EllipticProblemDriver(para)
     temp_report_flag = 1;
     plot_log_err_flag = 1;
     posterior_estimate_method = 2;
-    latex_table_flag = 1;
-    save_flag = 1;
+    latex_table_flag = 0;
+    save_flag = 0;
     
     % prefix to save results
     if strcmp(pb_type(2),'0') && strcmp(pb_type(4),'1')

@@ -1,5 +1,6 @@
 function [GQ_x, GQ_y, hx, hy, Nx,Ny] = GetPhyGQPts(structured_flag,dom_type,h0,GQ1DRef_pts, varargin)
-    
+    % GOAL: GQ physical pooints from GQ ref points
+    % Based on different domain type, the strategy is different
     if structured_flag ~= 1
         error('None structured type is not implemented')
     end

@@ -1,7 +1,12 @@
 function uh_coeff = GetUhProjCoarseMesh(k,uh_coarse_GQ_pts,GQ1DRef_pts)
-    
-    % here uh_coeff is a matrix
+    % GOAL: Interpolation to Qk space based on uh at GQ points
+    % OUTPUT: uh_coeff is a matrix
     % u_{ij} = phi_i(x) * phi_j(y)
+    
+    % base on uh at GQ poits to do a least square approximation
+    % namely find uh in Qk such that uh 
+    % minimize sum (uh(pi) -uh_coarse_GQ(pi))^2
+    
     V1D = Vandermonde1D(k,GQ1DRef_pts);
     Lv = (V1D')*V1D;
     Iv = Lv\(V1D');
