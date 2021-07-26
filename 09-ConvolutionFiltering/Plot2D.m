@@ -1,4 +1,4 @@
-function Plot2D(dom_type, x_pts,y_pts,f_vals,legend_str)
+function Plot2D(dom_type, x_pts,y_pts,f_vals,legend_str,save_flag, save_text)
     
     % Assume the local points are in increasing order
     
@@ -82,7 +82,7 @@ function Plot2D(dom_type, x_pts,y_pts,f_vals,legend_str)
     data_point = data_point(end:-1:1,:);
 
      % surf plot
-    figure;
+    p = figure;
     surf(xpoint,ypoint,data_point,'FaceAlpha',0.6);
     colormap jet
     %shading interp
@@ -90,6 +90,10 @@ function Plot2D(dom_type, x_pts,y_pts,f_vals,legend_str)
     ylabel("y");
     title(legend_str,'Interpreter','latex','FontSize',18);
     colorbar;
+    
+    if save_flag == 1
+        savefig(p,save_text);
+    end
 
     
    

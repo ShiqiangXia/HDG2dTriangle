@@ -65,11 +65,11 @@ function test_uh_pts(para)
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving PDE problem\n')
         
-        h_corase = para.h0;
-        coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
-                    h_corase, ...
-                    para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
-                
+%         h_corase = para.h0;
+%         coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
+%                     h_corase, ...
+%                     para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
+%                 
         N_bd = 0;%2*poly_k;
         
         poly_k = para.order;
@@ -108,8 +108,8 @@ function test_uh_pts(para)
                 end
             end
             
-%             h_corase = para.h0*(0.5^(ii-1));
-%             coarse_mesh = mymesh;
+            h_corase = para.h0*(0.5^(ii-1));
+            coarse_mesh = mymesh;
             
             
             if strcmp(pb_type(2),'0')
@@ -147,7 +147,7 @@ function test_uh_pts(para)
             
             
             % some plots
-            flag_2D_plot = 1;
+            flag_2D_plot = 0;
             if flag_2D_plot == 1
                 PlotUhcut(uh_coarse_GQ_pts, hx,y_cut,n_level, GQ_x,"$u_h$","$u_h$ on the coarse mesh" )
                 %Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
@@ -202,17 +202,23 @@ function test_uh_pts(para)
                         "$u - u_H^*|_{coarse}$","Error $u - u_H^*|_{coarse}$, Mesh: "+ num2str(ii) )
                 end
                 
-                flag_plot_diff = 0;
+                flag_plot_diff = 1;
                 if flag_plot_diff == 1
-                
+                    save_flag = 1;
+                    name_text = "k"+num2str(poly_k)+"_mesh"+num2str(ii)+"_smooth_error_uh_corase";
                     Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_coarse_GQ_pts,...
-                        "$u- u_h^{coarse}$ on the coarse , Mesh: " + num2str(ii))
-
+                        "$u- u_h^{coarse}$ on the coarse , Mesh: " + num2str(ii),save_flag,...
+                        name_text)
+                    
+                    name_text = "k"+num2str(poly_k)+"_mesh"+num2str(ii)+"_error_uH_corase";
                     Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts,...
-                        "$u - u_H$ on the coarse Mesh: "+ num2str(ii))  
+                        "$u - u_H$ on the coarse Mesh: "+ num2str(ii),save_flag,...
+                        name_text)  %"k"+num2str(poly_k)+"_smooth_error_uH_corase_mesh"+num2str(ii)
 
+                    name_text = "k"+num2str(poly_k)+"_mesh"+num2str(ii)+"_smooth_error_uHstar_corase";
                     Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-M, ...
-                        "$u - u_H^{*}$ on the coarse Mesh: "+ num2str(ii))
+                        "$u - u_H^{*}$ on the coarse Mesh: "+ num2str(ii),save_flag,...
+                        name_text)
                 end
                 
                 
