@@ -275,6 +275,10 @@ function test_conv_adapt(para)
         % project uh_final to TH
         uh_proj = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,finer_mesh,...
                 uh_final,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
+            
+        uH_square_GQpts = GetUhProjGQpts(uH_square,poly_proj,GQ1DRef_pts);    
+        uh_proj_GQpts = GetUhProjGQpts(uh_proj,poly_proj,GQ1DRef_pts);
+       
         
         % Convolution Postprocessing
         MH = ConvolutionFiltering(para.dom_type,spline_degree,...
@@ -283,8 +287,9 @@ function test_conv_adapt(para)
         Mh_proj = ConvolutionFiltering(para.dom_type,spline_degree,...
                 uh_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
         % some plots
-        flag_2D_plot = 1;
+        flag_2D_plot = 0;
         if flag_2D_plot == 1
+            
             
             Plot2D(para.dom_type, GQ_x, GQ_y, MH, "$u_H^*$ on coarse mesh ",0,"")
            
@@ -296,6 +301,9 @@ function test_conv_adapt(para)
         if err_cal_flag
             
             uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
+            Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uH_square_GQpts, "$u_{H,square}$ on coarse mesh ",0,"")
+            Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts, "$u_{h,proj}$ on coarse mesh ",0,"")
+            
             
             uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
             

@@ -83,9 +83,9 @@ function Plot2D(dom_type, x_pts,y_pts,f_vals,legend_str,save_flag, save_text)
 
      % surf plot
     p = figure;
-    surf(xpoint,ypoint,data_point,'FaceAlpha',0.6);
+    surf(xpoint,ypoint,data_point,'FaceAlpha',0.9);
     colormap jet
-    %shading interp
+    shading interp
     xlabel("x");
     ylabel("y");
     title(legend_str,'Interpreter','latex','FontSize',18);
