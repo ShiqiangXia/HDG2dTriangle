@@ -256,8 +256,9 @@ function test_conv_adapt(para)
     %         Get uH_square, vH_square by L2 projection of uH_triangle,
     %         vH_triangle to TH
     %----------------------------------------------------------------------
-        N_bd = 0;%2*poly_k;
+        
         poly_k = para.order;
+        N_bd = 2*poly_k;
         spline_degree = poly_k;
         poly_proj = poly_k; 
         y_cut = 5;
@@ -285,9 +286,9 @@ function test_conv_adapt(para)
         flag_2D_plot = 1;
         if flag_2D_plot == 1
             
-            Plot2D(para.dom_type, GQ_x, GQ_y, MH, "$u_H^*$, Mesh: " + num2str(ii),0,"")
+            Plot2D(para.dom_type, GQ_x, GQ_y, MH, "$u_H^*$ on coarse mesh ",0,"")
            
-            Plot2D(para.dom_type, GQ_x, GQ_y, Mh_proj, "$u_{h,proj}^*$, Mesh: "+ num2str(ii),0,"")
+            Plot2D(para.dom_type, GQ_x, GQ_y, Mh_proj, "$u_{h,proj}^*$ on coarse mesh",0,"")
 
             
         end
@@ -296,10 +297,12 @@ function test_conv_adapt(para)
             
             uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
             
-            err_uH = L2Error_scalar_Square(MH,...
+            uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
+            
+            err_uHstar = L2Error_scalar_Square(MH,...
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
-            err_uh = L2Error_scalar_Square(Mh_proj,...
+            err_uhstar = L2Error_scalar_Square(Mh_proj,...
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
             flag_plot_diff = 1;
@@ -319,7 +322,8 @@ function test_conv_adapt(para)
                 
         end
         
-        fprintf('err_uH : %.2e, err_uh_proj: %.2e\n', err_uH, err_uh);
+        fprintf('err_uH* : %.2e\n',err_uHstar)
+        fprintf('err_uh*_proj: %.2e\n',err_uhstar);
         
         
     end

@@ -4,10 +4,11 @@
 % problem
 pb_type = 2011; % functional (u,g)
 dom_ype = 'Rec';
+Min_k = 1;
 Max_k = 1;
 
 % mesh
-h0 = 0.1;
+h0 = 0.05;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
 Niter_max = 3;
 
@@ -37,7 +38,7 @@ end
 %% call the test script
 
 global class_t;
-for order = 1:Max_k
+for order = Min_k:Max_k
     
     
     para = SetParameters_Ellipitc('order',order, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...

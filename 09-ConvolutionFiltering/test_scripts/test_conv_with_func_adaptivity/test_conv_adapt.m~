@@ -284,14 +284,12 @@ function test_conv_adapt(para)
         % some plots
         flag_2D_plot = 1;
         if flag_2D_plot == 1
-            PlotUhcut(uh_coarse_GQ_pts, hx,y_cut,n_level, GQ_x,"$u_h$","$u_h$ on the coarse mesh" )
-            Plot2D(para.dom_type, GQ_x, GQ_y, uh_coarse_GQ_pts, "$u_h^{coarse}$, Mesh: " + num2str(ii))
+            
+            Plot2D(para.dom_type, GQ_x, GQ_y, MH, "$u_H^*$, Mesh: " + num2str(ii),0,"")
+           
+            Plot2D(para.dom_type, GQ_x, GQ_y, Mh_proj, "$u_{h,proj}^*$, Mesh: "+ num2str(ii),0,"")
 
-            PlotUhcut(uh_proj_GQpts, hx,y_cut,n_level, GQ_x,"$u_H$","$u_H$ (the L2 projection of u_h) on the coarse mesh" )
-            %Plot2D(para.dom_type, GQ_x, GQ_y, uh_proj_GQpts, "$u_h^{coarse-proj}$, Mesh: "+ num2str(ii))
-
-            PlotUhcut(M, hx,y_cut,n_level, GQ_x,"$u_H^*$","$u_H^*$ on the coarse mesh" )
-            %Plot2D(para.dom_type, GQ_x, GQ_y, M, "$u_h^{coarse-proj-conv}$, Mesh: "+ num2str(ii))
+            
         end
             
         if err_cal_flag
@@ -303,9 +301,25 @@ function test_conv_adapt(para)
                 
             err_uh = L2Error_scalar_Square(Mh_proj,...
                     uexact_GQ_pts, GQ1DRef_wts, hx, hy);
+                
+            flag_plot_diff = 1;
+            if flag_plot_diff == 1
+                save_flag = 0;
+                name_text = "nothing";
+                
+                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-MH,...
+                    "$u- u_H^*$",save_flag,...
+                    name_text)
+
+                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-Mh_proj,...
+                    "$u - u_{h,proj}^*$ ",save_flag,...
+                    name_text) 
+
+            end
+                
         end
         
-        fprintf('err_uH : %.2e, err_uh_proj: %?2e\n', err_uH, err_uh);
+        fprintf('err_uH : %.2e\nerr_uh_proj: %.2e\n', err_uH, err_uh);
         
         
     end

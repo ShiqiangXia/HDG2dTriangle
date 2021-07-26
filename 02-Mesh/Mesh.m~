@@ -222,7 +222,7 @@ classdef Mesh
             ax=axis;axis(ax*1.001);
             if num >= 250
                 labelpoints(ave_x(1:250),ave_y(1:250),labs(1:250),'center','FontSize', 14);
-                cprintf('UnterminatedStrings', '%d elements are too many to label, so I only plot the first 250.\n',num);
+                cprintf('UnterminatedStrings', '%d elements are too many to label, so I on them.\n',num);
             end
             %simpplot(obj.vertices_list,obj.element_list);
             
