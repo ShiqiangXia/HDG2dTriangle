@@ -10,7 +10,7 @@ dom_ype = 'Rec';
 % mesh
 h0 = 0.1;
 refine_flag = -1; % 1 adaptive; 0: uniform
-Niter_max = 3;
+Niter_max = 1;
 
 % other
 tol_adp = 10e-14;
@@ -37,7 +37,7 @@ end
 
 %% set up parameters
 global class_t;
-for order = 1:3
+for order = 1:1
     
     
     para = SetParameters_Ellipitc('order',order, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...

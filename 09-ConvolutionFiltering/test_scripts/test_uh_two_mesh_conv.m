@@ -207,7 +207,7 @@ function test_uh_two_mesh_conv(para)
                 
                 flag_plot_diff = 0;
                 if flag_plot_diff == 1
-                    save_flag = 1;
+                    save_flag = 0;
                     name_text = "k"+num2str(poly_k)+"_mesh"+num2str(ii)+"_smooth_error_uh_corase";
                     Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_coarse_GQ_pts,...
                         "$u- u_h^{coarse}$ on the coarse , Mesh: " + num2str(ii),save_flag,...
