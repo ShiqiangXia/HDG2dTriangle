@@ -108,8 +108,10 @@ function test_uh_pts(para)
                 end
             end
             
-            h_corase = para.h0*(0.5^(ii-1));
-            coarse_mesh = mymesh;
+            h_corase = para.h0*(0.5^(ii-1-1));
+            coarse_mesh = Build2DMesh(para.structure_flag, para.dom_type,...
+                        h_corase, ...
+                        para.dirichlet_flag, para.neuman_flag, para.geo_parameters{:});
             
             
             if strcmp(pb_type(2),'0')
@@ -202,7 +204,7 @@ function test_uh_pts(para)
                         "$u - u_H^*|_{coarse}$","Error $u - u_H^*|_{coarse}$, Mesh: "+ num2str(ii) )
                 end
                 
-                flag_plot_diff = 1;
+                flag_plot_diff = 0;
                 if flag_plot_diff == 1
                     save_flag = 1;
                     name_text = "k"+num2str(poly_k)+"_mesh"+num2str(ii)+"_smooth_error_uh_corase";

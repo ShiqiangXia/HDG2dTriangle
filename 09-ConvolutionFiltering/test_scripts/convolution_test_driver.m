@@ -8,9 +8,9 @@ dom_ype = 'Rec';
 % k
 %order = 1;
 % mesh
-h0 = 0.2;
+h0 = 0.1;
 refine_flag = -1; % 1 adaptive; 0: uniform
-Niter_max = 4;
+Niter_max = 3;
 
 % other
 tol_adp = 10e-14;
