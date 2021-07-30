@@ -130,11 +130,19 @@ function test_conv_adapt(para)
             
             if ii == Niter
                 finer_mesh = mymesh;
-                finer_mesh.Plot2(0,"Final adaptive mesh")
+                finer_mesh.Plot2(0,"Final adaptive mesh" + num2str(ii))
+                file_name = "k"+num2str(para.order)+"_Adapt_Mesh"+ num2str(ii);
+                if save_flag == 1
+                    savefig(gcf,file_name);
+                end
             elseif ii == 1
                 h_coarse = para.h0;
                 coarse_mesh = mymesh;
-                coarse_mesh.Plot2(0,"Coarse mesh H=" + num2str(h_coarse))
+                coarse_mesh.Plot2(0,"Coarse mesh H=" + num2str(h_coarse));
+                file_name = "k"+num2str(para.order)+"_Coarse_Mesh";
+                if save_flag == 1
+                    savefig(gcf,file_name);
+                end
             end
             
             mesh_list(ii) = GetDof(mymesh, para.order);
@@ -258,7 +266,7 @@ function test_conv_adapt(para)
     %----------------------------------------------------------------------
         
         poly_k = para.order;
-        N_bd = 2*poly_k;
+        N_bd = 2*poly_k+1;
         spline_degree = poly_k;
         poly_proj = poly_k; 
         y_cut = 5;
@@ -301,9 +309,18 @@ function test_conv_adapt(para)
         if err_cal_flag
             
             uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
-            Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uH_square_GQpts, "$u_{H,square}$ on coarse mesh ",0,"")
-            Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts, "$u_{h,proj}$ on coarse mesh ",0,"")
             
+            flag_plot_diff_no_postprocess = 1;
+            if flag_plot_diff_no_postprocess == 1
+                
+                name_text = "k"+num2str(poly_k)+"_Adapt_Mesh"+num2str(Niter) + "_err_uH";
+                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uH_square_GQpts,...
+                    "$u - u_{H,square}$ on coarse mesh ",save_flag,name_text)
+                
+                name_text = "k"+num2str(poly_k)+"_Adapt_Mesh"+num2str(Niter) + "_err_uhproj";
+                Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-uh_proj_GQpts,...
+                    "$u - u_{h,proj}$ on coarse mesh ",save_flag,name_text)
+            end 
             
             uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
             
@@ -315,15 +332,20 @@ function test_conv_adapt(para)
                 
             flag_plot_diff = 1;
             if flag_plot_diff == 1
-                save_flag = 0;
-                name_text = "nothing";
+                
+                name_text = "k"+num2str(poly_k)+"_Adapt_Mesh"+num2str(Niter) + "_err_uHstar";
+                    
+                title_text = "$u- u_H^*$, L2 error: " + sprintf('%.2e',err_uHstar);
                 
                 Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-MH,...
-                    "$u- u_H^*$",save_flag,...
+                    title_text,save_flag,...
                     name_text)
-
+                
+                name_text = "k"+num2str(poly_k)+"_Adapt_Mesh"+num2str(Niter) + "_err_uhprojstar";
+                    
+                title_text = "$u - u_{h,proj}^*$, L2 error: "+ sprintf('%.2e',err_uhstar);
                 Plot2D(para.dom_type, GQ_x, GQ_y, uexact_GQ_pts-Mh_proj,...
-                    "$u - u_{h,proj}^*$ ",save_flag,...
+                    title_text,save_flag,...
                     name_text) 
 
             end
