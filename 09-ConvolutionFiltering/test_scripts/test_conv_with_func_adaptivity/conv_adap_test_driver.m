@@ -5,12 +5,12 @@
 pb_type = 2011; % functional (u,g)
 dom_ype = 'Rec';
 Min_k = 1;
-Max_k = 3;
+Max_k = 1;
 
 % mesh
-h0 = 0.05;
+h0 = 0.1;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
-Niter_max = 4;
+Niter_max = 3; % how many adaptive steps we do
 
 % other
 tol_adp = 10e-14;
@@ -18,7 +18,7 @@ pp_flag = 1; % post_processing
 err_cal_flag = 1;
 
 % data
-smooth_flag = 1; % 1: smooth data; 0: non-smooth
+smooth_flag = 0; % 1: smooth data; 0: non-smooth
 if smooth_flag == 0
     pri  = 1;
     adj  = 1;  
