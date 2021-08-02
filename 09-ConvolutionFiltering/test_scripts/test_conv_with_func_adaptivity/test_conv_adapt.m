@@ -20,7 +20,7 @@ function test_conv_adapt(para)
                    % 3: fraction marking strategy
                    
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
-    Ncoarse = 4;
+    Ncoarse = 3;
     
     err_cal_flag = para.err_cal_flag;
     err_analysis_flag = para.err_analysis_flag;

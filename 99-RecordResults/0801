@@ -1,0 +1,251 @@
+>> conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 4, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+1.00e-01         |4.96e-04         0.00e+00         |4.77e-04         0.00e+00         |
+5.00e-02         |1.59e-04         1.64e+00         |1.52e-04         1.65e+00         |
+2.50e-02         |5.05e-05         1.65e+00         |4.84e-05         1.65e+00         |
+1.25e-02         |1.60e-05         1.66e+00         |1.53e-05         1.66e+00         |
+------------------------------
+h                |err_uH*          order            |err_uh_proj*     order            |
+1.00e-01         |1.08e-05         0.00e+00         |1.37e-05         0.00e+00         |
+5.00e-02         |2.25e-06         2.27e+00         |2.56e-06         2.42e+00         |
+2.50e-02         |6.04e-07         1.90e+00         |6.32e-07         2.02e+00         |
+1.25e-02         |1.78e-07         1.76e+00         |1.79e-07         1.82e+00         |%k=2
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 4, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+1.00e-01         |1.11e-04         0.00e+00         |9.90e-05         0.00e+00         |
+5.00e-02         |3.51e-05         1.67e+00         |3.12e-05         1.67e+00         |
+2.50e-02         |1.11e-05         1.67e+00         |9.82e-06         1.67e+00         |
+1.25e-02         |3.49e-06         1.67e+00         |3.09e-06         1.67e+00         |
+------------------------------
+h                |err_uH*          order            |err_uh_proj*     order            |
+1.00e-01         |1.80e-07         0.00e+00         |2.06e-07         0.00e+00         |
+5.00e-02         |7.66e-09         4.55e+00         |8.12e-09         4.66e+00         |
+2.50e-02         |1.38e-09         2.47e+00         |1.47e-09         2.46e+00         |
+1.25e-02         |3.46e-10         2.00e+00         |3.71e-10         1.99e+00         |
+
+
+
+% k = 3
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/01-ProblemDriver/numeric_t.m',7,1)">7   </a>                r = expression;
+if system_dependent('IsDebugMode')==1, dbcont; end
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+1.00e-01         |4.37e-05         0.00e+00         |3.63e-05         0.00e+00         |
+5.00e-02         |1.38e-05         1.67e+00         |1.14e-05         1.67e+00         |
+2.50e-02         |4.35e-06         1.67e+00         |3.60e-06         1.67e+00         |
+------------------------------
+h                |err_uH*          order            |err_uh_proj*     order            |
+1.00e-01         |0.00e+00         0.00e+00         |0.00e+00         0.00e+00         |
+5.00e-02         |2.18e-09         -Inf             |2.43e-09         -Inf             |
+2.50e-02         |2.34e-10         3.22e+00         |2.50e-10         3.28e+00         |
+
+
+
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+1.00e-01         |4.37e-05         0.00e+00         |3.63e-05         0.00e+00         |
+5.00e-02         |1.38e-05         1.67e+00         |1.14e-05         1.67e+00         |
+2.50e-02         |4.35e-06         1.67e+00         |3.60e-06         1.67e+00         |
+------------------------------
+h                |err_uH*          order            |err_uh_proj*     order            |
+1.00e-01         |0.00e+00         0.00e+00         |0.00e+00         0.00e+00         |
+5.00e-02         |2.18e-09         -Inf             |2.43e-09         -Inf             |
+2.50e-02         |2.34e-10         3.22e+00         |2.50e-10         3.28e+00         |
+diary off
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+5.00e-02         |1.38e-05         0.00e+00         |1.14e-05         0.00e+00         |
+2.50e-02         |4.35e-06         1.67e+00         |3.60e-06         1.67e+00         |
+1.25e-02         |1.37e-06         1.67e+00         |1.13e-06         1.67e+00         |
+------------------------------
+h                |err_uH*          order            |err_uh_proj*     order            |
+5.00e-02         |2.18e-09         0.00e+00         |2.43e-09         0.00e+00         |
+2.50e-02         |2.34e-10         3.22e+00         |2.50e-10         3.28e+00         |
+1.25e-02         |5.07e-11         2.21e+00         |5.34e-11         2.23e+00         |
+diary off
