@@ -1,0 +1,178 @@
+test_conv_adapt
+{Not enough input arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('test_conv_adapt', '/Users/shiqiangxia/Desktop/hdg2dtriangular/09-ConvolutionFiltering/test_scripts/test_conv_with_func_adaptivity/test_conv_adapt.m', 6)" style="font-weight:bold">test_conv_adapt</a> (<a href="matlab: opentoline('/Users/shiqiangxia/Desktop/hdg2dtriangular/09-ConvolutionFiltering/test_scripts/test_conv_with_func_adaptivity/test_conv_adapt.m',6,0)">line 6</a>)
+    pb_type = num2str(para.pb_type);
+} 
+
+
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=2.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 4, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 5, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+2.00e-01         |6.61e-04         0.00e+00         |6.47e-04         0.00e+00         |
+1.00e-01         |1.85e-04         1.84e+00         |1.80e-04         1.84e+00         |
+5.00e-02         |5.56e-05         1.73e+00         |5.42e-05         1.73e+00         |
+2.50e-02         |1.73e-05         1.68e+00         |1.69e-05         1.68e+00         |
+1.25e-02         |5.47e-06         1.66e+00         |5.32e-06         1.67e+00         |
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=2.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 4, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 5, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+2.00e-01         |0.00e+00         0.00e+00         |0.00e+00         0.00e+00         |
+1.00e-01         |2.75e-06         -Inf             |2.75e-06         -Inf             |
+5.00e-02         |5.16e-07         2.41e+00         |5.16e-07         2.41e+00         |
+2.50e-02         |1.28e-07         2.01e+00         |1.28e-07         2.01e+00         |
+1.25e-02         |3.60e-08         1.83e+00         |3.60e-08         1.83e+00         |
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=2.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 2, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 3, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 4, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+
+--------------------------------
+Coarse mesh 5, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+------------------------------
+h                |err_uH           order            |err_uh_proj      order            |
+2.00e-01         |0.00e+00         0.00e+00         |0.00e+00         0.00e+00         |
+1.00e-01         |0.00e+00         NaN              |0.00e+00         NaN              |
+5.00e-02         |4.75e-09         -Inf             |4.74e-09         -Inf             |
+2.50e-02         |9.47e-10         2.33e+00         |9.45e-10         2.33e+00         |
+1.25e-02         |2.47e-10         1.94e+00         |2.46e-10         1.94e+00         |
+close all
+
+
+
+diary off

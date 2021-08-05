@@ -105,6 +105,10 @@ function test_conv_adapt(para)
         for jj = 1: Ncoarse
             h0 = h_coarse_0*(0.5^(jj-1));
             h0_list(jj) = h0;
+            cprintf('blue','\n--------------------------------\n')
+            cprintf('blue','Coarse mesh %d, H=%.2e \n\n',jj,h0);
+            
+            cprintf('blue','adaptive steps \n');
             for ii = 1:Niter
                 
                 cprintf('blue','Mesh %d ... \n',ii)
@@ -276,7 +280,7 @@ function test_conv_adapt(para)
         %----------------------------------------------------------------------
 
             poly_k = para.order;
-            N_bd = 2*poly_k+1;
+            N_bd = 2*poly_k;
             spline_degree = poly_k;
             poly_proj = poly_k; 
             y_cut = 5;
@@ -320,15 +324,20 @@ function test_conv_adapt(para)
                 
                 % L2 error on the whole domain
                 uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
+                % only consider the convolution domain
+                uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
+                % since the domain is varying for different meshes, we need
+                % to divide by the area to compare the average of the data 
+                area = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd)*hx*hy;
                 
                 err_uH = L2Error_scalar_Square(uH_square_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 err_uh_proj = L2Error_scalar_Square(uh_proj_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-                err_uH_list(jj) =   err_uH;
-                err_uh_proj_list(jj) = err_uh_proj;
+                err_uH_list(jj) =   err_uH/sqrt(area);
+                err_uh_proj_list(jj) = err_uh_proj/sqrt();
 
-                flag_plot_diff_no_postprocess = 1;
+                flag_plot_diff_no_postprocess = 0;
                 if flag_plot_diff_no_postprocess == 1
 
                     name_text = "k"+num2str(poly_k)+"_Adapt_Mesh"+num2str(Niter) + "_err_uH";
@@ -340,22 +349,18 @@ function test_conv_adapt(para)
                         "$u - u_{h,proj}$ on coarse mesh ",save_flag,name_text)
                 end 
 
-                % only consider the convolution domain
-                uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
+                
 
                 err_uHstar = L2Error_scalar_Square(MH,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 err_uhstar = L2Error_scalar_Square(Mh_proj,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
-                % since the domain is varying for different meshes, we need
-                % to divide by the area to compare the average of the data 
-                area = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd)*hx*hy;
                 
-                err_uH_star_list(jj) = err_uHstar/area;
-                err_uh_proj_star_list(jj) = err_uhstar/area;
+                err_uH_star_list(jj) = err_uHstar/sqrt(area);
+                err_uh_proj_star_list(jj) = err_uhstar/sqrt(area);
 
-                flag_plot_diff = 1;
+                flag_plot_diff = 0;
                 if flag_plot_diff == 1
 
                     name_text = "k"+num2str(poly_k)+"_Adapt_Mesh"+num2str(Niter) + "_err_uHstar";
@@ -381,10 +386,19 @@ function test_conv_adapt(para)
             %fprintf('err_uh*_proj: %.2e\n',err_uhstar);
 
         end
-        disp(err_uH_list)
-        disp(0err_uhstar
-        disp(err_uH_star_list)
-        disp(err_uh_proj_star_list)
+        
+        order_uH        = GetOrderH(h0_list,err_uH_list);
+        order_uh_proj   = GetOrderH(h0_list,err_uh_proj_list);
+        order_uH_star   = GetOrderH(h0_list,err_uH_star_list);
+        order_uh_proj_star   = GetOrderH(h0_list,err_uh_proj_star_list);
+        
+        ReportTable('h', h0_list,...
+                    'err_uH', err_uH_list, 'order',order_uH,...
+                    'err_uh_proj', err_uh_proj_list, 'order',order_uh_proj);
+                
+        ReportTable('h', h0_list,...
+                    'err_uH*', err_uH_star_list, 'order',order_uH_star,...
+                    'err_uh_proj*', err_uh_proj_star_list, 'order',order_uh_proj_star)
         
     end
     

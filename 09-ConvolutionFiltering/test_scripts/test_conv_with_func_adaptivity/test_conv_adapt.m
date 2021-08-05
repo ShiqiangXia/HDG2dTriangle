@@ -20,7 +20,7 @@ function test_conv_adapt(para)
                    % 3: fraction marking strategy
                    
     %%%%%% step 1. Set varibales to store results %%%%%%%%%%%%%%%%%%%%%
-    Ncoarse = 3;
+    Ncoarse = 5;
     
     err_cal_flag = para.err_cal_flag;
     err_analysis_flag = para.err_analysis_flag;
@@ -143,6 +143,7 @@ function test_conv_adapt(para)
 
 
                 if ii == Niter
+                    h_coarse = h0;
                     finer_mesh = mymesh;
                     finer_mesh.Plot2(0,"Final adaptive mesh" + num2str(ii) + " based on coarse mesh H = " + num2str(h0))
                     file_name = "k"+num2str(para.order)+"_Adapt_Mesh"+ num2str(ii);
@@ -302,12 +303,12 @@ function test_conv_adapt(para)
             uh_proj_GQpts = GetUhProjGQpts(uh_proj,poly_proj,GQ1DRef_pts);
 
 
-            % Convolution Postprocessing
-            MH = ConvolutionFiltering(para.dom_type,spline_degree,...
-                    uH_square, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
-
-            Mh_proj = ConvolutionFiltering(para.dom_type,spline_degree,...
-                    uh_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
+%             % Convolution Postprocessing
+%             MH = ConvolutionFiltering(para.dom_type,spline_degree,...
+%                     uH_square, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
+% 
+%             Mh_proj = ConvolutionFiltering(para.dom_type,spline_degree,...
+%                     uh_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
             % some plots
             flag_2D_plot = 0;
             if flag_2D_plot == 1
@@ -324,13 +325,22 @@ function test_conv_adapt(para)
                 
                 % L2 error on the whole domain
                 uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
+                % only consider the convolution domain
+                uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
+                % since the domain is varying for different meshes, we need
+                % to divide by the area to compare the average of the data 
+                area = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd)*hx*hy;
+                
+                
+                uH_square_GQpts = RemoveBdElements(para.dom_type, uH_square_GQpts,N_bd,Nx_coarse, Ny_coarse);
+                uh_proj_GQpts = RemoveBdElements(para.dom_type, uh_proj_GQpts,N_bd,Nx_coarse, Ny_coarse);
                 
                 err_uH = L2Error_scalar_Square(uH_square_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 err_uh_proj = L2Error_scalar_Square(uh_proj_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-                err_uH_list(jj) =   err_uH;
-                err_uh_proj_list(jj) = err_uh_proj;
+                err_uH_list(jj) =   err_uH/sqrt(area);
+                err_uh_proj_list(jj) = err_uh_proj/sqrt(area);
 
                 flag_plot_diff_no_postprocess = 0;
                 if flag_plot_diff_no_postprocess == 1
@@ -344,20 +354,16 @@ function test_conv_adapt(para)
                         "$u - u_{h,proj}$ on coarse mesh ",save_flag,name_text)
                 end 
 
-                % only consider the convolution domain
-                uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
+                
 
-                err_uHstar = L2Error_scalar_Square(MH,...
-                        uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-                err_uhstar = L2Error_scalar_Square(Mh_proj,...
-                        uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-                
-                % since the domain is varying for different meshes, we need
-                % to divide by the area to compare the average of the data 
-                area = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd)*hx*hy;
-                
-                err_uH_star_list(jj) = err_uHstar/area;
-                err_uh_proj_star_list(jj) = err_uhstar/area;
+%                 err_uHstar = L2Error_scalar_Square(MH,...
+%                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
+%                 err_uhstar = L2Error_scalar_Square(Mh_proj,...
+%                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
+%                 
+%                 
+%                 err_uH_star_list(jj) = err_uHstar/sqrt(area);
+%                 err_uh_proj_star_list(jj) = err_uhstar/sqrt(area);
 
                 flag_plot_diff = 0;
                 if flag_plot_diff == 1
@@ -388,17 +394,17 @@ function test_conv_adapt(para)
         
         order_uH        = GetOrderH(h0_list,err_uH_list);
         order_uh_proj   = GetOrderH(h0_list,err_uh_proj_list);
-        order_uH_star   = GetOrderH(h0_list,err_uH_star_list);
-        order_uh_proj_star   = GetOrderH(h0_list,err_uh_proj_star_list);
-        
+%         order_uH_star   = GetOrderH(h0_list,err_uH_star_list);
+%         order_uh_proj_star   = GetOrderH(h0_list,err_uh_proj_star_list);
+%         
         ReportTable('h', h0_list,...
                     'err_uH', err_uH_list, 'order',order_uH,...
                     'err_uh_proj', err_uh_proj_list, 'order',order_uh_proj);
                 
-        ReportTable('h', h0_list,...
-                    'err_uH*', err_uH_star_list, 'order',order_uH_star,...
-                    'err_uh_proj*', err_uh_proj_star_list, 'order',order_uh_proj_star)
-        
+%         ReportTable('h', h0_list,...
+%                     'err_uH*', err_uH_star_list, 'order',order_uH_star,...
+%                     'err_uh_proj*', err_uh_proj_star_list, 'order',order_uh_proj_star)
+%         
     end
     
    
