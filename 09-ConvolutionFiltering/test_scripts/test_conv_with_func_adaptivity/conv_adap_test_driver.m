@@ -4,13 +4,13 @@
 % problem
 pb_type = 2011; % functional (u,g)
 dom_ype = 'Rec';
-Min_k = 1;
-Max_k = 3;
+Min_k = 2;
+Max_k = 2;
 
 % mesh
-h0 = 0.2;
-refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
-Niter_max = 3; % how many adaptive steps we do
+h0 = 0.1;
+refine_flag = 0; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
+Niter_max = 1; % how many adaptive steps we do
 
 % other
 tol_adp = 10e-14;
