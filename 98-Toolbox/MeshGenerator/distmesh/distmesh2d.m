@@ -99,7 +99,7 @@ while 1
   L0=hbars*Fscale*sqrt(sum(L.^2)/sum(hbars.^2));     % L0 = Desired lengths
   
   % Density control - remove points that are too close
-  if mod(count,densityctrlfreq)==0 & any(L0>2*L)
+  if mod(count,densityctrlfreq)==0 && any(L0>2*L)
       p(setdiff(reshape(bars(L0>2*L,:),[],1),1:nfix),:)=[];
       N=size(p,1); pold=inf;
       continue;
