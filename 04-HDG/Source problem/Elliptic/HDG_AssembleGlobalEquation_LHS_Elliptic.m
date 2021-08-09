@@ -56,6 +56,8 @@ function [Global_M]= HDG_AssembleGlobalEquation_LHS_Elliptic(mymesh,...
             elseif bdry_flag == 2 % neuman boundary
                 % Will implement later
                 error(' Boundary type not implemented yet.')
+            elseif bdry_flag == 11
+                Global_M(start_id:end_id,start_id:end_id)= Id_mtrix*edge_len_list(ii)*0.5;
             else 
                 error('Wrong boundary type.')
             end

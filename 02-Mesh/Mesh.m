@@ -149,8 +149,17 @@ classdef Mesh
             % step 1: Refine the marked elements
             p = obj.vertices_list;
             e = obj.element_list;
-            faces_dirichlet = find(obj.f_type==1);
-            faces_neuman = find(obj.f_type==2);
+            face_type = unique(obj.f_type);
+            
+            face_id1 = face_type(2);
+            
+            if length(face_type)>2
+                face_id2 = face_type(3);
+            else
+                face_id2 = 2;
+            end
+            faces_dirichlet = find(obj.f_type==face_id1);
+            faces_neuman = find(obj.f_type==face_id2);
             
             diri = [obj.face_list(faces_dirichlet,1), obj.face_list(faces_dirichlet,2)];
             neu = [obj.face_list(faces_neuman,1), obj.face_list(faces_neuman,2)];
@@ -178,8 +187,8 @@ classdef Mesh
             % (this is used for mesh refinement to keep the shape-regularity)
             
             bdry_edges = boundedges(new_p,new_e);
-            [f,ef,face_type] = LabelFaces(new_e,dirinodes,neunodes,bdry_edges);
-            if ~(strcmp(obj.dom_type,'Rec') || strcmp(obj.dom_type,'L'))
+            [f,ef,face_type] = LabelFaces(new_e,bdry_edges, dirinodes,face_id1,neunodes,face_id2);
+            if ~(strcmp(obj.dom_type,'Rec') || strcmp(obj.dom_type,'L') || strcmp(obj.dom_type,'Comp_Rec'))
                 cprintf('*UnterminatedStrings', 'Warning:\n')
                 cprintf('UnterminatedStrings','Mesh refinment on a curved domain (%s) will NOT guarantee a better resolution of the curve!\n',obj.dom_type);
                 cprintf('UnterminatedStrings','You many consider using Build2DMesh to generate a finer mesh to resolve the curved bounaries.\n')

@@ -50,9 +50,13 @@ function [Global_b]= HDG_AssembleGlobalEquation_RHS_Elliptic(mymesh,GQ1DRef_pts,
             elseif bdry_flag == 2 % neuman boundary
                 % Will implement later
                 error(' Boundary type not implemented yet.')
-            elseif bdry_flag == 1 % dirichlet inner boundary
-                % Will implement later
-                error(' Boundary type not implemented yet.')
+            elseif bdry_flag == 11 % dirichlet inner boundary
+                
+                Jk = mymesh.Jacobian_list(element_idx);
+
+                Global_b(start_id:end_id,1) = Project_F_to_Face(Jk,vertice_list,...
+                    ii,uhat_dir_list(1,ii),edge_len_list(ii),...
+                    k,uN,GQ1DRef_pts,GQ1DRef_wts);
             else 
                 error('Wrong boundary type.')
             end
