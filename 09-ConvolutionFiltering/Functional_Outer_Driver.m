@@ -1,4 +1,4 @@
-function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para, Nadapt)
+function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para, Nadapt,err_inner,ndof_inner)
     pb_type = num2str(para.pb_type);
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     poly_order = 2*para.order; % 2k 
@@ -12,6 +12,8 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
     [uexact]=MyParaParse(para.pb_parameters,'uexact');
     
     mesh_list = zeros(Nadapt,1,numeric_t);
+    
+    err_list = zeros(Nadapt,1,numeric_t);
     
     tri_list  = zeros(Nadapt,1,numeric_t); % record # of triangles for each mesh
     cprintf('blue','adaptive steps \n');
@@ -157,9 +159,22 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
             percent = MyParaParse(para.extra_parameters,'percent');
             marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
         end
+        
+        % evaluate the error
+        [err_outer,~] = L2Error_scalar(mymesh,uh,...
+                    GQ1DRef_pts,GQ1DRef_wts,0,...
+                    poly_order,uexact);
+        err_list(ii) = sqrt(err_outer^2 + err_inner^2);
+                
+        
 
 
     end
+    
+    figure;
+    mesh_list = mesh_list + ndof_inner;
+    plot(0.5*log10(mesh_list),log10(abs(err_list)),'--ro')
+    legend('L2 error u-uh*')
 
     
 end

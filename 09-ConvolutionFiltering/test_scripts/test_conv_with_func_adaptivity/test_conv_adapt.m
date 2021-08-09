@@ -26,10 +26,12 @@ function test_conv_adapt(para)
     err_cal_flag = para.err_cal_flag;
     err_analysis_flag = para.err_analysis_flag;
     mesh_list = zeros(Niter,1,numeric_t);
-    mesh_comp_list = zeros(Niter,1,numeric_t);
+    
+    
     
     tri_list  = zeros(Niter,1,numeric_t); % record # of triangles for each mesh
     h0_list = zeros(Ncoarse,1,numeric_t);
+    mesh_comp_list = zeros(Ncoarse,1,numeric_t);
     
     reduce_ratio = MyParaParse(para.extra_parameters,'reduce_ratio');
     tol_adp = MyParaParse(para.extra_parameters,'tol_adp');
@@ -330,14 +332,7 @@ function test_conv_adapt(para)
                 
                 % build an outer mesh
                 outer_mesh = BuildOuterMesh(h0,order1_dist,N_bd);
-                % solve adaptively on the outer mesh
-                [uh2k_outer,~,~,~,~,~,outer_mesh] = Functional_Outer_Driver(outer_mesh, para, 8);
                 
-                mesh_comp_list(jj) = mesh_comp_list(jj) + GetDof(outer_mesh,2 * para.order );
-                % evaluate the error
-                [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
-                            GQ1DRef_pts,GQ1DRef_wts,0,...
-                            2 * para.order,uexact);
                 
                 % some plots
                 flag_2D_plot = 0;
@@ -417,9 +412,23 @@ function test_conv_adapt(para)
                     err_uH_star_list(jj) = err_uHstar/sqrt(area);
                     err_uh_proj_star_list(jj) = err_uhstar/sqrt(area);
                     
+                    
+                    ndof_inner = GetInnerDof(Nx_coarse,Ny_coarse,N_bd,N_corner_x,N_corner_y,para.order );
+                    ndof_outer = GetDof(outer_mesh,2 * para.order );
+                    % solve adaptively on the outer mesh
+                    [uh2k_outer,~,~,~,~,~,outer_mesh] =...
+                        Functional_Outer_Driver(outer_mesh, para, 8,err_uHstar,ndof_inner);
+
+                    
+                    % evaluate the error
+                    [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
+                                GQ1DRef_pts,GQ1DRef_wts,0,...
+                                2 * para.order,uexact);
+                    
                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
-                    mesh_comp_list(jj) = mesh_comp_list(jj)...
-                        + GetInnerDof(Nx_coarse,Ny_coarse,N_bd,N_corner_x,N_corner_y,para.order );
+                    
+                    mesh_comp_list(jj) = ndof_inner + ndof_outer;
+                        
                     
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse
