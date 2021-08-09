@@ -1,5 +1,5 @@
 function [f,ef,f_type] = LabelFaces(e,...
-        nodes_dirichlet,nodes_neuman,bdry_faces)
+        bdry_faces,nodes_bdry1,bdry_id1, nodes_bdry2,bdry_id2)
     
     % step 1: Label faces
     
@@ -26,8 +26,8 @@ function [f,ef,f_type] = LabelFaces(e,...
     f_type = zeros(num_f,1);
     
     %INTERIOR = 0;
-    DIRI = 1;
-    NEU = 2;
+%     bdry_id1 = 1;
+%     bdry_id2 = 2;
     
     for ii = 1:num_bd_f
         
@@ -35,20 +35,20 @@ function [f,ef,f_type] = LabelFaces(e,...
         temp_f = bdry_faces(ii,:);
         
         
-        dirichlet_flag  = sum(ismember(temp_f,nodes_dirichlet));
-        neuman_flag  = sum(ismember(temp_f,nodes_neuman));
+        bdry1_flag  = sum(ismember(temp_f,nodes_bdry1));
+        bdry2_flag  = sum(ismember(temp_f,nodes_bdry2));
         
-        if dirichlet_flag == 2 % this face is on dirichlet the boundary
+        if bdry1_flag == 2 % this face is on the 1st boundary
             
             % find face index
             
             f_idx = find(ismember(f,temp_f,'rows'));
-            f_type(f_idx) = DIRI;
+            f_type(f_idx) = bdry_id1;
             
-        elseif neuman_flag == 2 % this face is on neuman the boundary
+        elseif bdry2_flag == 2 % this face is on the 2nd boundary
             
             f_idx = find(ismember(f,temp_f,'rows'));
-            f_type(f_idx) = NEU;
+            f_type(f_idx) = bdry_id2;
             
         end
         

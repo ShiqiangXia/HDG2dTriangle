@@ -10,7 +10,7 @@ unit_square = @(p)drectangle(p,x1,x2,y1,y2);
 h = 0.05;
 k = 2;
 d = 0.1;
-N_bd = 4;
+N_bd = 1;
 
 x1_inner = x1+N_bd*h;
 y1_inner = y1+N_bd*h;
@@ -54,8 +54,14 @@ bdry_edges = boundedges(p_outer,e_outer);
 
 % find boundary nodes
 tol = 1e-8;
-nodes_outer = find(abs(unit_square(p))<tol );% distance = 0  means on the boundary
-nodes_inner = find(abs(inner_domain(p))<tol );
+nodes_outer = find(abs(unit_square(p_outer))<tol );% distance = 0  means on the boundary
+nodes_inner = find(abs(inner_domain(p_outer))<tol );
 
+OUT= 1;
+INN = 11;
+[f,ef,f_type] = LabelFaces(e_outer, bdry_edges, nodes_outer,OUT, nodes_inner,INN);
+
+dom_type = "Comp";
+mymesh = Mesh(dom_type, p_outer, e_outer, f, ef, f_type,"","");
 
 

@@ -1,6 +1,10 @@
 function J_list = TriJacobian(p,e)
     ne = size(e,1);
+    if isempty(numeric_t)
+        J_list = zeros(ne,1);
+    else
     J_list  = zeros(ne,1,numeric_t);
+    end
     
     for ii = 1:ne
         V1 = p(e(ii,1),:)';

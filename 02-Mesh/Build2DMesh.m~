@@ -151,9 +151,7 @@ function mymesh = Build2DMesh(structured_flag,dom_type,...
     end
     
     bdry_edges = boundedges(p,e);
-    DIRI = 1;
-    NEUM = 2;
-    [f,ef,f_type] = LabelFaces(e,bdry_edges, nodes_dirichlet,DIRI, nodes_neuman,NEUM);
+    [f,ef,f_type] = LabelFaces(e,bdry_edges, nodes_dirichlet,1nodes_neuman,);
     
 %     nodes_neuman = [];
 %     nodes_dirichlet = unique(reshape(bdry_edges,[],1));

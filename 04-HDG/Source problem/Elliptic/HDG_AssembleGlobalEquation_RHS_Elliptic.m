@@ -50,6 +50,9 @@ function [Global_b]= HDG_AssembleGlobalEquation_RHS_Elliptic(mymesh,GQ1DRef_pts,
             elseif bdry_flag == 2 % neuman boundary
                 % Will implement later
                 error(' Boundary type not implemented yet.')
+            elseif bdry_flag == 1 % dirichlet inner boundary
+                % Will implement later
+                error(' Boundary type not implemented yet.')
             else 
                 error('Wrong boundary type.')
             end

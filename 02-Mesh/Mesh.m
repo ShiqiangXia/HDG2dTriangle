@@ -92,14 +92,22 @@ classdef Mesh
             
             p = obj.vertices_list;
             e = obj.element_list;
-            faces_dirichlet = find(obj.f_type==1);
-            faces_neuman = find(obj.f_type==2);
             
-            nodes_dirichlet = [obj.face_list(faces_dirichlet,1);obj.face_list(faces_dirichlet,2)];
-            nodes_dirichlet = unique(nodes_dirichlet);
+            face_type = unique(obj.f_type);
+            % face_type(1) is inner face
+            face_type1 = find(obj.f_type==face_type(2));
             
-            nodes_neuman = [obj.face_list(faces_neuman,1);obj.face_list(faces_neuman,2)];
-            nodes_neuman = unique(nodes_neuman);
+            
+            nodes_type1 = [obj.face_list(face_type1,1);obj.face_list(face_type1,2)];
+            nodes_type1 = unique(nodes_type1);
+            
+            if length(face_type)>2
+                face_type2 = find(obj.f_type==face_type(3));
+            else
+                face_type2 = [];
+            end
+            nodes_type2 = [obj.face_list(face_type2,1);obj.face_list(face_type2,2)];
+            nodes_type2 = unique(nodes_type2);
             
             nvertice = length(p);
             labs = 1:nvertice;
@@ -109,18 +117,18 @@ classdef Mesh
             legend('element','vertices');
             
             % mark the dirichlet and neuman boundary nodes
-%             plot(p(:,1),p(:,2),'k.',...
-%                 p(nodes_dirichlet,1),p(nodes_dirichlet,2),'rx',...
-%                 p(nodes_neuman,1),p(nodes_neuman,2),'bd')     
-%             if isempty(nodes_dirichlet) && isempty(nodes_neuman)
-%                 legend('element','vertices');
-%             elseif isempty(nodes_dirichlet)
-%                 legend('element','vertices', 'neuman')
-%             elseif isempty(nodes_neuman)
-%                 legend('element','vertices', 'dirichlet')
-%             else
-%                 legend('element','vertices','dirichlet', 'neuman');
-%             end
+            plot(p(:,1),p(:,2),'k.',...
+                p(nodes_type1,1),p(nodes_type1,2),'rx',...
+                p(nodes_type2,1),p(nodes_type2,2),'bd')     
+            if isempty(nodes_type1) && isempty(nodes_type2)
+                legend('element','vertices');
+            elseif isempty(nodes_type1)
+                legend('element','vertices', 'neuman')
+            elseif isempty(nodes_type2)
+                legend('element','vertices', 'dirichlet')
+            else
+                legend('element','vertices','bdry 1', 'bdry 2');
+            end
            
             
             if   vertex_flag && nvertice < 150
