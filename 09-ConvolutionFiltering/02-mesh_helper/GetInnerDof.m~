@@ -1,0 +1,17 @@
+function  ndof = GetInnerDof(Nx_coarse,Ny_coarse,N_bd,N_corner_x,N_corner_y,k )
+     % interior dof
+    Nu = (k+2)*(k+1)/2;
+    Nq = 2*Nu;
+    Nuhat = k+1;
+    
+    % count elements
+    Nele_orderh = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd);
+    if N_corner_x >= N_bd && N_corner_y >= N_bd
+         Nele_order1 = (N_corner_x- N_bd)*(N_corner_y-N_bd);
+    else
+    end
+    
+    % count faces
+    
+    
+end

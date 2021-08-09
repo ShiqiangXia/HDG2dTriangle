@@ -26,6 +26,7 @@ function test_conv_adapt(para)
     err_cal_flag = para.err_cal_flag;
     err_analysis_flag = para.err_analysis_flag;
     mesh_list = zeros(Niter,1,numeric_t);
+    mesh_comp_list = zeros(Niter,1,numeric_t);
     
     tri_list  = zeros(Niter,1,numeric_t); % record # of triangles for each mesh
     h0_list = zeros(Ncoarse,1,numeric_t);
@@ -331,6 +332,8 @@ function test_conv_adapt(para)
                 outer_mesh = BuildOuterMesh(h0,order1_dist,N_bd);
                 % solve adaptively on the outer mesh
                 [uh2k_outer,~,~,~,~,~,outer_mesh] = Functional_Outer_Driver(outer_mesh, para, 8);
+                
+                mesh_comp_list(jj) = mesh_comp_list(jj) + GetDof(outer_mesh,2 * para.order );
                 % evaluate the error
                 [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
                             GQ1DRef_pts,GQ1DRef_wts,0,...
@@ -369,12 +372,16 @@ function test_conv_adapt(para)
                 
                 % since the domain is varying for different meshes, we need
                 % to divide by the area to compare the average of the data 
-                area = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd)*hx*hy;
+                Nele_orderh = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd);
+                area = Nele_orderh*hx*hy;
+                
                 if N_corner_x >= N_bd && N_corner_y >= N_bd
-                    area_corner_overlap = (N_corner_x- N_bd)*(N_corner_y-N_bd)*hx*hy;
+                    Nele_order1 = (N_corner_x- N_bd)*(N_corner_y-N_bd);
                 else
-                    area_corner_overlap = 0;
+                    Nele_order1 = 0;
                 end
+                
+                area_corner_overlap = Nele_order1*hx*hy;
                 
                 area = area - area_corner_overlap;
                 
@@ -411,7 +418,9 @@ function test_conv_adapt(para)
                     err_uh_proj_star_list(jj) = err_uhstar/sqrt(area);
                     
                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
-
+                    mesh_comp_list(jj) = mesh_comp_list(jj)...
+                        + GetInnerDof(Nx_coarse,Ny_coarse,N_bd,N_corner_x,N_corner_y,para.order );
+                    
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse
 
@@ -451,12 +460,15 @@ function test_conv_adapt(para)
             order_uH_star   = GetOrderH(h0_list,err_uH_star_list);
             order_uh_proj_star   = GetOrderH(h0_list,err_uh_proj_star_list);
             
-            order_uH_star_comp = GetOrderH(h0_list,err_uH_star_comp_list);
-
+            
             ReportTable('h', h0_list,...
                         'err_uH*', err_uH_star_list, 'order',order_uH_star,...
-                        'err_uh_proj*', err_uh_proj_star_list, 'order',order_uh_proj_star,...
-                        'err_uH*_comp',err_uH_star_comp_list,'order',order_uH_star_comp)
+                        'err_uh_proj*', err_uh_proj_star_list, 'order',order_uh_proj_star)
+                    
+            order_uH_star_comp = GetOrder(mesh_comp_list,err_uH_star_comp_list);
+            
+            ReportTable('DoF',mesh_comp_list,...
+                'err_uH*_comp',err_uH_star_comp_list,'order',order_uH_star_comp)
         end
         
     end
