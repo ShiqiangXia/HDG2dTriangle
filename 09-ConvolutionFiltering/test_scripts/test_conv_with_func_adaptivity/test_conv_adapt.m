@@ -1,4 +1,4 @@
-function test_conv_adapt(para,Ncoarse )
+function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
     %----------------------------------------------------------------------
     %% step 1: set up 
     %----------------------------------------------------------------------
@@ -331,17 +331,17 @@ function test_conv_adapt(para,Ncoarse )
                 Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,spline_degree,poly_proj+1,GQ1DRef_pts,GQ1DRef_wts);
                 % Convolution Postprocessing
                 MH = ConvolutionFiltering(para.dom_type,spline_degree,...
-                        uH_square, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
+                        uH_square, Nx_coarse, Ny_coarse, mask, Conv_matrix);
 
                 Mh_proj = ConvolutionFiltering(para.dom_type,spline_degree,...
-                        uh_proj, Nx_coarse, Ny_coarse, N_bd, Conv_matrix);
+                        uh_proj, Nx_coarse, Ny_coarse, mask, Conv_matrix);
                     
-                MH = RemoveCornerOrder1Elements(para.dom_type, MH, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-                Mh_proj = RemoveCornerOrder1Elements(para.dom_type, Mh_proj, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-                
-                % build an outer mesh
-                outer_mesh = BuildOuterMesh(h0,order1_dist,N_bd);
-                
+%                 MH = RemoveCornerOrder1Elements(para.dom_type, MH, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
+%                 Mh_proj = RemoveCornerOrder1Elements(para.dom_type, Mh_proj, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
+%                 
+%                 % build an outer mesh
+%                 outer_mesh = BuildOuterMesh(h0,order1_dist,N_bd);
+%                 
                 
                 % some plots
                 flag_2D_plot = 0;
@@ -361,18 +361,23 @@ function test_conv_adapt(para,Ncoarse )
                 % L2 error on the whole domain
                 uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
 
-                % only consider the convolution domain
-                uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
-                uH_square_GQpts = RemoveBdElements(para.dom_type, uH_square_GQpts,N_bd,Nx_coarse, Ny_coarse);
-                uh_proj_GQpts = RemoveBdElements(para.dom_type, uh_proj_GQpts,N_bd,Nx_coarse, Ny_coarse);
+                % only consider the inner domain
+                uexact_GQ_pts = get_inner_domain_data(para.dom_type, uexact_GQ_pts,Nx_coarse, Ny_coarse, mask);
+                uH_square_GQpts = get_inner_domain_data(para.dom_type, uH_square_GQpts,Nx_coarse, Ny_coarse, mask);
+                uh_proj_GQpts = get_inner_domain_data(para.dom_type, uh_proj_GQpts,Nx_coarse, Ny_coarse, mask);
                 
-                
-                 % stay order one away from the corner
-                
-                uexact_GQ_pts = RemoveCornerOrder1Elements(para.dom_type, uexact_GQ_pts, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-                uH_square_GQpts = RemoveCornerOrder1Elements(para.dom_type, uH_square_GQpts,N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-                uh_proj_GQpts = RemoveCornerOrder1Elements(para.dom_type, uh_proj_GQpts,N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-                
+                %{
+%                 uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
+%                 uH_square_GQpts = RemoveBdElements(para.dom_type, uH_square_GQpts,N_bd,Nx_coarse, Ny_coarse);
+%                 uh_proj_GQpts = RemoveBdElements(para.dom_type, uh_proj_GQpts,N_bd,Nx_coarse, Ny_coarse);
+%                 
+%                 
+%                  % stay order one away from the corner
+%                 
+%                 uexact_GQ_pts = RemoveCornerOrder1Elements(para.dom_type, uexact_GQ_pts, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
+%                 uH_square_GQpts = RemoveCornerOrder1Elements(para.dom_type, uH_square_GQpts,N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
+%                 uh_proj_GQpts = RemoveCornerOrder1Elements(para.dom_type, uh_proj_GQpts,N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
+%                 
                 
                 % since the domain is varying for different meshes, we need
                 % to divide by the area to compare the average of the data 
@@ -388,6 +393,10 @@ function test_conv_adapt(para,Ncoarse )
                 area_corner_overlap = Nele_order1*hx*hy;
                 
                 area = area - area_corner_overlap;
+                %}
+                % inner area = 1 - outter area
+                
+                area = 1-(outer_mesh.num_elements)/2 *hx*hy;
                 
                 err_uH = L2Error_scalar_Square(uH_square_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
@@ -422,11 +431,14 @@ function test_conv_adapt(para,Ncoarse )
                     err_uh_proj_star_list(jj) = err_uhstar/sqrt(area);
                     
                     
-                    ndof_inner = GetInnerDof(Nx_coarse,Ny_coarse,N_bd,N_corner_x,N_corner_y,para.order );
+                    ndof_inner = GetInnerDof(coarse_mesh,outer_mesh,para.order );
+                    
                     ndof_outer = GetDof(outer_mesh,2 * para.order );
+                    
                     % solve adaptively on the outer mesh
+                    
                     [uh2k_outer,~,~,~,~,~,outer_mesh] =...
-                        Functional_Outer_Driver(outer_mesh, para, 8,err_uHstar,ndof_inner);
+                        Functional_Outer_Driver(outer_mesh, para, N_outer_adap_steps,err_uHstar,ndof_inner);
 
                     
                     % evaluate the error
