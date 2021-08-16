@@ -4,15 +4,15 @@
 % problem
 pb_type = 2011; % functional (u,g)
 dom_ype = 'Rec';
-Min_k = 1;
-Max_k = 1;
+Min_k = 2;
+Max_k = 2;
 
 % mesh
 h0 = 0.1;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
-Niter_max = 1; % how many adaptive steps we do
-Ncoarse_mesh = 1;
-N_outer_adap_steps = 8;
+Niter_max = 1; % adaptive steps we do to locate trouble elements
+Ncoarse_mesh = 3;% how many coarse mesh
+N_outer_adap_steps = 5;
 
 % other
 tol_adp = 10e-14;
