@@ -11,7 +11,7 @@ Max_k = 1;
 h0 = 0.1;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
 Niter_max = 1; % how many adaptive steps we do
-Ncoarse_mesh = 3;
+Ncoarse_mesh = 1;
 N_outer_adap_steps = 8;
 
 % other
@@ -22,6 +22,7 @@ err_cal_flag = 1;
 % data
 smooth_flag = 0; % 1: smooth data; 0: non-smooth
 if smooth_flag == 0
+    % non-smooth
     pri  = 1;
     adj  = 1;  
     fprintf('\nCase: u corner singularity, g= 1\n')

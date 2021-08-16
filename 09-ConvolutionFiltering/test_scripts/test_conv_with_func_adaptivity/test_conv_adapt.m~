@@ -1,4 +1,4 @@
-function test_conv_adapt(para,Ncoarse )
+function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
     %----------------------------------------------------------------------
     %% step 1: set up 
     %----------------------------------------------------------------------
@@ -336,13 +336,21 @@ function test_conv_adapt(para,Ncoarse )
                 Mh_proj = ConvolutionFiltering(para.dom_type,spline_degree,...
                         uh_proj, Nx_coarse, Ny_coarse, mask, Conv_matrix);
                     
+                % creat DG solution class
+                
+                uH_star_inner = DG_class_square(2*poly_proj+1,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
+                uH_star_inner = uH_star_inner.set_dg_gq_pts(MH);
+                
+                func_uH_star_inner = @(p) uH_star_inner.eval(p(:,1),p(:,2));
+                    
+                %{    
 %                 MH = RemoveCornerOrder1Elements(para.dom_type, MH, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
 %                 Mh_proj = RemoveCornerOrder1Elements(para.dom_type, Mh_proj, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
 %                 
 %                 % build an outer mesh
 %                 outer_mesh = BuildOuterMesh(h0,order1_dist,N_bd);
 %                 
-                
+                %}
                 % some plots
                 flag_2D_plot = 0;
                 if flag_2D_plot == 1
@@ -393,9 +401,11 @@ function test_conv_adapt(para,Ncoarse )
                 area_corner_overlap = Nele_order1*hx*hy;
                 
                 area = area - area_corner_overlap;
-                %}|
+                %}
                 % inner area = 1 - outter area
-                area = 1-(outer_mesh.num_elements)*hx*hy;
+                
+                area = 1-(outer_mesh.num_elements)/2 *hx*hy;
+                
                 err_uH = L2Error_scalar_Square(uH_square_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 err_uh_proj = L2Error_scalar_Square(uh_proj_GQpts,...
@@ -429,11 +439,14 @@ function test_conv_adapt(para,Ncoarse )
                     err_uh_proj_star_list(jj) = err_uhstar/sqrt(area);
                     
                     
-                    ndof_inner = GetInnerDof(Nx_coarse,Ny_coarse,N_bd,N_corner_x,N_corner_y,para.order );
+                    ndof_inner = GetInnerDof(coarse_mesh,outer_mesh,para.order );
+                    
                     ndof_outer = GetDof(outer_mesh,2 * para.order );
+                    
                     % solve adaptively on the outer mesh
+                    
                     [uh2k_outer,~,~,~,~,~,outer_mesh] =...
-                        Functional_Outer_Driver(outer_mesh, para, 8,err_uHstar,ndof_inner);
+                        Functional_Outer_Driver(outer_mesh, para,func_uH_star_inner, N_outer_adap_steps,err_uHstar,ndof_inner);
 
                     
                     % evaluate the error

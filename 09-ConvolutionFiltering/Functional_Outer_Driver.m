@@ -1,4 +1,4 @@
-function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para, Nadapt,err_inner,ndof_inner)
+function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para,uH_star_inner, Nadapt,err_inner,ndof_inner)
     pb_type = num2str(para.pb_type);
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     poly_order = 2*para.order; % 2k 
@@ -59,7 +59,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
                 [source_f,uD,~]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
                 [source_g,vD,~]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
                 
-                uD_inner = uD;
+                uD_inner = uH_star_inner;
                 vD_inner = vD;
                 
                 

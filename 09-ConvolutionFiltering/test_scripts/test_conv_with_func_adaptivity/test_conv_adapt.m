@@ -336,13 +336,21 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 Mh_proj = ConvolutionFiltering(para.dom_type,spline_degree,...
                         uh_proj, Nx_coarse, Ny_coarse, mask, Conv_matrix);
                     
+                % creat DG solution class
+                % 2k+1
+                uH_star_inner = DG_class_square(2*poly_proj+1,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
+                uH_star_inner = uH_star_inner.set_dg_gq_pts(MH);
+                
+                func_uH_star_inner = @(p) uH_star_inner.eval(p(:,1),p(:,2));
+                    
+                %{    
 %                 MH = RemoveCornerOrder1Elements(para.dom_type, MH, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
 %                 Mh_proj = RemoveCornerOrder1Elements(para.dom_type, Mh_proj, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
 %                 
 %                 % build an outer mesh
 %                 outer_mesh = BuildOuterMesh(h0,order1_dist,N_bd);
 %                 
-                
+                %}
                 % some plots
                 flag_2D_plot = 0;
                 if flag_2D_plot == 1
@@ -438,7 +446,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     % solve adaptively on the outer mesh
                     
                     [uh2k_outer,~,~,~,~,~,outer_mesh] =...
-                        Functional_Outer_Driver(outer_mesh, para, N_outer_adap_steps,err_uHstar,ndof_inner);
+                        Functional_Outer_Driver(outer_mesh, para,func_uH_star_inner, N_outer_adap_steps,err_uHstar,ndof_inner);
 
                     
                     % evaluate the error
