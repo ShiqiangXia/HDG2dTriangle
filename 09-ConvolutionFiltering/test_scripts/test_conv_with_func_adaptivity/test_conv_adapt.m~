@@ -330,7 +330,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             order1_elements = get_order1_elements(1,1,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
             mask = build_mesh_mask(para.dom_type, Nx_coarse, Ny_coarse, N_bd, order1_elements);
             outer_mesh = build_mesh_by_mask(para.dom_type,coarse_mesh,mask,Nx_coarse,Ny_coarse);
-            outer_mesh.PlotElement()
+            outer
             % ------------------------------------------------------------
             
            
