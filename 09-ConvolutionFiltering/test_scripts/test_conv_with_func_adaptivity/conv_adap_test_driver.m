@@ -11,6 +11,7 @@ Max_k = 1;
 h0 = 0.1;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
 Niter_max = 1; % how many adaptive steps we do
+Ncoarse_mesh = 3;
 
 % other
 tol_adp = 10e-14;
@@ -49,6 +50,6 @@ for order = Min_k:Max_k
 
     %% Test 
 
-    test_conv_adapt(para)
+    test_conv_adapt(para,Ncoarse_mesh)
     
 end
