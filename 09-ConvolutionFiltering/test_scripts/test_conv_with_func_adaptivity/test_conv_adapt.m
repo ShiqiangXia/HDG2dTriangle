@@ -239,7 +239,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
                 end
                 % post-processing
-                if para.post_process_flag == 1 
+                if para.post_process_flag == 1 && Niter>1
 
                     if strcmp(pb_type(2),'0') && (strcmp(pb_type(4),'1') ||strcmp(pb_type(4),'2'))
                         %%  poission source problem
@@ -267,17 +267,17 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         end
                     end
                 end
-
-                if para.post_process_flag == 1
+                
+                if para.post_process_flag == 1 && Niter>1
                     estimate_functinal_elewise = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
                 else
                     estimate_functinal_elewise = ACh_elewise_list;
                 end
 
                 estimate_sum_abs_list(ii) = sum(abs(estimate_functinal_elewise));
-
+                
                 % adaptive mesh refinement
-                if para.refine_flag > 0
+                if para.refine_flag > 0 && Niter>1
                     percent = MyParaParse(para.extra_parameters,'percent');
                     marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
                 end
@@ -310,7 +310,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 error('Nx!= Ny but so far the code assume square domain')
             end
             
-            N_bd = 0.4/hx; % 0.05
+            N_bd =0.2/hx; % 0.05
             
             N_corner_x = ceil(order1_dist/hx);
             N_corner_y = ceil(order1_dist/hy);
@@ -330,7 +330,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             order1_elements = get_order1_elements(1,1,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
             mask = build_mesh_mask(para.dom_type, Nx_coarse, Ny_coarse, N_bd, order1_elements);
             outer_mesh = build_mesh_by_mask(para.dom_type,coarse_mesh,mask,Nx_coarse,Ny_coarse);
-            outer_mesh.PlotElement()
+            %outer_mesh.PlotElement(0)
             % ------------------------------------------------------------
             
            

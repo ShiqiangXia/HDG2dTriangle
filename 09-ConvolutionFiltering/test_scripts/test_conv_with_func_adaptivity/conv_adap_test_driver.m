@@ -4,8 +4,8 @@
 % problem
 pb_type = 2011; % functional (u,g)
 dom_ype = 'Rec';
-Min_k = 3;
-Max_k = 3;
+Min_k = 1;
+Max_k = 2;
 
 % mesh
 h0 = 0.05;
@@ -43,7 +43,7 @@ end
 global class_t;
 for order = Min_k:Max_k
     
-    
+    fprintf('k = %d\n', order);
     para = SetParameters_Ellipitc('order',order, 'h0',h0, 'Niter',Niter_max, 'refine_flag', refine_flag,...
         'pb_type',pb_type,'dom_type',dom_ype,'primal',pri,'adjoint',adj,...
         'post_process_flag',pp_flag,'err_cal_flag',err_cal_flag,'tol_adp',tol_adp);

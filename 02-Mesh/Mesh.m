@@ -204,7 +204,7 @@ classdef Mesh
  
         end
         
-        function PlotElement(obj)
+        function PlotElement(obj,label_flag)
             bcol=[.8,.9,1];
             
             figure;
@@ -230,14 +230,14 @@ classdef Mesh
             
           
             
-            if  num < 250
+            if  num < 250 && label_flag == 1
                 labelpoints(ave_x,ave_y,labs,'center','FontSize', 14);
             end
             
             view(2)
             axis equal
             ax=axis;axis(ax*1.001);
-            if num >= 250
+            if num >= 250 && label_flag == 1
                 labelpoints(ave_x(1:250),ave_y(1:250),labs(1:250),'center','FontSize', 14);
                 cprintf('UnterminatedStrings', '%d elements are too many to label, so I only plot the first 250.\n',num);
             end

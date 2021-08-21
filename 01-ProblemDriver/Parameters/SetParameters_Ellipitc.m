@@ -209,9 +209,9 @@ function para = SetParameters_Ellipitc(varargin)
 
     %% experiment parameters --------------------------------------------------
 
-    precision = 'double';
-    %precision = 'mp' ;
-    GQ_deg = 8;  % need more quads for corner singularity case
+    %precision = 'double';
+    precision = 'mp' ;
+    GQ_deg = 20;  % need more quads for corner singularity case
     
     % refine_flag = 1; 
     % 0: uniform refine,
