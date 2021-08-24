@@ -1,0 +1,73 @@
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=5.00e-02 
+
+Mesh 1 ... 
+
+--------------------------------
+Coarse mesh 2, H=2.50e-02 
+
+Mesh 1 ... 
+
+--------------------------------
+Coarse mesh 3, H=1.25e-02 
+
+Mesh 1 ... 
+------------------------------
+h                |err_uH           order            |
+5.00e-02         |4.62e-05         0.00e+00         |
+2.50e-02         |1.16e-05         2.00e+00         |
+1.25e-02         |2.89e-06         2.00e+00         |
+------------------------------
+h                |err_uH*          order            |
+5.00e-02         |4.37e-07         0.00e+00         |
+2.50e-02         |5.81e-08         2.91e+00         |
+1.25e-02         |8.42e-09         2.79e+00         |
+k = 2
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=5.00e-02 
+
+Mesh 1 ... 
+
+--------------------------------
+Coarse mesh 2, H=2.50e-02 
+
+Mesh 1 ... 
+
+--------------------------------
+Coarse mesh 3, H=1.25e-02 
+
+Mesh 1 ... 
+<a href="matlab: opentoline('/Users/shiqiangxia/Google Drive/01-Research/03-Code&Computational Results/01-Oliver''s Code/02-Matlab/HDG2D/AdvanpixMCT-4.6.0.13135/mp.m',1346,1)">1346 </a>        end
+if system_dependent('IsDebugMode')==1, dbcont; end
+if system_dependent('IsDebugMode')==1, dbcont; end
+------------------------------
+h                |err_uH           order            |
+5.00e-02         |5.16e-07         0.00e+00         |
+2.50e-02         |6.44e-08         3.00e+00         |
+1.25e-02         |8.05e-09         3.00e+00         |
+------------------------------
+h                |err_uH*          order            |
+5.00e-02         |4.42e-09         0.00e+00         |
+2.50e-02         |1.41e-10         4.97e+00         |
+1.25e-02         |5.85e-12         4.59e+00         |
+diary off

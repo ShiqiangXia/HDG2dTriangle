@@ -214,25 +214,25 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         % error of uh, qh
                         [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
 
-%                         [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
-%                             GQ1DRef_pts,GQ1DRef_wts,0,...
-%                             para.order,uexact);
-% 
-%                         [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
-%                             GQ1DRef_pts,GQ1DRef_wts,0,...
-%                             para.order,qexact_1,qexact_2);
-% 
-%                         %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
-% 
-%                         [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
-%                             = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
-% 
-%                         % error vh, ph;
-%                         [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
-%                         [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
-%                             GQ1DRef_pts,GQ1DRef_wts,0,...
-%                             para.order,vexact);
-%                         %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
+                        [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
+                            GQ1DRef_pts,GQ1DRef_wts,0,...
+                            para.order,uexact);
+
+                        [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
+                            GQ1DRef_pts,GQ1DRef_wts,0,...
+                            para.order,qexact_1,qexact_2);
+
+                        %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
+
+                        [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
+                            = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
+
+                        % error vh, ph;
+                        [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
+                        [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
+                            GQ1DRef_pts,GQ1DRef_wts,0,...
+                            para.order,vexact);
+                        %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
 
                     end
 
@@ -268,19 +268,19 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     end
                 end
                 
-%                 if para.post_process_flag == 1 && Niter>1
-%                     estimate_functinal_elewise = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
-%                 else
-%                     estimate_functinal_elewise = ACh_elewise_list;
-%                 end
-% 
-%                 estimate_sum_abs_list(ii) = sum(abs(estimate_functinal_elewise));
-%                 
-%                 % adaptive mesh refinement
-%                 if para.refine_flag > 0 && Niter>1
-%                     percent = MyParaParse(para.extra_parameters,'percent');
-%                     marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
-%                 end
+                if para.post_process_flag == 1 && Niter>1
+                    estimate_functinal_elewise = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
+                else
+                    estimate_functinal_elewise = ACh_elewise_list;
+                end
+
+                estimate_sum_abs_list(ii) = sum(abs(estimate_functinal_elewise));
+                
+                % adaptive mesh refinement
+                if para.refine_flag > 0 && Niter>1
+                    percent = MyParaParse(para.extra_parameters,'percent');
+                    marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
+                end
 
 
             end
