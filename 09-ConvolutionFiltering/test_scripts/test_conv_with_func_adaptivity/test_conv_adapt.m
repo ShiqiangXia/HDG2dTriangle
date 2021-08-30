@@ -111,6 +111,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         for jj = 1: Ncoarse
             
             h0 = h_coarse_0*(0.5^(jj-1));
+            %h0 = h_coarse_0 -(jj-1)*0.02;
             h0_list(jj) = h0;
             cprintf('blue','\n--------------------------------\n')
             cprintf('blue','Coarse mesh %d, H=%.2e \n\n',jj,h0);
@@ -300,7 +301,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             poly_proj = poly_k; 
             y_cut = 5;
             n_level = 3;
-            order1_dist = 0.2;
+            order1_dist = 0.4;
             
 
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
@@ -309,10 +310,12 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             if Nx_coarse ~= Ny_coarse
                 error('Nx!= Ny but so far the code assume square domain')
             end
-            if poly_k <3
-                N_bd =0.2/hx; % 0.05
+            if poly_k ==1
+                N_bd =2*poly_k;%0.2/hx; % 0.05
+            elseif poly_k == 2
+                N_bd =2*poly_k;%0.2/hx;
             else
-                N_bd = 0.3/hx;
+                N_bd =2*poly_k; %0.3/hx;
             end
                 
             
@@ -456,19 +459,28 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     
                     % solve adaptively on the outer mesh
                     
-%                     [uh2k_outer,~,~,~,~,~,outer_mesh] =...
-%                         Functional_Outer_Driver(outer_mesh, para,func_uH_star_inner, N_outer_adap_steps,err_uHstar,ndof_inner);
-% 
+                    [uh2k_outer,~,~,~,~,~,outer_mesh] =...
+                        Functional_Outer_Driver(outer_mesh, para,func_uH_star_inner, N_outer_adap_steps,err_uHstar,ndof_inner,area);
+                    %[uh2k_outer,~,~,~,~,~,outer_mesh] =...
+                     %   Functional_Outer_Driver(outer_mesh, para,uexact, N_outer_adap_steps,err_uHstar,ndof_inner,area);
+                    
+                    
+                    fprintf('Area: %.2e,  err_inner/sqrt(area): %.2e\n',area, err_uHstar/sqrt(area));
+                    
+                    % evaluate the error
+                    [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
+                                GQ1DRef_pts,GQ1DRef_wts,0,...
+                                2 * para.order,uexact);
+                    
+                    err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
+                    
+                    mesh_comp_list(jj) = ndof_inner + ndof_outer;
+                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
+                    
+%                     err_uH_star_comp_list(jj) = err_uh2k_outer/sqrt(1-area);
 %                     
-%                     % evaluate the error
-%                     [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
-%                                 GQ1DRef_pts,GQ1DRef_wts,0,...
-%                                 2 * para.order,uexact);
-%                     
-%                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
-%                     
-%                     mesh_comp_list(jj) = ndof_inner + ndof_outer;
-%                         
+%                     mesh_comp_list(jj) = ndof_outer;
+                        
                     
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse
@@ -493,9 +505,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
             end
 
-            %fprintf('err_uH* : %.2e\n',err_uHstar)
-            %fprintf('err_uh*_proj: %.2e\n',err_uhstar);
-
+         
         end
         
         order_uH        = GetOrderH(h0_list,err_uH_list);
@@ -514,10 +524,10 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         'err_uH*', err_uH_star_list, 'order',order_uH_star)%,...
                         %'err_uh_proj*', err_uh_proj_star_list, 'order',order_uh_proj_star)
                     
-%             order_uH_star_comp = GetOrder(mesh_comp_list,err_uH_star_comp_list);
-%             
-%             ReportTable('DoF',mesh_comp_list,...
-%                 'err_uH*_comp',err_uH_star_comp_list,'order',order_uH_star_comp)
+            order_uH_star_comp = GetOrder(mesh_comp_list,err_uH_star_comp_list);
+            
+            ReportTable('DoF',mesh_comp_list,...
+                'err_uH*_comp',err_uH_star_comp_list,'order',order_uH_star_comp)
         end
         
     end
