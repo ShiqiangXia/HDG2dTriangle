@@ -369,6 +369,9 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
                     func_uH_star_inner,func_vH_star_inner,...
                     N_outer_adap_steps,err_uHstar,ndof_inner,inner_area);
+                
+                % Compute Functional based on uhstar and vhstar
+                %Square elements in inner
  
                 % some plots
                 flag_2D_plot = 0;
@@ -412,29 +415,28 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
                 
                 if flag_conv == 1
-
+                    
+                    % L2 error of uhstar on inner domain
                     err_uHstar = L2Error_scalar_Square(M_uh_conv,...
                             uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-
                     err_uH_star_list(jj) = err_uHstar/sqrt(inner_area);
-                
-                    ndof_inner = GetInnerDof(coarse_mesh, outer_mesh, poly_k);
-                    
-                    ndof_outer = GetDof(outer_mesh, poly_outer_k);
-
                     fprintf('Inner Area: %.2e,  err_inner/sqrt(area): %.2e\n',inner_area, err_uHstar/sqrt(inner_area));
+                
                     
+                    ndof_inner = GetInnerDof(coarse_mesh, outer_mesh, poly_k);
+                    ndof_outer = GetDof(outer_mesh, poly_outer_k);
+                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
+
                     % evaluate the error
                     [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
                                 GQ1DRef_pts,GQ1DRef_wts,0,...
                                 2 * para.order,uexact);
-                    
+                            
+                    % L2 error of uhstar on the whole domain
                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
                     
                     mesh_comp_list(jj) = ndof_inner + ndof_outer;
-                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
-                    
-                    
+
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse
 

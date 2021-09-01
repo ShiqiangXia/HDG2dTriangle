@@ -371,6 +371,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     N_outer_adap_steps,err_uHstar,ndof_inner,inner_area);
                 
                 % Compute Functional based on uhstar and vhstar
+                %Square elements in inner and triangle elements in outer
  
                 % some plots
                 flag_2D_plot = 0;
