@@ -26,9 +26,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
     err_cal_flag = para.err_cal_flag;
     err_analysis_flag = para.err_analysis_flag;
     mesh_list = zeros(Niter,1,numeric_t);
-    
-    
-    
+
     tri_list  = zeros(Niter,1,numeric_t); % record # of triangles for each mesh
     h0_list = zeros(Ncoarse,1,numeric_t);
     mesh_comp_list = zeros(Ncoarse,1,numeric_t);
@@ -40,28 +38,46 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
     if err_cal_flag == 1
         err_uh_list = zeros(Niter,1,numeric_t);
         err_qh_list = zeros(Niter,1,numeric_t);
-        
-        
-        
         err_uH_list = zeros(Ncoarse,1,numeric_t);
         err_uH_star_list = zeros(Ncoarse,1,numeric_t);
         err_uh_proj_list = zeros(Ncoarse,1,numeric_t);
         err_uh_proj_star_list = zeros(Ncoarse,1,numeric_t);
-        
         err_uH_star_comp_list = zeros(Ncoarse,1,numeric_t);
         
     end
     
-    if strcmp(pb_type(2),'1')
+    if strcmp(pb_type(2),'0') 
+        % define list to store results
+        Jh_list = zeros(Niter,1,numeric_t);
+        err_Jh_list = zeros(Niter,1,numeric_t);
+        Jh_AC_list = zeros(Niter,1,numeric_t);
+        err_Jh_AC_list = zeros(Niter,1,numeric_t);
+        ACh_list = zeros(Niter,1,numeric_t);
+        err_vh_list = zeros(Niter,1,numeric_t);
+        estimate_sum_abs_list = zeros(Niter,1,numeric_t);
+        if para.post_process_flag == 1
+            est_terms_sum_list = zeros(Niter,1,numeric_t);
+        end
+        if strcmp(pb_type(3),'1')
+            % get problem data
+            [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
+            [source_g,vD,vN]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
+            [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
+            [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
+        end
+    elseif strcmp(pb_type(2),'1')
         % eigenvalue problem
-        % maybe use matlab inputParser later
+        
         [Neig,Max_iter,Tol_eig] = MyParaParse(para.extra_parameters,...
             'Neig','Max_iter','tol_eig');
         lamh_list = zeros(Niter,Neig,numeric_t);
-        
         err_lamh_list = zeros(Niter,Neig,numeric_t);
         
+    else
+        error('Wrong problem type')
     end
+    
+  
     
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     
@@ -70,6 +86,27 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         err_uhstar_list = zeros(Niter,1,numeric_t);
         err_qhstar_list = zeros(Niter,1,numeric_t);
 
+    end
+    % precompute the convolution matrix
+    if flag_conv == 1
+        poly_k = para.order;  
+        poly_outer_k = 2*poly_k;
+        spline_degree = poly_k;
+        poly_proj = poly_k;
+        y_cut = 5;
+        n_level = 3;
+        order1_dist = 0.4;
+        if poly_k ==1
+            N_bd =2*poly_k;%0.2/hx; % 0.05
+        elseif poly_k == 2
+            N_bd =2*poly_k;%0.2/hx;
+        else
+            N_bd =2*poly_k; %0.3/hx;
+        end
+        % precompute the convolution matrix
+        
+        Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,spline_degree,...
+            poly_proj+1,GQ1DRef_pts,GQ1DRef_wts);
     end
     
     %----------------------------------------------------------------------
@@ -86,22 +123,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         %%  Solver Functional problem
         pb_text_info = MyParaParse(para.pb_parameters,'pb_text_info');
         
-        if strcmp(pb_type(2),'0') % define list to store results
-           
-            Jh_list = zeros(Niter,1,numeric_t);
-            err_Jh_list = zeros(Niter,1,numeric_t);
-            Jh_AC_list = zeros(Niter,1,numeric_t);
-            err_Jh_AC_list = zeros(Niter,1,numeric_t);
-            ACh_list = zeros(Niter,1,numeric_t);
-            err_vh_list = zeros(Niter,1,numeric_t);
-            estimate_sum_abs_list = zeros(Niter,1,numeric_t);
-            if para.post_process_flag == 1
-                est_terms_sum_list = zeros(Niter,1,numeric_t);
-            end
-            
-        else
-            error('Wrong problem type')
-        end
+        
         
         cprintf('blue','--------------------------------\n')
         cprintf('blue','Start solving functional problem\n')
@@ -109,14 +131,15 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         h_coarse_0 =para.h0;
         
         for jj = 1: Ncoarse
+            % uniform refine of background coarse mesh
             
             h0 = h_coarse_0*(0.5^(jj-1));
             %h0 = h_coarse_0 -(jj-1)*0.02;
             h0_list(jj) = h0;
             cprintf('blue','\n--------------------------------\n')
             cprintf('blue','Coarse mesh %d, H=%.2e \n\n',jj,h0);
+            cprintf('blue','adaptive steps \n');
             
-            %cprintf('blue','adaptive steps \n');
             for ii = 1:Niter
                 
                 cprintf('blue','Mesh %d ... \n',ii)
@@ -174,27 +197,25 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
                 mesh_list(ii) = GetDof(mymesh, para.order);
                 tri_list(ii) = mymesh.num_elements;
+                
                 if strcmp(pb_type(2),'0') % source problem
                     %%  need to solve Primal and Adjoint two problems
                     if strcmp(pb_type(3),'1') % Solve Poission source problem
-
-                        [source_f,uD,uN]=MyParaParse(para.pb_parameters,'source_f','uD','uN');
-                        %[source_g,vD,vN]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
-
+                        
                         [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                         para.order, para.tau,source_f,uD,uN);
 
-                        %[vh,ph,vhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
-                        %para.order, para.tau,source_g,vD,vN);
+                        [vh,ph,vhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                        para.order, para.tau,source_g,vD,vN);
 
                         if ii == 1
                             uH_triangle = uh;
-                            %vH_triangle = vh;
+                            vH_triangle = vh;
                         end
 
                         if ii == Niter
                             uh_final = uh;
-                            %vh_final = vh;
+                            vh_final = vh;
                         end
 
 
@@ -202,38 +223,35 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         error('Wrong problem type.')
                     end
 
-%                     [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_elewise_list] = LinearFunctional_Elliptic(pb_type(4),pb_type(3),mymesh,...
-%                                                           uh,qh,uhat,source_f,...
-%                                                           vh,ph,vhat,source_g,...
-%                                                           GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
-%                     Jh_list(ii) = Jh;
-%                     Jh_AC_list(ii) = Jh_AC;
-%                     ACh_list(ii) = ACh;
+                    [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_elewise_list] = LinearFunctional_Elliptic(pb_type(4),pb_type(3),mymesh,...
+                                                          uh,qh,uhat,source_f,...
+                                                          vh,ph,vhat,source_g,...
+                                                          GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
+                    Jh_list(ii) = Jh;
+                    Jh_AC_list(ii) = Jh_AC;
+                    ACh_list(ii) = ACh;
                     % Calculate error
                     if err_cal_flag==1
-
                         % error of uh, qh
-                        [uexact,qexact_1,qexact_2]=MyParaParse(para.pb_parameters,'uexact','qexact_1','qexact_2');
+                        [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
+                            GQ1DRef_pts,GQ1DRef_wts,0,...
+                            para.order,uexact);
 
-%                         [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
-%                             GQ1DRef_pts,GQ1DRef_wts,0,...
-%                             para.order,uexact);
-% 
-%                         [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
-%                             GQ1DRef_pts,GQ1DRef_wts,0,...
-%                             para.order,qexact_1,qexact_2);
-% 
-%                         %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
-% 
-%                         [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
-%                             = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
-% 
-%                         % error vh, ph;
-%                         [vexact,pexact_1,pexact_2]=MyParaParse(para.pb_parameters,'vexact','pexact_1','pexact_2');
-%                         [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
-%                             GQ1DRef_pts,GQ1DRef_wts,0,...
-%                             para.order,vexact);
-%                         %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
+                        [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
+                            GQ1DRef_pts,GQ1DRef_wts,0,...
+                            para.order,qexact_1,qexact_2);
+
+                        %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
+
+                        [err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
+                            = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
+
+                        % error vh, ph;
+                        
+                        [err_vh_list(ii),err_vh_elewise] = L2Error_scalar(mymesh,vh,...
+                            GQ1DRef_pts,GQ1DRef_wts,0,...
+                            para.order,vexact);
+                        %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
 
                     end
 
@@ -268,7 +286,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         end
                     end
                 end
-                
+                %{
 %                 if para.post_process_flag == 1 && Niter>1
 %                     estimate_functinal_elewise = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
 %                 else
@@ -282,6 +300,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 %                     percent = MyParaParse(para.extra_parameters,'percent');
 %                     marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
 %                 end
+                %}
 
 
             end
@@ -292,46 +311,29 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         %         vH_triangle to TH
         %----------------------------------------------------------------------
 
-            poly_k = para.order;
-            
-            %N_bd = 2*poly_k;
-            
-            
-            spline_degree = poly_k;
-            poly_proj = poly_k; 
-            y_cut = 5;
-            n_level = 3;
-            order1_dist = 0.4;
-            
-
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                     h_coarse,GQ1DRef_pts, para.geo_parameters{:});
                 
             if Nx_coarse ~= Ny_coarse
-                error('Nx!= Ny but so far the code assume square domain')
+                error('Nx!= Ny but the code assume square domain')
             end
-            if poly_k ==1
-                N_bd =2*poly_k;%0.2/hx; % 0.05
-            elseif poly_k == 2
-                N_bd =2*poly_k;%0.2/hx;
-            else
-                N_bd =2*poly_k; %0.3/hx;
-            end
-                
-            
+
             N_corner_x = ceil(order1_dist/hx);
             N_corner_y = ceil(order1_dist/hy);
 
             % project uH_triagnle to uH_square
             uH_square = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,coarse_mesh,...
                     uH_triangle,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
+            vH_square = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,coarse_mesh,...
+                    vH_triangle,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
 
             % project uh_final to TH
             %uh_proj = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,finer_mesh,...
             %        uh_final,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
-
-            uH_square_GQpts = GetUhProjGQpts(uH_square,poly_proj,GQ1DRef_pts);    
             %uh_proj_GQpts = GetUhProjGQpts(uh_proj,poly_proj,GQ1DRef_pts);
+
+            uH_square_GQpts = GetUhProjGQpts(uH_square,poly_proj,GQ1DRef_pts); 
+            vH_square_GQpts = GetUhProjGQpts(vH_square,poly_proj,GQ1DRef_pts); 
             
             % ------------------------------------------------------------
             order1_elements = get_order1_elements(1,1,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
@@ -342,10 +344,12 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             
            
             if flag_conv == 1
-                Conv_matrix = Get_convolution_matrix(GQ1DRef_pts,spline_degree,poly_proj+1,GQ1DRef_pts,GQ1DRef_wts);
+                
                 % Convolution Postprocessing
-                MH = ConvolutionFiltering(para.dom_type,spline_degree,...
+                M_uh_conv = ConvolutionFiltering(para.dom_type,spline_degree,...
                         uH_square, Nx_coarse, Ny_coarse, mask, Conv_matrix);
+                M_vh_conv = ConvolutionFiltering(para.dom_type,spline_degree,...
+                        vH_square, Nx_coarse, Ny_coarse, mask, Conv_matrix);
 
                 %Mh_proj = ConvolutionFiltering(para.dom_type,spline_degree,...
                  %       uh_proj, Nx_coarse, Ny_coarse, mask, Conv_matrix);
@@ -353,80 +357,49 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 % creat DG solution class
                 % 2k+1
                 uH_star_inner = DG_class_square(2*poly_proj+1,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
-                uH_star_inner = uH_star_inner.set_dg_gq_pts(MH);
-                
+                uH_star_inner = uH_star_inner.set_dg_gq_pts(M_uh_conv);
                 func_uH_star_inner = @(p) uH_star_inner.eval(p(:,1),p(:,2));
-                    
-                %{    
-%                 MH = RemoveCornerOrder1Elements(para.dom_type, MH, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-%                 Mh_proj = RemoveCornerOrder1Elements(para.dom_type, Mh_proj, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-%                 
-%                 % build an outer mesh
-%                 outer_mesh = BuildOuterMesh(h0,order1_dist,N_bd);
-%                 
-                %}
+                
+                vH_star_inner = DG_class_square(2*poly_proj+1,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
+                vH_star_inner = vH_star_inner.set_dg_gq_pts(M_vh_conv);
+                func_vH_star_inner = @(p) vH_star_inner.eval(p(:,1),p(:,2));
+                
+                % solve adaptively on the outer mesh
+                [uh2k_outer,~,~,vh2k_outer,~,~,outer_mesh] =...
+                    Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
+                    func_uH_star_inner,func_vH_star_inner,...
+                    N_outer_adap_steps,err_uHstar,ndof_inner,inner_area);
+                
+                % Compute Functional based on uhstar and vhstar
+ 
                 % some plots
                 flag_2D_plot = 0;
                 if flag_2D_plot == 1
-
-
-                    Plot2D(para.dom_type, GQ_x, GQ_y, MH, "$u_H^*$ on coarse mesh ",0,"")
-
-                    Plot2D(para.dom_type, GQ_x, GQ_y, Mh_proj, "$u_{h,proj}^*$ on coarse mesh",0,"")
-
-
+                    Plot2D(para.dom_type, GQ_x, GQ_y, M_uh_conv, "$u_H^*$ on coarse mesh ",0,"")
                 end
+                
             end
 
             if err_cal_flag
                 
-                % L2 error on the whole domain
+                % ------------------------------------------------------------
+                % set up
                 uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
-
                 % only consider the inner domain
                 uexact_GQ_pts = get_inner_domain_data(para.dom_type, uexact_GQ_pts,Nx_coarse, Ny_coarse, mask);
                 uH_square_GQpts = get_inner_domain_data(para.dom_type, uH_square_GQpts,Nx_coarse, Ny_coarse, mask);
-                %uh_proj_GQpts = get_inner_domain_data(para.dom_type, uh_proj_GQpts,Nx_coarse, Ny_coarse, mask);
-                
-                %{
-%                 uexact_GQ_pts = RemoveBdElements(para.dom_type, uexact_GQ_pts,N_bd,Nx_coarse, Ny_coarse);
-%                 uH_square_GQpts = RemoveBdElements(para.dom_type, uH_square_GQpts,N_bd,Nx_coarse, Ny_coarse);
-%                 uh_proj_GQpts = RemoveBdElements(para.dom_type, uh_proj_GQpts,N_bd,Nx_coarse, Ny_coarse);
-%                 
-%                 
-%                  % stay order one away from the corner
-%                 
-%                 uexact_GQ_pts = RemoveCornerOrder1Elements(para.dom_type, uexact_GQ_pts, N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-%                 uH_square_GQpts = RemoveCornerOrder1Elements(para.dom_type, uH_square_GQpts,N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-%                 uh_proj_GQpts = RemoveCornerOrder1Elements(para.dom_type, uh_proj_GQpts,N_corner_x,N_corner_y,Nx_coarse, Ny_coarse);
-%                 
-                
-                % since the domain is varying for different meshes, we need
-                % to divide by the area to compare the average of the data 
-                Nele_orderh = (Nx_coarse - 2*N_bd)*(Ny_coarse - 2*N_bd);
-                area = Nele_orderh*hx*hy;
-                
-                if N_corner_x >= N_bd && N_corner_y >= N_bd
-                    Nele_order1 = (N_corner_x- N_bd)*(N_corner_y-N_bd);
-                else
-                    Nele_order1 = 0;
-                end
-                
-                area_corner_overlap = Nele_order1*hx*hy;
-                
-                area = area - area_corner_overlap;
-                %}
+
                 % inner area = 1 - outter area
+                inner_area = 1-(outer_mesh.num_elements)/2 *hx*hy;
+                % ------------------------------------------------------------
                 
-                area = 1-(outer_mesh.num_elements)/2 *hx*hy;
-                
+                % L2 error on the inner domain
                 err_uH = L2Error_scalar_Square(uH_square_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-                %err_uh_proj = L2Error_scalar_Square(uh_proj_GQpts,...
-                %        uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-                err_uH_list(jj) =   err_uH/sqrt(area);
-                %err_uh_proj_list(jj) = err_uh_proj/sqrt(area);
-
+                
+                err_uH_list(jj) =   err_uH/sqrt(inner_area);
+                
+                
                 flag_plot_diff_no_postprocess = 0;
                 if flag_plot_diff_no_postprocess == 1 && jj== Ncoarse
 
@@ -442,46 +415,27 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 
                 if flag_conv == 1
                     
-                    
-                    err_uHstar = L2Error_scalar_Square(MH,...
+                    % L2 error of uhstar on inner domain
+                    err_uHstar = L2Error_scalar_Square(M_uh_conv,...
                             uexact_GQ_pts, GQ1DRef_wts, hx, hy);
-%                     err_uhstar = L2Error_scalar_Square(Mh_proj,...
-%                             uexact_GQ_pts, GQ1DRef_wts, hx, hy);
+                    err_uH_star_list(jj) = err_uHstar/sqrt(inner_area);
+                    fprintf('Inner Area: %.2e,  err_inner/sqrt(area): %.2e\n',inner_area, err_uHstar/sqrt(inner_area));
+                
+                    
+                    ndof_inner = GetInnerDof(coarse_mesh, outer_mesh, poly_k);
+                    ndof_outer = GetDof(outer_mesh, poly_outer_k);
+                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
 
-
-                    err_uH_star_list(jj) = err_uHstar/sqrt(area);
-                    %err_uh_proj_star_list(jj) = err_uhstar/sqrt(area);
-                    
-                    
-                    ndof_inner = GetInnerDof(coarse_mesh,outer_mesh,para.order );
-                    
-                    ndof_outer = GetDof(outer_mesh,2 * para.order );
-                    
-                    % solve adaptively on the outer mesh
-                    
-                    [uh2k_outer,~,~,~,~,~,outer_mesh] =...
-                        Functional_Outer_Driver(outer_mesh, para,func_uH_star_inner, N_outer_adap_steps,err_uHstar,ndof_inner,area);
-                    %[uh2k_outer,~,~,~,~,~,outer_mesh] =...
-                     %   Functional_Outer_Driver(outer_mesh, para,uexact, N_outer_adap_steps,err_uHstar,ndof_inner,area);
-                    
-                    
-                    fprintf('Area: %.2e,  err_inner/sqrt(area): %.2e\n',area, err_uHstar/sqrt(area));
-                    
                     % evaluate the error
                     [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
                                 GQ1DRef_pts,GQ1DRef_wts,0,...
                                 2 * para.order,uexact);
-                    
+                            
+                    % L2 error of uhstar on the whole domain
                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
                     
                     mesh_comp_list(jj) = ndof_inner + ndof_outer;
-                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
-                    
-%                     err_uH_star_comp_list(jj) = err_uh2k_outer/sqrt(1-area);
-%                     
-%                     mesh_comp_list(jj) = ndof_outer;
-                        
-                    
+
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse
 
@@ -489,7 +443,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
                         title_text = "$u- u_H^*$, L2 error: " + sprintf('%.2e',err_uHstar);
 
-                        Plot2D(para.dom_type, GQ_x, GQ_y, MH,... % uexact_GQ_pts-
+                        Plot2D(para.dom_type, GQ_x, GQ_y, M_uh_conv,... % uexact_GQ_pts-
                             title_text,save_flag,...
                             name_text)
 
@@ -508,22 +462,18 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
          
         end
         
+        % ------------------------------------------------------------
+        % Report result
+        % ------------------------------------------------------------
         order_uH        = GetOrderH(h0_list,err_uH_list);
-        %order_uh_proj   = GetOrderH(h0_list,err_uh_proj_list);
-        
-        
         ReportTable('h', h0_list,...
-                    'err_uH', err_uH_list, 'order',order_uH)%,...
-                    %'err_uh_proj', err_uh_proj_list, 'order',order_uh_proj);
+                    'err_uH', err_uH_list, 'order',order_uH)
+                
         if flag_conv == 1
             order_uH_star   = GetOrderH(h0_list,err_uH_star_list);
-            %order_uh_proj_star   = GetOrderH(h0_list,err_uh_proj_star_list);
-            
-            
             ReportTable('h', h0_list,...
-                        'err_uH*', err_uH_star_list, 'order',order_uH_star)%,...
-                        %'err_uh_proj*', err_uh_proj_star_list, 'order',order_uh_proj_star)
-                    
+                        'err_uH*', err_uH_star_list, 'order',order_uH_star)
+ 
             order_uH_star_comp = GetOrder(mesh_comp_list,err_uH_star_comp_list);
             
             ReportTable('DoF',mesh_comp_list,...
@@ -531,12 +481,5 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         end
         
     end
-    
-   
-    
-   
-    
-    %----------------------------------------------------------------------
-    % step 5: Do convolution and compare uH* and uH_proj*
-    %----------------------------------------------------------------------
+ 
 end

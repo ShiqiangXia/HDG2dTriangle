@@ -1,7 +1,10 @@
-function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para,uH_star_inner, Nadapt,err_inner,ndof_inner,area)
+function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh,...
+        para, poly_order,...
+        uH_star_inner,vH_star_inner,...
+        Nadapt,err_inner,ndof_inner,area)
     pb_type = num2str(para.pb_type);
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
-    poly_order = 2*para.order; % 2k 
+    
     posterior_estimate_method = 2;
     tol_adp = MyParaParse(para.extra_parameters,'tol_adp');
     % adaptive 
@@ -51,9 +54,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
 
 
         mesh_list(ii) = GetDof(mymesh, poly_order);
-        
-        
-        
+
         tri_list(ii) = mymesh.num_elements;
         if strcmp(pb_type(2),'0') % source problem
             %%  need to solve Primal and Adjoint two problems
@@ -63,9 +64,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
                 [source_g,vD,~]=MyParaParse(para.pb_parameters,'source_g','vD','vN');
                 
                 uD_inner = uH_star_inner;
-                vD_inner = vD;
-                
-                
+                vD_inner = vH_star_inner;
 
                 [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
                 poly_order, para.tau,source_f,uD,uD_inner); % temperorally set uD_inner to be uD
@@ -76,8 +75,6 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
             else
                 error('Wrong problem type.')
             end
-            
-            
 
             [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_elewise_list] = LinearFunctional_Elliptic(pb_type(4),pb_type(3),mymesh,...
                                                   uh,qh,uhat,source_f,...
@@ -118,7 +115,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
 
 
         end
-        % post-processing
+        % HDG local post-processing for error estimation
         if para.post_process_flag == 1 
 
             if strcmp(pb_type(2),'0') && (strcmp(pb_type(4),'1') ||strcmp(pb_type(4),'2'))
@@ -155,8 +152,6 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
             estimate_functinal_elewise = ACh_elewise_list;
         end
 
-        %estimate_sum_abs_list(ii) = sum(abs(estimate_functinal_elewise));
-
         % adaptive mesh refinement
         if para.refine_flag > 0
             percent = MyParaParse(para.extra_parameters,'percent');
@@ -170,7 +165,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
         err_list(ii) = sqrt(err_outer^2 + err_inner^2);
         
         fprintf('err_inner: %.2e err_outer: %.2e\n',err_inner ,err_outer);
-        %err_list(ii) = err_outer;
+        
         
 %         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
 %             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
