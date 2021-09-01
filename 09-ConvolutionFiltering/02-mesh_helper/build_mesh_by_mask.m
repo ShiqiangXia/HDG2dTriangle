@@ -1,14 +1,15 @@
 function mymesh = build_mesh_by_mask(dom_type,coarse_mesh,mask,Nx_coarse,Ny_coarse)
     
     if strcmp(dom_type,'Rec')
-        relation_mat = BuildRelationof2Meshes(coarse_mesh, coarse_mesh);
+        %relation_mat = BuildRelationof2Meshes(coarse_mesh, coarse_mesh);
         element_list = [];
         Nsquare = Ny_coarse * Nx_coarse;
         for j = 1:Ny_coarse
             for i = 1:Nx_coarse
                 if mask(j,i) == 1
                     square_idx = (j-1)*Nx_coarse + i;
-                    temp_element_list = [relation_mat{square_idx},relation_mat{square_idx + Nsquare}];
+                    %temp_element_list = [relation_mat{square_idx},relation_mat{square_idx + Nsquare}];
+                    temp_element_list = [square_idx,square_idx + Nsquare];
                     for t = 1: length(temp_element_list)
                         ele_id = temp_element_list(t);
                         element_list = [element_list; coarse_mesh.element_list(ele_id,:)];

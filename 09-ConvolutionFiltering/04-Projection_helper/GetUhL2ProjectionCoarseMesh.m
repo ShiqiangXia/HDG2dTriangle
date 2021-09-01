@@ -5,9 +5,11 @@ function uh_coeff = GetUhL2ProjectionCoarseMesh(poly_k,coarse, fine,...
     % (i,j) is for the basis P_i(x)*P_j(y)
     % so each row is the same x basis, diff y basis
     % WARNING: right now the code ONLY works for unit square domain
+    % ASSUME THE COARSE AND FINE MESH IS THE SAME MESH
     
     % Get relation mat
-    relation_mat = BuildRelationof2Meshes(coarse, fine);
+    %relation_mat = BuildRelationof2Meshes(coarse, fine);
+    
     
     num_coarse = coarse.num_elements ;
     % this follwong only work for square domain
@@ -30,8 +32,11 @@ function uh_coeff = GetUhL2ProjectionCoarseMesh(poly_k,coarse, fine,...
             ymid = (ee-1)*hy + 0.5*hy;
             % do (uh_proj, basis_ij) = sum (uh, basis_ij)_K for all elements
             % K contained in this square
-            tri_elements = [relation_mat{square_idx},...
-                relation_mat{square_idx + Nsquare}];
+%             tri_elements = [relation_mat{square_idx},...
+%                 relation_mat{square_idx + Nsquare}];
+
+            tri_elements = [square_idx,...
+                square_idx + Nsquare];
             
             n = length(tri_elements);
             

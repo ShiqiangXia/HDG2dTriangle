@@ -172,10 +172,10 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh]=Functional_Outer_Driver(outer_mesh, para
         fprintf('err_inner: %.2e err_outer: %.2e\n',err_inner ,err_outer);
         %err_list(ii) = err_outer;
         
-        if mesh_list(ii)/(1-area)> 16*ndof_inner/area
-            mymesh.Plot2(0,"Outer mesh " + num2str(ii));
-            break
-        end        
+%         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
+%             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
+%             break
+%         end        
         
 
 
