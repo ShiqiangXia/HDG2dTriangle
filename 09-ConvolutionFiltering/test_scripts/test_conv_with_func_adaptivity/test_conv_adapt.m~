@@ -321,9 +321,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         %         Get uH_square, vH_square by L2 projection of uH_triangle,
         %         vH_triangle to TH
         %----------------------------------------------------------------------
-            err_Jh_coarse_list(jj) = abs(err_Jh_fine_list(Niter));
-            err_Jh_AC_coarse_list(jj) = abs(err_Jh_AC_fine_list(Niter));
-            
+
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                     h_coarse,GQ1DRef_pts, para.geo_parameters{:});
                 
@@ -508,26 +506,15 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             ReportTable('DoF',mesh_comp_list,...
                 'err_uH*_comp',err_uH_star_comp_list,'order',order_uH_star_comp)
             
-            
-            
-            
-        end
-        
-        order_Jh = GetOrderH(h0_list,err_Jh_coarse_list);
-        order_Jh_AC = GetOrderH(h0_list,err_Jh_AC_coarse_list);
-        ReportTable('h', h0_list,...
-                'J-J(uh)',err_Jh_coarse_list,'order',order_Jh,...
-                'J-J(uh)-ACh',err_Jh_AC_coarse_list,'order',order_Jh_AC);
-        if flag_conv == 1
             order_Jhstar = GetOrder(mesh_comp_list,err_Jh_star_list);
             order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
             
             ReportTable('DoF',mesh_comp_list,...
                 'J-J(uh*)',err_Jh_star_list,'order',order_Jhstar,...
                 'J-J(uh*)-ACh*',err_Jh_ACh_star_list,'order',order_Jhstar_ACh)
+            
+            
         end
-            
-            
         
     end
  
