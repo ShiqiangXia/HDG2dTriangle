@@ -176,10 +176,10 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 
     end
     
-    figure;
-    mesh_list = mesh_list + ndof_inner;
-    plot(0.5*log10(mesh_list),log10(abs(err_list)),'--ro')
-    legend('L2 error u-uh*')
+%     figure;
+%     mesh_list = mesh_list + ndof_inner;
+%     plot(0.5*log10(mesh_list),log10(abs(err_list)),'--ro')
+%     legend('L2 error u-uh*')
 
     
 end

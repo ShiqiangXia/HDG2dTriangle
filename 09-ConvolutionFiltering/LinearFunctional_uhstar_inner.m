@@ -32,10 +32,10 @@ function [Jh_star, ACh_star] = LinearFunctional_uhstar_inner...
                  
                  temp_uh_coeff = uH_star_inner.dg_coeff(:,:,temp_ele_id);
                  temp_vh_coeff = vH_star_inner.dg_coeff(:,:,temp_ele_id);
-                 temp_grad_uh_x = Dv * temp_uh_coeff * Lv';
-                 temp_grad_uh_y = Lv * temp_uh_coeff * Dv';
-                 temp_grad_vh_x = Dv * temp_vh_coeff * Lv';
-                 temp_grad_vh_y = Lv * temp_vh_coeff * Dv';
+                 temp_grad_uh_x = Dv * temp_uh_coeff * Lv' * 2.0/hx;
+                 temp_grad_uh_y = Lv * temp_uh_coeff * Dv'* 2.0/hy;
+                 temp_grad_vh_x = Dv * temp_vh_coeff * Lv'* 2.0/hx;
+                 temp_grad_vh_y = Lv * temp_vh_coeff * Dv'* 2.0/hy;
                  
                  formula_grad_grad = temp_grad_uh_x.*temp_grad_vh_x ...
                      + temp_grad_uh_y.*temp_grad_vh_y ;
@@ -48,9 +48,7 @@ function [Jh_star, ACh_star] = LinearFunctional_uhstar_inner...
          end
      end
          
-     end
-     
-     
-     
-     
 end
+     
+     
+     
