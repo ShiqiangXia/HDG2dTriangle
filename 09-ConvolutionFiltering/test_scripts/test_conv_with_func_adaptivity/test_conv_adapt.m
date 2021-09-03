@@ -364,6 +364,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 vH_star_inner = vH_star_inner.set_dg_gq_pts(M_vh_conv);
                 func_vH_star_inner = @(p) vH_star_inner.eval(p(:,1),p(:,2));
                 
+                
+                
                 % solve adaptively on the outer mesh
                 [uh2k_outer,~,~,vh2k_outer,~,~,outer_mesh] =...
                     Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
@@ -372,6 +374,12 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 
                 % Compute Functional based on uhstar and vhstar
                 %Square elements in inner and triangle elements in outer
+                source_f_GQ_pts = GetUexactGQpts(source_f, GQ_x, GQ_y);
+                source_g_GQ_pts = GetUexactGQpts(source_g, GQ_x, GQ_y);
+                Jh_star_inner, ACh_star_inner = ...
+                    LinearFunctional_uhstar_inner(uH_star_inner, source_f_GQ_pts,...
+                    vH_star_inner,source_g_GQ_pts,...
+                    GQ1DRef_wts, hx, hy);
  
                 % some plots
                 flag_2D_plot = 0;
