@@ -98,9 +98,12 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         poly_outer_k = 2*poly_k;
         spline_degree = poly_k;
         poly_proj = poly_k;
+        
         y_cut = 5;
         n_level = 3;
-        order1_dist = 0.4;
+        
+        order1_dist = 0.05;
+        
         if poly_k ==1
             N_bd =2*poly_k;%0.2/hx; % 0.05
         elseif poly_k == 2
@@ -251,7 +254,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         %   = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
 
                         
-                        [J_exact,~]= Exact_Functional(func_type,para,...
+                        [J_exact,~]= Exact_Functional(pb_type(4),para.pb_parameters,...
                                     mymesh,GQ1DRef_pts,GQ1DRef_wts);
                         err_Jh_fine_list(ii) = J_exact - Jh;
                         err_Jh_AC_fine_list(ii) = J_exact - Jh_AC;
@@ -321,7 +324,9 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         %         Get uH_square, vH_square by L2 projection of uH_triangle,
         %         vH_triangle to TH
         %----------------------------------------------------------------------
-
+            err_Jh_coarse_list(jj) = abs(err_Jh_fine_list(Niter));
+            err_Jh_AC_coarse_list(jj) = abs(err_Jh_AC_fine_list(Niter));
+            
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                     h_coarse,GQ1DRef_pts, para.geo_parameters{:});
                 
@@ -378,10 +383,10 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 
                 
                 % solve adaptively on the outer mesh
-                [uh2k_outer,~,~,vh2k_outer,~,~,outer_mesh,Jh_outer,ACh_outer] =...
+                [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
                     Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
                     func_uH_star_inner,func_vH_star_inner,...
-                    N_outer_adap_steps,err_uHstar,ndof_inner,inner_area);
+                    N_outer_adap_steps,0,0,0);
                 
                 % Compute Functional based on uhstar and vhstar
                 %Square elements in inner and triangle elements in outer
@@ -392,7 +397,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     vH_star_inner,source_g_GQ_pts,...
                     GQ1DRef_wts, hx, hy);
                 
-                err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner+Jh_outer);
+                err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner-Jh_outer);
                 ACh_star_list(jj) = ACh_star_inner+ACh_outer;
                 
                 err_Jh_ACh_star_list(jj) = abs(J_exact...
@@ -450,13 +455,13 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 
                     
                     ndof_inner = GetInnerDof(coarse_mesh, outer_mesh, poly_k);
-                    ndof_outer = GetDof(outer_mesh, poly_outer_k);
+                    ndof_outer = GetDof(outer_adap_mesh, poly_outer_k);
                     fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
 
                     % evaluate the error
-                    [err_uh2k_outer,~] = L2Error_scalar(outer_mesh,uh2k_outer,...
+                    [err_uh2k_outer,~] = L2Error_scalar(outer_adap_mesh,uh2k_outer,...
                                 GQ1DRef_pts,GQ1DRef_wts,0,...
-                                2 * para.order,uexact);
+                                poly_outer_k,uexact);
                             
                     % L2 error of uhstar on the whole domain
                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
@@ -506,15 +511,31 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             ReportTable('DoF',mesh_comp_list,...
                 'err_uH*_comp',err_uH_star_comp_list,'order',order_uH_star_comp)
             
-            order_Jhstar = GetOrder(mesh_comp_list,err_Jh_star_list);
-            order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
             
-            ReportTable('DoF',mesh_comp_list,...
-                'J-J(uh*)',err_Jh_star_list,'order',order_Jhstar,...
-                'J-J(uh*)-ACh*',err_Jh_ACh_star_list,'order',order_Jhstar_ACh)
             
             
         end
+        
+        order_Jh = GetOrderH(h0_list,err_Jh_coarse_list);
+        order_Jh_AC = GetOrderH(h0_list,err_Jh_AC_coarse_list);
+        ReportTable('h', h0_list,...
+                'J-J(uh)',err_Jh_coarse_list,'order',order_Jh,...
+                'ACh',
+                'J-J(uh)-ACh',err_Jh_AC_coarse_list,'order',order_Jh_AC);
+            
+        if flag_conv == 1
+            %order_Jhstar = GetOrder(mesh_comp_list,err_Jh_star_list);
+            %order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
+            order_Jhstar = GetOrderH(h0_list,err_Jh_star_list);
+            order_Jhstar_ACh = GetOrderH(h0_list,err_Jh_ACh_star_list);
+            
+            ReportTable('h', h0_list,... %'DoF',mesh_comp_list,...
+                'J-J(uh*)',err_Jh_star_list,'order',order_Jhstar,...
+                'ACh*',ACh_star_list,'err/Ach*', err_Jh_star_list./ACh_star_list,...
+                'J-J(uh*)-ACh*',err_Jh_ACh_star_list,'order',order_Jhstar_ACh)
+        end
+            
+            
         
     end
  

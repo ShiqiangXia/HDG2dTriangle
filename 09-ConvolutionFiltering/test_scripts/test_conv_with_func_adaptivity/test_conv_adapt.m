@@ -45,6 +45,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         err_uH_star_comp_list = zeros(Ncoarse,1,numeric_t);
         err_Jh_coarse_list = zeros(Ncoarse,1,numeric_t);
         err_Jh_AC_coarse_list = zeros(Ncoarse,1,numeric_t);
+        ACh_coarse_list = zeros(Ncoarse,1,numeric_t);
+        
         err_Jh_star_list = zeros(Ncoarse,1,numeric_t);
         ACh_star_list = zeros(Ncoarse,1,numeric_t);
         err_Jh_ACh_star_list = zeros(Ncoarse,1,numeric_t);
@@ -102,7 +104,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         y_cut = 5;
         n_level = 3;
         
-        order1_dist = 0.4;
+        order1_dist = 0.05;
         
         if poly_k ==1
             N_bd =2*poly_k;%0.2/hx; % 0.05
@@ -326,6 +328,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         %----------------------------------------------------------------------
             err_Jh_coarse_list(jj) = abs(err_Jh_fine_list(Niter));
             err_Jh_AC_coarse_list(jj) = abs(err_Jh_AC_fine_list(Niter));
+            ACh_coarse_list(jj) = ACh_list(Niter);
             
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                     h_coarse,GQ1DRef_pts, para.geo_parameters{:});
@@ -400,9 +403,10 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner-Jh_outer);
                 ACh_star_list(jj) = ACh_star_inner+ACh_outer;
                 
-                err_Jh_ACh_star_list(jj) = abs(J_exact...
-                    - Jh_star_inner - ACh_star_inner...
-                    - Jh_outer - ACh_outer);
+%                 err_Jh_ACh_star_list(jj) = abs(J_exact...
+%                     - Jh_star_inner - ACh_star_inner...
+%                     - Jh_outer - ACh_outer);
+                err_Jh_ACh_star_list(jj) = abs(err_Jh_star_list(jj) -abs( ACh_star_list(jj)));
  
                 % some plots
                 flag_2D_plot = 0;
@@ -461,7 +465,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     % evaluate the error
                     [err_uh2k_outer,~] = L2Error_scalar(outer_adap_mesh,uh2k_outer,...
                                 GQ1DRef_pts,GQ1DRef_wts,0,...
-                                2 * para.order,uexact);
+                                poly_outer_k,uexact);
                             
                     % L2 error of uhstar on the whole domain
                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
@@ -520,6 +524,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         order_Jh_AC = GetOrderH(h0_list,err_Jh_AC_coarse_list);
         ReportTable('h', h0_list,...
                 'J-J(uh)',err_Jh_coarse_list,'order',order_Jh,...
+                'ACh',ACh_coarse_list, 'ratio', err_Jh_coarse_list./ACh_coarse_list,...
                 'J-J(uh)-ACh',err_Jh_AC_coarse_list,'order',order_Jh_AC);
             
         if flag_conv == 1
