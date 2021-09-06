@@ -47,6 +47,8 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional_Elliptic(fun
          ACh4_elewise_list = zeros(num_elements,1,numeric_t);
          [Aqq,Auur,Auus,Auu3,Buuhat3] = HDG_LocalMatrix(k,GQ1DRef_pts,GQ1DRef_wts);
          
+         test_ACh3 = 0.0;
+         
          for element_idx = 1: num_elements
              
              %   preparation ----------------------------------------------
@@ -163,6 +165,12 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional_Elliptic(fun
                  
                  temp_uhuhat_vhat = temp_uhuhat_vhat +temp_5 - temp_4;
                  
+                 bdry_flag = mymesh.f_type(face_idx);
+                 if bdry_flag == 11
+                     %fprintf('%.2e,   %.2e,    %.2e   \n',temp_3,temp_5,temp_4)
+                     test_ACh3 = test_ACh3 + temp_3 + temp_5 - temp_4;
+                 end
+                 
              end
              
              ACh3_elewise_list(element_idx,1) = ACh3;
@@ -188,6 +196,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional_Elliptic(fun
 
          ACh_elewise_list = ACh4_elewise_list;
          ACh = sum(ACh1_elewise_list+ACh2_elewise_list+ACh3_elewise_list+ACh4_elewise_list);
+         %fprintf('sum(ACh3): %.2e,  test_Ach3: %.2e\n', sum(ACh3_elewise_list), test_ACh3);
          %ACh = sum(ACh_elewise_list);
      end
 

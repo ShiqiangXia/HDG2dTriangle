@@ -164,7 +164,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
                     poly_order,uexact);
         err_list(ii) = sqrt(err_outer^2 + err_inner^2);
         
-        fprintf('err_inner: %.2e err_outer: %.2e\n',err_inner ,err_outer);
+        %fprintf('err_inner: %.2e err_outer: %.2e\n',err_inner ,err_outer);
         
         
 %         if mesh_list(ii)/(1-area)> 16*ndof_inner/area

@@ -388,17 +388,25 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 % solve adaptively on the outer mesh
                 [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
                     Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
-                    func_uH_star_inner,func_vH_star_inner,...
+                    func_uH_star_inner,func_vH_star_inner,...%uexact,func_vH_star_inner,...%
                     N_outer_adap_steps,0,0,0);
                 
                 % Compute Functional based on uhstar and vhstar
-                %Square elements in inner and triangle elements in outer
+                % Square elements in inner and triangle elements in outer
+                
                 source_f_GQ_pts = GetUexactGQpts(source_f, GQ_x, GQ_y);
                 source_g_GQ_pts = GetUexactGQpts(source_g, GQ_x, GQ_y);
+%                 uH_star_GQ = M_uh_conv;
+%                 vH_star_GQ = M_vh_conv;
+%                 [grad_uH_star_x_GQ, grad_uH_star_y_GQ] ...
+%                     = GetGradUhstarFromUhstarGQ(poly_outer_k,uH_star_GQ,GQ1DRef_pts,hx,hy);
+%                 [grad_vH_star_x_GQ, grad_vH_star_y_GQ]...
+%                     = GetGradUhstarFromUhstarGQ(poly_outer_k,vH_star_GQ,GQ1DRef_pts,hx,hy);
+                
                 [Jh_star_inner, ACh_star_inner] = ...
                     LinearFunctional_uhstar_inner(uH_star_inner, source_f_GQ_pts,...
                     vH_star_inner,source_g_GQ_pts,...
-                    GQ1DRef_wts, hx, hy);
+                    GQ1DRef_pts,GQ1DRef_wts, hx, hy);
                 
                 err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner-Jh_outer);
                 ACh_star_list(jj) = ACh_star_inner+ACh_outer;
@@ -455,12 +463,12 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     err_uHstar = L2Error_scalar_Square(M_uh_conv,...
                             uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                     err_uH_star_list(jj) = err_uHstar/sqrt(inner_area);
-                    fprintf('Inner Area: %.2e,  err_inner/sqrt(area): %.2e\n',inner_area, err_uHstar/sqrt(inner_area));
+                    
                 
                     
                     ndof_inner = GetInnerDof(coarse_mesh, outer_mesh, poly_k);
                     ndof_outer = GetDof(outer_adap_mesh, poly_outer_k);
-                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
+                    
 
                     % evaluate the error
                     [err_uh2k_outer,~] = L2Error_scalar(outer_adap_mesh,uh2k_outer,...
@@ -471,6 +479,10 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     err_uH_star_comp_list(jj) = sqrt(err_uHstar^2 + err_uh2k_outer^2);
                     
                     mesh_comp_list(jj) = ndof_inner + ndof_outer;
+                    
+                    fprintf('err_inner: %.2e err_outer: %.2e\n',err_uHstar ,err_uh2k_outer);
+                    fprintf('Inner Area: %.2e,  err_inner/sqrt(area): %.2e\n',inner_area, err_uHstar/sqrt(inner_area));
+                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
 
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse
@@ -532,10 +544,10 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             %order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
             order_Jhstar = GetOrderH(h0_list,err_Jh_star_list);
             order_Jhstar_ACh = GetOrderH(h0_list,err_Jh_ACh_star_list);
-            
+            order_ACh_star = GetOrderH(h0_list,abs(ACh_star_list));
             ReportTable('h', h0_list,... %'DoF',mesh_comp_list,...
                 'J-J(uh*)',err_Jh_star_list,'order',order_Jhstar,...
-                'ACh*',ACh_star_list,'err/Ach*', err_Jh_star_list./ACh_star_list,...
+                'ACh*',abs(ACh_star_list),'err/Ach*', err_Jh_star_list./ACh_star_list,...%'order', order_ACh_star,...%
                 'J-J(uh*)-ACh*',err_Jh_ACh_star_list,'order',order_Jhstar_ACh)
         end
             

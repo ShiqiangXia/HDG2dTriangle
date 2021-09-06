@@ -1,7 +1,7 @@
 function [Jh_star, ACh_star] = LinearFunctional_uhstar_inner...
         ( uH_star_inner, source_f_GQ_pts,...
          vH_star_inner,source_g_GQ_pts,...
-         GQ1DRef_wts, hx, hy)
+         GQ1DRef_pts,GQ1DRef_wts, hx, hy)
      
      % compute two parts
      % part 1: Jh = (uh, g)
@@ -10,8 +10,8 @@ function [Jh_star, ACh_star] = LinearFunctional_uhstar_inner...
      
      scale_factor = hx * hy * numeric_t('1/4.0');
      k = uH_star_inner.k;
-     Lv = Vandermonde1D(k,GQ1DRef_wts);
-     Dv = GradVandermonde1D(k,GQ1DRef_wts);
+     Lv = Vandermonde1D(k,GQ1DRef_pts);
+     Dv = GradVandermonde1D(k,GQ1DRef_pts);
      Jh_star = 0;
      ACh_star = 0;
      
