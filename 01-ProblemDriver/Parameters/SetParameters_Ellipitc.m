@@ -106,7 +106,7 @@ function para = SetParameters_Ellipitc(varargin)
         pexact_1 = @(p)0*p(:,1);
         pexact_2 = @(p)0*p(:,1);
 
-        source_g = @(p) 0*p(:,1)+1; % p(:,1).^4+2*p(:,2).^5; % 
+        source_g = @(p) 0*p(:,1)+1000; % p(:,1).^4+2*p(:,2).^5; % 
 
         vD = @(p) 0*p(:,1);
         vN = @(p) 0*p(:,1);

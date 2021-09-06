@@ -104,7 +104,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         y_cut = 5;
         n_level = 3;
         
-        order1_dist = 0.05;
+        %order1_dist = 0.3;
         
         if poly_k ==1
             N_bd =2*poly_k;%0.2/hx; % 0.05
@@ -336,6 +336,9 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             if Nx_coarse ~= Ny_coarse
                 error('Nx!= Ny but the code assume square domain')
             end
+            
+            order1_dist = (2*poly_k+2)*hx;
+            %order1_dist = 0.3;
 
             N_corner_x = ceil(order1_dist/hx);
             N_corner_y = ceil(order1_dist/hy);
@@ -494,7 +497,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     mesh_comp_list(jj) = ndof_inner + ndof_outer;
                     
                     fprintf('err_inner: %.2e err_outer: %.2e\n',err_uHstar ,err_uh2k_outer);
-                    fprintf('Inner Area: %.2e,  err_inner/sqrt(area): %.2e\n',inner_area, err_uHstar/sqrt(inner_area));
+                    fprintf('err_inner/sqrt(inn_area): %.2e, err_outer/sqrt(out_area): %.2e\n',...
+                        err_uHstar/sqrt(inner_area),err_uh2k_outer/sqrt(1-inner_area));
                     fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
 
                     flag_plot_diff = 0;
@@ -553,15 +557,22 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 'J-J(uh)-ACh',err_Jh_AC_coarse_list,'order',order_Jh_AC);
             
         if flag_conv == 1
-            %order_Jhstar = GetOrder(mesh_comp_list,err_Jh_star_list);
-            %order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
-            order_Jhstar = GetOrderH(h0_list,err_Jh_star_list);
-            order_Jhstar_ACh = GetOrderH(h0_list,err_Jh_ACh_star_list);
+            order_Jhstar = GetOrder(mesh_comp_list,err_Jh_star_list);
+            order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
+%             order_Jhstar = GetOrderH(h0_list,err_Jh_star_list);
+%             order_Jhstar_ACh = GetOrderH(h0_list,err_Jh_ACh_star_list);
             order_ACh_star = GetOrderH(h0_list,abs(ACh_star_list));
-            ReportTable('h', h0_list,... %'DoF',mesh_comp_list,...
+            ReportTable('DoF',mesh_comp_list,...
                 'J-J(uh*)',err_Jh_star_list,'order',order_Jhstar,...
                 'ACh*',abs(ACh_star_list),'err/Ach*', err_Jh_star_list./abs(ACh_star_list),...%'order', order_ACh_star,...%
                 'J-J(uh*)-ACh*',err_Jh_ACh_star_list,'order',order_Jhstar_ACh)
+            
+            figure;
+            plot(0.5*log10(mesh_comp_list),log10(err_Jh_star_list),'--bo');
+            hold on
+            plot(0.5*log10(mesh_comp_list),log10(abs(ACh_star_list)),'--ks');
+            plot(0.5*log10(mesh_comp_list),log10(err_Jh_ACh_star_list),'--rx');
+            legend('J-J(uh*)', 'Ach*','J-J(uh*)-ACh*');
         end
             
             

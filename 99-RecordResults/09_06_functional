@@ -1,0 +1,104 @@
+
+
+% J=(u,g) and k= 1
+
+% uniform mesh and smooth case
+
+conv_adap_test_driver
+
+Case: u smooth 
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=2.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+err_inner: 1.09e-03 err_outer: 3.19e-03
+Inner Area: 4.00e-02,  err_inner/sqrt(area): 5.47e-03
+dof_inner 28,  dof_outer: 1044
+--------------------------------
+Coarse mesh 2, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+err_inner: 4.78e-04 err_outer: 3.45e-04
+Inner Area: 3.60e-01,  err_inner/sqrt(area): 7.96e-04
+dof_inner 888,  dof_outer: 2784
+--------------------------------
+Coarse mesh 3, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+err_inner: 7.81e-05 err_outer: 3.11e-05
+Inner Area: 6.40e-01,  err_inner/sqrt(area): 9.76e-05
+dof_inner 6208,  dof_outer: 6264
+--------------------------------
+Coarse mesh 4, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+err_inner: 1.08e-05 err_outer: 2.86e-06
+Inner Area: 8.10e-01,  err_inner/sqrt(area): 1.20e-05
+dof_inner 31248,  dof_outer: 13224
+--------------------------------
+Coarse mesh 5, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+err_inner: 1.42e-06 err_outer: 2.62e-07
+Inner Area: 9.02e-01,  err_inner/sqrt(area): 1.49e-06
+dof_inner 138832,  dof_outer: 27324------------------------------
+h                |err_uH           order            |
+2.00e-01         |2.19e-02         0.00e+00         |
+1.00e-01         |7.11e-03         1.62e+00         |
+5.00e-02         |1.87e-03         1.93e+00         |
+2.50e-02         |4.69e-04         1.99e+00         |
+1.25e-02         |1.17e-04         2.00e+00         |
+------------------------------
+h                |err_uH*          order            |
+2.00e-01         |5.47e-03         0.00e+00         |
+1.00e-01         |7.96e-04         2.78e+00         |
+5.00e-02         |9.76e-05         3.03e+00         |
+2.50e-02         |1.20e-05         3.02e+00         |
+1.25e-02         |1.49e-06         3.01e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.07e+03         |3.37e-03         0.00e+00         |
+3.67e+03         |5.89e-04         2.83e+00         |
+1.25e+04         |8.40e-05         3.18e+00         |
+4.45e+04         |1.12e-05         3.17e+00         |
+1.66e+05         |1.44e-06         3.11e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+2.00e-01         |4.51e-02         0.00e+00         |-6.85e-02        -6.59e-01        |2.33e-02         0.00e+00         |
+1.00e-01         |6.20e-03         2.86e+00         |-8.86e-03        -7.01e-01        |2.65e-03         3.14e+00         |
+5.00e-02         |8.06e-04         2.94e+00         |-1.12e-03        -7.21e-01        |3.11e-04         3.09e+00         |
+2.50e-02         |1.03e-04         2.98e+00         |-1.40e-04        -7.32e-01        |3.75e-05         3.05e+00         |
+1.25e-02         |1.29e-05         2.99e+00         |-1.75e-05        -7.37e-01        |4.60e-06         3.03e+00         |
+------------------------------
+h                |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+2.00e-01         |2.19e-02         0.00e+00         |2.23e-02         9.83e-01         |3.76e-04         0.00e+00         |
+1.00e-01         |5.09e-03         2.11e+00         |5.10e-03         9.98e-01         |1.27e-05         4.89e+00         |
+5.00e-02         |7.38e-04         2.79e+00         |7.39e-04         1.00e+00         |3.17e-07         5.32e+00         |
+2.50e-02         |9.83e-05         2.91e+00         |9.83e-05         1.00e+00         |7.73e-09         5.36e+00         |
+1.25e-02         |1.27e-05         2.96e+00         |1.27e-05         1.00e+00         |1.98e-10         5.29e+00         |
+Total time 228.89
+diary off
