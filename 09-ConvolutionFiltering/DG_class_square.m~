@@ -128,30 +128,28 @@ classdef DG_class_square
             end
         end
         
-        function [grad_uh_x, grad_uh_y] = get_DG_grad_pts(obj, x_pts, y_pts)
-            % Get the grad uh at points (x_pts, y_pts)
-            if length(x_pts) ~= length(y_pts)
-                error('x_pts and y_pth lengths dont match!')
-            end
+        function [grad_uh_x, grad_uh_y] = grad_uh(obj, pts)
+            x_pts = pts(:,1);
+            y_pts = pts(:,2);
             
-            poly_k = obj.k;
-            Lv_x = Vandermonde1D(poly_k,x_pts);
-            Lv_y = Vandermonde1D(poly_k,y_pts);
-            Dv_x = GradVandermonde1D(poly_k,x_pts);
-            Dv_y = GradVandermonde1D(poly_k,y_pts);
-            Npt = length(x_pts);
-            [~,~,Nele] = size(obj.dg_coeff);
-            grad_uh_x = zeros(Npt,Npt,Nele);
-            grad_uh_y = zeros(Npt,Npt,Nele);
-            for ii = 1:obj.Ny
-                for jj = 1: obj.Nx
-                    if obj.mask(ii,jj) == 0
-                        temp_ele_id = (ii-1)*obj.Nx+jj;
-                        temp_uh_coeff = obj.dg_coeff(:,:,temp_ele_id);
-                        temp_grad_uh_x = Dv_x * temp_uh_coeff * Lv_y' * 2.0/obj.hx;
-                        temp_grad_uh_y = Lv_x * temp_uh_coeff * Dv_y'* 2.0/obj.hy;
-                        grad_uh_x(:,:,temp_ele_id) = temp_grad_uh_x;
-                        grad_uh_y(:,:,temp_ele_id) = temp_grad_uh_y;
+            k = obj.k;
+            Lv_x = Vandermonde1D(k,GQ1DRef_pts);
+            Lv_y = Vandermonde1D(k,GQ1DRef_pts);
+            Dv_x = GradVandermonde1D(k,GQ1DRef_pts);
+            Dv_y = GradVandermonde1D(k,GQ1DRef_pts);
+            NGQ = length(GQ1DRef_pts);
+            [~,~,Nele] = size(uH_DG.dg_coeff);
+            grad_uH_x_GQ = zeros(NGQ,NGQ,Nele);
+            grad_uH_y_GQ = zeros(NGQ,NGQ,Nele);
+            for ii = 1:uH_DG.Ny
+                for jj = 1: uH_DG.Nx
+                    if uH_DG.mask(ii,jj) == 0
+                        temp_ele_id = (ii-1)*uH_DG.Nx+jj;
+                        temp_uh_coeff = uH_DG.dg_coeff(:,:,temp_ele_id);
+                        temp_grad_uh_x = Dv * temp_uh_coeff * Lv' * 2.0/hx;
+                        temp_grad_uh_y = Lv * temp_uh_coeff * Dv'* 2.0/hy;
+                        grad_uH_x_GQ(:,:,temp_ele_id) = temp_grad_uh_x;
+                        grad_uH_y_GQ(:,:,temp_ele_id) = temp_grad_uh_y;
 
                     end
                 end
