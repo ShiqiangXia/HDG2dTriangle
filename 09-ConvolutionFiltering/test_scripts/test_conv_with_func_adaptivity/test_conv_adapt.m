@@ -337,7 +337,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 error('Nx!= Ny but the code assume square domain')
             end
             
-            order1_dist = (2*poly_k+2)*hx;
+            order1_dist = (2*poly_k+1)*hx;
             %order1_dist = 0.3;
 
             N_corner_x = ceil(order1_dist/hx);
@@ -388,11 +388,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 
                 
                 
-                % solve adaptively on the outer mesh
-                [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
-                    Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
-                    func_uH_star_inner,func_vH_star_inner,...%uexact,func_vH_star_inner,...%
-                    N_outer_adap_steps,0,0,0);
+                
                 
                 % Compute Functional based on uhstar and vhstar
                 % Square elements in inner and triangle elements in outer
@@ -422,14 +418,34 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     uH_star_inner.Nx,uH_star_inner.Ny,uH_star_inner.mask,...
                     GQ1DRef_wts, uH_star_inner.hx, uH_star_inner.hy);
                 
+                %%%%%%%%%%%%%%%%%%%%%%
+                % compute error in the interior domain
+                qexact_1_GQ = GetUexactGQpts(qexact_1, GQ_x, GQ_y);
+                qexact_2_GQ = GetUexactGQpts(qexact_2, GQ_x, GQ_y);
+                pexact_1_GQ = GetUexactGQpts(pexact_1, GQ_x, GQ_y);
+                pexact_2_GQ = GetUexactGQpts(pexact_2, GQ_x, GQ_y);
+                Eh_inner_elmtwise = LinearFunctonal_inner_error(...
+                    qexact_1_GQ,qexact_2_GQ,-grad_uH_star_x_GQ,grad_uH_star_y_GQ,...
+                    pexact_1_GQ,pexact_2_GQ, -grad_vH_star_x_GQ, -grad_vH_star_y_GQ,...
+                    uH_star_inner.Nx,uH_star_inner.Ny,uH_star_inner.mask,...
+                    GQ1DRef_wts, uH_star_inner.hx, uH_star_inner.hy );
                 
+                %%%%%%%%%%%%%%%%%%%%%%
+                % solve adaptively on the outer mesh
+                [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
+                    Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
+                    func_uH_star_inner,func_vH_star_inner,...%uexact,func_vH_star_inner,...%
+                    N_outer_adap_steps,J_exact- Jh_star_inner,ACh_star_inner,0);
                 
+                % compute error
                 err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner-Jh_outer);
                 ACh_star_list(jj) = ACh_star_inner+ACh_outer;
                 
                 err_Jh_ACh_star_list(jj) = abs(J_exact...
                     - Jh_star_inner - ACh_star_inner...
                     - Jh_outer - ACh_outer);
+                
+                
                 
  
                 % some plots
@@ -499,7 +515,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     fprintf('err_inner: %.2e err_outer: %.2e\n',err_uHstar ,err_uh2k_outer);
                     fprintf('err_inner/sqrt(inn_area): %.2e, err_outer/sqrt(out_area): %.2e\n',...
                         err_uHstar/sqrt(inner_area),err_uh2k_outer/sqrt(1-inner_area));
-                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
+                    fprintf('dof_inner %d,  dof_outer: %d\n', ndof_inner, ndof_outer)
 
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse

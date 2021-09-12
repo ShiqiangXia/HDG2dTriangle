@@ -164,11 +164,10 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
                     poly_order,uexact);
         err_list(ii) = sqrt(err_outer^2 + err_inner^2);
         
-        fprintf('err_inner: %.4e\n',err_inner-ACh_inner);
-        fprintf('Jh_outer+ACh_outer: %.4e \n', Jh+ACh);
+        fprintf('err_inner: %.e ,  ACh_iner: %e\n',err_inner ,ACh_inner);
+        fprintf('Jh_outer: %e  ACh_outer: %e \n', Jh, ACh);
         
-        fprintf('err: %.4e  ACh: %.4e \n', err_inner-Jh, ACh_inner+ACh);
-        fprintf('Dff: %.4e\n',err_inner-Jh - ACh_inner-ACh)
+        fprintf('err: %e  ACh: %e \n', err_inner-Jh, ACh_inner+ACh);
         
 %         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
 %             mymesh.Plot2(0,"Outer mesh " + num2str(ii));

@@ -104,7 +104,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         y_cut = 5;
         n_level = 3;
         
-        order1_dist = 0.05;
+        %order1_dist = 0.3;
         
         if poly_k ==1
             N_bd =2*poly_k;%0.2/hx; % 0.05
@@ -336,6 +336,9 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             if Nx_coarse ~= Ny_coarse
                 error('Nx!= Ny but the code assume square domain')
             end
+            
+            order1_dist = (2*poly_k+1)*hx;
+            %order1_dist = 0.3;
 
             N_corner_x = ceil(order1_dist/hx);
             N_corner_y = ceil(order1_dist/hy);
@@ -385,11 +388,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 
                 
                 
-                % solve adaptively on the outer mesh
-                [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
-                    Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
-                    func_uH_star_inner,func_vH_star_inner,...%uexact,func_vH_star_inner,...%
-                    N_outer_adap_steps,0,0,0);
+                
                 
                 % Compute Functional based on uhstar and vhstar
                 % Square elements in inner and triangle elements in outer
@@ -398,16 +397,15 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 source_g_GQ_pts = GetUexactGQpts(source_g, GQ_x, GQ_y);
                 uH_star_GQ = uH_star_inner.dg_gq_pts;
                 vH_star_GQ = vH_star_inner.dg_gq_pts;
+                
                 % Get grad uh in x and y component
                 [grad_uH_star_x_GQ, grad_uH_star_y_GQ] ...
-                    = GetGradUhstarFromUhstarGQ(uH_star_inner,GQ1DRef_pts,hx,hy);
-                [grad_uH_star_x_GQ, grad_uH_star_y_GQ] ...
-                    = uH_star_inner.grad_uh(GQ1DRef_pts,GQ1DRef_pts);
+                    = uH_star_inner.get_DG_grad_pts(GQ1DRef_pts,GQ1DRef_pts);
+                
                 % Get grad vh in x and y component
                 [grad_vH_star_x_GQ, grad_vH_star_y_GQ]...
-                    = GetGradUhstarFromUhstarGQ(vH_star_inner,GQ1DRef_pts,hx,hy);
-                [grad_vH_star_x_GQ, grad_vH_star_y_GQ]...
-                    = GetGradUhstarFromUhstarGQ(vH_star_inner,GQ1DRef_pts,hx,hy);
+                    = vH_star_inner.get_DG_grad_pts(GQ1DRef_pts,GQ1DRef_pts);
+                
 %                 [Jh_star_inner, ACh_star_inner] = ...
 %                     LinearFunctional_uhstar_inner(uH_star_inner, source_f_GQ_pts,...
 %                     vH_star_inner,source_g_GQ_pts,...
@@ -418,17 +416,31 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     uH_star_GQ,grad_uH_star_x_GQ,grad_uH_star_y_GQ, source_f_GQ_pts,...
                     vH_star_GQ,grad_vH_star_x_GQ,grad_vH_star_y_GQ, source_g_GQ_pts,...
                     uH_star_inner.Nx,uH_star_inner.Ny,uH_star_inner.mask,...
-                    GQ1DRef_wts, hx, hy);
+                    GQ1DRef_wts, uH_star_inner.hx, uH_star_inner.hy);
                 
+                %%%%%%%%%%%%%%%%%%%%%%
+                % compute error in the interior domain
+                qexact_1_GQ = GetUexactGQpts(qexact_1, GQ_x, GQ_y);
+                qexact_2_GQ = GetUexactGQpts(qexact_2, GQ_x, GQ_y);
+                Eh_inner_elmtwise = LinearFunctonal_inner_error()
                 
+                %%%%%%%%%%%%%%%%%%%%%%
+                % solve adaptively on the outer mesh
+                [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
+                    Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
+                    func_uH_star_inner,func_vH_star_inner,...%uexact,func_vH_star_inner,...%
+                    N_outer_adap_steps,0,0,0);
                 
+                % compute error
                 err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner-Jh_outer);
                 ACh_star_list(jj) = ACh_star_inner+ACh_outer;
                 
-%                 err_Jh_ACh_star_list(jj) = abs(J_exact...
-%                     - Jh_star_inner - ACh_star_inner...
-%                     - Jh_outer - ACh_outer);
-                err_Jh_ACh_star_list(jj) = abs(err_Jh_star_list(jj) -abs( ACh_star_list(jj)));
+                err_Jh_ACh_star_list(jj) = abs(J_exact...
+                    - Jh_star_inner - ACh_star_inner...
+                    - Jh_outer - ACh_outer);
+                
+                
+                
  
                 % some plots
                 flag_2D_plot = 0;
@@ -495,8 +507,9 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     mesh_comp_list(jj) = ndof_inner + ndof_outer;
                     
                     fprintf('err_inner: %.2e err_outer: %.2e\n',err_uHstar ,err_uh2k_outer);
-                    fprintf('Inner Area: %.2e,  err_inner/sqrt(area): %.2e\n',inner_area, err_uHstar/sqrt(inner_area));
-                    fprintf('dof_inner %d,  dof_outer: %d', ndof_inner, ndof_outer)
+                    fprintf('err_inner/sqrt(inn_area): %.2e, err_outer/sqrt(out_area): %.2e\n',...
+                        err_uHstar/sqrt(inner_area),err_uh2k_outer/sqrt(1-inner_area));
+                    fprintf('dof_inner %d,  dof_outer: %d\n', ndof_inner, ndof_outer)
 
                     flag_plot_diff = 0;
                     if flag_plot_diff == 1 && jj== Ncoarse
@@ -554,15 +567,22 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 'J-J(uh)-ACh',err_Jh_AC_coarse_list,'order',order_Jh_AC);
             
         if flag_conv == 1
-            %order_Jhstar = GetOrder(mesh_comp_list,err_Jh_star_list);
-            %order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
-            order_Jhstar = GetOrderH(h0_list,err_Jh_star_list);
-            order_Jhstar_ACh = GetOrderH(h0_list,err_Jh_ACh_star_list);
+            order_Jhstar = GetOrder(mesh_comp_list,err_Jh_star_list);
+            order_Jhstar_ACh = GetOrder(mesh_comp_list,err_Jh_ACh_star_list);
+%             order_Jhstar = GetOrderH(h0_list,err_Jh_star_list);
+%             order_Jhstar_ACh = GetOrderH(h0_list,err_Jh_ACh_star_list);
             order_ACh_star = GetOrderH(h0_list,abs(ACh_star_list));
-            ReportTable('h', h0_list,... %'DoF',mesh_comp_list,...
+            ReportTable('DoF',mesh_comp_list,...
                 'J-J(uh*)',err_Jh_star_list,'order',order_Jhstar,...
-                'ACh*',abs(ACh_star_list),'err/Ach*', err_Jh_star_list./ACh_star_list,...%'order', order_ACh_star,...%
+                'ACh*',abs(ACh_star_list),'err/Ach*', err_Jh_star_list./abs(ACh_star_list),...%'order', order_ACh_star,...%
                 'J-J(uh*)-ACh*',err_Jh_ACh_star_list,'order',order_Jhstar_ACh)
+            
+            figure;
+            plot(0.5*log10(mesh_comp_list),log10(err_Jh_star_list),'--bo');
+            hold on
+            plot(0.5*log10(mesh_comp_list),log10(abs(ACh_star_list)),'--ks');
+            plot(0.5*log10(mesh_comp_list),log10(err_Jh_ACh_star_list),'--rx');
+            legend('J-J(uh*)', 'Ach*','J-J(uh*)-ACh*');
         end
             
             

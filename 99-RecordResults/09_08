@@ -1,0 +1,213 @@
+
+% non-smooth k =1, dist = 0.3
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 3.14e-06 err_outer: 4.05e-06
+err_inner/sqrt(inn_area): 5.31e-06, err_outer/sqrt(out_area): 5.02e-06
+dof_inner 864,  dof_outer: 12237
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 4.60e-07 err_outer: 6.31e-07
+err_inner/sqrt(inn_area): 5.94e-07, err_outer/sqrt(out_area): 9.97e-07
+dof_inner 5824,  dof_outer: 21123
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 5.36e-08 err_outer: 1.66e-07
+err_inner/sqrt(inn_area): 6.20e-08, err_outer/sqrt(out_area): 3.31e-07
+dof_inner 28848,  dof_outer: 35928
+
+--------------------------------
+Coarse mesh 4, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 6.84e-09 err_outer: 5.10e-08
+err_inner/sqrt(inn_area): 7.52e-09, err_outer/sqrt(out_area): 1.23e-07
+dof_inner 127312,  dof_outer: 72123
+------------------------------
+h                |err_uH           order            |
+1.00e-01         |1.74e-04         0.00e+00         |
+5.00e-02         |4.25e-05         2.03e+00         |
+2.50e-02         |1.04e-05         2.03e+00         |
+1.25e-02         |2.57e-06         2.02e+00         |
+------------------------------
+h                |err_uH*          order            |
+1.00e-01         |5.31e-06         0.00e+00         |
+5.00e-02         |5.94e-07         3.16e+00         |
+2.50e-02         |6.20e-08         3.26e+00         |
+1.25e-02         |7.52e-09         3.04e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.31e+04         |5.13e-06         0.00e+00         |
+2.69e+04         |7.80e-07         5.22e+00         |
+6.48e+04         |1.75e-07         3.41e+00         |
+1.99e+05         |5.15e-08         2.17e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |3.09e-03         0.00e+00         |4.34e-03         7.12e-01         |1.25e-03         0.00e+00         |
+5.00e-02         |5.81e-04         2.41e+00         |5.96e-04         9.75e-01         |1.49e-05         6.39e+00         |
+2.50e-02         |1.07e-04         2.44e+00         |7.90e-05         1.35e+00         |2.77e-05         -8.99e-01        |
+1.25e-02         |1.90e-05         2.49e+00         |1.03e-05         1.85e+00         |8.77e-06         1.66e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.31e+04         |5.65e-04         0.00e+00         |5.65e-04         1.00e+00         |2.47e-07         0.00e+00         |
+2.69e+04         |2.59e-04         2.16e+00         |2.59e-04         1.00e+00         |6.14e-08         3.86e+00         |
+6.48e+04         |4.28e-05         4.11e+00         |4.28e-05         1.00e+00         |1.04e-08         4.05e+00         |
+1.99e+05         |5.84e-06         3.54e+00         |5.84e-06         1.00e+00         |1.75e-09         3.17e+00         |
+Total time 0 h 4 min 57.0 s
+
+
+% dist = 2k+1 element
+
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 2.27e-06 err_outer: 3.09e-06
+err_inner/sqrt(inn_area): 4.01e-06, err_outer/sqrt(out_area): 3.75e-06
+dof_inner 792,  dof_outer: 12936
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 8.19e-07 err_outer: 9.28e-07
+err_inner/sqrt(inn_area): 1.03e-06, err_outer/sqrt(out_area): 1.53e-06
+dof_inner 6112,  dof_outer: 18966
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 2.71e-07 err_outer: 3.02e-07
+err_inner/sqrt(inn_area): 3.01e-07, err_outer/sqrt(out_area): 6.89e-07
+dof_inner 31152,  dof_outer: 25242
+
+--------------------------------
+Coarse mesh 4, H=1.25e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+err_inner: 8.86e-08 err_outer: 9.94e-08
+err_inner/sqrt(inn_area): 9.33e-08, err_outer/sqrt(out_area): 3.17e-07
+dof_inner 138832,  dof_outer: 37314
+------------------------------
+h                |err_uH           order            |
+1.00e-01         |1.57e-04         0.00e+00         |
+5.00e-02         |4.95e-05         1.66e+00         |
+2.50e-02         |1.57e-05         1.65e+00         |
+1.25e-02         |5.01e-06         1.65e+00         |
+------------------------------
+h                |err_uH*          order            |
+1.00e-01         |4.01e-06         0.00e+00         |
+5.00e-02         |1.03e-06         1.96e+00         |
+2.50e-02         |3.01e-07         1.78e+00         |
+1.25e-02         |9.33e-08         1.69e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.37e+04         |3.84e-06         0.00e+00         |
+2.51e+04         |1.24e-06         3.75e+00         |
+5.64e+04         |4.06e-07         2.75e+00         |
+1.76e+05         |1.33e-07         1.96e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |3.09e-03         0.00e+00         |4.34e-03         7.12e-01         |1.25e-03         0.00e+00         |
+5.00e-02         |5.81e-04         2.41e+00         |5.96e-04         9.75e-01         |1.49e-05         6.39e+00         |
+2.50e-02         |1.07e-04         2.44e+00         |7.90e-05         1.35e+00         |2.77e-05         -8.99e-01        |
+1.25e-02         |1.90e-05         2.49e+00         |1.03e-05         1.85e+00         |8.77e-06         1.66e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.37e+04         |9.41e-04         0.00e+00         |9.41e-04         1.00e+00         |3.15e-07         0.00e+00         |
+2.51e+04         |2.09e-04         5.00e+00         |2.09e-04         1.00e+00         |5.50e-08         5.79e+00         |
+5.64e+04         |3.16e-05         4.66e+00         |3.16e-05         1.00e+00         |8.83e-09         4.52e+00         |
+1.76e+05         |3.96e-06         3.65e+00         |3.96e-06         1.00e+00         |1.39e-09         3.25e+00         |
+Total time 0 h 4 min 9.1 s
+
+
+diary off
