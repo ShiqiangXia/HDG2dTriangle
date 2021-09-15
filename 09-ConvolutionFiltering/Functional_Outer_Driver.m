@@ -17,6 +17,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
     mesh_list = zeros(Nadapt,1,numeric_t);
     
     err_list = zeros(Nadapt,1,numeric_t);
+    test_data_list = zeros(Nadapt,1,numeric_t);
     
     tri_list  = zeros(Nadapt,1,numeric_t); % record # of triangles for each mesh
     cprintf('blue','adaptive steps \n');
@@ -80,6 +81,12 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
                                                   uh,qh,uhat,source_f,...
                                                   vh,ph,vhat,source_g,...
                                                   GQ1DRef_pts,GQ1DRef_wts,poly_order,para.tau ,0);
+                                              
+            [J_exact_outer,J_exact_elewise_outer]= Exact_Functional(pb_type(4),para.pb_parameters,...
+                                    mymesh,GQ1DRef_pts,GQ1DRef_wts);
+            diff = J_exact_elewise_outer -  Jh_elewise_list;                   
+            %PlotElementWiseValue(mymesh,diff,'J-Jh2k elementwise' );
+                                              
             %{
             Jh_list(ii) = Jh;
             Jh_AC_list(ii) = Jh_AC;
@@ -162,14 +169,14 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
         [err_outer,~] = L2Error_scalar(mymesh,uh,...
                     GQ1DRef_pts,GQ1DRef_wts,0,...
                     poly_order,uexact);
-        err_list(ii) = sqrt(err_outer^2 + err_inner^2);
-        
-        fprintf('err_inner: %.4e\n',err_inner-ACh_inner);
-        fprintf('Jh_outer+ACh_outer: %.4e \n', Jh+ACh);
-        
-        fprintf('err: %.4e  ACh: %.4e \n', err_inner-Jh, ACh_inner+ACh);
-        fprintf('Dff: %.4e\n',err_inner-Jh - ACh_inner-ACh)
-        
+%         err_list(ii) = sqrt(err_outer^2 + err_inner^2);
+%         
+%         fprintf('err_inner: %.4e\n',err_inner-ACh_inner);
+%         fprintf('Jh_outer+ACh_outer: %.4e \n', Jh+ACh);
+%         
+%         fprintf('err: %.4e  ACh: %.4e \n', err_inner-Jh, ACh_inner+ACh);
+%         fprintf('Dff: %.4e\n',err_inner-Jh - ACh_inner-ACh)
+        test_data_list(ii) = err_inner - Jh - ACh_inner - ACh;
 %         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
 %             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
 %             break
@@ -178,6 +185,12 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 
 
     end
+    
+    figure
+    plot(1:Nadapt, log10(abs(test_data_list)), '--rx');
+    
+    figure
+    plot(1:Nadapt-1,test_data_list(1:end-1)-test_data_list(2:end),'--b*')
     
 %     figure;
 %     mesh_list = mesh_list + ndof_inner;

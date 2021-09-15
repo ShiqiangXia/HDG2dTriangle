@@ -1,8 +1,8 @@
-function [J_exact,Jh_elewise]= Exact_Functional(func_type,para,...
+function [J_exact,J_exact_elewise]= Exact_Functional(func_type,para,...
                                     mymesh,GQ1DRef_pts,GQ1DRef_wts)
     NGQ = length(GQ1DRef_pts);
     num_elements = mymesh.num_elements;
-    Jh_elewise = zeros(num_elements,1,numeric_t);
+    J_exact_elewise = zeros(num_elements,1,numeric_t);
     
     if strcmp(func_type,'1')  % J(u) = (u,g)
         % need uexact, and source_g
@@ -17,6 +17,7 @@ function [J_exact,Jh_elewise]= Exact_Functional(func_type,para,...
         [r_list,s_list] = ABtoRS(a_list,b_list);
         
         J_exact = 0.0;
+        
         % compute (u,g) over the mesh elementes
         for element_idx = 1: num_elements
             
@@ -32,7 +33,7 @@ function [J_exact,Jh_elewise]= Exact_Functional(func_type,para,...
             uexact_pts = uexact([x_list,y_list]);
             uexact_pts = reshape(uexact_pts,[],NGQ);
             temp_int = Jk*GQ1DRef_wts'*(g_VD.*uexact_pts.*Jacobian_rs_to_ab)*GQ1DRef_wts;
-            Jh_elewise(element_idx,1) = temp_int ;
+            J_exact_elewise(element_idx,1) = temp_int ;
             J_exact = J_exact + temp_int;
                   
             

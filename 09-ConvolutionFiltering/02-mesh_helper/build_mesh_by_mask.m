@@ -1,4 +1,4 @@
-function mymesh = build_mesh_by_mask(dom_type,coarse_mesh,mask,Nx_coarse,Ny_coarse)
+function mymesh = build_mesh_by_mask(dom_type,coarse_mesh,mask,mask_flag, Nx_coarse,Ny_coarse)
     
     if strcmp(dom_type,'Rec')
         %relation_mat = BuildRelationof2Meshes(coarse_mesh, coarse_mesh);
@@ -6,7 +6,7 @@ function mymesh = build_mesh_by_mask(dom_type,coarse_mesh,mask,Nx_coarse,Ny_coar
         Nsquare = Ny_coarse * Nx_coarse;
         for j = 1:Ny_coarse
             for i = 1:Nx_coarse
-                if mask(j,i) == 1
+                if mask(j,i) == mask_flag
                     square_idx = (j-1)*Nx_coarse + i;
                     %temp_element_list = [relation_mat{square_idx},relation_mat{square_idx + Nsquare}];
                     temp_element_list = [square_idx,square_idx + Nsquare];
