@@ -377,6 +377,10 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             out_flag = 1;
             outer_mesh = build_mesh_by_mask(para.dom_type,coarse_mesh, mask, out_flag, Nx_coarse,Ny_coarse);
             %outer_mesh.PlotElement(0)
+            
+            outer_area = (outer_mesh.num_elements)/2 *hx*hy;
+            % inner area = 1 - outter area
+            inner_area = 1-outer_area;
             % ------------------------------------------------------------
             
            
@@ -459,6 +463,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         grad_vH_star_x_GQ, grad_vH_star_y_GQ,...
                         GQ1DRef_wts...
                         );
+                    ave_err_inner_estimate = err_inner_estimate/(inner_area);
                 else
                     err_inner_estimate = 0;
                     
@@ -471,22 +476,24 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 
                 %%%%%%%%%%%%%%%%%%%%%%
                 % compute error in the interior domain
-                qexact_1_GQ = GetUexactGQpts(qexact_1, GQ_x, GQ_y);
-                qexact_2_GQ = GetUexactGQpts(qexact_2, GQ_x, GQ_y);
-                pexact_1_GQ = GetUexactGQpts(pexact_1, GQ_x, GQ_y);
-                pexact_2_GQ = GetUexactGQpts(pexact_2, GQ_x, GQ_y);
-                [Eh_inner,Eh_inner_elmtwise] = LinearFunctonal_inner_error(...
-                    qexact_1_GQ,qexact_2_GQ,-grad_uH_star_x_GQ,-grad_uH_star_y_GQ,...
-                    pexact_1_GQ,pexact_2_GQ, -grad_vH_star_x_GQ, -grad_vH_star_y_GQ,...
-                    uH_star_inner.Nx,uH_star_inner.Ny,uH_star_inner.mask,...
-                    GQ1DRef_wts, uH_star_inner.hx, uH_star_inner.hy );
-                fprintf('Eh_inner: %.2e   Eh_inner_esti: %.2e\n',Eh_inner,err_inner_estimate);
+%                 qexact_1_GQ = GetUexactGQpts(qexact_1, GQ_x, GQ_y);
+%                 qexact_2_GQ = GetUexactGQpts(qexact_2, GQ_x, GQ_y);
+%                 pexact_1_GQ = GetUexactGQpts(pexact_1, GQ_x, GQ_y);
+%                 pexact_2_GQ = GetUexactGQpts(pexact_2, GQ_x, GQ_y);
+%                 [Eh_inner,Eh_inner_elmtwise] = LinearFunctonal_inner_error(...
+%                     qexact_1_GQ,qexact_2_GQ,-grad_uH_star_x_GQ,-grad_uH_star_y_GQ,...
+%                     pexact_1_GQ,pexact_2_GQ, -grad_vH_star_x_GQ, -grad_vH_star_y_GQ,...
+%                     uH_star_inner.Nx,uH_star_inner.Ny,uH_star_inner.mask,...
+%                     GQ1DRef_wts, uH_star_inner.hx, uH_star_inner.hy );
+%                 fprintf('Eh_inner: %.2e   Eh_inner_esti: %.2e\n',Eh_inner,err_inner_estimate);
+%                 
+%                 
                 %%%%%%%%%%%%%%%%%%%%%%
                 % solve adaptively on the outer mesh
                 [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
                     Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
                     func_uH_star_inner,func_vH_star_inner,...%uexact,func_vH_star_inner,...%
-                    N_outer_adap_steps,J_exact- Jh_star_inner,ACh_star_inner,err_inner_estimate);
+                    N_outer_adap_steps,J_exact- Jh_star_inner,ACh_star_inner,err_inner_estimate,ave_err_inner_estimate,outer_area);
                 
                 % compute error
                 err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner-Jh_outer);
@@ -516,8 +523,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 uexact_GQ_pts = get_inner_domain_data(para.dom_type, uexact_GQ_pts,Nx_coarse, Ny_coarse, mask);
                 uH_square_GQpts = get_inner_domain_data(para.dom_type, uH_square_GQpts,Nx_coarse, Ny_coarse, mask);
 
-                % inner area = 1 - outter area
-                inner_area = 1-(outer_mesh.num_elements)/2 *hx*hy;
+                
                 % ------------------------------------------------------------
                 
                 % L2 error on the inner domain

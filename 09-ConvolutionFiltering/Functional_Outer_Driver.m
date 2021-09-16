@@ -1,7 +1,7 @@
 function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mesh,...
         para, poly_order,...
         uH_star_inner,vH_star_inner,...
-        Nadapt,err_inner,ACh_inner,err_inner_estimate)
+        Nadapt,err_inner,ACh_inner,err_inner_estimate,ave_err_inner_estimate,outer_area)
     pb_type = num2str(para.pb_type);
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     
@@ -189,10 +189,17 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 %         
         err_data_list(ii) = err_J_total;
         err_esti_list(ii) = err_J_estimate;
+        
+        ave_err_outer_estimate = err_outer_estimate/outer_area;
+        if abs(ave_err_outer_estimate)<abs(ave_err_inner_estimate)
+            fprintf('ave inner error:  %.2e     ave outer error:  %.2e\n',abs(ave_err_inner_estimate), abs(ave_err_outer_estimate))
+            break;
+        end
 %         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
 %             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
 %             break
-%         end        
+%         end  
+
         
 
 
