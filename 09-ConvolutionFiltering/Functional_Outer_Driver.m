@@ -17,8 +17,8 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
     mesh_list = zeros(Nadapt,1,numeric_t);
     
     err_list = zeros(Nadapt,1,numeric_t);
-    test_data_list = zeros(Nadapt,1,numeric_t);
-    
+    err_data_list = zeros(Nadapt,1,numeric_t);
+    err_esti_list = zeros(Nadapt,1,numeric_t);
     tri_list  = zeros(Nadapt,1,numeric_t); % record # of triangles for each mesh
     cprintf('blue','adaptive steps \n');
     
@@ -181,11 +181,14 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 %         fprintf('Dff: %.4e\n',err_inner-Jh - ACh_inner-ACh)
 
         err_J_total = err_inner - ACh_inner - Jh - ACh;
-        err_J_estimate = err_inner_estimate + sum(estimate_functinal_elewise);
+        err_outer_estimate = sum(estimate_functinal_elewise);
+        err_J_estimate = err_inner_estimate+err_outer_estimate ;
         
-%         fprintf('err_J: %.2e   err_J_esti: %.2e\n',err_J_total, err_J_estimate );
+        fprintf('err_J: %.2e   err_J_esti: %.2e\n',err_J_total, err_J_estimate );
+        fprintf('err_esti_inner: %.2e   err_esti_outer: %.2e\n',err_inner_estimate,err_outer_estimate)
 %         
-        test_data_list(ii) = err_J_total;
+        err_data_list(ii) = err_J_total;
+        err_esti_list(ii) = err_J_estimate;
 %         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
 %             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
 %             break
@@ -196,7 +199,9 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
     end
     
     figure
-    plot(1:Nadapt, log10(abs(test_data_list)), '--rx');
+    plot(1:Nadapt, log10(abs(err_data_list)), '--rx');
+    hold on
+    plot(1:Nadapt, log10(abs(err_esti_list)), '--b*');
     
     
     

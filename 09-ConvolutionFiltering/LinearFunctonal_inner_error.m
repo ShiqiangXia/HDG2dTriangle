@@ -1,7 +1,8 @@
-function Eh_inner_elmtwise = LinearFunctonal_inner_error(...
+function [Eh_inner,Eh_inner_elmtwise] = LinearFunctonal_inner_error(...
                     qexact_1_GQ,qexact_2_GQ,qhstar_x_GQ,qhstar_y_GQ,...
                     pexact_1_GQ,pexact_2_GQ, phstar_x_GQ,phstar_y_GQ,...
                     Nx,Ny,mask,GQ1DRef_wts, hx, hy )
+                % compute (q-qhstar,p-phstar)
                 
                 scale_factor = hx * hy * numeric_t('1/4.0');
                 Eh_inner_elmtwise = zeros(1, Nx*Ny,numeric_t);
@@ -18,6 +19,8 @@ function Eh_inner_elmtwise = LinearFunctonal_inner_error(...
                          end
                      end
                 end
+                
+                Eh_inner = sum(Eh_inner_elmtwise);
 
 end
                 

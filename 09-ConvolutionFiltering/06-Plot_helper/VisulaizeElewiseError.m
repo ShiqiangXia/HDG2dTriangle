@@ -17,7 +17,7 @@ function J_exact_inner = VisulaizeElewiseError(...
          end
        end
        
-       figure;
-       plot(1:Nx*Ny,data1,'--rx');
-       legend('J-Jh_star_inner')
+%        figure;
+%        plot(1:Nx*Ny,data1,'--rx');
+%        legend('J-Jh_star_inner')
 end

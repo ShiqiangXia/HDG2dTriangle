@@ -150,8 +150,8 @@ classdef DG_class_square
                         temp_uh_coeff = obj.dg_coeff(:,:,temp_ele_id);
                         temp_grad_uh_x = Dv_x * temp_uh_coeff * Lv_y' * 2.0/obj.hx;
                         temp_grad_uh_y = Lv_x * temp_uh_coeff * Dv_y'* 2.0/obj.hy;
-                        grad_uh_x(:,:,temp_ele_id) = temp_grad_uh_x;
-                        grad_uh_y(:,:,temp_ele_id) = temp_grad_uh_y;
+                        grad_uh_x(:,:,temp_ele_id) = temp_grad_uh_x';
+                        grad_uh_y(:,:,temp_ele_id) = temp_grad_uh_y';
 
                     end
                 end
