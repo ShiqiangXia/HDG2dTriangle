@@ -1,7 +1,7 @@
 function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mesh,...
         para, poly_order,...
         uH_star_inner,vH_star_inner,...
-        Nadapt,err_inner,ACh_inner,area)
+        Nadapt,err_inner,ACh_inner,err_inner_estimate)
     pb_type = num2str(para.pb_type);
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     
@@ -123,7 +123,8 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 
         end
         % HDG local post-processing for error estimation
-        if para.post_process_flag == 1 
+        post_process_flag = 1;
+        if post_process_flag == 1 
 
             if strcmp(pb_type(2),'0') && (strcmp(pb_type(4),'1') ||strcmp(pb_type(4),'2'))
                 %%  poission source problem
@@ -153,7 +154,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
             end
         end
 
-        if para.post_process_flag == 1
+        if post_process_flag == 1
             estimate_functinal_elewise = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
         else
             estimate_functinal_elewise = ACh_elewise_list;
@@ -164,6 +165,8 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
             percent = MyParaParse(para.extra_parameters,'percent');
             marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
         end
+        
+%         fprintf('err_esti_out: %.2e\n', sum(estimate_functinal_elewise));
         
         % evaluate the error
         [err_outer,~] = L2Error_scalar(mymesh,uh,...
@@ -176,7 +179,13 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 %         
 %         fprintf('err: %.4e  ACh: %.4e \n', err_inner-Jh, ACh_inner+ACh);
 %         fprintf('Dff: %.4e\n',err_inner-Jh - ACh_inner-ACh)
-        test_data_list(ii) = err_inner - Jh - ACh_inner - ACh;
+
+        err_J_total = err_inner - ACh_inner - Jh - ACh;
+        err_J_estimate = err_inner_estimate + sum(estimate_functinal_elewise);
+        
+%         fprintf('err_J: %.2e   err_J_esti: %.2e\n',err_J_total, err_J_estimate );
+%         
+        test_data_list(ii) = err_J_total;
 %         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
 %             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
 %             break
@@ -189,8 +198,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
     figure
     plot(1:Nadapt, log10(abs(test_data_list)), '--rx');
     
-    figure
-    plot(1:Nadapt-1,test_data_list(1:end-1)-test_data_list(2:end),'--b*')
+    
     
 %     figure;
 %     mesh_list = mesh_list + ndof_inner;

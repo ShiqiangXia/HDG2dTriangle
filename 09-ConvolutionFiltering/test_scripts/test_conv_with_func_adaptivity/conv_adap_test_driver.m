@@ -8,19 +8,24 @@ Min_k = 1;
 Max_k = 1;
 
 % mesh
-h0 = 0.1;
+h0 = 0.05;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
+
 Niter_max = 1; % adaptive steps we do to locate trouble elements
+
 Ncoarse_mesh = 1;% how many coarse mesh
-N_outer_adap_steps = 8;
+
+N_outer_adap_steps = 1;
 
 % other
 tol_adp = 10e-14;
-pp_flag = 0; % post_processing
+
+pp_flag = 1; % post_processing
+
 err_cal_flag = 1;
 
 % data
-smooth_flag = 0; % 1: smooth data; 0: non-smooth
+smooth_flag = 1; % 1: smooth data; 0: non-smooth
 if smooth_flag == 0
     % non-smooth
     pri  = 1;
