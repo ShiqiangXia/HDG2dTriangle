@@ -15,7 +15,7 @@ Niter_max = 1; % adaptive steps we do to locate trouble elements
 
 Ncoarse_mesh = 3;% how many coarse mesh
 
-N_outer_adap_steps = 15;
+N_outer_adap_steps = 10;
 
 % other
 tol_adp = 10e-14;
@@ -25,7 +25,7 @@ pp_flag = 1; % post_processing
 err_cal_flag = 1;
 
 % data
-smooth_flag = 1; % 1: smooth data; 0: non-smooth
+smooth_flag = 0; % 1: smooth data; 0: non-smooth
 if smooth_flag == 0
     % non-smooth
     pri  = 1;
@@ -57,8 +57,8 @@ for order = Min_k:Max_k
 
     %% Test 
     t_start = cputime;
-    test_conv_adapt(para,Ncoarse_mesh, N_outer_adap_steps)
-    
+    %test_conv_adapt(para,Ncoarse_mesh, N_outer_adap_steps)
+    test_conv_adapt_with_extraction(para,Ncoarse_mesh, N_outer_adap_steps)
     % time 
     t_end = cputime - t_start;
     t_h = floor(t_end/3600);

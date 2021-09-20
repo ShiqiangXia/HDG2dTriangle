@@ -46,7 +46,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 
         flag_mesh_plot = 1;
         if flag_mesh_plot==1 && ii==Nadapt
-            mymesh.Plot2(0,"Outer mesh " + num2str(ii));
+%             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
 %                 file_name = "k"+num2str(para.order)+"_outer_Mesh";
 %                 if save_flag == 1
 %                     savefig(gcf,file_name);
@@ -82,9 +82,9 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
                                                   vh,ph,vhat,source_g,...
                                                   GQ1DRef_pts,GQ1DRef_wts,poly_order,para.tau ,0);
                                               
-            [J_exact_outer,J_exact_elewise_outer]= Exact_Functional(pb_type(4),para.pb_parameters,...
-                                    mymesh,GQ1DRef_pts,GQ1DRef_wts);
-            diff = J_exact_elewise_outer -  Jh_elewise_list;                   
+%             [J_exact_outer,J_exact_elewise_outer]= Exact_Functional(pb_type(4),para.pb_parameters,...
+%                                     mymesh,GQ1DRef_pts,GQ1DRef_wts);
+%             diff = J_exact_elewise_outer -  Jh_elewise_list;                   
             %PlotElementWiseValue(mymesh,diff,'J-Jh2k elementwise' );
                                               
             %{
@@ -168,10 +168,10 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
         
 %         fprintf('err_esti_out: %.2e\n', sum(estimate_functinal_elewise));
         
-        % evaluate the error
-        [err_outer,~] = L2Error_scalar(mymesh,uh,...
-                    GQ1DRef_pts,GQ1DRef_wts,0,...
-                    poly_order,uexact);
+%         % evaluate the error
+%         [err_outer,~] = L2Error_scalar(mymesh,uh,...
+%                     GQ1DRef_pts,GQ1DRef_wts,0,...
+%                     poly_order,uexact);
 %         err_list(ii) = sqrt(err_outer^2 + err_inner^2);
 %         
 %         fprintf('err_inner: %.4e\n',err_inner-ACh_inner);
@@ -193,12 +193,10 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
         ave_err_outer_estimate = err_outer_estimate/outer_area;
         if abs(ave_err_outer_estimate)<abs(ave_err_inner_estimate)
             fprintf('ave inner error:  %.2e     ave outer error:  %.2e\n',abs(ave_err_inner_estimate), abs(ave_err_outer_estimate))
+            mymesh.Plot2(0,"Outer mesh " + num2str(ii));
             break;
         end
-%         if mesh_list(ii)/(1-area)> 16*ndof_inner/area
-%             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
-%             break
-%         end  
+
 
         
 
@@ -209,6 +207,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
     plot(1:Nadapt, log10(abs(err_data_list)), '--rx');
     hold on
     plot(1:Nadapt, log10(abs(err_esti_list)), '--b*');
+    legend('err','err_est')
     
     
     

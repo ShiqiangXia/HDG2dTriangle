@@ -1,4 +1,4 @@
-function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
+function test_conv_adapt_with_extraction(para,Ncoarse, N_outer_adap_steps )
     %----------------------------------------------------------------------
     %% step 1: set up 
     %----------------------------------------------------------------------
@@ -226,10 +226,10 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                             vH_triangle = vh;
                         end
 
-                        if ii == Niter
-                            uh_final = uh;
-                            vh_final = vh;
-                        end
+%                         if ii == Niter
+%                             uh_final = uh;
+%                             vh_final = vh;
+%                         end
 
 
                     else
@@ -254,11 +254,6 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                             GQ1DRef_pts,GQ1DRef_wts,0,...
                             para.order,qexact_1,qexact_2);
 
-                        %PlotElementWiseValue(mymesh,err_uh_elewise,'err-uh elementwise' );
-                        %[err_Jh_list(ii),err_Jh_AC_list(ii),err_Jh_elewise] ...
-                        %   = Error_Functional(pb_type(4),para.pb_parameters,mymesh,GQ1DRef_pts,GQ1DRef_wts,Jh,Jh_AC,Jh_elewise_list);
-
-                        
                         [J_exact,J_exact_elewise_tri]= Exact_Functional(pb_type(4),para.pb_parameters,...
                                     mymesh,GQ1DRef_pts,GQ1DRef_wts);
                         err_Jh_fine_list(ii) = J_exact - Jh;
@@ -281,53 +276,21 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
                     if strcmp(pb_type(2),'0') && (strcmp(pb_type(4),'1') ||strcmp(pb_type(4),'2'))
                         %%  poission source problem
-
-                        [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
-                        [vhstar,phstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,vh,ph,vhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
+% 
+%                         [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
+%                         [vhstar,phstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,vh,ph,vhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
+%                         
+                        % compute uhstar as HDG k+1
                         
-%                         [uhstar,~,~] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
-%                         para.order+1, para.tau,source_f,uD,uN);
-% 
-%                         [vhstar,~,~] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
-%                         para.order+1, para.tau,source_g,vD,vN);
+                        [uhstar,~,~] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                        para.order+1, para.tau,source_f,uD,uN);
 
-%                         err_uhstar_list(ii) = L2Error_scalar(mymesh,uhstar,...
-%                             GQ1DRef_pts,GQ1DRef_wts,1,...
-%                             para.order,uexact);
-% 
-%                         err_qhstar_list(ii)= L2Error_vector(mymesh,qhstar,...
-%                            GQ1DRef_pts,GQ1DRef_wts,1,...
-%                             para.order,qexact_1,qexact_2);
-%                         if posterior_estimate_method == 2
-%                             [est_terms_sum,est1,est2,est3,est4,est5,pos1,pos2,pos3,pos4]=...
-%                                 Functional_Eh_Estimate_Residual_method(pb_type(4),pb_type(3),mymesh,...
-%                                 uhstar,qhstar,source_f,...
-%                                 vhstar,phstar,source_g,...
-%                                 uh,qh,uhat,...
-%                                 vh,ph,vhat,...
-%                                 GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau,uexact);
-% 
-%                             est_terms_sum_list(ii) = sum(est_terms_sum);
-%                         end
+                        [vhstar,~,~] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+                        para.order+1, para.tau,source_g,vD,vN);
+
+
                     end
                 end
-                %{
-%                 if para.post_process_flag == 1 && Niter>1
-%                     estimate_functinal_elewise = est_terms_sum+ACh_elewise_list;%+est_terms_sum ;%+%;
-%                 else
-%                     estimate_functinal_elewise = ACh_elewise_list;
-%                 end
-% 
-%                 estimate_sum_abs_list(ii) = sum(abs(estimate_functinal_elewise));
-%                 
-%                 % adaptive mesh refinement
-%                 if para.refine_flag > 0 && Niter>1
-%                     percent = MyParaParse(para.extra_parameters,'percent');
-%                     marked_elements = ACh_ErrEstimate(estimate_functinal_elewise,tol_adp,percent,mark_flag);
-%                 end
-                %}
-
-
             end
 
         %----------------------------------------------------------------------
@@ -339,6 +302,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             err_Jh_AC_coarse_list(jj) = abs(err_Jh_AC_fine_list(Niter));
             ACh_coarse_list(jj) = ACh_list(Niter);
             
+            % ------------------------------------------------------------
+            % get basic mesh info
             [GQ_x, GQ_y, hx, hy,Nx_coarse,Ny_coarse] = GetPhyGQPts(para.structure_flag,para.dom_type,...
                     h_coarse,GQ1DRef_pts, para.geo_parameters{:});
                 
@@ -351,8 +316,24 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
             N_corner_x = ceil(order1_dist/hx);
             N_corner_y = ceil(order1_dist/hy);
-
-            % project uH_triagnle to uH_square
+            
+            % ------------------------------------------------------------
+            % build an outer mesh
+            order1_elements = get_order1_elements(1,1,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
+            mask = build_mesh_mask(para.dom_type, Nx_coarse, Ny_coarse, N_bd, order1_elements);
+            out_flag = 1;
+            outer_mesh = build_mesh_by_mask(para.dom_type,coarse_mesh, mask, out_flag, Nx_coarse,Ny_coarse);
+            %outer_mesh.PlotElement(0)
+            
+            outer_area = (outer_mesh.num_elements)/2 *hx*hy;
+            % inner area = 1 - outter area
+            inner_area = 1-outer_area;
+            % ------------------------------------------------------------
+            
+            
+            % ------------------------------------------------------------
+            % project uH_triagnle(Pk) to uH_square (Qk)
+            %{
             uH_square = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,coarse_mesh,...
                     uH_triangle,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
             vH_square = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,coarse_mesh,...
@@ -366,29 +347,25 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
             uH_square_GQpts = GetUhProjGQpts(uH_square,poly_proj,GQ1DRef_pts); 
             vH_square_GQpts = GetUhProjGQpts(vH_square,poly_proj,GQ1DRef_pts); 
-            
+            %}
             % ------------------------------------------------------------
             if para.post_process_flag == 1
-            uH_local_post_square = GetUhL2ProjectionCoarseMesh(poly_k+1,coarse_mesh,coarse_mesh,...
-                    uhstar,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
-            vH_local_post_square = GetUhL2ProjectionCoarseMesh(poly_k+1,coarse_mesh,coarse_mesh,...
-                    vhstar,GQ1DRef_pts, GQ1DRef_wts,hx,hy); 
+                % Project P_{k+1} tp Q_{k+1}
+                uH_local_post_square = GetUhL2ProjectionCoarseMesh(poly_k+1,coarse_mesh,coarse_mesh,...
+                        uhstar,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
+                vH_local_post_square = GetUhL2ProjectionCoarseMesh(poly_k+1,coarse_mesh,coarse_mesh,...
+                        vhstar,GQ1DRef_pts, GQ1DRef_wts,hx,hy); 
+
+                %r_ind = QkHierarchical_indx(poly_k+1, poly_k);
+                % extrac Q_{k} as uH_square
+                % Nk = k+1
+                uH_square = uH_local_post_square(1:poly_k+1,1:poly_k+1,:);
+                vH_square  = vH_local_post_square(1:poly_k+1,1:poly_k+1,:);
+                uH_square_GQpts = GetUhProjGQpts(uH_square,poly_proj,GQ1DRef_pts); 
+                vH_square_GQpts = GetUhProjGQpts(vH_square,poly_proj,GQ1DRef_pts); 
+
             end
-            
-            
-            
-            % ------------------------------------------------------------
-            order1_elements = get_order1_elements(1,1,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
-            mask = build_mesh_mask(para.dom_type, Nx_coarse, Ny_coarse, N_bd, order1_elements);
-            out_flag = 1;
-            outer_mesh = build_mesh_by_mask(para.dom_type,coarse_mesh, mask, out_flag, Nx_coarse,Ny_coarse);
-            %outer_mesh.PlotElement(0)
-            
-            outer_area = (outer_mesh.num_elements)/2 *hx*hy;
-            % inner area = 1 - outter area
-            inner_area = 1-outer_area;
-            % ------------------------------------------------------------
-            
+           
            
             if flag_conv == 1
                 
@@ -399,20 +376,20 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                         vH_square, Nx_coarse, Ny_coarse, mask, Conv_matrix);
                     
                 if para.post_process_flag == 1
-                M_uh_local_post_conv = ConvolutionFiltering(para.dom_type,spline_degree,...
-                        uH_local_post_square, Nx_coarse, Ny_coarse, mask, Conv_matrix_local_post);
-                M_vh_local_post_conv = ConvolutionFiltering(para.dom_type,spline_degree,...
-                        vH_local_post_square, Nx_coarse, Ny_coarse, mask, Conv_matrix_local_post);
-                uH_local_post_star_inner = DG_class_square(2*poly_proj+2,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
-                uH_local_post_star_inner = uH_local_post_star_inner.set_dg_gq_pts(M_uh_local_post_conv);
-                
-                vH_local_post_star_inner = DG_class_square(2*poly_proj+2,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
-                vH_local_post_star_inner = vH_local_post_star_inner.set_dg_gq_pts(M_vh_local_post_conv);
-                
-                [grad_uH_local_post_star_x_GQ, grad_uH_local_post_star_y_GQ]...
-                    = uH_local_post_star_inner.get_DG_grad_pts(GQ1DRef_pts,GQ1DRef_pts);
-                [grad_vH_local_post_star_x_GQ, grad_vH_local_post_star_y_GQ]...
-                    = vH_local_post_star_inner.get_DG_grad_pts(GQ1DRef_pts,GQ1DRef_pts);
+                    M_uh_local_post_conv = ConvolutionFiltering(para.dom_type,spline_degree,...
+                            uH_local_post_square, Nx_coarse, Ny_coarse, mask, Conv_matrix_local_post);
+                    M_vh_local_post_conv = ConvolutionFiltering(para.dom_type,spline_degree,...
+                            vH_local_post_square, Nx_coarse, Ny_coarse, mask, Conv_matrix_local_post);
+                    uH_local_post_star_inner = DG_class_square(2*poly_proj+2,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
+                    uH_local_post_star_inner = uH_local_post_star_inner.set_dg_gq_pts(M_uh_local_post_conv);
+
+                    vH_local_post_star_inner = DG_class_square(2*poly_proj+2,hx,hy,Nx_coarse,Ny_coarse,GQ1DRef_pts,mask);
+                    vH_local_post_star_inner = vH_local_post_star_inner.set_dg_gq_pts(M_vh_local_post_conv);
+
+                    [grad_uH_local_post_star_x_GQ, grad_uH_local_post_star_y_GQ]...
+                        = uH_local_post_star_inner.get_DG_grad_pts(GQ1DRef_pts,GQ1DRef_pts);
+                    [grad_vH_local_post_star_x_GQ, grad_vH_local_post_star_y_GQ]...
+                        = vH_local_post_star_inner.get_DG_grad_pts(GQ1DRef_pts,GQ1DRef_pts);
                 end
                     
 
@@ -460,6 +437,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     GQ1DRef_wts, uH_star_inner.hx, uH_star_inner.hy);
                 
                 if para.post_process_flag == 1
+                    % compute a heuristic error estimator
                     err_inner_estimate = FuncErrInnerEstimate(...
                         uH_star_inner.mask,uH_star_inner.Nx,uH_star_inner.Ny,...
                         uH_star_inner.hx, uH_star_inner.hy,...
@@ -472,7 +450,6 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     ave_err_inner_estimate = err_inner_estimate/(inner_area);
                 else
                     err_inner_estimate = 0;
-                    
                 end
                 
                 J_exact_inner = VisulaizeElewiseError(...
@@ -525,20 +502,15 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 % ------------------------------------------------------------
                 % set up
                 uexact_GQ_pts = GetUexactGQpts(uexact, GQ_x, GQ_y);
-                % only consider the inner domain
-                uexact_GQ_pts = get_inner_domain_data(para.dom_type, uexact_GQ_pts,Nx_coarse, Ny_coarse, mask);
-                uH_square_GQpts = get_inner_domain_data(para.dom_type, uH_square_GQpts,Nx_coarse, Ny_coarse, mask);
-
                 
-                % ------------------------------------------------------------
-                
-                % L2 error on the inner domain
+                % L2 error on the whole domain (square mesh)
                 err_uH = L2Error_scalar_Square(uH_square_GQpts,...
                         uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                 
-                err_uH_list(jj) =   err_uH/sqrt(inner_area);
+                err_uH_list(jj) =   err_uH;
                 
-                
+                % ------------------------------------------------------------
+ 
                 flag_plot_diff_no_postprocess = 0;
                 if flag_plot_diff_no_postprocess == 1 && jj== Ncoarse
 
@@ -555,6 +527,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 if flag_conv == 1
                     
                     % L2 error of uhstar on inner domain
+                    % now only consider the inner domain
+                    uexact_GQ_pts = get_inner_domain_data(para.dom_type, uexact_GQ_pts,Nx_coarse, Ny_coarse, mask);
                     err_uHstar = L2Error_scalar_Square(M_uh_conv,...
                             uexact_GQ_pts, GQ1DRef_wts, hx, hy);
                     err_uH_star_list(jj) = err_uHstar/sqrt(inner_area);
@@ -611,17 +585,17 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         % ------------------------------------------------------------
         order_uH        = GetOrderH(h0_list,err_uH_list);
         ReportTable('h', h0_list,...
-                    'err_uH', err_uH_list, 'order',order_uH)
+                    'err_uH_Om', err_uH_list, 'order',order_uH)
                 
         if flag_conv == 1
             order_uH_star   = GetOrderH(h0_list,err_uH_star_list);
             ReportTable('h', h0_list,...
-                        'err_uH*', err_uH_star_list, 'order',order_uH_star)
+                        'err_uH*_inner', err_uH_star_list, 'order',order_uH_star)
  
             order_uH_star_comp = GetOrder(mesh_comp_list,err_uH_star_comp_list);
             
             ReportTable('DoF',mesh_comp_list,...
-                'err_uH*_comp',err_uH_star_comp_list,'order',order_uH_star_comp)
+                'err_uH*_comp_Om',err_uH_star_comp_list,'order',order_uH_star_comp)
             
             
             
