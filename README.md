@@ -15,6 +15,8 @@ output functionals on 2D triangle meshes.
 
 5. Adaptive mesh refinement
 
+6. Combination of adaptive strategy with congnvolution filtering 
+
 ## To test the code
 
 ### 1. Adaptive  HDG
