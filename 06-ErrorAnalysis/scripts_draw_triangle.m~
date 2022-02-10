@@ -1,6 +1,6 @@
 
-start_x = 2.1;
-start_y = -9.5;
+start_x = 2;
+start_y = -9;
 dx = 0.15;
 end_x = start_x + dx;
 

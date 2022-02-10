@@ -284,7 +284,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 
                         [uhstar,qhstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,uh,qh,uhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
                         [vhstar,phstar] = HDG_Local_Postprocess_Elliptic(mymesh,para.order,vh,ph,vhat,para.tau,GQ1DRef_pts,GQ1DRef_wts);
-                        
+                        %{
 %                         [uhstar,~,~] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
 %                         para.order+1, para.tau,source_f,uD,uN);
 % 
@@ -309,7 +309,9 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
 % 
 %                             est_terms_sum_list(ii) = sum(est_terms_sum);
 %                         end
+                        %}
                     end
+                        
                 end
                 %{
 %                 if para.post_process_flag == 1 && Niter>1

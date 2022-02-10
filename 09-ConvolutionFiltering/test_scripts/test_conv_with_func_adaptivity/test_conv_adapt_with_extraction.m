@@ -215,16 +215,16 @@ function test_conv_adapt_with_extraction(para,Ncoarse, N_outer_adap_steps )
                     %%  need to solve Primal and Adjoint two problems
                     if strcmp(pb_type(3),'1') % Solve Poission source problem
                         
-                        [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
-                        para.order, para.tau,source_f,uD,uN);
-
-                        [vh,ph,vhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
-                        para.order, para.tau,source_g,vD,vN);
-
-                        if ii == 1
-                            uH_triangle = uh;
-                            vH_triangle = vh;
-                        end
+%                         [uh,qh,uhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+%                         para.order, para.tau,source_f,uD,uN);
+% 
+%                         [vh,ph,vhat] = HDG_SourcePbSolver_Elliptic(pb_type(3),mymesh,GQ1DRef_pts, GQ1DRef_wts,...
+%                         para.order, para.tau,source_g,vD,vN);
+% 
+%                         if ii == 1
+%                             uH_triangle = uh;
+%                             vH_triangle = vh;
+%                         end
 
 %                         if ii == Niter
 %                             uh_final = uh;
@@ -232,42 +232,42 @@ function test_conv_adapt_with_extraction(para,Ncoarse, N_outer_adap_steps )
 %                         end
 
 
-                    else
-                        error('Wrong problem type.')
-                    end
-
-                    [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_elewise_list] = LinearFunctional_Elliptic(pb_type(4),pb_type(3),mymesh,...
-                                                          uh,qh,uhat,source_f,...
-                                                          vh,ph,vhat,source_g,...
-                                                          GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
-                    Jh_list(ii) = Jh;
-                    Jh_AC_list(ii) = Jh_AC;
-                    ACh_list(ii) = ACh;
-                    % Calculate error
-                    if err_cal_flag==1
-                        % error of uh, qh
-                        [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
-                            GQ1DRef_pts,GQ1DRef_wts,0,...
-                            para.order,uexact);
-
-                        [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
-                            GQ1DRef_pts,GQ1DRef_wts,0,...
-                            para.order,qexact_1,qexact_2);
-
+%                     else
+%                         error('Wrong problem type.')
+%                     end
+% 
+%                     [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_elewise_list] = LinearFunctional_Elliptic(pb_type(4),pb_type(3),mymesh,...
+%                                                           uh,qh,uhat,source_f,...
+%                                                           vh,ph,vhat,source_g,...
+%                                                           GQ1DRef_pts,GQ1DRef_wts,para.order,para.tau ,0);
+%                     Jh_list(ii) = Jh;
+%                     Jh_AC_list(ii) = Jh_AC;
+%                     ACh_list(ii) = ACh;
+%                     % Calculate error
+%                     if err_cal_flag==1
+%                         % error of uh, qh
+%                         [err_uh_list(ii),~] = L2Error_scalar(mymesh,uh,...
+%                             GQ1DRef_pts,GQ1DRef_wts,0,...
+%                             para.order,uexact);
+% 
+%                         [err_qh_list(ii),~] = L2Error_vector(mymesh,qh,...
+%                             GQ1DRef_pts,GQ1DRef_wts,0,...
+%                             para.order,qexact_1,qexact_2);
+% 
                         [J_exact,J_exact_elewise_tri]= Exact_Functional(pb_type(4),para.pb_parameters,...
                                     mymesh,GQ1DRef_pts,GQ1DRef_wts);
-                        err_Jh_fine_list(ii) = J_exact - Jh;
-                        err_Jh_AC_fine_list(ii) = J_exact - Jh_AC;
-
-                        
-                        % error vh, ph;
-                        
-                        [err_vh_list(ii),~] = L2Error_scalar(mymesh,vh,...
-                            GQ1DRef_pts,GQ1DRef_wts,0,...
-                            para.order,vexact);
-                        %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
-
-                    end
+%                         err_Jh_fine_list(ii) = J_exact - Jh;
+%                         err_Jh_AC_fine_list(ii) = J_exact - Jh_AC;
+% 
+%                         
+%                         % error vh, ph;
+%                         
+%                         [err_vh_list(ii),~] = L2Error_scalar(mymesh,vh,...
+%                             GQ1DRef_pts,GQ1DRef_wts,0,...
+%                             para.order,vexact);
+%                         %PlotElementWiseValue(mymesh,err_vh_elewise,'err-vh elementwise' );
+% 
+                     end
 
 
                 end
@@ -452,10 +452,10 @@ function test_conv_adapt_with_extraction(para,Ncoarse, N_outer_adap_steps )
                     err_inner_estimate = 0;
                 end
                 
-                J_exact_inner = VisulaizeElewiseError(...
-                    J_exact_elewise_tri,Jh_inner_elewise,ACh_inner_elewise,...
-                    uH_star_inner.mask,uH_star_inner.Nx,uH_star_inner.Ny);
-                
+%                 J_exact_inner = VisulaizeElewiseError(...
+%                     J_exact_elewise_tri,Jh_inner_elewise,ACh_inner_elewise,...
+%                     uH_star_inner.mask,uH_star_inner.Nx,uH_star_inner.Ny);
+%                 
                 
                 %%%%%%%%%%%%%%%%%%%%%%
                 % compute error in the interior domain

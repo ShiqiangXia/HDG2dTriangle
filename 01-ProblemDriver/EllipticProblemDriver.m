@@ -704,7 +704,7 @@ function EllipticProblemDriver(para)
                 My2DTriPlot(mymesh,uh,para.order, GQ1DRef_pts,basis_flag );
             end
             
-            if ii<=Niter
+            if ii<=Niter && 0  % delete && 0 to plot mesh
                 mymesh.Plot(0);
                 if strcmp(pb_type(2),'0') % source problem
                     title_error = err_Jh_list(ii);
@@ -1070,13 +1070,16 @@ function EllipticProblemDriver(para)
                         plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'--rd',...
                             'MarkerSize',10,'LineWidth',1);
                         
-                        %plot(0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'-m*',...
-                        %    'MarkerSize',10,'LineWidth',1);
+                        plot(0.5*log10(mesh_list),log10(abs(err_Jh_AC_Dh)),'-m*',...
+                            'MarkerSize',10,'LineWidth',1);
                         
                         
                         
                         set(gca,'FontSize',15)
-                        legend('$|J(u)-J(u_h)|$','$|\mathcal{E}_h|$','$\mathcal{E}_{h,|\cdot|}$',...
+                        legend('$|J(u)-J(u_h)|$',...
+                            '$|\mathcal{E}_h|$',...
+                            '$\mathcal{E}_{h,|\cdot|}$',...
+                            '$|J(u)-J(u_h)-\mathcal{E}_h|$',...
                             'Interpreter','latex','FontSize',15)
                         
                         xlabel('$\log_{10}(\sqrt{DOF})$','Interpreter','latex');
@@ -1102,27 +1105,30 @@ function EllipticProblemDriver(para)
 
                     end
                     
+                    %%%%%%% Plot Efficitve index %%%%%%%%%%%%%%%%%%%%%%%%%%
                     h=figure;
                    
                     plot(1:ii,r1,'--ks',...
                         'MarkerSize',10,'LineWidth',1)
-%                     hold on; 
-%                     plot(1:ii, r2,'--rd',...
-%                         'MarkerSize',15,'LineWidth',1);
-%                     
+                    hold on; 
+                    
+                    plot(1:ii, r2,'--rd',...
+                        'MarkerSize',10,'LineWidth',1);
+                    
                     set(gca,'FontSize',15)
                     title_text = append('Effectivity index when k = ',num2str(para.order));
                     title({title_text,pb_text_info});
                     xlabel('Mesh');
-                    %legend('$I_{eff}$','$I^{loc}_{eff}$','Interpreter','latex','FontSize',15);
-                    legend('$I_{eff}$','Interpreter','latex','FontSize',15);
+                    legend('$I_{eff}$','$I^{loc}_{eff}$','Interpreter','latex','FontSize',15);
+%                     legend('$I_{eff}$','Interpreter','latex','FontSize',15);
+
                     hold off
                     
                     fig_name = append('I_',my_file_name,num2str(para.order),'.fig');
                     if save_flag == 1
                         savefig(h,fig_name);
                     end
-                    
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                     %{
                     figure;
                     plot(start_id:end_id,abs(Corrected_Dh./err_Jh_list(start_id:end_id)),'--bs');
@@ -1304,12 +1310,15 @@ function EllipticProblemDriver(para)
                         plot(0.5*log10(mesh_list),log10(abs(estimate_sum_abs_list)),'--rd',...
                             'MarkerSize',10,'LineWidth',1);
                         
-                        %plot(0.5*log10(mesh_list),log10(abs(err_lamh_AC_Dh_list)),'-m*',...
-                        %    'MarkerSize',10,'LineWidth',1);
+                        plot(0.5*log10(mesh_list),log10(abs(err_lamh_AC_Dh_list)),'-m*',...
+                            'MarkerSize',10,'LineWidth',1);
                         
                         set(gca,'FontSize',15)
                         
-                        legend('$|\lambda-\lambda_h|$','$|\mathcal{E}_h|$','$\mathcal{E}_{h,|\cdot|}$',...
+                        legend('$|\lambda-\lambda_h|$',...
+                            '$|\mathcal{E}_h|$',...
+                            '$\mathcal{E}_{h,|\cdot|}$',...
+                            '$|\lambda-\lambda_h-\mathcal{E}_h|$',...
                             'Interpreter','latex','FontSize',15)
                         
                         xlabel('$\log_{10}(\sqrt{DOF})$','Interpreter','latex');

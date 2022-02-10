@@ -25,6 +25,10 @@ Run the test scripts  in 00-TestScripts.
 	2. [An a priori error analysis of adjoint-based super-convergent Galerkin approximations of linear functionals](https://academic.oup.com/imajna/advance-article-abstract/doi/10.1093/imanum/draa102/6104058)
 
 ## Some explaination of the code
+To test adpative method, use **test_functional_adaptive_refinement.m** in TestScripts.
+
+To test adaptive+convolution, use **conv_adap_test_driver.m** in 09-ConvolutionFiltering.
+
 00-TestScripts
 
 Example of test scripts to run the code
