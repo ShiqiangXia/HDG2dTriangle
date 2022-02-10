@@ -17,17 +17,18 @@ output functionals on 2D triangle meshes.
 
 ## To test the code
 
-To test adpative method, use **test_functional_adaptive_refinement.m** in 00-TestScripts.
-* Triangle mesh ---> HDG 
-* Error Approximation using HDG local postprocessing
-* Refine mesh --> repeat
-
-To test adaptive+convolution, use **conv_adap_test_driver.m** in 09-ConvolutionFiltering.
-* Triangle mesh --> HDG
-* Project to background square mesh
-* Convolve the inner part 
-* Error approx the outer triangle mesh
-* Apative refine the outer mesh untill error small enough
+### 1. Adaptive  HDG
+Use **test_functional_adaptive_refinement.m** in 00-TestScripts.
+    * Triangle mesh ---> HDG 
+    * Error Approximation using HDG local postprocessing
+    * Refine mesh --> repeat
+### 2. Adaptive HDG + Convolution
+Use **conv_adap_test_driver.m** in 09-ConvolutionFiltering/test_scripts.
+    * Triangle mesh --> HDG
+    * Project to background square mesh
+    * Convolve the inner part 
+    * Error approx the outer triangle mesh
+    * Apative refine the outer mesh untill error small enough
 
 
 ## Paper References
