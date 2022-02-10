@@ -32,11 +32,6 @@ To test adpative method, use **test_functional_adaptive_refinement.m** in 00-Tes
 * Refine mesh --> repeat
 
 To test adaptive+convolution, use **conv_adap_test_driver.m** in 09-ConvolutionFiltering.
-* Triangle mesh --> HDG
-* Project to background square mesh
-* Convolve the inner part 
-* Error approx the outer triangle mesh
-* Apative refine the outer mesh untill error small enough
 
 00-TestScripts
 

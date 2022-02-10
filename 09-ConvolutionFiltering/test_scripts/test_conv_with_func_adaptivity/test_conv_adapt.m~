@@ -154,8 +154,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             cprintf('blue','adaptive steps \n');
             
             % Solve the primal and dual problem by HDG method on Triangluar
-            % mesh with Niter adaptive stpes. We choose Niter=1, namely no
-            % adaptive refine here
+            % mesh with Niter adaptiv
             for ii = 1:Niter
                 
                 cprintf('blue','Mesh %d ... \n',ii)
@@ -363,6 +362,11 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             vH_square = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,coarse_mesh,...
                     vH_triangle,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
                 
+        
+            % project uh_final to TH
+            %uh_proj = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,finer_mesh,...
+            %        uh_final,GQ1DRef_pts, GQ1DRef_wts,hx,hy);
+            %uh_proj_GQpts = GetUhProjGQpts(uh_proj,poly_proj,GQ1DRef_pts);
 
             uH_square_GQpts = GetUhProjGQpts(uH_square,poly_proj,GQ1DRef_pts); 
             vH_square_GQpts = GetUhProjGQpts(vH_square,poly_proj,GQ1DRef_pts); 
