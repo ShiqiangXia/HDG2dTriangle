@@ -192,7 +192,7 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
         err_esti_list(ii) = err_J_estimate;
         
         ave_err_outer_estimate = err_outer_estimate/outer_area;
-        if abs(ave_err_outer_estimate)<abs(ave_err_inner_estimate) || ii== Nadapt
+        if  ii== Nadapt %abs(ave_err_outer_estimate)<abs(ave_err_inner_estimate) ||
             fprintf('ave inner error:  %.2e     ave outer error:  %.2e\n',abs(ave_err_inner_estimate), abs(ave_err_outer_estimate))
             mymesh.Plot2(0,"Outer mesh " + num2str(ii));
             break;

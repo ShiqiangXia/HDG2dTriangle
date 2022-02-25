@@ -2,20 +2,25 @@
 %% define parameters
 
 % problem
-pb_type = 2011; % functional (u,g)
+func_id = 2;
+if func_id==1
+    pb_type = 2011; % functional (u,g)
+elseif func_id==2
+    pb_type = 2012;
+end
 dom_ype = 'Rec';
-Min_k = 2;
-Max_k = 2;
+Min_k = 1;
+Max_k = 1;
 
 % mesh
-h0 = 0.05;
+h0 = 0.1;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
 
 N_initial_iter_max = 1; % adaptive steps we do to locate trouble elements
 
-Ncoarse_mesh = 1;% how many coarse mesh
+Ncoarse_mesh = 3;% how many coarse mesh
 
-N_outer_adap_steps = 8;
+N_outer_adap_steps = 6;
 
 % other
 tol_adp = 10e-14;
@@ -28,17 +33,33 @@ err_cal_flag = 1;
 smooth_flag = 0; % 1: smooth data; 0: non-smooth
 if smooth_flag == 0
     % non-smooth
-    pri  = 1;
-    adj  = 1;  
-    fprintf('\nCase: u corner singularity, g= 1\n')
+    if func_id==1
+        pri  = 1;
+        adj  = 1;  
+        fprintf('\nCase: u corner singularity, g= 1\n')
+    elseif func_id==2
+        pri  = 0;
+        adj  = 2;
+        fprintf('\n\nCase: u corner singularity and v discontinuous \n')
+        
+    end
+    
+    
 else
-    pri  = 0; 
     % 2: x+y
     % 0: sin
     % 3: constant
     % 4: sin(2pi x)
-    adj  = 0;
-    fprintf('\nCase: u smooth \n')
+    if func_type==1
+        pri  = 0; 
+        adj  = 0;
+        fprintf('\nCase: u smooth \n')
+    elseif func_id==2
+        pri  = 0;
+        adj  = 4;
+        fprintf('\n\nCase: u smooth and g smooth\n')
+    
+    end
     
 end
 %fprintf('Background mesh size h0 = %.2f\n\n',h0) 
@@ -46,14 +67,17 @@ end
 %% call the test script
 
 global class_t;
+precision = 'double';
+%precision = 'mp' ;
 for order = Min_k:Max_k
     
     fprintf('k = %d\n', order);
+    class_t = precision; %para.precision;
     para = SetParameters_Ellipitc('order',order, 'h0',h0, 'Niter',N_initial_iter_max, 'refine_flag', refine_flag,...
         'pb_type',pb_type,'dom_type',dom_ype,'primal',pri,'adjoint',adj,...
         'post_process_flag',pp_flag,'err_cal_flag',err_cal_flag,'tol_adp',tol_adp);
 
-    class_t=para.precision;
+    
 
     %% Test 
     t_start = cputime;
