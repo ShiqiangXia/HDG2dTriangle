@@ -8,14 +8,14 @@ Min_k = 2;
 Max_k = 2;
 
 % mesh
-h0 = 0.05;
+h0 = 0.1;
 refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
 
 N_initial_iter_max = 1; % adaptive steps we do to locate trouble elements
 
-Ncoarse_mesh = 1;% how many coarse mesh
+Ncoarse_mesh = 3;% how many coarse mesh
 
-N_outer_adap_steps = 8;
+N_outer_adap_steps = 6;
 
 % other
 tol_adp = 10e-14;

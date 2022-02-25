@@ -351,8 +351,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 error('Nx!= Ny but the code assume square domain')
             end
             
-            order1_dist = (2*poly_k+1)*hx;
-            %order1_dist = 0.3;
+            %order1_dist = (2*poly_k+1)*hx;
+            order1_dist = 0.4;
 
             N_corner_x = ceil(order1_dist/hx);
             N_corner_y = ceil(order1_dist/hy);

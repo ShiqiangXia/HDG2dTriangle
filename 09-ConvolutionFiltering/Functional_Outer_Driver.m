@@ -185,9 +185,9 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
         err_outer_estimate = sum(estimate_functinal_elewise);
         err_J_estimate = err_inner_estimate+err_outer_estimate ;
         
-        fprintf('err_J: %.2e   err_J_esti: %.2e\n',err_J_total, err_J_estimate );
-        fprintf('err_esti_inner: %.2e   err_esti_outer: %.2e\n',err_inner_estimate,err_outer_estimate)
-%         
+%         fprintf('err_J: %.2e   err_J_esti: %.2e\n',err_J_total, err_J_estimate );
+%         fprintf('err_esti_inner: %.2e   err_esti_outer: %.2e\n',err_inner_estimate,err_outer_estimate)
+%          
         err_data_list(ii) = err_J_total;
         err_esti_list(ii) = err_J_estimate;
         
