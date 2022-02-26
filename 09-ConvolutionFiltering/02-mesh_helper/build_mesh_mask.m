@@ -11,7 +11,8 @@ function mask = build_mesh_mask(dom_type, Nx, Ny, N_bd, special_idx)
         end
         [n,~] = size(special_idx);
         for k=1:n
-            mask(special_idx(k,1), special_idx(k,2)) = 1;
+            %mask(special_idx(k,1), special_idx(k,2)) = 1;
+            mask(special_idx(k,2), special_idx(k,1)) = 1;
         end
     end
 end

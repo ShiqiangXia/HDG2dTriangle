@@ -2,7 +2,7 @@
 %% define parameters
 
 % problem
-func_id = 2;
+func_id = 1;
 if func_id==1
     pb_type = 2011; % functional (u,g)
 elseif func_id==2
@@ -20,7 +20,7 @@ N_initial_iter_max = 1; % adaptive steps we do to locate trouble elements
 
 Ncoarse_mesh = 3;% how many coarse mesh
 
-N_outer_adap_steps = 6;
+N_outer_adap_steps = 1;
 
 % other
 tol_adp = 10e-14;
