@@ -1,5 +1,9 @@
 function res = get_order1_elements(col,row,Nx,Ny,N_corner_x,N_corner_y)
-    
+    % consider element (col(t), row(t)) as the center
+    % expand based on N_corner_x and N_corner_y,  
+    % namely: col(t)-N_corner_y, col(t) + N_corner_y,  of course we need to
+    % consider the boundary Nx, Ny
+    % record the covered elements
     m = length(col);
     res =[];
     for t = 1:m

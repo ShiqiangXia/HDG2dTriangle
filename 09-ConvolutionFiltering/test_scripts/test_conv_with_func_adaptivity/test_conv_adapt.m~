@@ -381,10 +381,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             % ------------------------------------------------------------
             if para.pb_type==2012
                 col_id_1 = ceil(0.2/hx);
-                col_id_2 = ceil(0.8/hx);
-                rows = [1;1;1;1];
-                cols = [col_id_1;col_id_1+1;col_id_2;col_id_2+1];
-                order1_elements = get_order1_elements(cols,rows,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
+                col_id_2 = 0.8/hx;
                 
             else
                 order1_elements = get_order1_elements(1,1,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
