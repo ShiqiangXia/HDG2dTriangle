@@ -352,11 +352,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 error('Nx!= Ny but the code assume square domain')
             end
             
-            %order1_dist = (2*poly_k+1)*hx;
-            order1_dist = 0.3;
-
-            N_corner_x = ceil(order1_dist/hx);
-            N_corner_y = ceil(order1_dist/hy);
+            
 
             % project uH_triagnle to uH_square
             uH_square = GetUhL2ProjectionCoarseMesh(poly_k,coarse_mesh,coarse_mesh,...
@@ -377,13 +373,21 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             end
             
             
-            
+            %order1_dist = (2*poly_k+1)*hx;
+%             order1_dist = 0.3;
+%             N_corner_x = ceil(order1_dist/hx);
+%             N_corner_y = ceil(order1_dist/hy);
+%             
+            N_corner_x = 2*poly_k+1;
+            N_corner_y = 2*poly_k+1;
             % ------------------------------------------------------------
             if para.pb_type==2012
-                col_id_1 = ceil(0.2/hx);
-                col_id_2 = ceil(0.8/hx);
-                rows = [1;1;1;1];
-                cols = [col_id_1;col_id_1+1;col_id_2;col_id_2+1];
+                pt1 = 0.2;
+                pt2 = 0.8;
+                col_id_1 = ceil(pt1/hx);
+                col_id_2 = ceil(pt2/hx);
+                rows = [1;1;1;1;1];
+                cols = [1;col_id_1;col_id_1+1;col_id_2;col_id_2+1];
                 order1_elements = get_order1_elements(cols,rows,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
                 
             else

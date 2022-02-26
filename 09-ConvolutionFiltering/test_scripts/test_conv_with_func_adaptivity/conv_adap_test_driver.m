@@ -2,7 +2,8 @@
 %% define parameters
 
 % problem
-func_id = 1;
+func_id = 2;
+
 if func_id==1
     pb_type = 2011; % functional (u,g)
 elseif func_id==2
@@ -20,7 +21,7 @@ N_initial_iter_max = 1; % adaptive steps we do to locate trouble elements
 
 Ncoarse_mesh = 3;% how many coarse mesh
 
-N_outer_adap_steps = 1;
+N_outer_adap_steps = 8;
 
 % other
 tol_adp = 10e-14;
@@ -38,7 +39,7 @@ if smooth_flag == 0
         adj  = 1;  
         fprintf('\nCase: u corner singularity, g= 1\n')
     elseif func_id==2
-        pri  = 0;
+        pri  = 1;
         adj  = 2;
         fprintf('\n\nCase: u corner singularity and v discontinuous \n')
         
