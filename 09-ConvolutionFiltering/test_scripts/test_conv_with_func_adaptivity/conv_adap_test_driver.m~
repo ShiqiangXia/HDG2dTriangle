@@ -39,7 +39,7 @@ if smooth_flag == 0
         adj  = 1;  
         fprintf('\nCase: u corner singularity, g= 1\n')
     elseif func_id==2
-        pri  = 1;
+        pri  = 0;
         adj  = 2;
         fprintf('\n\nCase: u corner singularity and v discontinuous \n')
         
@@ -51,7 +51,7 @@ else
     % 0: sin
     % 3: constant
     % 4: sin(2pi x)
-    if func_id==1
+    if func_type==1
         pri  = 0; 
         adj  = 0;
         fprintf('\nCase: u smooth \n')

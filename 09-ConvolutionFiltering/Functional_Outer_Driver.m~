@@ -197,14 +197,14 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
         outer_list(ii) = Jh + ACh;
         fprintf('outer_list %.2e\n', outer_list(ii))
         
-%         if ii>1
-%             %relative_change = (outer_list(ii) - outer_list(ii-1))/(outer_list(ii));
-%             relative_change = (outer_list(ii) - outer_list(ii-1));
-%             if abs(relative_change) < 10^-6 * ( abs(Jh_star_inner+ACh_inner)+abs(outer_list(ii)) )
-%                 break;
-%             end
-%         end
-%         
+        if ii>1
+            %relative_change = (outer_list(ii) - outer_list(ii-1))/(outer_list(ii));
+            relative_change = (outer_list(ii) - outer_list(ii-1));
+            if abs(relative_change) < 10^-8*(Jh_star_inner+ACh_inner+outer_list(ii-1))
+                break;
+            end
+        end
+        
         
         
 %         ave_err_outer_estimate = err_outer_estimate/outer_area;

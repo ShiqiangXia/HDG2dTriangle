@@ -110,7 +110,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         if poly_k ==1
             N_bd =2*poly_k; %0.2/hx; % 0.05
         elseif poly_k == 2
-            N_bd =2*poly_k;%0.2/hx;
+            N_bd = 2*poly_k;%0.2/hx;
         else
             N_bd =2*poly_k; %0.3/hx;
         end
@@ -374,12 +374,14 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             
             
             %order1_dist = (2*poly_k+1)*hx;
-%             order1_dist = 0.3;
-%             N_corner_x = ceil(order1_dist/hx);
-%             N_corner_y = ceil(order1_dist/hy);
-%             
-            N_corner_x = 2*poly_k+1;
-            N_corner_y = 2*poly_k+1;
+            order1_dist = 0.4;
+            N_corner_x = ceil(order1_dist/hx);
+            N_corner_y = ceil(order1_dist/hy);
+            
+            % temp code
+            %N_bd = N_corner_x;
+%             N_corner_x = 2*poly_k+1;
+%             N_corner_y = 2*poly_k+1;
             % ------------------------------------------------------------
             if para.pb_type==2012
                 pt1 = 0.2;
@@ -514,7 +516,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 [uh2k_outer,~,~,vh2k_outer,~,~,outer_adap_mesh,Jh_outer,ACh_outer] =...
                     Functional_Outer_Driver(outer_mesh, para,poly_outer_k,...
                     func_uH_star_inner,func_vH_star_inner,...%uexact,func_vH_star_inner,...%
-                    N_outer_adap_steps,J_exact- Jh_star_inner,ACh_star_inner,err_inner_estimate,ave_err_inner_estimate,outer_area);
+                    N_outer_adap_steps,J_exact- Jh_star_inner,ACh_star_inner,err_inner_estimate,ave_err_inner_estimate,outer_area,Jh_star_inner);
                 
                 % compute error
                 err_Jh_star_list(jj) = abs(J_exact- Jh_star_inner-Jh_outer);
@@ -590,8 +592,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                     
                     mesh_comp_list(jj) = ndof_inner + ndof_outer;
                     
-                    fprintf('err_inner: %.2e err_outer: %.2e\n',err_uHstar ,err_uh2k_outer);
-                    fprintf('err_inner/sqrt(inn_area): %.2e, err_outer/sqrt(out_area): %.2e\n',...
+                    fprintf('err_uH*_inner: %.2e err_uh2k_outer: %.2e\n',err_uHstar ,err_uh2k_outer);
+                    fprintf('err_uH*_inner/sqrt(inn_area): %.2e, err_uh2k_outer/sqrt(out_area): %.2e\n',...
                         err_uHstar/sqrt(inner_area),err_uh2k_outer/sqrt(1-inner_area));
                     fprintf('dof_inner %d,  dof_outer: %d\n', ndof_inner, ndof_outer)
 
@@ -626,12 +628,12 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
         % ------------------------------------------------------------
         order_uH        = GetOrderH(h0_list,err_uH_list);
         ReportTable('h', h0_list,...
-                    'err_uH', err_uH_list, 'order',order_uH)
+                    'err_uH/sqrt(in_area)', err_uH_list, 'order',order_uH)
                 
         if flag_conv == 1
             order_uH_star   = GetOrderH(h0_list,err_uH_star_list);
             ReportTable('h', h0_list,...
-                        'err_uH*', err_uH_star_list, 'order',order_uH_star)
+                        'err_uH*/sqrt(in_area)', err_uH_star_list, 'order',order_uH_star)
  
             order_uH_star_comp = GetOrder(mesh_comp_list,err_uH_star_comp_list);
             

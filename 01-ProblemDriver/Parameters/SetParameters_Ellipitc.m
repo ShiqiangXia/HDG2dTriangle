@@ -115,7 +115,7 @@ function para = SetParameters_Ellipitc(varargin)
         aa = 0.2;
         bb = 0.8;
         condition_func =  @(p) (abs(p(:,2))<1e-10).*(p(:,1)>=aa).*(p(:,1)<=bb);
-        vexact = @(p) condition_func(p).*(  ((p(:,1)-aa)).*((p(:,1)-bb))+1 );
+        vexact = @(p) condition_func(p).*(  ((p(:,1)-aa)).*((p(:,1)-bb))+1 )*1000;
         pexact_1 = @(p)0*p(:,1);
         pexact_2 = @(p)0*p(:,1);
 
