@@ -547,18 +547,13 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             ndof_outer = GetDof(outer_adap_mesh, poly_outer_k);
             mesh_comp_list(jj) = ndof_inner + ndof_outer;
             
-            Adap_total_time = cputime-Adap_start_time + HDG_total_time;
-            fprintf('------------------------------\n')
+            Adap_total_time = cputime-Adap_start_time;
+            
             time_format(HDG_total_time, 'HDG total time')
             
-            time_format(Adap_total_time, 'New method total time')
-            
-            fprintf('Ratio: %.1f\n\n',Adap_total_time/HDG_total_time )
-            
+            time_format(Adap_total_time+HDG_total_time, 'New method total time')
             fprintf('HDG DOF: %d\n', mesh_list(1))
-            fprintf('New method DOF: %d \n', mesh_comp_list(jj))
-            fprintf('Ratio: %.1f\n',mesh_comp_list(jj)/mesh_list(1) )
-            fprintf('------------------------------\n')
+            fprintf('New method DOF: %d: \n', mesh_comp_list(jj))
 
             if err_cal_flag
                 

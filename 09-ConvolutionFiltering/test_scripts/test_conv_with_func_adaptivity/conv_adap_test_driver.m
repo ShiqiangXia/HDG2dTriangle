@@ -19,14 +19,14 @@ refine_flag = 1; % 1 adaptive; 0: uniform; -1: new uniform mesh each time
 
 N_initial_iter_max = 1; % adaptive steps we do to locate trouble elements
 
-Ncoarse_mesh = 4;% how many coarse mesh
+Ncoarse_mesh = 1;% how many coarse mesh
 
-N_outer_adap_steps = 8;
+N_outer_adap_steps = 6;
 
 % other
 tol_adp = 10e-14;
 
-pp_flag = 1; % post_processing
+pp_flag = 0; % post_processing
 
 err_cal_flag = 1;
 
@@ -86,9 +86,12 @@ for order = Min_k:Max_k
     %test_conv_adapt_with_extraction(para,Ncoarse_mesh, N_outer_adap_steps)
     % time 
     t_end = cputime - t_start;
-    t_h = floor(t_end/3600);
-    t_min = floor((t_end - t_h*3600)/60);
-    t_sec = t_end - t_h*3600 - t_min*60 ;
-    fprintf('Total time %d h %d min %.1f s\n',t_h,t_min,t_sec);
+    
+    time_format(t_end, 'Total time')
+    
+%     t_h = floor(t_end/3600);
+%     t_min = floor((t_end - t_h*3600)/60);
+%     t_sec = t_end - t_h*3600 - t_min*60 ;
+%     fprintf('Total time %d h %d min %.1f s\n',t_h,t_min,t_sec);
     
 end

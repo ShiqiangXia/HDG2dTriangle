@@ -1,7 +1,7 @@
 function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mesh,...
         para, poly_order,...
         uH_star_inner,vH_star_inner,...
-        Nadapt,err_inner,ACh_inner,err_inner_estimate,ave_err_inner_estimate,outer_area,Jh_star_inner)
+        Nadapt,err_inner,ACh_inner,err_inner_estimate)
     pb_type = num2str(para.pb_type);
     [GQ1DRef_pts,GQ1DRef_wts] = GaussQuad(para.GQ_deg);
     
@@ -194,8 +194,8 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
         err_data_list(ii) = err_J_total;
         err_esti_list(ii) = err_J_estimate;
         
-        outer_list(ii) = Jh + ACh;
-        fprintf('outer_list %.2e\n', outer_list(ii))
+%         outer_list(ii) = Jh + ACh;
+%         fprintf('outer_list %.2e\n', outer_list(ii))
         
 %         if ii>1
 %             %relative_change = (outer_list(ii) - outer_list(ii-1))/(outer_list(ii));
@@ -220,10 +220,10 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 
     end
     
-    figure
-    plot(1:ii, outer_list(1:ii), '--rx')
-    legend('Jh_outer+ACh_outer')
-    
+%     figure
+%     plot(1:ii, outer_list(1:ii), '--rx')
+%     legend('Jh_outer+ACh_outer')
+%     
 %     figure
 %     plot(1:Nadapt, log10(abs(err_data_list)), '--rx');
 %     hold on
