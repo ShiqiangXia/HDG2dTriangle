@@ -1,0 +1,786 @@
+% k =1 and k = 2
+% h0 = 0.1
+% adap = 6 steps
+% u is corner singular
+% corner  dist = 0.4 
+
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 2.27e-06 err_uh2k_outer: 3.26e-06
+err_uH*_inner/sqrt(inn_area): 4.01e-06, err_uh2k_outer/sqrt(out_area): 3.95e-06
+dof_inner 792,  dof_outer: 10956
+------------------------------
+HDG total time 0 h 0 min 0.6 s
+New method total time 0 h 0 min 18.7 s
+Ratio: 29.2
+
+HDG DOF: 2360
+New method DOF: 11748 
+Ratio: 5.0
+------------------------------
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 3.07e-07 err_uh2k_outer: 7.09e-07
+err_uH*_inner/sqrt(inn_area): 4.14e-07, err_uh2k_outer/sqrt(out_area): 1.06e-06
+dof_inner 5344,  dof_outer: 15201
+------------------------------
+HDG total time 0 h 0 min 1.6 s
+New method total time 0 h 0 min 32.9 s
+Ratio: 20.4
+
+HDG DOF: 9520
+New method DOF: 20545 
+Ratio: 2.2
+------------------------------
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 4.03e-08 err_uh2k_outer: 2.70e-07
+err_uH*_inner/sqrt(inn_area): 4.86e-08, err_uh2k_outer/sqrt(out_area): 4.83e-07
+dof_inner 26544,  dof_outer: 27552
+------------------------------
+HDG total time 0 h 0 min 9.0 s
+New method total time 0 h 1 min 23.2 s
+Ratio: 9.3
+
+HDG DOF: 38240
+New method DOF: 54096 
+Ratio: 1.4
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+1.00e-01         |1.57e-04         0.00e+00         |
+5.00e-02         |3.72e-05         2.07e+00         |
+2.50e-02         |9.03e-06         2.04e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+1.00e-01         |4.01e-06         0.00e+00         |
+5.00e-02         |4.14e-07         3.28e+00         |
+2.50e-02         |4.86e-08         3.09e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.17e+04         |3.97e-06         0.00e+00         |
+2.05e+04         |7.73e-07         5.86e+00         |
+5.41e+04         |2.73e-07         2.15e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |3.09e-03         0.00e+00         |4.34e-03         7.12e-01         |1.25e-03         0.00e+00         |
+5.00e-02         |5.81e-04         2.41e+00         |5.96e-04         9.75e-01         |1.49e-05         6.39e+00         |
+2.50e-02         |1.07e-04         2.44e+00         |7.90e-05         1.35e+00         |2.77e-05         -8.99e-01        |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.17e+04         |9.43e-04         0.00e+00         |9.43e-04         1.00e+00         |1.11e-07         0.00e+00         |
+2.05e+04         |2.48e-04         4.79e+00         |2.47e-04         1.00e+00         |4.31e-08         3.39e+00         |
+5.41e+04         |3.72e-05         3.91e+00         |3.72e-05         1.00e+00         |4.96e-09         4.47e+00         |
+Total time 0 h 2 min 24.0 s
+k = 2
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 6.89e-09 err_uh2k_outer: 3.54e-07
+err_uH*_inner/sqrt(inn_area): 3.44e-08, err_uh2k_outer/sqrt(out_area): 3.61e-07
+dof_inner 192,  dof_outer: 10985
+------------------------------
+HDG total time 0 h 0 min 0.6 s
+New method total time 0 h 0 min 29.1 s
+Ratio: 52.0
+
+HDG DOF: 4440
+New method DOF: 11177 
+Ratio: 2.5
+------------------------------
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 1.17e-09 err_uh2k_outer: 1.11e-07
+err_uH*_inner/sqrt(inn_area): 2.06e-09, err_uh2k_outer/sqrt(out_area): 1.35e-07
+dof_inner 5832,  dof_outer: 29265
+------------------------------
+HDG total time 0 h 0 min 2.6 s
+New method total time 0 h 1 min 17.9 s
+Ratio: 30.6
+
+HDG DOF: 17880
+New method DOF: 35097 
+Ratio: 2.0
+------------------------------
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 8.53e-11 err_uh2k_outer: 3.51e-08
+err_uH*_inner/sqrt(inn_area): 1.15e-10, err_uh2k_outer/sqrt(out_area): 5.23e-08
+dof_inner 39792,  dof_outer: 75905
+------------------------------
+HDG total time 0 h 0 min 16.1 s
+New method total time 0 h 3 min 55.1 s
+Ratio: 14.6
+
+HDG DOF: 71760
+New method DOF: 115697 
+Ratio: 1.6
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+1.00e-01         |2.75e-06         0.00e+00         |
+5.00e-02         |3.41e-07         3.01e+00         |
+2.50e-02         |4.16e-08         3.03e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+1.00e-01         |3.44e-08         0.00e+00         |
+5.00e-02         |2.06e-09         4.06e+00         |
+2.50e-02         |1.15e-10         4.16e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.12e+04         |3.54e-07         0.00e+00         |
+3.51e+04         |1.11e-07         2.02e+00         |
+1.16e+05         |3.51e-08         1.94e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |7.36e-04         0.00e+00         |4.90e-05         1.50e+01         |6.86e-04         0.00e+00         |
+5.00e-02         |1.20e-04         2.62e+00         |3.88e-06         3.08e+01         |1.16e-04         2.57e+00         |
+2.50e-02         |1.92e-05         2.64e+00         |3.06e-07         6.25e+01         |1.89e-05         2.62e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.12e+04         |7.63e-06         0.00e+00         |7.63e-06         1.00e+00         |3.16e-09         0.00e+00         |
+3.51e+04         |1.29e-07         7.13e+00         |1.29e-07         9.94e-01         |7.37e-10         2.54e+00         |
+1.16e+05         |1.28e-09         7.73e+00         |1.40e-09         9.14e-01         |1.20e-10         3.04e+00         |
+Total time 0 h 5 min 52.1 s
+1.20e-10 
+
+ans =
+
+   1.2000e-10
+
+
+
+
+%k=1 and dist =0.2
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 3.90e-06 err_uh2k_outer: 5.21e-06
+err_uH*_inner/sqrt(inn_area): 6.50e-06, err_uh2k_outer/sqrt(out_area): 6.51e-06
+dof_inner 888,  dof_outer: 10530
+------------------------------
+HDG total time 0 h 0 min 0.7 s
+New method total time 0 h 0 min 17.2 s
+Ratio: 25.3
+
+HDG DOF: 2360
+New method DOF: 11418 
+Ratio: 4.8
+------------------------------
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 8.19e-07 err_uh2k_outer: 9.52e-07
+err_uH*_inner/sqrt(inn_area): 1.03e-06, err_uh2k_outer/sqrt(out_area): 1.56e-06
+dof_inner 6112,  dof_outer: 12723
+------------------------------
+HDG total time 0 h 0 min 1.8 s
+New method total time 0 h 0 min 29.0 s
+Ratio: 16.4
+
+HDG DOF: 9520
+New method DOF: 18835 
+Ratio: 2.0
+------------------------------
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 8.85e-08 err_uh2k_outer: 2.72e-07
+err_uH*_inner/sqrt(inn_area): 9.97e-08, err_uh2k_outer/sqrt(out_area): 5.91e-07
+dof_inner 30384,  dof_outer: 19857
+------------------------------
+HDG total time 0 h 0 min 9.2 s
+New method total time 0 h 1 min 5.0 s
+Ratio: 7.0
+
+HDG DOF: 38240
+New method DOF: 50241 
+Ratio: 1.3
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+1.00e-01         |1.85e-04         0.00e+00         |
+5.00e-02         |4.95e-05         1.90e+00         |
+2.50e-02         |1.25e-05         1.99e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+1.00e-01         |6.50e-06         0.00e+00         |
+5.00e-02         |1.03e-06         2.65e+00         |
+2.50e-02         |9.97e-08         3.37e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.14e+04         |6.51e-06         0.00e+00         |
+1.88e+04         |1.26e-06         6.57e+00         |
+5.02e+04         |2.86e-07         3.01e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |3.09e-03         0.00e+00         |4.34e-03         7.12e-01         |1.25e-03         0.00e+00         |
+5.00e-02         |5.81e-04         2.41e+00         |5.96e-04         9.75e-01         |1.49e-05         6.39e+00         |
+2.50e-02         |1.07e-04         2.44e+00         |7.90e-05         1.35e+00         |2.77e-05         -8.99e-01        |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.14e+04         |2.67e-05         0.00e+00         |2.74e-05         9.76e-01         |6.68e-07         0.00e+00         |
+1.88e+04         |2.09e-04         -8.22e+00        |2.09e-04         1.00e+00         |3.36e-08         1.20e+01         |
+5.02e+04         |4.59e-05         3.09e+00         |4.59e-05         1.00e+00         |4.01e-09         4.33e+00         |
+Total time 0 h 2 min 0.5 s
+close all
+
+
+% 2k elements
+
+% 2k+1 from the corner
+
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 2.27e-06 err_uh2k_outer: 3.26e-06
+err_uH*_inner/sqrt(inn_area): 4.01e-06, err_uh2k_outer/sqrt(out_area): 3.95e-06
+dof_inner 792,  dof_outer: 10956
+------------------------------
+HDG total time 0 h 0 min 0.5 s
+New method total time 0 h 0 min 18.1 s
+Ratio: 37.8
+
+HDG DOF: 2360
+New method DOF: 11748 
+Ratio: 5.0
+------------------------------
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 8.19e-07 err_uh2k_outer: 9.52e-07
+err_uH*_inner/sqrt(inn_area): 1.03e-06, err_uh2k_outer/sqrt(out_area): 1.56e-06
+dof_inner 6112,  dof_outer: 12723
+------------------------------
+HDG total time 0 h 0 min 1.8 s
+New method total time 0 h 0 min 28.6 s
+Ratio: 15.6
+
+HDG DOF: 9520
+New method DOF: 18835 
+Ratio: 2.0
+------------------------------
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 2.71e-07 err_uh2k_outer: 3.65e-07
+err_uH*_inner/sqrt(inn_area): 3.01e-07, err_uh2k_outer/sqrt(out_area): 8.33e-07
+dof_inner 31152,  dof_outer: 17811
+------------------------------
+HDG total time 0 h 0 min 9.0 s
+New method total time 0 h 0 min 59.6 s
+Ratio: 6.6
+
+HDG DOF: 38240
+New method DOF: 48963 
+Ratio: 1.3
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+1.00e-01         |1.57e-04         0.00e+00         |
+5.00e-02         |4.95e-05         1.66e+00         |
+2.50e-02         |1.57e-05         1.65e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+1.00e-01         |4.01e-06         0.00e+00         |
+5.00e-02         |1.03e-06         1.96e+00         |
+2.50e-02         |3.01e-07         1.78e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.17e+04         |3.97e-06         0.00e+00         |
+1.88e+04         |1.26e-06         4.88e+00         |
+4.90e+04         |4.55e-07         2.13e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |3.09e-03         0.00e+00         |4.34e-03         7.12e-01         |1.25e-03         0.00e+00         |
+5.00e-02         |5.81e-04         2.41e+00         |5.96e-04         9.75e-01         |1.49e-05         6.39e+00         |
+2.50e-02         |1.07e-04         2.44e+00         |7.90e-05         1.35e+00         |2.77e-05         -8.99e-01        |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.17e+04         |9.43e-04         0.00e+00         |9.43e-04         1.00e+00         |1.11e-07         0.00e+00         |
+1.88e+04         |2.09e-04         6.39e+00         |2.09e-04         1.00e+00         |3.36e-08         5.08e+00         |
+4.90e+04         |3.16e-05         3.95e+00         |3.16e-05         1.00e+00         |4.58e-09         4.17e+00         |
+Total time 0 h 1 min 55.4 s
+k = 2
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 3.18e-09 err_uh2k_outer: 3.54e-07
+err_uH*_inner/sqrt(inn_area): 1.84e-08, err_uh2k_outer/sqrt(out_area): 3.59e-07
+dof_inner 147,  dof_outer: 11090
+------------------------------
+HDG total time 0 h 0 min 0.7 s
+New method total time 0 h 0 min 29.6 s
+Ratio: 42.8
+
+HDG DOF: 4440
+New method DOF: 11237 
+Ratio: 2.5
+------------------------------
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 1.73e-09 err_uh2k_outer: 1.11e-07
+err_uH*_inner/sqrt(inn_area): 2.89e-09, err_uh2k_outer/sqrt(out_area): 1.39e-07
+dof_inner 6507,  dof_outer: 27690
+------------------------------
+HDG total time 0 h 0 min 2.5 s
+New method total time 0 h 1 min 14.2 s
+Ratio: 29.8
+
+HDG DOF: 17880
+New method DOF: 34197 
+Ratio: 1.9
+------------------------------
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 5.48e-10 err_uh2k_outer: 3.51e-08
+err_uH*_inner/sqrt(inn_area): 6.85e-10, err_uh2k_outer/sqrt(out_area): 5.84e-08
+dof_inner 46227,  dof_outer: 60890
+------------------------------
+HDG total time 0 h 0 min 16.2 s
+New method total time 0 h 3 min 11.9 s
+Ratio: 11.9
+
+HDG DOF: 71760
+New method DOF: 107117 
+Ratio: 1.5
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+1.00e-01         |2.48e-06         0.00e+00         |
+5.00e-02         |4.85e-07         2.35e+00         |
+2.50e-02         |1.20e-07         2.01e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+1.00e-01         |1.84e-08         0.00e+00         |
+5.00e-02         |2.89e-09         2.67e+00         |
+2.50e-02         |6.85e-10         2.08e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.12e+04         |3.54e-07         0.00e+00         |
+3.42e+04         |1.11e-07         2.08e+00         |
+1.07e+05         |3.51e-08         2.02e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |7.36e-04         0.00e+00         |4.90e-05         1.50e+01         |6.86e-04         0.00e+00         |
+5.00e-02         |1.20e-04         2.62e+00         |3.88e-06         3.08e+01         |1.16e-04         2.57e+00         |
+2.50e-02         |1.92e-05         2.64e+00         |3.06e-07         6.25e+01         |1.89e-05         2.62e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.12e+04         |3.43e-06         0.00e+00         |3.43e-06         1.00e+00         |3.25e-09         0.00e+00         |
+3.42e+04         |3.40e-07         4.16e+00         |3.39e-07         1.00e+00         |7.61e-10         2.61e+00         |
+1.07e+05         |6.07e-08         3.02e+00         |6.05e-08         1.00e+00         |1.58e-10         2.75e+00         |
+Total time 0 h 5 min 5.5 s
+
+
+
+
+
+
+% dist 2k+1 from corner  
+% adp 10 steps, h0= 0.05 
+% we want to show how error is reduces with adpative steps
+
+% k= 1 and 2
+
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+err_uH*_inner: 8.19e-07 err_uh2k_outer: 7.87e-07
+err_uH*_inner/sqrt(inn_area): 1.03e-06, err_uh2k_outer/sqrt(out_area): 1.29e-06
+dof_inner 6112,  dof_outer: 108327
+------------------------------
+HDG total time 0 h 0 min 2.1 s
+New method total time 0 h 2 min 42.5 s
+Ratio: 78.5
+
+HDG DOF: 9520
+New method DOF: 114439 
+Ratio: 12.0
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+5.00e-02         |4.95e-05         0.00e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+5.00e-02         |1.03e-06         0.00e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+1.14e+05         |1.14e-06         0.00e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+5.00e-02         |5.81e-04         0.00e+00         |5.96e-04         9.75e-01         |1.49e-05         0.00e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+1.14e+05         |2.09e-04         0.00e+00         |2.09e-04         1.00e+00         |1.92e-08         0.00e+00         |
+Total time 0 h 2 min 45.7 s
+k = 2
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+Mesh 7 ... 
+Mesh 8 ... 
+Mesh 9 ... 
+Mesh 10 ... 
+err_uH*_inner: 1.73e-09 err_uh2k_outer: 6.43e-09
+err_uH*_inner/sqrt(inn_area): 2.89e-09, err_uh2k_outer/sqrt(out_area): 8.02e-09
+dof_inner 6507,  dof_outer: 34470
+------------------------------
+HDG total time 0 h 0 min 2.8 s
+New method total time 0 h 2 min 10.4 s
+Ratio: 46.9
+
+HDG DOF: 17880
+New method DOF: 40977 
+Ratio: 2.3
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+5.00e-02         |4.85e-07         0.00e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+5.00e-02         |2.89e-09         0.00e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+4.10e+04         |6.66e-09         0.00e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+5.00e-02         |1.20e-04         0.00e+00         |3.88e-06         3.08e+01         |1.16e-04         0.00e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+4.10e+04         |3.38e-07         0.00e+00         |3.39e-07         9.97e-01         |9.20e-10         0.00e+00         |
+Total time 0 h 2 min 13.3 s
+
+
+% k=3, dist=2k+1, adp 6
+% h0 = 0.05, 2 meshes
+
+conv_adap_test_driver
+
+Case: u corner singularity, g= 1
+k = 3
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 3.21e-10 err_uh2k_outer: 9.27e-09
+err_uH*_inner/sqrt(inn_area): 8.10e-10, err_uh2k_outer/sqrt(out_area): 1.01e-08
+dof_inner 4600,  dof_outer: 65156
+------------------------------
+HDG total time 0 h 0 min 3.9 s
+New method total time 0 h 3 min 36.9 s
+Ratio: 55.5
+
+HDG DOF: 28640
+New method DOF: 69756 
+Ratio: 2.4
+------------------------------
+
+--------------------------------
+Coarse mesh 2, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 1.02e-10 err_uh2k_outer: 2.92e-09
+err_uH*_inner/sqrt(inn_area): 1.45e-10, err_uh2k_outer/sqrt(out_area): 4.09e-09
+dof_inner 56600,  dof_outer: 155316
+------------------------------
+HDG total time 0 h 0 min 31.8 s
+New method total time 0 h 10 min 48.3 s
+Ratio: 20.4
+
+HDG DOF: 114880
+New method DOF: 211916 
+Ratio: 1.8
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+5.00e-02         |4.50e-09         0.00e+00         |
+2.50e-02         |9.02e-10         2.32e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+5.00e-02         |8.10e-10         0.00e+00         |
+2.50e-02         |1.45e-10         2.48e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+6.98e+04         |9.28e-09         0.00e+00         |
+2.12e+05         |2.92e-09         2.08e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+5.00e-02         |2.89e-05         0.00e+00         |3.46e-07         8.34e+01         |2.85e-05         0.00e+00         |
+2.50e-02         |4.57e-06         2.66e+00         |2.75e-08         1.67e+02         |4.55e-06         2.65e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+6.98e+04         |1.28e-07         0.00e+00         |1.27e-07         1.01e+00         |8.98e-10         0.00e+00         |
+2.12e+05         |1.93e-08         3.40e+00         |1.92e-08         1.01e+00         |1.41e-10         3.34e+00         |
+Total time 0 h 14 min 36.4 s
+diary off

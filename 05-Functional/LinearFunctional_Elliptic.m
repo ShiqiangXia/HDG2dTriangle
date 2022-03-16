@@ -343,6 +343,7 @@ function [Jh,Jh_AC,ACh,ACh_elewise_list,Jh_list] = LinearFunctional_Elliptic(fun
         end
         
         Jh = Jh2; % use (f,vh) - (qh,ph)
+        ACh = - ACh; % I put the opposite sign above so just change it
         
         
 

@@ -381,8 +381,8 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             end
             
             
-            %order1_dist = (2*poly_k+1)*hx;
-            order1_dist = 0.4;
+            order1_dist = (2*poly_k+1)*hx;
+            %order1_dist = 0.4;
             N_corner_x = ceil(order1_dist/hx);
             N_corner_y = ceil(order1_dist/hy);
             
@@ -396,8 +396,16 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 pt2 = 0.8;
                 col_id_1 = ceil(pt1/hx);
                 col_id_2 = ceil(pt2/hx);
-                rows = [1;1;1;1;1];
-                cols = [1;col_id_1;col_id_1+1;col_id_2;col_id_2+1];
+                
+                % only two points
+                rows = [1;1;1;1];
+                cols = [col_id_1;col_id_1+1;col_id_2;col_id_2+1];
+                
+                % two points + origin
+%                 rows = [1;1;1;1;1];
+%                 cols = [1;col_id_1;col_id_1+1;col_id_2;col_id_2+1];
+%                 
+                
                 order1_elements = get_order1_elements(cols,rows,Nx_coarse,Ny_coarse,N_corner_x,N_corner_y);
                 
             else
@@ -548,18 +556,7 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
             mesh_comp_list(jj) = ndof_inner + ndof_outer;
             
             Adap_total_time = cputime-Adap_start_time + HDG_total_time;
-            fprintf('------------------------------\n')
-            time_format(HDG_total_time, 'HDG total time')
             
-            time_format(Adap_total_time, 'New method total time')
-            
-            fprintf('Ratio: %.1f\n\n',Adap_total_time/HDG_total_time )
-            
-            fprintf('HDG DOF: %d\n', mesh_list(1))
-            fprintf('New method DOF: %d \n', mesh_comp_list(jj))
-            fprintf('Ratio: %.1f\n',mesh_comp_list(jj)/mesh_list(1) )
-            fprintf('------------------------------\n')
-
             if err_cal_flag
                 
                 % ------------------------------------------------------------
@@ -642,6 +639,22 @@ function test_conv_adapt(para,Ncoarse, N_outer_adap_steps )
                 end
 
             end
+
+            %% report time and DOF
+            
+            fprintf('------------------------------\n')
+            
+            
+            time_format(HDG_total_time, 'HDG total time')
+            
+            time_format(Adap_total_time, 'New method total time')
+            
+            fprintf('Ratio: %.1f\n\n',Adap_total_time/HDG_total_time )
+            
+            fprintf('HDG DOF: %d\n', mesh_list(1))
+            fprintf('New method DOF: %d \n', mesh_comp_list(jj))
+            fprintf('Ratio: %.1f\n',mesh_comp_list(jj)/mesh_list(1) )
+            fprintf('------------------------------\n')
 
          
         end

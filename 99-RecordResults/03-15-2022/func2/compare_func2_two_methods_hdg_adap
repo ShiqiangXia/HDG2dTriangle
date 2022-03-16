@@ -1,0 +1,128 @@
+% func2, dist 2k+1,  adp 6, h0=0.1
+diary off
+conv_adap_test_driver
+
+
+Case: u smooth and v discontinuous 
+k = 1
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 4.02e-04 err_uh2k_outer: 3.01e-04
+err_uH*_inner/sqrt(inn_area): 8.20e-04, err_uh2k_outer/sqrt(out_area): 3.45e-04
+dof_inner 596,  dof_outer: 33126
+------------------------------
+HDG total time 0 h 0 min 1.0 s
+New method total time 0 h 0 min 46.5 s
+Ratio: 47.0
+
+HDG DOF: 2360
+New method DOF: 33722 
+Ratio: 14.3
+------------------------------
+
+--------------------------------
+Coarse mesh 2, H=5.00e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 7.61e-05 err_uh2k_outer: 2.39e-05
+err_uH*_inner/sqrt(inn_area): 9.99e-05, err_uh2k_outer/sqrt(out_area): 3.68e-05
+dof_inner 5632,  dof_outer: 55305
+------------------------------
+HDG total time 0 h 0 min 2.6 s
+New method total time 0 h 1 min 17.5 s
+Ratio: 30.2
+
+HDG DOF: 9520
+New method DOF: 60937 
+Ratio: 6.4
+------------------------------
+
+--------------------------------
+Coarse mesh 3, H=2.50e-02 
+
+adaptive steps 
+Mesh 1 ... 
+adaptive steps 
+Mesh 1 ... 
+Mesh 2 ... 
+Mesh 3 ... 
+Mesh 4 ... 
+Mesh 5 ... 
+Mesh 6 ... 
+err_uH*_inner: 1.07e-05 err_uh2k_outer: 2.55e-06
+err_uH*_inner/sqrt(inn_area): 1.21e-05, err_uh2k_outer/sqrt(out_area): 5.57e-06
+dof_inner 30488,  dof_outer: 75387
+------------------------------
+HDG total time 0 h 0 min 13.0 s
+New method total time 0 h 2 min 13.5 s
+Ratio: 10.3
+
+HDG DOF: 38240
+New method DOF: 105875 
+Ratio: 2.8
+------------------------------
+------------------------------
+h                |err_uH/sqrt(in_area)  order            |
+1.00e-01         |7.01e-03         0.00e+00         |
+5.00e-02         |1.87e-03         1.90e+00         |
+2.50e-02         |4.71e-04         1.99e+00         |
+------------------------------
+h                |err_uH*/sqrt(in_area)  order            |
+1.00e-01         |8.20e-04         0.00e+00         |
+5.00e-02         |9.99e-05         3.04e+00         |
+2.50e-02         |1.21e-05         3.05e+00         |
+------------------------------
+DoF              |err_uH*_comp     order            |
+3.37e+04         |5.02e-04         0.00e+00         |
+6.09e+04         |7.97e-05         6.22e+00         |
+1.06e+05         |1.10e-05         7.16e+00         |
+------------------------------
+h                |J-J(uh)          order            |ACh              ratio            |J-J(uh)-ACh      order            |
+1.00e-01         |3.21e-03         0.00e+00         |1.16e-02         2.76e-01         |1.48e-02         0.00e+00         |
+5.00e-02         |1.97e-04         4.02e+00         |1.49e-03         1.32e-01         |1.69e-03         3.14e+00         |
+2.50e-02         |1.23e-05         4.01e+00         |1.88e-04         6.53e-02         |2.00e-04         3.08e+00         |
+------------------------------
+DoF              |J-J(uh*)         order            |ACh*             err/Ach*         |J-J(uh*)-ACh*    order            |
+3.37e+04         |2.72e-04         0.00e+00         |6.23e-07         4.37e+02         |2.72e-04         0.00e+00         |
+6.09e+04         |1.13e-06         1.85e+01         |4.03e-08         2.80e+01         |1.09e-06         1.87e+01         |
+1.06e+05         |9.11e-08         9.11e+00         |6.79e-09         1.34e+01         |9.79e-08         8.72e+00         |
+Total time 0 h 4 min 23.6 s
+k = 2
+Initiate empty Parameter object.
+Set problem parameters... done
+Set domain and mesh parameters... done
+Set numerical methods parameters... done
+Set numericla experment parameters... done
+--------------------------------
+Start solving functional problem
+
+--------------------------------
+Coarse mesh 1, H=1.00e-01 
+
+adaptive steps 

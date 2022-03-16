@@ -224,9 +224,9 @@ function [uh,qh,uhat,vh,ph,vhat,mymesh,Jh,ACh]=Functional_Outer_Driver(outer_mes
 %     plot(1:ii, outer_list(1:ii), '--rx')
 %     legend('Jh_outer+ACh_outer')
 %     
-%      figure
-%      plot(1:Nadapt, log10(abs(err_data_list)), '--rx');
-%      legend('err J-Jh*-ACh*')
+     figure
+     plot(1:Nadapt, log10(abs(err_data_list)), '--rx');
+     legend('err J- J')
 %     hold on
 %     plot(1:Nadapt, log10(abs(err_esti_list)), '--b*');
 %     legend('err','err_est')
